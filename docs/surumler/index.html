@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sürümler ve indirme · Netsis Dokümantasyonu</title>
+<meta name="description" content="Netsis ERP setlerinin Logo indirme sunucusundaki yeri, sürüm numaralandırması, güncel setler, tam set klasör yapısı ve NetOpenX dosyalarının yeri.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/surumler/">
+<link rel="alternate" type="text/markdown" href="/surumler.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Sürümler ve indirme">
+<meta property="og:description" content="Netsis ERP setlerinin Logo indirme sunucusundaki yeri, sürüm numaralandırması, güncel setler, tam set klasör yapısı ve NetOpenX dosyalarının yeri.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/surumler/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Sürümler</summary><ul><li><a href="/surumler/" aria-current="page">Sürümler ve indirme</a></li><li><a href="/surumler/tum-surumler/">Tüm sürümler</a></li><li><a href="/surumler/yama-icerikleri/">Yama içerikleri</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a></nav>
+<article>
+<h1 id="surumler-ve-indirme"><a class="anchor" href="#surumler-ve-indirme" aria-hidden="true">#</a>Sürümler ve indirme</h1>
+<p>Logo, Netsis ERP kurulum setlerini ve yamalarını herkese açık indirme sunucusunda yayınlar:</p>
+<ul>
+<li><strong>Web arayüzü:</strong> <a href="https://download.logo.com.tr/#/Windows/NETSISERP/" rel="noopener" target="_blank">download.logo.com.tr/#/Windows/NETSISERP/</a></li>
+<li><strong>Doğrudan dosya adresi:</strong> <code>https://download.logo.com.tr/Windows/NETSISERP/&lt;dosya&gt;</code> (ör. <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_72_5.rar" rel="noopener" target="_blank"><code>9_0_72_5.rar</code></a>).</li>
+<li><strong>Makine okunur liste:</strong> <a href="https://download.logo.com.tr/Windows/NETSISERP/files.json" rel="noopener" target="_blank"><code>files.json</code></a>. Her set için sürüm, dosya yolu, boyut (KB), yayın tarihi (<code>gg/aa/yyyy</code>) ve sürüm notu bağlantısı içerir.</li>
+</ul>
+<p>Ayrıntılı listeler:</p>
+<ul>
+<li><a href="/surumler/tum-surumler/">Tüm sürümler</a>: 4.0&#39;dan bugüne her set ve yama, tarih ve indirme bağlantısıyla. Netsis HR setleri de burada.</li>
+<li><a href="/surumler/yama-icerikleri/">Yama içerikleri</a>: güncel yamaların hangi dosyaları değiştirdiği, NetOpenX&#39;i güncelleyen yamalar.</li>
+</ul>
+<h2 id="surum-numarasi"><a class="anchor" href="#surum-numarasi" aria-hidden="true">#</a>Sürüm numarası</h2>
+<p>Sürümler <code>9.0.&lt;set&gt;.&lt;yama&gt;</code> biçimindedir. Dosya adlarında noktalar alt çizgiye döner: <code>9.0.72.3</code> → <code>9_0_72_3.rar</code>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Parça</th>
+<th>Anlamı</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0</code></td>
+<td>Ana sürüm. Eski ana sürümler 4.0, 5.0, 7.0, 8.0&#39;dır.</td>
+</tr>
+<tr>
+<td><code>&lt;set&gt;</code></td>
+<td>Set numarası. Her yeni set yeni özellikler ve veritabanı değişiklikleri getirir.</td>
+</tr>
+<tr>
+<td><code>&lt;yama&gt;</code></td>
+<td><code>0</code> tam set demektir. <code>1</code> ve sonrası o setin yamalarıdır (hotfix).</td>
+</tr>
+</tbody></table></div>
+<ul>
+<li><strong>Tam set</strong> (<code>9_0_72_0.rar</code>, yaklaşık 4 GB) kurulum için gereken her şeyi içerir.</li>
+<li><strong>Yama</strong> (<code>9_0_72_3.rar</code>, genellikle 20–700 MB) yalnızca değişen dosyaları içerir. Aynı setin tam sürümü kurulu olmalıdır. Bir yamanın önceki yamaları içerip içermediğini sürüm notundan kontrol edin.</li>
+<li>Logo birden fazla seti aynı anda destekler. Örneğin 2026 Eylül&#39;ünde <code>9.0.70</code> ve <code>9.0.72</code> hatları için aynı gün yama çıktı.</li>
+<li>Eski setler sunucunun <code>Archive/</code> klasörüne taşınır.</li>
+</ul>
+<h2 id="guncel-setler"><a class="anchor" href="#guncel-setler" aria-hidden="true">#</a>Güncel setler</h2>
+<p>Liste 2026-11-03 tarihinde alındı.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Hat</th>
+<th>Tam set</th>
+<th>Son yama</th>
+<th>Son yama tarihi</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>9.0.72</td>
+<td><code>9.0.72.0</code> (2026-07-06)</td>
+<td><code>9.0.72.5</code></td>
+<td>2026-09-25</td>
+</tr>
+<tr>
+<td>9.0.70</td>
+<td><code>9.0.70.0</code> (2026-02-23)</td>
+<td><code>9.0.70.11</code></td>
+<td>2026-09-25</td>
+</tr>
+<tr>
+<td>9.0.66</td>
+<td><code>9.0.66.0</code> (2025-09-15)</td>
+<td><code>9.0.66.11</code></td>
+<td>2026-04-16</td>
+</tr>
+</tbody></table></div>
+<p>Sürüm notları: <a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">Logo portal – NETSIS ERP yama duyuruları</a>.</p>
+<h2 id="kurulumu-kendi-aracinizla-takip-etmek"><a class="anchor" href="#kurulumu-kendi-aracinizla-takip-etmek" aria-hidden="true">#</a>Kurulumu kendi aracınızla takip etmek</h2>
+<p><code>files.json</code> küçük bir dosyadır. Yeni bir yama çıkıp çıkmadığını kontrol eden bir betik yazmak için uygundur:</p>
+<pre><code class="language-js">const res = await fetch(&#39;https://download.logo.com.tr/Windows/NETSISERP/files.json&#39;);
+const { FileRootPath, Files } = JSON.parse((await res.text()).replace(/^\uFEFF/, &#39;&#39;)); // dosya BOM ile başlar
+const key = v =&gt; v.split(&#39;.&#39;).map(n =&gt; n.padStart(4, &#39;0&#39;)).join(&#39;.&#39;);
+const latest = Files.filter(f =&gt; f.FileVersion.startsWith(&#39;9.0.72.&#39;))
+  .sort((a, b) =&gt; key(b.FileVersion).localeCompare(key(a.FileVersion)))[0];
+console.log(latest.FileVersion, latest.ReleaseDate, FileRootPath + latest.FilePath);
+</code></pre>
+<ul>
+<li>Dosya UTF-8 BOM ile başlar. <code>JSON.parse</code> öncesi BOM&#39;u atın.</li>
+<li>Liste sürüm sırasına göre değil, kabaca yayın sırasına göre dizilidir. Sürümü sayısal olarak karşılaştırın (<code>9.0.70.10</code> &gt; <code>9.0.70.9</code>).</li>
+<li><code>ReleaseDate</code> <code>gg/aa/yyyy</code> biçimindedir. Bazı eski kayıtlarda <code>DocumentURL</code> yoktur.</li>
+<li>Sunucudaki <code>Archive/</code> klasöründe listede geçmeyen birkaç dosya da vardır (<a href="/surumler/tum-surumler/#listede-olmayan-arsiv-dosyalari">Tüm sürümler</a>).</li>
+</ul>
+<h2 id="tam-set-klasor-yapisi"><a class="anchor" href="#tam-set-klasor-yapisi" aria-hidden="true">#</a>Tam set klasör yapısı</h2>
+<p><code>9_0_72_0</code> setinin açık klasörüne göre. Kurulumdan sonra çoğu klasör Netsis kurulum dizininde (ör. <code>C:\NETSIS\</code>) aynı adla yer alır.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th align="right">Dosya</th>
+<th>İçerik</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TemelSet</code></td>
+<td align="right">621</td>
+<td>Ana modül DLL&#39;leri (<code>MUHASEBE.dll</code> vb.), <strong><code>NetOpenX50.dll</code></strong>, e-fatura konsolu, <code>XSLT</code>, <code>xsd</code>, <code>TUIK</code>, <code>OnlineBankacilik</code>, <code>OzelDLL</code>, <code>OzelPrg</code> alt klasörleri</td>
+</tr>
+<tr>
+<td><code>EXEFILES</code></td>
+<td align="right">25</td>
+<td>Lisans türüne göre çalıştırılabilir dosyalar: <code>Enterprise9</code>, <code>Standard9</code>, <code>Entegre9</code>, <code>Netlite9</code>. Her birinde <code>Ephesus.exe</code>, <code>NDI.exe</code>, <code>NETDEMIR.exe</code>, <code>NETPER.exe</code> ve web sürümleri</td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td align="right">80</td>
+<td>Modüllerin ortak kullandığı DLL ve OCX&#39;ler (döviz, e-posta, dizayn, NDI çalıştırıcısı, kullanıcı yönetimi)</td>
+</tr>
+<tr>
+<td><code>NetTLB</code></td>
+<td align="right">26</td>
+<td>COM tip kütüphaneleri (<code>.tlb</code>): <code>NetsisCOMLibrary50</code>, <code>NetsisDizayn50</code>, <code>NetsisEdefter</code>, <code>NetsisKosul50</code> vb.</td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td align="right">41</td>
+<td>Ek kurulumlar: <strong><code>NetsisNoxRestSetup.exe</code></strong> (NetOpenX REST), <code>NetsisMobileRestServiceSetup.exe</code>, <code>EFatura/EFaturaSetup.exe</code>, <code>EntegratorServisSetup.exe</code>, <code>SsoSetup.exe</code>, <code>NetsisAISvcSetup.msi</code>, DYS ve IDM ajanları, e-reçete betikleri, yardımcılar (OLE DB sürücüsü, WebView2, Access Database Engine)</td>
+</tr>
+<tr>
+<td><code>Servis</code></td>
+<td align="right">24</td>
+<td>Sunucu tarafı araçlar: <code>DBUpdate.exe</code>, <code>NetSrv90.exe</code>, <code>NETJOB.exe</code>, <code>KurGuncelle.exe</code>, <code>NetUpdate.exe</code>, e-fatura servis araçları, Redis</td>
+</tr>
+<tr>
+<td><code>DBUPDATE</code></td>
+<td align="right">13</td>
+<td>Veritabanı güncelleme betikleri (<code>NetDBMas</code>, <code>NetDBTra</code>, <code>CMas1</code>, <code>CTra1</code>) ve <code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>NetFile</code></td>
+<td align="right">8</td>
+<td>Netsis Data Inspector (NDI) API ve tasarım DLL&#39;leri (<code>NDIAPIX50.dll</code>, <code>NDIDesign.dll</code>)</td>
+</tr>
+<tr>
+<td><code>Diller</code></td>
+<td align="right">966</td>
+<td>Dil kaynak DLL&#39;leri (<code>MUHTRK.dll</code>, <code>MUHING.dll</code>, ... ; x64 alt klasörü)</td>
+</tr>
+<tr>
+<td><code>Personel</code></td>
+<td align="right">15</td>
+<td>Personel / bordro modülü</td>
+</tr>
+<tr>
+<td><code>Demirbas</code></td>
+<td align="right">8</td>
+<td>Demirbaş modülü</td>
+</tr>
+<tr>
+<td><code>DocPlace</code></td>
+<td align="right">421</td>
+<td>Doküman yönetimi (istemci, sunucu, REST servisi)</td>
+</tr>
+<tr>
+<td><code>VUI</code></td>
+<td align="right">469</td>
+<td>Web arayüzü sunucusu (32/64 bit ikililer, sertifikalar)</td>
+</tr>
+<tr>
+<td><code>web</code></td>
+<td align="right">328</td>
+<td>Web istemci betikleri ve stilleri</td>
+</tr>
+<tr>
+<td><code>Agent</code></td>
+<td align="right">16</td>
+<td>Netsis Agent servisi (<code>NAF.Services.Agent.exe</code>)</td>
+</tr>
+<tr>
+<td><code>CokluUlus</code></td>
+<td align="right">18</td>
+<td>Çoklu ülke (ör. Azerbaycan) yazı tipleri ve ayarları</td>
+</tr>
+<tr>
+<td><code>NavSmart</code>, <code>Sso</code>, <code>Client</code>, <code>Temalar</code>, <code>Yardim</code>, <code>VTGuvenlik</code></td>
+<td align="right">—</td>
+<td>Akıllı menü, tek oturum açma, istemci OCX&#39;i, temalar, yardım dosyaları (<code>.chm</code>), veritabanı güvenliği</td>
+</tr>
+</tbody></table></div>
+<h2 id="netopenx-ile-ilgili-dosyalar"><a class="anchor" href="#netopenx-ile-ilgili-dosyalar" aria-hidden="true">#</a>NetOpenX ile ilgili dosyalar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dosya</th>
+<th>Setteki yeri</th>
+<th>Not</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>NetOpenX50.dll</code></td>
+<td><code>TemelSet/</code></td>
+<td>COM kütüphanesi. Kurulumdan sonra register edilmelidir: <a href="/netopenx/">NetOpenX kurulum</a>.</td>
+</tr>
+<tr>
+<td><code>NetsisNoxRestSetup.exe</code></td>
+<td><code>Kurulum/</code></td>
+<td>NetOpenX REST servisinin kurulumu: <a href="/rest/kurulum/">REST kurulum</a>.</td>
+</tr>
+<tr>
+<td><code>*.tlb</code></td>
+<td><code>NetTLB/</code></td>
+<td>Diğer Netsis COM kütüphanelerinin tip bilgisi (dizayn, koşul, e-defter).</td>
+</tr>
+<tr>
+<td><code>NDIAPIX50.dll</code></td>
+<td><code>NetFile/</code></td>
+<td>Netsis Data Inspector API&#39;si.</td>
+</tr>
+</tbody></table></div>
+<p>Çoğu yama <code>NetOpenX50.dll</code>&#39;i ve REST kurulumunu da günceller. Hangi yamanın bunlara dokunduğu <a href="/surumler/yama-icerikleri/#netopenx-ve-rest-i-guncelleyen-yamalar">Yama içerikleri</a> sayfasında.</p>
+<h2 id="entegrasyon-gelistiricileri-icin-yama-kontrol-listesi"><a class="anchor" href="#entegrasyon-gelistiricileri-icin-yama-kontrol-listesi" aria-hidden="true">#</a>Entegrasyon geliştiricileri için yama kontrol listesi</h2>
+<ol>
+<li>Sürüm notunu okuyun; veritabanı değişikliği varsa <a href="/veritabani/">şema</a> sayfalarındaki kolonlar sizin sürümünüzde farklı olabilir.</li>
+<li>Yama <code>NetOpenX50.dll</code> içeriyorsa DLL&#39;i yeniden register edin. Interop DLL&#39;ini (<code>Interop.NetOpenX50.dll</code>) yeniden üretmek gerekebilir; uygulamanızı yeniden derleyip test edin.</li>
+<li>Yama <code>NetsisNoxRestSetup.exe</code> içeriyorsa REST servisini güncelleyin ve servisin yeniden başladığını doğrulayın.</li>
+<li>Uygulamanızın kullandığı Netsis sürümünü kayıt altına alın. Hata bildirirken sürümü (<code>9.0.72.3</code> gibi) belirtin.</li>
+</ol>
+<blockquote>
+<p>Kurulum dosyaları Logo Yazılım&#39;a aittir ve Netsis lisansıyla kullanılır. Bu site dosyaları barındırmaz, yalnızca Logo&#39;nun sunucusuna bağlantı verir.</p>
+</blockquote>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/surumler/index.md">GitHub'da düzenle</a> · <a href="/surumler.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#surum-numarasi">Sürüm numarası</a></li><li class="l2"><a href="#guncel-setler">Güncel setler</a></li><li class="l2"><a href="#kurulumu-kendi-aracinizla-takip-etmek">Kurulumu kendi aracınızla takip etmek</a></li><li class="l2"><a href="#tam-set-klasor-yapisi">Tam set klasör yapısı</a></li><li class="l2"><a href="#netopenx-ile-ilgili-dosyalar">NetOpenX ile ilgili dosyalar</a></li><li class="l2"><a href="#entegrasyon-gelistiricileri-icin-yama-kontrol-listesi">Entegrasyon geliştiricileri için yama kontrol listesi</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

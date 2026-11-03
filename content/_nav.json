@@ -52,6 +52,14 @@
     ]
   },
   {
+    "title": "Sürümler",
+    "items": [
+      "/surumler/",
+      "/surumler/tum-surumler/",
+      "/surumler/yama-icerikleri/"
+    ]
+  },
+  {
     "title": "Ek",
     "items": [
       "/kaynaklar/"

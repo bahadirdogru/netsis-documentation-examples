@@ -33,6 +33,7 @@ Logo **Netsis** ERP ile entegrasyon yazan geliştiriciler ve onlara yardım eden
 - Fatura kaydı (COM): [Fatura ve irsaliye](/netopenx/fatura-ve-irsaliye/)
 - Fatura kaydı (REST): [`POST api/v2/ItemSlips`](/rest/uclar/#fatura-irsaliye-ve-siparis-itemslips)
 - Token alma (REST): [`POST api/v2/token`](/rest/kimlik-dogrulama/)
+- Son Netsis setleri ve yamaları: [Sürümler ve indirme](/surumler/)
 
 ## Katkı
 

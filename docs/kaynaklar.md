@@ -10,6 +10,7 @@ url: https://netsis.bahadirdogru.com/kaynaklar/
 - **Logo DYS / Polaris — Netsis Uyarlama Araçları.** NetOpenX, NetOpenX Rest (Temel, Başlangıç, Kütüphane, Örnek Kaynak Kodlar), Netsis Data Inspector, sürüm duyuruları, Postman örnekleri.
   - [Polaris: Netsis Uyarlama Araçları](https://polaris.logo.cloud/docs/netsis-uyarlama-araclari)
   - Logo DYS NetOpenX Rest sayfaları (`dys.logo.cloud`)
+- **Logo indirme sunucusu:** [download.logo.com.tr/#/Windows/NETSISERP/](https://download.logo.com.tr/#/Windows/NETSISERP/). Kurulum setleri, yamalar ve sürüm listesi (`files.json`). Özet: [Sürümler ve indirme](/surumler/).
 - **Logo örnek projeleri:** `DocProje` (NetOpenX ve Rest Client C# örnek projesi, WinForms, .NET 4.7.2), `EGTM24-25` (eğitim örnekleri), `NoxRestNativeFaturaOrnek` (ham HTTP ile fatura).
 
 ## Depodaki Logo DYS kopyası
@@ -32,27 +33,9 @@ Yeniden üretmek için: `node tools/import-dys.js <döküm.json>` (döküm, sayf
 - [NetOpenX: TCMB banka kayıtları online güncelleme](https://bahadirdogru.com/c-tcmb-banka-kay%C4%B1tlar%C4%B1-online-gncelleme/)
 - [NetOpenX: talep - teklif okuma](https://bahadirdogru.com/c-talep-teklif-okuma/)
 
-## Sürüm takvimi (örnek)
+## Sürümler
 
-| Sürüm | Tarih |
-|-------|-------|
-| 9.0.39-2022.R1 | 2022-01-24 |
-| 9.0.40-2022.R2 | 2022-03-21 |
-| 9.0.41-2022.R3 | 2022-05-23 |
-| 9.0.42-2022.R4 | 2022-07-25 |
-| 9.0.43-2022.R5 | 2022-10-03 |
-| 9.0.44-2022.R6 | 2022-11-28 |
-| 9.0.45-2023.R1 | 2023-01-23 |
-| 9.0.46-2023.R2 | 2023-03-06 |
-| 9.0.47-2023.R3 | 2023-04-10 |
-| 9.0.48-2023.R4 | 2023-05-29 |
-| 9.0.49-2023.R5 | 2023-07-17 |
-| 9.0.50-2023.R6 | 2023-09-18 |
-| 9.0.51-2023.R7 | 2023-10-23 |
-| 9.0.52-2023.R8 | 2023-12-04 |
-| 9.0.53-2024.R1 | 2024-01-15 |
-
-Sonraki sürümler ve her sürümün yenilikleri için Logo'nun sürüm duyurularına bakın.
+Netsis ERP setleri, yamalar, yayın tarihleri ve indirme bağlantıları için [Sürümler ve indirme](/surumler/) bölümüne bakın.
 
 ## Diğer araçlar
 

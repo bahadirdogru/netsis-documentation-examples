@@ -27,6 +27,9 @@
 <url><loc>https://netsis.bahadirdogru.com/rest/sorgulama/</loc></url>
 <url><loc>https://netsis.bahadirdogru.com/rest/transaction-ve-hatalar/</loc></url>
 <url><loc>https://netsis.bahadirdogru.com/rest/uclar/</loc></url>
+<url><loc>https://netsis.bahadirdogru.com/surumler/</loc></url>
+<url><loc>https://netsis.bahadirdogru.com/surumler/tum-surumler/</loc></url>
+<url><loc>https://netsis.bahadirdogru.com/surumler/yama-icerikleri/</loc></url>
 <url><loc>https://netsis.bahadirdogru.com/veritabani/</loc></url>
 <url><loc>https://netsis.bahadirdogru.com/veritabani/sql-ornekleri/</loc></url>
 <url><loc>https://netsis.bahadirdogru.com/veritabani/temel-tablolar/</loc></url>
