@@ -52,6 +52,21 @@
     ]
   },
   {
+    "title": "Sürümler",
+    "items": [
+      "/surumler/",
+      "/surumler/tum-surumler/",
+      "/surumler/yama-icerikleri/"
+    ]
+  },
+  {
+    "title": "Logo araçları",
+    "items": [
+      "/logo-araclari/",
+      "/logo-araclari/e-belge-kodlari/"
+    ]
+  },
+  {
     "title": "Ek",
     "items": [
       "/kaynaklar/"

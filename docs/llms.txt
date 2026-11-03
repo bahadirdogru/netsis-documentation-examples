@@ -51,6 +51,17 @@
 - [Güvenlik](https://netsis.bahadirdogru.com/rest/guvenlik.md): NetOpenX REST servisini güvenli yayına alma; ağ, yetki, ham SQL ve anonim uçlar.
 - [Bilinen sorunlar ve açık sorular](https://netsis.bahadirdogru.com/rest/bilinen-sorunlar.md): Logo dokümanı ve örnek kodlardaki tutarsızlıklar, doğrulanmamış noktalar.
 
+## Sürümler
+
+- [Sürümler ve indirme](https://netsis.bahadirdogru.com/surumler.md): Netsis ERP setlerinin Logo indirme sunucusundaki yeri, sürüm numaralandırması, güncel setler, tam set klasör yapısı ve NetOpenX dosyalarının yeri.
+- [Tüm sürümler](https://netsis.bahadirdogru.com/surumler/tum-surumler.md): Logo indirme sunucusundaki 265 Netsis ERP setinin listesi: sürüm, tarih, boyut, indirme ve yenilikler bağlantısı.
+- [Yama içerikleri](https://netsis.bahadirdogru.com/surumler/yama-icerikleri.md): Güncel Netsis ERP yamalarının hangi dosyaları değiştirdiği; NetOpenX50.dll ve NetOpenX REST kurulumunu güncelleyen yamalar.
+
+## Logo araçları
+
+- [Logo e-devlet araçları](https://netsis.bahadirdogru.com/logo-araclari.md): Logo indirme sunucusundaki Windows/TOOLS klasörü; e-fatura, e-arşiv, e-defter araçları, şema ve kod dosyaları ile hangisinin Netsis'le ilgili olduğu.
+- [E-belge kod listeleri](https://netsis.bahadirdogru.com/logo-araclari/e-belge-kodlari.md): KDV tevkifat kodları ve oranları, KDV istisna kodları ve e-fatura ödeme şekli kodları; Logo'nun e-devlet araçları klasöründeki XML listelerinden.
+
 ## Ek
 
 - [Kaynaklar](https://netsis.bahadirdogru.com/kaynaklar.md): Bu dokümantasyonun dayandığı kaynaklar ve faydalı bağlantılar.

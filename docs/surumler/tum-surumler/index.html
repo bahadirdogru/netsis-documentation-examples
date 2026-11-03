@@ -1,0 +1,3296 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tüm sürümler · Netsis Dokümantasyonu</title>
+<meta name="description" content="Logo indirme sunucusundaki 265 Netsis ERP setinin listesi: sürüm, tarih, boyut, indirme ve yenilikler bağlantısı.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/surumler/tum-surumler/">
+<link rel="alternate" type="text/markdown" href="/surumler/tum-surumler.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Tüm sürümler">
+<meta property="og:description" content="Logo indirme sunucusundaki 265 Netsis ERP setinin listesi: sürüm, tarih, boyut, indirme ve yenilikler bağlantısı.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/surumler/tum-surumler/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Sürümler</summary><ul><li><a href="/surumler/">Sürümler ve indirme</a></li><li><a href="/surumler/tum-surumler/" aria-current="page">Tüm sürümler</a></li><li><a href="/surumler/yama-icerikleri/">Yama içerikleri</a></li></ul></details><details class="nav-sec" open><summary>Logo araçları</summary><ul><li><a href="/logo-araclari/">Logo e-devlet araçları</a></li><li><a href="/logo-araclari/e-belge-kodlari/">E-belge kod listeleri</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/surumler/">Sürümler ve indirme</a></nav>
+<article>
+<h1 id="tum-surumler"><a class="anchor" href="#tum-surumler" aria-hidden="true">#</a>Tüm sürümler</h1>
+<p>Logo&#39;nun indirme sunucusundaki Netsis ERP setleri, sunucunun kendi listesinden (<a href="https://download.logo.com.tr/Windows/NETSISERP/files.json" rel="noopener" target="_blank">files.json</a>) alındı. Liste 2026-11-03 tarihinde alındı; yeni setler için <a href="https://download.logo.com.tr/#/Windows/NETSISERP/" rel="noopener" target="_blank">indirme sayfasına</a> bakın.</p>
+<ul>
+<li><strong>Tam set:</strong> sürümün son hanesi <code>0</code> olanlar (ör. <code>9.0.72.0</code>). Kurulum için gereken her şeyi içerir.</li>
+<li><strong>Yama (hotfix):</strong> son hanesi <code>0</code> dışında olanlar (ör. <code>9.0.72.3</code>). Yalnızca değişen dosyaları içerir; aynı setin tam sürümünün üzerine kurulur.</li>
+<li><strong>Yenilikler</strong> sütunu Logo&#39;nun sürüm notuna bağlanır. Eski PDF bağlantılarının bir kısmı artık çalışmıyor olabilir.</li>
+</ul>
+<h2 id="9-0-72"><a class="anchor" href="#9-0-72" aria-hidden="true">#</a>9.0.72</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.72.5</code></td>
+<td>Yama</td>
+<td>2026-09-25</td>
+<td align="right">672.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_72_5.rar" rel="noopener" target="_blank">9_0_72_5.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.72.4</code></td>
+<td>Yama</td>
+<td>2026-09-21</td>
+<td align="right">95.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_72_4.rar" rel="noopener" target="_blank">9_0_72_4.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.72.3</code></td>
+<td>Yama</td>
+<td>2026-09-10</td>
+<td align="right">336.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_72_3.rar" rel="noopener" target="_blank">9_0_72_3.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.72.2</code></td>
+<td>Yama</td>
+<td>2026-07-31</td>
+<td align="right">129.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_72_2.rar" rel="noopener" target="_blank">9_0_72_2.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.72.1</code></td>
+<td>Yama</td>
+<td>2026-07-17</td>
+<td align="right">225.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_72_1.rar" rel="noopener" target="_blank">9_0_72_1.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.72.0</code></td>
+<td>Tam set</td>
+<td>2026-07-06</td>
+<td align="right">3.91 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_72_0.rar" rel="noopener" target="_blank">9_0_72_0.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-71"><a class="anchor" href="#9-0-71" aria-hidden="true">#</a>9.0.71</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.71.4</code></td>
+<td>Yama</td>
+<td>2026-06-12</td>
+<td align="right">119.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_71_4.rar" rel="noopener" target="_blank">9_0_71_4.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.71.3</code></td>
+<td>Yama</td>
+<td>2026-06-04</td>
+<td align="right">89.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_71_3.rar" rel="noopener" target="_blank">9_0_71_3.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.71.2</code></td>
+<td>Yama</td>
+<td>2026-05-15</td>
+<td align="right">207.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_71_2.rar" rel="noopener" target="_blank">9_0_71_2.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.71.1</code></td>
+<td>Yama</td>
+<td>2026-05-07</td>
+<td align="right">318.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_71_1.rar" rel="noopener" target="_blank">9_0_71_1.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.71.0</code></td>
+<td>Tam set</td>
+<td>2026-05-04</td>
+<td align="right">3.90 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_71_0.rar" rel="noopener" target="_blank">9_0_71_0.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-70"><a class="anchor" href="#9-0-70" aria-hidden="true">#</a>9.0.70</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.70.11</code></td>
+<td>Yama</td>
+<td>2026-09-25</td>
+<td align="right">148.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_11.rar" rel="noopener" target="_blank">9_0_70_11.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.70.10</code></td>
+<td>Yama</td>
+<td>2026-09-10</td>
+<td align="right">317.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_10.rar" rel="noopener" target="_blank">9_0_70_10.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.70.9</code></td>
+<td>Yama</td>
+<td>2026-07-31</td>
+<td align="right">115.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_9.rar" rel="noopener" target="_blank">9_0_70_9.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.70.8</code></td>
+<td>Yama</td>
+<td>2026-07-17</td>
+<td align="right">66.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_8.rar" rel="noopener" target="_blank">9_0_70_8.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.70.7</code></td>
+<td>Yama</td>
+<td>2026-06-12</td>
+<td align="right">119.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_7.rar" rel="noopener" target="_blank">9_0_70_7.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.70.6</code></td>
+<td>Yama</td>
+<td>2026-06-04</td>
+<td align="right">74.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_6.rar" rel="noopener" target="_blank">9_0_70_6.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.70.5</code></td>
+<td>Yama</td>
+<td>2026-05-15</td>
+<td align="right">124.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_5.rar" rel="noopener" target="_blank">9_0_70_5.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.70.4</code></td>
+<td>Yama</td>
+<td>2026-05-07</td>
+<td align="right">317.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_4.rar" rel="noopener" target="_blank">9_0_70_4.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.70.3</code></td>
+<td>Yama</td>
+<td>2026-04-16</td>
+<td align="right">60.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_3.rar" rel="noopener" target="_blank">9_0_70_3.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.70.2</code></td>
+<td>Yama</td>
+<td>2026-03-18</td>
+<td align="right">148.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_2.rar" rel="noopener" target="_blank">9_0_70_2.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.70.1</code></td>
+<td>Yama</td>
+<td>2026-03-09</td>
+<td align="right">436.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_1.rar" rel="noopener" target="_blank">9_0_70_1.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.70.0</code></td>
+<td>Tam set</td>
+<td>2026-02-23</td>
+<td align="right">3.91 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_0.rar" rel="noopener" target="_blank">9_0_70_0.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-69"><a class="anchor" href="#9-0-69" aria-hidden="true">#</a>9.0.69</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.69.3</code></td>
+<td>Yama</td>
+<td>2026-02-05</td>
+<td align="right">53.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_69_3.rar" rel="noopener" target="_blank">9_0_69_3.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.69.2</code></td>
+<td>Yama</td>
+<td>2026-02-03</td>
+<td align="right">154.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_69_2.rar" rel="noopener" target="_blank">9_0_69_2.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.69.1</code></td>
+<td>Yama</td>
+<td>2026-01-30</td>
+<td align="right">447.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_69_1.rar" rel="noopener" target="_blank">9_0_69_1.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.69.0</code></td>
+<td>Tam set</td>
+<td>2026-01-12</td>
+<td align="right">4.18 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_69_0.rar" rel="noopener" target="_blank">9_0_69_0.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-68"><a class="anchor" href="#9-0-68" aria-hidden="true">#</a>9.0.68</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.68.2</code></td>
+<td>Yama</td>
+<td>2025-12-26</td>
+<td align="right">381.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_68_2.rar" rel="noopener" target="_blank">9_0_68_2.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.68.1</code></td>
+<td>Yama</td>
+<td>2025-12-12</td>
+<td align="right">50.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_68_1.rar" rel="noopener" target="_blank">9_0_68_1.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.68.0</code></td>
+<td>Tam set</td>
+<td>2025-12-01</td>
+<td align="right">4.19 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_68_0.rar" rel="noopener" target="_blank">9_0_68_0.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-67"><a class="anchor" href="#9-0-67" aria-hidden="true">#</a>9.0.67</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.67.1</code></td>
+<td>Yama</td>
+<td>2025-11-14</td>
+<td align="right">16.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_67_1.rar" rel="noopener" target="_blank">9_0_67_1.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.67.0</code></td>
+<td>Tam set</td>
+<td>2025-10-20</td>
+<td align="right">4.19 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_67_0.rar" rel="noopener" target="_blank">9_0_67_0.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-66"><a class="anchor" href="#9-0-66" aria-hidden="true">#</a>9.0.66</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.66.11</code></td>
+<td>Yama</td>
+<td>2026-04-16</td>
+<td align="right">46.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_11.rar" rel="noopener" target="_blank">9_0_66_11.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.66.10</code></td>
+<td>Yama</td>
+<td>2026-03-18</td>
+<td align="right">41.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_10.rar" rel="noopener" target="_blank">9_0_66_10.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.66.9</code></td>
+<td>Yama</td>
+<td>2026-03-09</td>
+<td align="right">435.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_9.rar" rel="noopener" target="_blank">9_0_66_9.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.66.8</code></td>
+<td>Yama</td>
+<td>2026-02-05</td>
+<td align="right">53.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_8.rar" rel="noopener" target="_blank">9_0_66_8.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.66.7</code></td>
+<td>Yama</td>
+<td>2026-02-03</td>
+<td align="right">114.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_7.rar" rel="noopener" target="_blank">9_0_66_7.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.66.6</code></td>
+<td>Yama</td>
+<td>2026-01-30</td>
+<td align="right">442.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_6.rar" rel="noopener" target="_blank">9_0_66_6.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.66.5</code></td>
+<td>Yama</td>
+<td>2025-12-26</td>
+<td align="right">381.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_5.rar" rel="noopener" target="_blank">9_0_66_5.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.66.4</code></td>
+<td>Yama</td>
+<td>2025-12-12</td>
+<td align="right">388.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_4.rar" rel="noopener" target="_blank">9_0_66_4.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.66.3</code></td>
+<td>Yama</td>
+<td>2025-10-13</td>
+<td align="right">21.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_3.rar" rel="noopener" target="_blank">9_0_66_3.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.66.2</code></td>
+<td>Yama</td>
+<td>2025-10-03</td>
+<td align="right">237.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_2.rar" rel="noopener" target="_blank">9_0_66_2.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.66.1</code></td>
+<td>Yama</td>
+<td>2025-09-30</td>
+<td align="right">283.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_1.rar" rel="noopener" target="_blank">9_0_66_1.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.66.0</code></td>
+<td>Tam set</td>
+<td>2025-09-15</td>
+<td align="right">4.19 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_0.rar" rel="noopener" target="_blank">9_0_66_0.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-65"><a class="anchor" href="#9-0-65" aria-hidden="true">#</a>9.0.65</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.65.3</code></td>
+<td>Yama</td>
+<td>2025-08-29</td>
+<td align="right">154.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_65_3.rar" rel="noopener" target="_blank">9_0_65_3.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.65.1</code></td>
+<td>Yama</td>
+<td>2025-08-05</td>
+<td align="right">144.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_65_1.rar" rel="noopener" target="_blank">9_0_65_1.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.65.0</code></td>
+<td>Tam set</td>
+<td>2025-07-21</td>
+<td align="right">4.15 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_65_0.rar" rel="noopener" target="_blank">9_0_65_0.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-64"><a class="anchor" href="#9-0-64" aria-hidden="true">#</a>9.0.64</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.64.2</code></td>
+<td>Yama</td>
+<td>2025-06-27</td>
+<td align="right">2.12 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_64_2.rar" rel="noopener" target="_blank">9_0_64_2.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.64.1</code></td>
+<td>Yama</td>
+<td>2025-06-03</td>
+<td align="right">155.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_64_1.rar" rel="noopener" target="_blank">9_0_64_1.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.64.0</code></td>
+<td>Tam set</td>
+<td>2025-05-26</td>
+<td align="right">4.15 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_64_0.rar" rel="noopener" target="_blank">9_0_64_0.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-63"><a class="anchor" href="#9-0-63" aria-hidden="true">#</a>9.0.63</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.63.1</code></td>
+<td>Yama</td>
+<td>2025-04-30</td>
+<td align="right">92.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_63_1.rar" rel="noopener" target="_blank">9_0_63_1.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.63.0</code></td>
+<td>Tam set</td>
+<td>2025-04-14</td>
+<td align="right">3.47 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_63_0.rar" rel="noopener" target="_blank">9_0_63_0.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-62"><a class="anchor" href="#9-0-62" aria-hidden="true">#</a>9.0.62</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.62.18</code></td>
+<td>Yama</td>
+<td>2026-02-05</td>
+<td align="right">39.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_18.rar" rel="noopener" target="_blank">9_0_62_18.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.17</code></td>
+<td>Yama</td>
+<td>2026-02-03</td>
+<td align="right">94.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_17.rar" rel="noopener" target="_blank">9_0_62_17.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.16</code></td>
+<td>Yama</td>
+<td>2026-01-30</td>
+<td align="right">348.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_16.rar" rel="noopener" target="_blank">9_0_62_16.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.15</code></td>
+<td>Yama</td>
+<td>2025-12-26</td>
+<td align="right">302.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_15.rar" rel="noopener" target="_blank">9_0_62_15.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.14</code></td>
+<td>Yama</td>
+<td>2025-12-12</td>
+<td align="right">308.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_14.rar" rel="noopener" target="_blank">9_0_62_14.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.13</code></td>
+<td>Yama</td>
+<td>2025-10-13</td>
+<td align="right">16.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_13.rar" rel="noopener" target="_blank">9_0_62_13.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.12</code></td>
+<td>Yama</td>
+<td>2025-10-03</td>
+<td align="right">32.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_12.rar" rel="noopener" target="_blank">9_0_62_12.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.11</code></td>
+<td>Yama</td>
+<td>2025-09-30</td>
+<td align="right">202.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_11.rar" rel="noopener" target="_blank">9_0_62_11.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.10</code></td>
+<td>Yama</td>
+<td>2025-08-29</td>
+<td align="right">45.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_10.rar" rel="noopener" target="_blank">9_0_62_10.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.9</code></td>
+<td>Yama</td>
+<td>2025-08-06</td>
+<td align="right">200.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_9.rar" rel="noopener" target="_blank">9_0_62_9.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.8</code></td>
+<td>Yama</td>
+<td>2025-08-05</td>
+<td align="right">36.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_8.rar" rel="noopener" target="_blank">9_0_62_8.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.7</code></td>
+<td>Yama</td>
+<td>2025-07-23</td>
+<td align="right">23.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_7.rar" rel="noopener" target="_blank">9_0_62_7.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.6</code></td>
+<td>Yama</td>
+<td>2025-06-27</td>
+<td align="right">165.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_6.rar" rel="noopener" target="_blank">9_0_62_6.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.5</code></td>
+<td>Yama</td>
+<td>2025-05-29</td>
+<td align="right">151.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_5.rar" rel="noopener" target="_blank">9_0_62_5.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.4</code></td>
+<td>Yama</td>
+<td>2025-04-30</td>
+<td align="right">69.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_4.rar" rel="noopener" target="_blank">9_0_62_4.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.3</code></td>
+<td>Yama</td>
+<td>2025-04-18</td>
+<td align="right">88.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_3.rar" rel="noopener" target="_blank">9_0_62_3.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.2</code></td>
+<td>Yama</td>
+<td>2025-03-27</td>
+<td align="right">247.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_2.rar" rel="noopener" target="_blank">9_0_62_2.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.1</code></td>
+<td>Yama</td>
+<td>2025-03-13</td>
+<td align="right">141.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_1.rar" rel="noopener" target="_blank">9_0_62_1.rar</a></td>
+<td><a href="https://portal.logo.com.tr/document/release-announcements-patch?p=NETSIS-ERP" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.62.0</code></td>
+<td>Tam set</td>
+<td>2025-02-24</td>
+<td align="right">3.44 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_62_0.rar" rel="noopener" target="_blank">9_0_62_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=128586671" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-61"><a class="anchor" href="#9-0-61" aria-hidden="true">#</a>9.0.61</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.61.2</code></td>
+<td>Yama</td>
+<td>2025-02-18</td>
+<td align="right">259.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_61_2.rar" rel="noopener" target="_blank">9_0_61_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=163414718" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.61.1</code></td>
+<td>Yama</td>
+<td>2025-01-23</td>
+<td align="right">163.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_61_1.rar" rel="noopener" target="_blank">9_0_61_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=163414716" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.61.0</code></td>
+<td>Tam set</td>
+<td>2025-01-13</td>
+<td align="right">3.46 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_61_0.rar" rel="noopener" target="_blank">9_0_61_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=128586669" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-60"><a class="anchor" href="#9-0-60" aria-hidden="true">#</a>9.0.60</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.60.1</code></td>
+<td>Yama</td>
+<td>2024-12-06</td>
+<td align="right">75.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_60_1.rar" rel="noopener" target="_blank">9_0_60_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=160039287" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.60.0</code></td>
+<td>Tam set</td>
+<td>2024-12-02</td>
+<td align="right">3.42 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_60_0.rar" rel="noopener" target="_blank">9_0_60_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=128586667" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-59"><a class="anchor" href="#9-0-59" aria-hidden="true">#</a>9.0.59</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.59.3</code></td>
+<td>Yama</td>
+<td>2024-12-04</td>
+<td align="right">7.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_59_3.rar" rel="noopener" target="_blank">9_0_59_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=160039285" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.59.2</code></td>
+<td>Yama</td>
+<td>2024-11-20</td>
+<td align="right">71.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_59_2.rar" rel="noopener" target="_blank">9_0_59_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=156369658" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.59.1</code></td>
+<td>Yama</td>
+<td>2024-11-08</td>
+<td align="right">113.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_59_1.rar" rel="noopener" target="_blank">9_0_59_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=156368972" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.59.0</code></td>
+<td>Tam set</td>
+<td>2024-10-21</td>
+<td align="right">3.41 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_59_0.rar" rel="noopener" target="_blank">9_0_59_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=128586665" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-58"><a class="anchor" href="#9-0-58" aria-hidden="true">#</a>9.0.58</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.58.3</code></td>
+<td>Yama</td>
+<td>2024-12-04</td>
+<td align="right">7.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_58_3.rar" rel="noopener" target="_blank">9_0_58_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=160039283" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.58.2</code></td>
+<td>Yama</td>
+<td>2024-10-14</td>
+<td align="right">22.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_58_2.rar" rel="noopener" target="_blank">9_0_58_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=153158862" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.58.1</code></td>
+<td>Yama</td>
+<td>2024-09-13</td>
+<td align="right">22.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_58_1.rar" rel="noopener" target="_blank">9_0_58_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=150569711" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.58.0</code></td>
+<td>Tam set</td>
+<td>2024-09-02</td>
+<td align="right">3.43 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_58_0.rar" rel="noopener" target="_blank">9_0_58_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=128586663" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-57"><a class="anchor" href="#9-0-57" aria-hidden="true">#</a>9.0.57</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.57.7</code></td>
+<td>Yama</td>
+<td>2024-12-04</td>
+<td align="right">7.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_57_7.rar" rel="noopener" target="_blank">9_0_57_7.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=160039281" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.57.6</code></td>
+<td>Yama</td>
+<td>2024-09-13</td>
+<td align="right">22.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_57_6.rar" rel="noopener" target="_blank">9_0_57_6.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=150569720" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.57.5</code></td>
+<td>Yama</td>
+<td>2024-09-06</td>
+<td align="right">61.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_57_5.rar" rel="noopener" target="_blank">9_0_57_5.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=150569022" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.57.4</code></td>
+<td>Yama</td>
+<td>2024-08-23</td>
+<td align="right">22.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_57_4.rar" rel="noopener" target="_blank">9_0_57_4.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=147555113" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.57.3</code></td>
+<td>Yama</td>
+<td>2024-08-08</td>
+<td align="right">112.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_57_3.rar" rel="noopener" target="_blank">9_0_57_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=147554462" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.57.2</code></td>
+<td>Yama</td>
+<td>2024-07-26</td>
+<td align="right">133.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_57_2.rar" rel="noopener" target="_blank">9_0_57_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=146538544" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.57.1</code></td>
+<td>Yama</td>
+<td>2024-07-16</td>
+<td align="right">21.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_57_1.rar" rel="noopener" target="_blank">9_0_57_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=140249798" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.57.0</code></td>
+<td>Tam set</td>
+<td>2024-07-08</td>
+<td align="right">3.39 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_57_0.rar" rel="noopener" target="_blank">9_0_57_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=128586661" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-56"><a class="anchor" href="#9-0-56" aria-hidden="true">#</a>9.0.56</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.56.2</code></td>
+<td>Yama</td>
+<td>2024-06-27</td>
+<td align="right">53.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_56_2.rar" rel="noopener" target="_blank">9_0_56_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=140249320" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.56.1</code></td>
+<td>Yama</td>
+<td>2024-05-29</td>
+<td align="right">799.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_56_1.rar" rel="noopener" target="_blank">9_0_56_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=140248750" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.56.0</code></td>
+<td>Tam set</td>
+<td>2024-05-20</td>
+<td align="right">3.04 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_56_0.rar" rel="noopener" target="_blank">9_0_56_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=128586659" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-55"><a class="anchor" href="#9-0-55" aria-hidden="true">#</a>9.0.55</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.55.4</code></td>
+<td>Yama</td>
+<td>2024-06-27</td>
+<td align="right">36.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_55_4.rar" rel="noopener" target="_blank">9_0_55_4.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=140249320" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.55.3</code></td>
+<td>Yama</td>
+<td>2024-05-15</td>
+<td align="right">11.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_55_3.rar" rel="noopener" target="_blank">9_0_55_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=140248029" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.55.2</code></td>
+<td>Yama</td>
+<td>2024-05-06</td>
+<td align="right">82.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_55_2.rar" rel="noopener" target="_blank">9_0_55_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=140247768" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.55.1</code></td>
+<td>Yama</td>
+<td>2024-04-29</td>
+<td align="right">56.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_55_1.rar" rel="noopener" target="_blank">9_0_55_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=135825953" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.55.0</code></td>
+<td>Tam set</td>
+<td>2024-04-01</td>
+<td align="right">3.03 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_55_0.rar" rel="noopener" target="_blank">9_0_55_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=128586657" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-54"><a class="anchor" href="#9-0-54" aria-hidden="true">#</a>9.0.54</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.54.4</code></td>
+<td>Yama</td>
+<td>2024-06-27</td>
+<td align="right">36.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_54_4.rar" rel="noopener" target="_blank">9_0_54_4.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=140249320" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.54.3</code></td>
+<td>Yama</td>
+<td>2024-05-15</td>
+<td align="right">11.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_54_3.rar" rel="noopener" target="_blank">9_0_54_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=140248038" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.54.2</code></td>
+<td>Yama</td>
+<td>2024-03-21</td>
+<td align="right">28.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_54_2.rar" rel="noopener" target="_blank">9_0_54_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=135824445" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.54.1</code></td>
+<td>Yama</td>
+<td>2024-03-05</td>
+<td align="right">11.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_54_1.rar" rel="noopener" target="_blank">9_0_54_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=135823908" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.54.0</code></td>
+<td>Tam set</td>
+<td>2024-02-26</td>
+<td align="right">3.03 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_54_0.rar" rel="noopener" target="_blank">9_0_54_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=128586655" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-53"><a class="anchor" href="#9-0-53" aria-hidden="true">#</a>9.0.53</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.53.3</code></td>
+<td>Yama</td>
+<td>2024-03-05</td>
+<td align="right">41.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_53_3.rar" rel="noopener" target="_blank">9_0_53_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=135823711" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.53.2</code></td>
+<td>Yama</td>
+<td>2024-02-13</td>
+<td align="right">11.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_53_2.rar" rel="noopener" target="_blank">9_0_53_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=134054449" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.53.1</code></td>
+<td>Yama</td>
+<td>2024-01-30</td>
+<td align="right">31.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_53_1.rar" rel="noopener" target="_blank">9_0_53_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=128586683" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.53.0</code></td>
+<td>Tam set</td>
+<td>2024-01-15</td>
+<td align="right">2.98 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_53_0.rar" rel="noopener" target="_blank">9_0_53_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=128585144" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-52"><a class="anchor" href="#9-0-52" aria-hidden="true">#</a>9.0.52</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.52.2</code></td>
+<td>Yama</td>
+<td>2023-12-21</td>
+<td align="right">118.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_52_2.rar" rel="noopener" target="_blank">9_0_52_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=128582995" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.52.1</code></td>
+<td>Yama</td>
+<td>2023-12-13</td>
+<td align="right">391.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_52_1.rar" rel="noopener" target="_blank">9_0_52_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=128582578" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.52.0</code></td>
+<td>Tam set</td>
+<td>2023-12-04</td>
+<td align="right">3.00 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_52_0.rar" rel="noopener" target="_blank">9_0_52_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=113246373" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-51"><a class="anchor" href="#9-0-51" aria-hidden="true">#</a>9.0.51</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.51.1</code></td>
+<td>Yama</td>
+<td>2023-11-17</td>
+<td align="right">105.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_51_1.rar" rel="noopener" target="_blank">9_0_51_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=126485429" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.51.0</code></td>
+<td>Tam set</td>
+<td>2023-10-23</td>
+<td align="right">2.92 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_51_0.rar" rel="noopener" target="_blank">9_0_51_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=113246365" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-50"><a class="anchor" href="#9-0-50" aria-hidden="true">#</a>9.0.50</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.50.1</code></td>
+<td>Yama</td>
+<td>2023-10-13</td>
+<td align="right">69.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_50_1.rar" rel="noopener" target="_blank">9_0_50_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=123601230" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.50.0</code></td>
+<td>Tam set</td>
+<td>2023-09-18</td>
+<td align="right">2.90 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_50_0.rar" rel="noopener" target="_blank">9_0_50_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=113246357" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-49"><a class="anchor" href="#9-0-49" aria-hidden="true">#</a>9.0.49</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.49.1</code></td>
+<td>Yama</td>
+<td>2023-08-14</td>
+<td align="right">62.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_49_1.rar" rel="noopener" target="_blank">9_0_49_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=117179230" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.49.0</code></td>
+<td>Tam set</td>
+<td>2023-07-17</td>
+<td align="right">2.90 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_49_0.rar" rel="noopener" target="_blank">9_0_49_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=113246349" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-48"><a class="anchor" href="#9-0-48" aria-hidden="true">#</a>9.0.48</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.48.1</code></td>
+<td>Yama</td>
+<td>2023-06-21</td>
+<td align="right">971.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_48_1.rar" rel="noopener" target="_blank">9_0_48_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=113246341" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.48.0</code></td>
+<td>Tam set</td>
+<td>2023-05-29</td>
+<td align="right">3.05 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_48_0.rar" rel="noopener" target="_blank">9_0_48_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=113246341" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-47"><a class="anchor" href="#9-0-47" aria-hidden="true">#</a>9.0.47</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.47.3</code></td>
+<td>Yama</td>
+<td>2023-05-18</td>
+<td align="right">28.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_47_3.rar" rel="noopener" target="_blank">9_0_47_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=111248983" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.47.2</code></td>
+<td>Yama</td>
+<td>2023-05-05</td>
+<td align="right">13.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_47_2.rar" rel="noopener" target="_blank">9_0_47_2.rar</a></td>
+<td><a href="http://docs.logo.com.tr/display/N3BKD/9.47.2+-+Nisan+2023" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.47.1</code></td>
+<td>Yama</td>
+<td>2023-04-26</td>
+<td align="right">102.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_47_1.rar" rel="noopener" target="_blank">9_0_47_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.47.1+-+Nisan+2023" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.47.0</code></td>
+<td>Tam set</td>
+<td>2023-04-10</td>
+<td align="right">2.82 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_47_0.rar" rel="noopener" target="_blank">9_0_47_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=102283309" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-46"><a class="anchor" href="#9-0-46" aria-hidden="true">#</a>9.0.46</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.46.0</code></td>
+<td>Tam set</td>
+<td>2023-03-06</td>
+<td align="right">2.81 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_46_0.rar" rel="noopener" target="_blank">9_0_46_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=102283307" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-45"><a class="anchor" href="#9-0-45" aria-hidden="true">#</a>9.0.45</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.45.1</code></td>
+<td>Yama</td>
+<td>2023-02-21</td>
+<td align="right">94.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_45_1.rar" rel="noopener" target="_blank">9_0_45_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=105578789" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.45.0</code></td>
+<td>Tam set</td>
+<td>2023-01-23</td>
+<td align="right">2.82 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_45_0.rar" rel="noopener" target="_blank">9_0_45_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.45+-+Ocak+2023" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-44"><a class="anchor" href="#9-0-44" aria-hidden="true">#</a>9.0.44</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.44.2</code></td>
+<td>Yama</td>
+<td>2022-12-30</td>
+<td align="right">143.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_44_2.rar" rel="noopener" target="_blank">9_0_44_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=102281990" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.44.1</code></td>
+<td>Yama</td>
+<td>2022-12-26</td>
+<td align="right">158.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_44_1.rar" rel="noopener" target="_blank">9_0_44_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=100666177" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.44.0</code></td>
+<td>Tam set</td>
+<td>2022-11-28</td>
+<td align="right">2.52 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_44_0.rar" rel="noopener" target="_blank">9_0_44_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=74713436" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-43"><a class="anchor" href="#9-0-43" aria-hidden="true">#</a>9.0.43</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.43.2</code></td>
+<td>Yama</td>
+<td>2022-12-02</td>
+<td align="right">11.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_43_2.rar" rel="noopener" target="_blank">9_0_43_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.43.2+-+Ekim+2022" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.43.1</code></td>
+<td>Yama</td>
+<td>2022-11-01</td>
+<td align="right">2.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_43_1.rar" rel="noopener" target="_blank">9_0_43_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=95650969" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.43.0</code></td>
+<td>Tam set</td>
+<td>2022-10-03</td>
+<td align="right">2.74 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_43_0.rar" rel="noopener" target="_blank">9_0_43_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=74713389" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-42"><a class="anchor" href="#9-0-42" aria-hidden="true">#</a>9.0.42</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.42.3</code></td>
+<td>Yama</td>
+<td>2022-12-02</td>
+<td align="right">11.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_42_3.rar" rel="noopener" target="_blank">9_0_42_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.43.2+-+Ekim+2022" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.42.1</code></td>
+<td>Yama</td>
+<td>2022-08-05</td>
+<td align="right">159.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_42_1.rar" rel="noopener" target="_blank">9_0_42_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3BKD/9.42.1+-+Temmuz+2022" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.42.0</code></td>
+<td>Tam set</td>
+<td>2022-07-25</td>
+<td align="right">2.73 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_42_0.rar" rel="noopener" target="_blank">9_0_42_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=74713387" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-41"><a class="anchor" href="#9-0-41" aria-hidden="true">#</a>9.0.41</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.41.4</code></td>
+<td>Yama</td>
+<td>2022-12-02</td>
+<td align="right">10.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_41_4.rar" rel="noopener" target="_blank">9_0_41_4.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.43.2+-+Ekim+2022" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.41.3</code></td>
+<td>Yama</td>
+<td>2022-06-29</td>
+<td align="right">31.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_41_3.rar" rel="noopener" target="_blank">9_0_41_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=85196942" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.41.2</code></td>
+<td>Yama</td>
+<td>2022-06-21</td>
+<td align="right">31.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_41_2.rar" rel="noopener" target="_blank">9_0_41_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=83497276" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.41.1</code></td>
+<td>Yama</td>
+<td>2022-06-03</td>
+<td align="right">359.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_41_1.rar" rel="noopener" target="_blank">9_0_41_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=83495126" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.41.0</code></td>
+<td>Tam set</td>
+<td>2022-05-24</td>
+<td align="right">2.52 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_41_0.rar" rel="noopener" target="_blank">9_0_41_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=74713385" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-40"><a class="anchor" href="#9-0-40" aria-hidden="true">#</a>9.0.40</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.40.3</code></td>
+<td>Yama</td>
+<td>2022-05-09</td>
+<td align="right">2.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_40_3.rar" rel="noopener" target="_blank">9_0_40_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=80086837" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.40.2</code></td>
+<td>Yama</td>
+<td>2022-04-26</td>
+<td align="right">119.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_40_2.rar" rel="noopener" target="_blank">9_0_40_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=80086364" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.40.1</code></td>
+<td>Yama</td>
+<td>2022-04-05</td>
+<td align="right">835.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_40_1.rar" rel="noopener" target="_blank">9_0_40_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=78283051" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.40.0</code></td>
+<td>Tam set</td>
+<td>2022-03-21</td>
+<td align="right">2.26 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_40_0.rar" rel="noopener" target="_blank">9_0_40_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=74713383" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-39"><a class="anchor" href="#9-0-39" aria-hidden="true">#</a>9.0.39</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.39.4</code></td>
+<td>Yama</td>
+<td>2022-03-08</td>
+<td align="right">19.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_39_4.rar" rel="noopener" target="_blank">9_0_39_4.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3BKD/9.39.4+-+Ocak+2022" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.39.3</code></td>
+<td>Yama</td>
+<td>2022-02-21</td>
+<td align="right">54.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_39_3.rar" rel="noopener" target="_blank">9_0_39_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3BKD/9.39.3+-+Ocak+2022" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.39.2</code></td>
+<td>Yama</td>
+<td>2022-02-04</td>
+<td align="right">57.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_39_2.rar" rel="noopener" target="_blank">9_0_39_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3BKD/9.39.2+-+Ocak+2022" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.39.1</code></td>
+<td>Yama</td>
+<td>2022-02-01</td>
+<td align="right">428.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_39_1.rar" rel="noopener" target="_blank">9_0_39_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=74714148" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.39.0</code></td>
+<td>Tam set</td>
+<td>2022-01-24</td>
+<td align="right">2.13 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_39_0.rar" rel="noopener" target="_blank">9_0_39_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=74713381" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-38"><a class="anchor" href="#9-0-38" aria-hidden="true">#</a>9.0.38</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.38.2</code></td>
+<td>Yama</td>
+<td>2022-01-13</td>
+<td align="right">19.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_38_2.rar" rel="noopener" target="_blank">9_0_38_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=74712235" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.38.1</code></td>
+<td>Yama</td>
+<td>2021-12-21</td>
+<td align="right">192.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_38_1.rar" rel="noopener" target="_blank">9_0_38_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=66256178" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.38.0</code></td>
+<td>Tam set</td>
+<td>2021-12-09</td>
+<td align="right">2.10 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_38_0.rar" rel="noopener" target="_blank">9_0_38_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50685941" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-37"><a class="anchor" href="#9-0-37" aria-hidden="true">#</a>9.0.37</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.37.1</code></td>
+<td>Yama</td>
+<td>2021-11-10</td>
+<td align="right">232.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_37_1.rar" rel="noopener" target="_blank">9_0_37_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=66244047" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.37.0</code></td>
+<td>Tam set</td>
+<td>2021-10-11</td>
+<td align="right">1.88 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_37_0.rar" rel="noopener" target="_blank">9_0_37_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50685939" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-36"><a class="anchor" href="#9-0-36" aria-hidden="true">#</a>9.0.36</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.36.1</code></td>
+<td>Yama</td>
+<td>2021-08-25</td>
+<td align="right">297.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_36_1.rar" rel="noopener" target="_blank">9_0_36_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=66238015" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.36.0</code></td>
+<td>Tam set</td>
+<td>2021-08-04</td>
+<td align="right">1.82 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_36_0.rar" rel="noopener" target="_blank">9_0_36_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50685937" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-35"><a class="anchor" href="#9-0-35" aria-hidden="true">#</a>9.0.35</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.35.2</code></td>
+<td>Yama</td>
+<td>2021-06-30</td>
+<td align="right">113.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_35_2.rar" rel="noopener" target="_blank">9_0_35_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=66237041" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.35.1</code></td>
+<td>Yama</td>
+<td>2021-06-10</td>
+<td align="right">189.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_35_1.rar" rel="noopener" target="_blank">9_0_35_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=66225433" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.35.0</code></td>
+<td>Tam set</td>
+<td>2021-06-01</td>
+<td align="right">1.82 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_35_0.rar" rel="noopener" target="_blank">9_0_35_0.rar</a></td>
+<td><a href="http://docs.logo.com.tr/pages/viewpage.action?pageId=50686359" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-34"><a class="anchor" href="#9-0-34" aria-hidden="true">#</a>9.0.34</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.34.1</code></td>
+<td>Yama</td>
+<td>2021-04-08</td>
+<td align="right">164.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_34_1.rar" rel="noopener" target="_blank">9_0_34_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3BKD/9.34.1+-+Mart+2021" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.34.0</code></td>
+<td>Tam set</td>
+<td>2021-03-29</td>
+<td align="right">1.82 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_34_0.rar" rel="noopener" target="_blank">9_0_34_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50685933" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-33"><a class="anchor" href="#9-0-33" aria-hidden="true">#</a>9.0.33</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.33.3</code></td>
+<td>Yama</td>
+<td>2021-03-18</td>
+<td align="right">11.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_33_3.rar" rel="noopener" target="_blank">9_0_33_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50690816" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.33.2</code></td>
+<td>Yama</td>
+<td>2021-03-01</td>
+<td align="right">17.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_33_2.rar" rel="noopener" target="_blank">9_0_33_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50689793" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.33.1</code></td>
+<td>Yama</td>
+<td>2021-02-15</td>
+<td align="right">133.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_33_1.rar" rel="noopener" target="_blank">9_0_33_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50688893" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.33.0</code></td>
+<td>Tam set</td>
+<td>2021-02-03</td>
+<td align="right">1.79 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_33_0.rar" rel="noopener" target="_blank">9_0_33_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50685928" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-32"><a class="anchor" href="#9-0-32" aria-hidden="true">#</a>9.0.32</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.32.0</code></td>
+<td>Tam set</td>
+<td>2020-12-16</td>
+<td align="right">1.78 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_32_0.rar" rel="noopener" target="_blank">9_0_32_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50685555" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-31"><a class="anchor" href="#9-0-31" aria-hidden="true">#</a>9.0.31</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.31.2</code></td>
+<td>Yama</td>
+<td>2020-11-25</td>
+<td align="right">139.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_31_2.rar" rel="noopener" target="_blank">9_0_31_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50684743" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.31.1</code></td>
+<td>Yama</td>
+<td>2020-11-12</td>
+<td align="right">41.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_31_1.rar" rel="noopener" target="_blank">9_0_31_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50684048" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.31.0</code></td>
+<td>Tam set</td>
+<td>2020-11-06</td>
+<td align="right">1.77 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_31_0.rar" rel="noopener" target="_blank">9_0_31_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50683643" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-30"><a class="anchor" href="#9-0-30" aria-hidden="true">#</a>9.0.30</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.30.3</code></td>
+<td>Yama</td>
+<td>2020-10-14</td>
+<td align="right">17.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_30_3.rar" rel="noopener" target="_blank">9_0_30_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3BKD/9.30.3+-+Ekim+2020" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.30.2</code></td>
+<td>Yama</td>
+<td>2020-09-23</td>
+<td align="right">140.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_30_2.rar" rel="noopener" target="_blank">9_0_30_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50679456" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.30.1</code></td>
+<td>Yama</td>
+<td>2020-09-18</td>
+<td align="right">27.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_30_1.rar" rel="noopener" target="_blank">9_0_30_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50678385" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.30.0</code></td>
+<td>Tam set</td>
+<td>2020-09-17</td>
+<td align="right">1.76 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_30_0.rar" rel="noopener" target="_blank">9_0_30_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50677806" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-29"><a class="anchor" href="#9-0-29" aria-hidden="true">#</a>9.0.29</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.29.2</code></td>
+<td>Yama</td>
+<td>2020-08-21</td>
+<td align="right">9.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_29_2.rar" rel="noopener" target="_blank">9_0_29_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50674268" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.29.1</code></td>
+<td>Yama</td>
+<td>2020-07-27</td>
+<td align="right">238.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_29_1.rar" rel="noopener" target="_blank">9_0_29_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50673684" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.29.0</code></td>
+<td>Tam set</td>
+<td>2020-07-07</td>
+<td align="right">1.79 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_29_0.rar" rel="noopener" target="_blank">9_0_29_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50671182" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-28"><a class="anchor" href="#9-0-28" aria-hidden="true">#</a>9.0.28</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.28.2</code></td>
+<td>Yama</td>
+<td>2020-06-08</td>
+<td align="right">501.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_28_2.rar" rel="noopener" target="_blank">9_0_28_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50666426" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.28.1</code></td>
+<td>Yama</td>
+<td>2020-05-22</td>
+<td align="right">50.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_28_1.rar" rel="noopener" target="_blank">9_0_28_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50665393" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.28.0</code></td>
+<td>Tam set</td>
+<td>2020-05-12</td>
+<td align="right">1.81 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_28_0.rar" rel="noopener" target="_blank">9_0_28_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50664466" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-27"><a class="anchor" href="#9-0-27" aria-hidden="true">#</a>9.0.27</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.27.3</code></td>
+<td>Yama</td>
+<td>2020-05-06</td>
+<td align="right">24.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_27_3.rar" rel="noopener" target="_blank">9_0_27_3.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50664176" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.27.2</code></td>
+<td>Yama</td>
+<td>2020-04-27</td>
+<td align="right">24.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_27_2.rar" rel="noopener" target="_blank">9_0_27_2.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3BKD/9.27.2+-+Nisan+2020" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.27.1</code></td>
+<td>Yama</td>
+<td>2020-04-06</td>
+<td align="right">423.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_27_1.rar" rel="noopener" target="_blank">9_0_27_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50662457" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.27.0</code></td>
+<td>Tam set</td>
+<td>2020-03-23</td>
+<td align="right">1.82 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_27_0.rar" rel="noopener" target="_blank">9_0_27_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=50660342" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-26"><a class="anchor" href="#9-0-26" aria-hidden="true">#</a>9.0.26</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.26.2</code></td>
+<td>Yama</td>
+<td>2020-02-20</td>
+<td align="right">9.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_26_2.rar" rel="noopener" target="_blank">9_0_26_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.26.1</code></td>
+<td>Yama</td>
+<td>2020-02-17</td>
+<td align="right">194.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_26_1.rar" rel="noopener" target="_blank">9_0_26_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=47083370" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.26.0</code></td>
+<td>Tam set</td>
+<td>2020-02-03</td>
+<td align="right">1.78 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_26_0.rar" rel="noopener" target="_blank">9_0_26_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.26+Ocak+2020" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-25"><a class="anchor" href="#9-0-25" aria-hidden="true">#</a>9.0.25</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.25.1</code></td>
+<td>Yama</td>
+<td>2020-01-22</td>
+<td align="right">94.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_25_1.rar" rel="noopener" target="_blank">9_0_25_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3EntegreKD/9.0.25.1+Ocak+2020" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.25.0</code></td>
+<td>Tam set</td>
+<td>2019-12-17</td>
+<td align="right">1.77 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_25_0.rar" rel="noopener" target="_blank">9_0_25_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=47073679" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-24"><a class="anchor" href="#9-0-24" aria-hidden="true">#</a>9.0.24</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.24.2</code></td>
+<td>Yama</td>
+<td>2019-11-22</td>
+<td align="right">69.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_24_2.rar" rel="noopener" target="_blank">9_0_24_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.24.1</code></td>
+<td>Yama</td>
+<td>2019-11-13</td>
+<td align="right">241.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_24_1.rar" rel="noopener" target="_blank">9_0_24_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=41169625" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.24.0</code></td>
+<td>Tam set</td>
+<td>2019-10-21</td>
+<td align="right">1.77 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_24_0.rar" rel="noopener" target="_blank">9_0_24_0.rar</a></td>
+<td><a href="http://login.setrow.com/stocksablon/1860/files/Logo-Yazilim/marketing/Surum_Duyurusu/2019/SurumDuyurusuNetsis9_0_24.pdf" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-23"><a class="anchor" href="#9-0-23" aria-hidden="true">#</a>9.0.23</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.23.1</code></td>
+<td>Yama</td>
+<td>2019-09-27</td>
+<td align="right">97.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_23_1.rar" rel="noopener" target="_blank">9_0_23_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=41163306" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.23.0</code></td>
+<td>Tam set</td>
+<td>2019-09-10</td>
+<td align="right">1.75 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_23_0.rar" rel="noopener" target="_blank">9_0_23_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=41161966" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-22"><a class="anchor" href="#9-0-22" aria-hidden="true">#</a>9.0.22</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.22.1</code></td>
+<td>Yama</td>
+<td>2019-08-02</td>
+<td align="right">11.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_22_1.rar" rel="noopener" target="_blank">9_0_22_1.rar</a></td>
+<td><a href="http://docs.logo.com.tr/pages/viewpage.action?pageId=41160918" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.22.0</code></td>
+<td>Tam set</td>
+<td>2019-07-02</td>
+<td align="right">1.57 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_22_0.rar" rel="noopener" target="_blank">9_0_22_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.22+Temmuz+2019" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-21"><a class="anchor" href="#9-0-21" aria-hidden="true">#</a>9.0.21</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.21.2</code></td>
+<td>Yama</td>
+<td>2019-05-27</td>
+<td align="right">47.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_21_2.rar" rel="noopener" target="_blank">9_0_21_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.21.1</code></td>
+<td>Yama</td>
+<td>2019-05-22</td>
+<td align="right">182.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_21_1.rar" rel="noopener" target="_blank">9_0_21_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=34231274" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.21.0</code></td>
+<td>Tam set</td>
+<td>2019-05-06</td>
+<td align="right">1.48 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_21_0.rar" rel="noopener" target="_blank">9_0_21_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=34226609" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-20"><a class="anchor" href="#9-0-20" aria-hidden="true">#</a>9.0.20</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.20.2</code></td>
+<td>Yama</td>
+<td>2019-04-11</td>
+<td align="right">488.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_20_2.rar" rel="noopener" target="_blank">9_0_20_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.20.1</code></td>
+<td>Yama</td>
+<td>2019-04-01</td>
+<td align="right">297.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_20_1.rar" rel="noopener" target="_blank">9_0_20_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.20.0</code></td>
+<td>Tam set</td>
+<td>2019-03-18</td>
+<td align="right">1.84 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_20_0.rar" rel="noopener" target="_blank">9_0_20_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.20+Mart+2019" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-19"><a class="anchor" href="#9-0-19" aria-hidden="true">#</a>9.0.19</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.19.1</code></td>
+<td>Yama</td>
+<td>2019-03-05</td>
+<td align="right">158.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_19_1.rar" rel="noopener" target="_blank">9_0_19_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.19.0</code></td>
+<td>Tam set</td>
+<td>2019-01-28</td>
+<td align="right">1.81 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_19_0.rar" rel="noopener" target="_blank">9_0_19_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.19+Ocak+2019" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-18"><a class="anchor" href="#9-0-18" aria-hidden="true">#</a>9.0.18</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.18.1</code></td>
+<td>Yama</td>
+<td>2018-12-24</td>
+<td align="right">276.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_18_1.rar" rel="noopener" target="_blank">9_0_18_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.18.0</code></td>
+<td>Tam set</td>
+<td>2018-12-10</td>
+<td align="right">1.79 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_18_0.rar" rel="noopener" target="_blank">9_0_18_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=34213104" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-17"><a class="anchor" href="#9-0-17" aria-hidden="true">#</a>9.0.17</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.17.2</code></td>
+<td>Yama</td>
+<td>2018-11-22</td>
+<td align="right">38.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_17_2.rar" rel="noopener" target="_blank">9_0_17_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.17.1</code></td>
+<td>Yama</td>
+<td>2018-11-02</td>
+<td align="right">438.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_17_1.rar" rel="noopener" target="_blank">9_0_17_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.17.0</code></td>
+<td>Tam set</td>
+<td>2018-10-22</td>
+<td align="right">1.78 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_17_0.rar" rel="noopener" target="_blank">9_0_17_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.17+Ekim+2018" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-16"><a class="anchor" href="#9-0-16" aria-hidden="true">#</a>9.0.16</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.16.2</code></td>
+<td>Yama</td>
+<td>2018-10-17</td>
+<td align="right">3.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_16_2.rar" rel="noopener" target="_blank">9_0_16_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.16.1</code></td>
+<td>Yama</td>
+<td>2018-09-21</td>
+<td align="right">346.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_16_1.rar" rel="noopener" target="_blank">9_0_16_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.16.0</code></td>
+<td>Tam set</td>
+<td>2018-09-03</td>
+<td align="right">1.78 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_16_0.rar" rel="noopener" target="_blank">9_0_16_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=34213106" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-15"><a class="anchor" href="#9-0-15" aria-hidden="true">#</a>9.0.15</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.15.2</code></td>
+<td>Yama</td>
+<td>2018-08-01</td>
+<td align="right">316.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_15_2.rar" rel="noopener" target="_blank">9_0_15_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.15.1</code></td>
+<td>Yama</td>
+<td>2018-07-09</td>
+<td align="right">123.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_15_1.rar" rel="noopener" target="_blank">9_0_15_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.15.0</code></td>
+<td>Tam set</td>
+<td>2018-06-25</td>
+<td align="right">1.77 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_15_0.rar" rel="noopener" target="_blank">9_0_15_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.15+Haziran+2018" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-14"><a class="anchor" href="#9-0-14" aria-hidden="true">#</a>9.0.14</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.14.3</code></td>
+<td>Yama</td>
+<td>2018-06-12</td>
+<td align="right">246.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_14_3.rar" rel="noopener" target="_blank">9_0_14_3.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.14.2</code></td>
+<td>Yama</td>
+<td>2018-05-18</td>
+<td align="right">67.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_14_2.rar" rel="noopener" target="_blank">9_0_14_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.14.1</code></td>
+<td>Yama</td>
+<td>2018-05-15</td>
+<td align="right">369.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_14_1.rar" rel="noopener" target="_blank">9_0_14_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.14.0</code></td>
+<td>Tam set</td>
+<td>2018-05-07</td>
+<td align="right">1.77 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_14_0.rar" rel="noopener" target="_blank">9_0_14_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=34213108" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-13"><a class="anchor" href="#9-0-13" aria-hidden="true">#</a>9.0.13</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.13.2</code></td>
+<td>Yama</td>
+<td>2018-04-13</td>
+<td align="right">258.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_13_2.rar" rel="noopener" target="_blank">9_0_13_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.13.1</code></td>
+<td>Yama</td>
+<td>2018-03-28</td>
+<td align="right">156.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_13_1.rar" rel="noopener" target="_blank">9_0_13_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.13.0</code></td>
+<td>Tam set</td>
+<td>2018-03-19</td>
+<td align="right">2.04 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_13_0.rar" rel="noopener" target="_blank">9_0_13_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.13+Mart+2018" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-12"><a class="anchor" href="#9-0-12" aria-hidden="true">#</a>9.0.12</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.12.1</code></td>
+<td>Yama</td>
+<td>2018-02-28</td>
+<td align="right">343.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_12_1.rar" rel="noopener" target="_blank">9_0_12_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.12.0</code></td>
+<td>Tam set</td>
+<td>2018-01-29</td>
+<td align="right">2.02 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_12_0.rar" rel="noopener" target="_blank">9_0_12_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.12+Ocak+2018" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-11"><a class="anchor" href="#9-0-11" aria-hidden="true">#</a>9.0.11</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.11.2</code></td>
+<td>Yama</td>
+<td>2017-12-27</td>
+<td align="right">316.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_11_2.rar" rel="noopener" target="_blank">9_0_11_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.11.0</code></td>
+<td>Tam set</td>
+<td>2017-12-04</td>
+<td align="right">2.07 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_11_0.rar" rel="noopener" target="_blank">9_0_11_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=34213122" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="5-0-10"><a class="anchor" href="#5-0-10" aria-hidden="true">#</a>5.0.10</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.10.2</code></td>
+<td>Yama</td>
+<td>2017-11-28</td>
+<td align="right">203.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_10_2.rar" rel="noopener" target="_blank">9_0_10_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.10.1</code></td>
+<td>Yama</td>
+<td>2017-10-18</td>
+<td align="right">53.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_10_1.rar" rel="noopener" target="_blank">9_0_10_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>5.0.10.0</code></td>
+<td>Tam set</td>
+<td>2010-12-27</td>
+<td align="right">689.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/5_0_10_0.rar" rel="noopener" target="_blank">5_0_10_0.rar</a></td>
+<td><a href="http://support.logo.com.tr/images/netsis/uploads/2012/05/5010_seti_ile_gelen_yenilikler.pdf" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.10.0</code></td>
+<td>Tam set</td>
+<td>2017-10-16</td>
+<td align="right">2.14 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_10_0.rar" rel="noopener" target="_blank">9_0_10_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.10+Ekim+2017" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-9"><a class="anchor" href="#9-0-9" aria-hidden="true">#</a>9.0.9</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.9.2</code></td>
+<td>Yama</td>
+<td>2017-10-04</td>
+<td align="right">242.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_9_2.rar" rel="noopener" target="_blank">9_0_9_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.9.1</code></td>
+<td>Yama</td>
+<td>2017-09-28</td>
+<td align="right">48.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_9_1.rar" rel="noopener" target="_blank">9_0_9_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.9.0</code></td>
+<td>Tam set</td>
+<td>2017-08-21</td>
+<td align="right">2.13 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_9_0.rar" rel="noopener" target="_blank">9_0_9_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=34213128" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-8"><a class="anchor" href="#9-0-8" aria-hidden="true">#</a>9.0.8</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.8.4</code></td>
+<td>Yama</td>
+<td>2017-08-15</td>
+<td align="right">97.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_8_4.rar" rel="noopener" target="_blank">9_0_8_4.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.8.3</code></td>
+<td>Yama</td>
+<td>2017-08-10</td>
+<td align="right">43.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_8_3.rar" rel="noopener" target="_blank">9_0_8_3.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.8.2</code></td>
+<td>Yama</td>
+<td>2017-07-12</td>
+<td align="right">38.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_8_2.rar" rel="noopener" target="_blank">9_0_8_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.8.1</code></td>
+<td>Yama</td>
+<td>2017-07-03</td>
+<td align="right">99.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_8_1.rar" rel="noopener" target="_blank">9_0_8_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.8.0</code></td>
+<td>Tam set</td>
+<td>2017-06-19</td>
+<td align="right">2.11 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_8_0.rar" rel="noopener" target="_blank">9_0_8_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.8+Haziran+2017" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-7"><a class="anchor" href="#9-0-7" aria-hidden="true">#</a>9.0.7</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.7.2</code></td>
+<td>Yama</td>
+<td>2017-05-28</td>
+<td align="right">41.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_7_2.rar" rel="noopener" target="_blank">9_0_7_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.7.1</code></td>
+<td>Yama</td>
+<td>2017-05-10</td>
+<td align="right">315.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_7_1.rar" rel="noopener" target="_blank">9_0_7_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.7.0</code></td>
+<td>Tam set</td>
+<td>2017-05-02</td>
+<td align="right">2.10 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_7_0.rar" rel="noopener" target="_blank">9_0_7_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.7+Nisan+2017" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="8-0-6"><a class="anchor" href="#8-0-6" aria-hidden="true">#</a>8.0.6</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.6.2</code></td>
+<td>Yama</td>
+<td>2017-04-26</td>
+<td align="right">51.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_6_2.rar" rel="noopener" target="_blank">9_0_6_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.6.1</code></td>
+<td>Yama</td>
+<td>2017-04-06</td>
+<td align="right">97.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_6_1.rar" rel="noopener" target="_blank">9_0_6_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>8.0.6.0</code></td>
+<td>Tam set</td>
+<td>2015-01-19</td>
+<td align="right">1.60 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/8_0_6_0.rar" rel="noopener" target="_blank">8_0_6_0.rar</a></td>
+<td><a href="http://support.logo.com.tr/images/netsis/uploads/2012/05/8.0.6-Seti-ile-Gelen-Yenilikler.pdf" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.6.0</code></td>
+<td>Tam set</td>
+<td>2017-03-13</td>
+<td align="right">1.81 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_6_0.rar" rel="noopener" target="_blank">9_0_6_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.6+Mart+2017" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-5"><a class="anchor" href="#9-0-5" aria-hidden="true">#</a>9.0.5</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.5.2</code></td>
+<td>Yama</td>
+<td>2017-03-03</td>
+<td align="right">93.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_5_2.rar" rel="noopener" target="_blank">9_0_5_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.5.1</code></td>
+<td>Yama</td>
+<td>2017-02-08</td>
+<td align="right">132.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_5_1.rar" rel="noopener" target="_blank">9_0_5_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=34213144" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.5.0</code></td>
+<td>Tam set</td>
+<td>2017-01-23</td>
+<td align="right">1.79 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_5_0.rar" rel="noopener" target="_blank">9_0_5_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.5+Ocak+2017" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="7-0-4"><a class="anchor" href="#7-0-4" aria-hidden="true">#</a>7.0.4</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.4.2</code></td>
+<td>Yama</td>
+<td>2017-01-18</td>
+<td align="right">86.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_4_2.rar" rel="noopener" target="_blank">9_0_4_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.4.1</code></td>
+<td>Yama</td>
+<td>2016-12-16</td>
+<td align="right">365.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_4_1.rar" rel="noopener" target="_blank">9_0_4_1.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=34213152" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>7.0.4.0</code></td>
+<td>Tam set</td>
+<td>2014-05-15</td>
+<td align="right">1.00 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/7_0_4_0.rar" rel="noopener" target="_blank">7_0_4_0.rar</a></td>
+<td><a href="http://support.logo.com.tr/images/netsis/uploads/2012/05/7.0.4-Seti-ile-Gelen-Yenilikler.pdf" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>8.0.4.0</code></td>
+<td>Tam set</td>
+<td>2014-11-24</td>
+<td align="right">1.41 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/8_0_4_0.rar" rel="noopener" target="_blank">8_0_4_0.rar</a></td>
+<td><a href="http://support.logo.com.tr/images/netsis/uploads/2012/05/8.0.4-Seti-ile-Gelen-Yenilikler.pdf" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.4.0</code></td>
+<td>Tam set</td>
+<td>2016-11-28</td>
+<td align="right">1.74 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_4_0.rar" rel="noopener" target="_blank">9_0_4_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/pages/viewpage.action?pageId=34213155" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-3"><a class="anchor" href="#9-0-3" aria-hidden="true">#</a>9.0.3</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.3.2</code></td>
+<td>Yama</td>
+<td>2016-11-04</td>
+<td align="right">91.8 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_3_2.rar" rel="noopener" target="_blank">9_0_3_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.3.1</code></td>
+<td>Yama</td>
+<td>2016-10-12</td>
+<td align="right">481.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_3_1.rar" rel="noopener" target="_blank">9_0_3_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.3.0</code></td>
+<td>Tam set</td>
+<td>2016-10-03</td>
+<td align="right">1.46 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_3_0.rar" rel="noopener" target="_blank">9_0_3_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.3+Ekim+2016" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="7-0-2"><a class="anchor" href="#7-0-2" aria-hidden="true">#</a>7.0.2</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>9.0.2.2</code></td>
+<td>Yama</td>
+<td>2016-08-26</td>
+<td align="right">139.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_2_2.rar" rel="noopener" target="_blank">9_0_2_2.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.2.1</code></td>
+<td>Yama</td>
+<td>2016-07-29</td>
+<td align="right">184.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_2_1.rar" rel="noopener" target="_blank">9_0_2_1.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>7.0.2.0</code></td>
+<td>Tam set</td>
+<td>2013-08-28</td>
+<td align="right">1.30 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/7_0_2_0.rar" rel="noopener" target="_blank">7_0_2_0.rar</a></td>
+<td><a href="http://support.logo.com.tr/images/netsis/uploads/2012/05/702_Seti_ile_Gelen_Yenilikler.pdf" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>8.0.2.0</code></td>
+<td>Tam set</td>
+<td>2014-09-22</td>
+<td align="right">1.41 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/8_0_2_0.rar" rel="noopener" target="_blank">8_0_2_0.rar</a></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>9.0.2.0</code></td>
+<td>Tam set</td>
+<td>2016-06-27</td>
+<td align="right">1.39 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_2_0.rar" rel="noopener" target="_blank">9_0_2_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0.2+Temmuz+2016" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="4-0-0"><a class="anchor" href="#4-0-0" aria-hidden="true">#</a>4.0.0</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tür</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+<th>Yenilikler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>4.0.0.0</code></td>
+<td>Tam set</td>
+<td>2006-09-14</td>
+<td align="right">637.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/4_0_0_0.rar" rel="noopener" target="_blank">4_0_0_0.rar</a></td>
+<td><a href="http://support.logo.com.tr/images/netsis/uploads/2012/05/4_0_2_YENILIKLERI.pdf" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>5.0.0.0</code></td>
+<td>Tam set</td>
+<td>2009-04-07</td>
+<td align="right">1.10 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/5_0_0_0.rar" rel="noopener" target="_blank">5_0_0_0.rar</a></td>
+<td><a href="http://support.logo.com.tr/images/netsis/uploads/2012/05/5.0_Yenilikleri.pdf" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>8.0.0.0</code></td>
+<td>Tam set</td>
+<td>2014-07-11</td>
+<td align="right">1.22 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/8_0_0_0.rar" rel="noopener" target="_blank">8_0_0_0.rar</a></td>
+<td><a href="http://support.logo.com.tr/images/netsis/uploads/2012/05/8.0-Seti-ile-Gelen-Yenilikler.pdf" rel="noopener" target="_blank">not</a></td>
+</tr>
+<tr>
+<td><code>9.0.0.0</code></td>
+<td>Tam set</td>
+<td>2016-03-14</td>
+<td align="right">1.44 GB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_0_0.rar" rel="noopener" target="_blank">9_0_0_0.rar</a></td>
+<td><a href="https://docs.logo.com.tr/display/N3ENTKD/9.0+Mart+2016" rel="noopener" target="_blank">not</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="listede-olmayan-arsiv-dosyalari"><a class="anchor" href="#listede-olmayan-arsiv-dosyalari" aria-hidden="true">#</a>Listede olmayan arşiv dosyaları</h2>
+<p>Sunucunun <code>Archive</code> klasöründe olup <code>files.json</code>&#39;da geçmeyen dosyalar:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dosya</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/5_0_12_0.rar" rel="noopener" target="_blank">Archive/5_0_12_0.rar</a></td>
+<td>2020-07-09</td>
+<td align="right">922.3 MB</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_42_2.rar" rel="noopener" target="_blank">Archive/9_0_42_2.rar</a></td>
+<td>2022-11-01</td>
+<td align="right">2.4 MB</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/Archive/9_0_65_2.rar" rel="noopener" target="_blank">Archive/9_0_65_2.rar</a></td>
+<td>2025-09-14</td>
+<td align="right">187.3 MB</td>
+</tr>
+</tbody></table></div>
+<h2 id="netsis-hr"><a class="anchor" href="#netsis-hr" aria-hidden="true">#</a>Netsis HR</h2>
+<p>Netsis İK (HR) setleri ayrı numaralanır ve <code>NetsisHR</code> klasöründedir. Tarih, dosyanın sunucuya yüklendiği gündür.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sürüm</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>İndir</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>3.88.0.0</code></td>
+<td>2025-04-14</td>
+<td align="right">146.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_88_0_0_HR.rar" rel="noopener" target="_blank">3_88_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.87.0.0</code></td>
+<td>2025-02-24</td>
+<td align="right">144.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_87_0_0_HR.rar" rel="noopener" target="_blank">3_87_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.86.0.0</code></td>
+<td>2025-01-13</td>
+<td align="right">413.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_86_0_0_HR.rar" rel="noopener" target="_blank">3_86_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.85.0.0</code></td>
+<td>2024-12-03</td>
+<td align="right">430.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_85_0_0_HR.rar" rel="noopener" target="_blank">3_85_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.83.0.0</code></td>
+<td>2024-09-02</td>
+<td align="right">412.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_83_0_0_HR.rar" rel="noopener" target="_blank">3_83_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.82.0.0</code></td>
+<td>2024-07-08</td>
+<td align="right">413.2 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_82_0_0_HR.rar" rel="noopener" target="_blank">3_82_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.81.0.0</code></td>
+<td>2024-05-20</td>
+<td align="right">412.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_81_0_0_HR.rar" rel="noopener" target="_blank">3_81_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.80.0.0</code></td>
+<td>2024-04-01</td>
+<td align="right">411.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_80_0_0_HR.rar" rel="noopener" target="_blank">3_80_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.79.0.0</code></td>
+<td>2024-02-26</td>
+<td align="right">429.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_79_0_0_HR.rar" rel="noopener" target="_blank">3_79_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.78.0.0</code></td>
+<td>2024-01-15</td>
+<td align="right">429.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_78_0_0_HR.rar" rel="noopener" target="_blank">3_78_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.77.0.0</code></td>
+<td>2023-12-04</td>
+<td align="right">420.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_77_0_0_HR.rar" rel="noopener" target="_blank">3_77_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.76.0.0</code></td>
+<td>2023-10-23</td>
+<td align="right">410.0 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_76_0_0_HR.rar" rel="noopener" target="_blank">3_76_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.75.0.0</code></td>
+<td>2023-09-18</td>
+<td align="right">410.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_75_0_0_HR.rar" rel="noopener" target="_blank">3_75_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.74.0.0</code></td>
+<td>2023-07-17</td>
+<td align="right">410.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_74_0_0_HR.rar" rel="noopener" target="_blank">3_74_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.73.0.0</code></td>
+<td>2023-05-29</td>
+<td align="right">404.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_73_0_0_HR.rar" rel="noopener" target="_blank">3_73_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.72.0.0</code></td>
+<td>2023-05-29</td>
+<td align="right">407.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_72_0_0_HR.rar" rel="noopener" target="_blank">3_72_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.71.0.0</code></td>
+<td>2023-03-06</td>
+<td align="right">406.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_71_0_0_HR.rar" rel="noopener" target="_blank">3_71_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.70.0.0</code></td>
+<td>2023-01-23</td>
+<td align="right">334.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_70_0_0_HR.rar" rel="noopener" target="_blank">3_70_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.69.0.0</code></td>
+<td>2022-11-28</td>
+<td align="right">300.4 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_69_0_0_HR.rar" rel="noopener" target="_blank">3_69_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.68.0.0</code></td>
+<td>2022-10-03</td>
+<td align="right">299.9 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_68_0_0_HR.rar" rel="noopener" target="_blank">3_68_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.67.0.0</code></td>
+<td>2022-07-25</td>
+<td align="right">283.3 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_67_0_0_HR.rar" rel="noopener" target="_blank">3_67_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.66.0.0</code></td>
+<td>2022-05-23</td>
+<td align="right">284.1 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_66_0_0_HR.rar" rel="noopener" target="_blank">3_66_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.65.0.0</code></td>
+<td>2022-03-21</td>
+<td align="right">283.6 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_65_0_0_HR.rar" rel="noopener" target="_blank">3_65_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.64.0.0</code></td>
+<td>2022-01-25</td>
+<td align="right">284.5 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_64_0_0_HR.rar" rel="noopener" target="_blank">3_64_0_0_HR.rar</a></td>
+</tr>
+<tr>
+<td><code>3.63.0.0</code></td>
+<td>2022-01-21</td>
+<td align="right">280.7 MB</td>
+<td><a href="https://download.logo.com.tr/Windows/NETSISERP/NetsisHR/3_63_0_0_HR.rar" rel="noopener" target="_blank">3_63_0_0_HR.rar</a></td>
+</tr>
+</tbody></table></div>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/surumler/tum-surumler.md">GitHub'da düzenle</a> · <a href="/surumler/tum-surumler.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#9-0-72">9.0.72</a></li><li class="l2"><a href="#9-0-71">9.0.71</a></li><li class="l2"><a href="#9-0-70">9.0.70</a></li><li class="l2"><a href="#9-0-69">9.0.69</a></li><li class="l2"><a href="#9-0-68">9.0.68</a></li><li class="l2"><a href="#9-0-67">9.0.67</a></li><li class="l2"><a href="#9-0-66">9.0.66</a></li><li class="l2"><a href="#9-0-65">9.0.65</a></li><li class="l2"><a href="#9-0-64">9.0.64</a></li><li class="l2"><a href="#9-0-63">9.0.63</a></li><li class="l2"><a href="#9-0-62">9.0.62</a></li><li class="l2"><a href="#9-0-61">9.0.61</a></li><li class="l2"><a href="#9-0-60">9.0.60</a></li><li class="l2"><a href="#9-0-59">9.0.59</a></li><li class="l2"><a href="#9-0-58">9.0.58</a></li><li class="l2"><a href="#9-0-57">9.0.57</a></li><li class="l2"><a href="#9-0-56">9.0.56</a></li><li class="l2"><a href="#9-0-55">9.0.55</a></li><li class="l2"><a href="#9-0-54">9.0.54</a></li><li class="l2"><a href="#9-0-53">9.0.53</a></li><li class="l2"><a href="#9-0-52">9.0.52</a></li><li class="l2"><a href="#9-0-51">9.0.51</a></li><li class="l2"><a href="#9-0-50">9.0.50</a></li><li class="l2"><a href="#9-0-49">9.0.49</a></li><li class="l2"><a href="#9-0-48">9.0.48</a></li><li class="l2"><a href="#9-0-47">9.0.47</a></li><li class="l2"><a href="#9-0-46">9.0.46</a></li><li class="l2"><a href="#9-0-45">9.0.45</a></li><li class="l2"><a href="#9-0-44">9.0.44</a></li><li class="l2"><a href="#9-0-43">9.0.43</a></li><li class="l2"><a href="#9-0-42">9.0.42</a></li><li class="l2"><a href="#9-0-41">9.0.41</a></li><li class="l2"><a href="#9-0-40">9.0.40</a></li><li class="l2"><a href="#9-0-39">9.0.39</a></li><li class="l2"><a href="#9-0-38">9.0.38</a></li><li class="l2"><a href="#9-0-37">9.0.37</a></li><li class="l2"><a href="#9-0-36">9.0.36</a></li><li class="l2"><a href="#9-0-35">9.0.35</a></li><li class="l2"><a href="#9-0-34">9.0.34</a></li><li class="l2"><a href="#9-0-33">9.0.33</a></li><li class="l2"><a href="#9-0-32">9.0.32</a></li><li class="l2"><a href="#9-0-31">9.0.31</a></li><li class="l2"><a href="#9-0-30">9.0.30</a></li><li class="l2"><a href="#9-0-29">9.0.29</a></li><li class="l2"><a href="#9-0-28">9.0.28</a></li><li class="l2"><a href="#9-0-27">9.0.27</a></li><li class="l2"><a href="#9-0-26">9.0.26</a></li><li class="l2"><a href="#9-0-25">9.0.25</a></li><li class="l2"><a href="#9-0-24">9.0.24</a></li><li class="l2"><a href="#9-0-23">9.0.23</a></li><li class="l2"><a href="#9-0-22">9.0.22</a></li><li class="l2"><a href="#9-0-21">9.0.21</a></li><li class="l2"><a href="#9-0-20">9.0.20</a></li><li class="l2"><a href="#9-0-19">9.0.19</a></li><li class="l2"><a href="#9-0-18">9.0.18</a></li><li class="l2"><a href="#9-0-17">9.0.17</a></li><li class="l2"><a href="#9-0-16">9.0.16</a></li><li class="l2"><a href="#9-0-15">9.0.15</a></li><li class="l2"><a href="#9-0-14">9.0.14</a></li><li class="l2"><a href="#9-0-13">9.0.13</a></li><li class="l2"><a href="#9-0-12">9.0.12</a></li><li class="l2"><a href="#9-0-11">9.0.11</a></li><li class="l2"><a href="#5-0-10">5.0.10</a></li><li class="l2"><a href="#9-0-9">9.0.9</a></li><li class="l2"><a href="#9-0-8">9.0.8</a></li><li class="l2"><a href="#9-0-7">9.0.7</a></li><li class="l2"><a href="#8-0-6">8.0.6</a></li><li class="l2"><a href="#9-0-5">9.0.5</a></li><li class="l2"><a href="#7-0-4">7.0.4</a></li><li class="l2"><a href="#9-0-3">9.0.3</a></li><li class="l2"><a href="#7-0-2">7.0.2</a></li><li class="l2"><a href="#4-0-0">4.0.0</a></li><li class="l2"><a href="#listede-olmayan-arsiv-dosyalari">Listede olmayan arşiv dosyaları</a></li><li class="l2"><a href="#netsis-hr">Netsis HR</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

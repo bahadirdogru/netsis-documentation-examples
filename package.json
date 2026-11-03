@@ -5,6 +5,7 @@
   "description": "Netsis ERP (Logo) için insanlar ve LLM'ler için başvuru dokümantasyonu: veritabanı şeması, NetOpenX COM ve NetOpenX REST.",
   "scripts": {
     "import:excel": "node tools/import-excel.js",
+    "import:indirme": "node tools/import-indirme.js",
     "build": "node tools/build.js",
     "serve": "node tools/serve.js"
   },

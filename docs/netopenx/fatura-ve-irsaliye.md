@@ -93,7 +93,7 @@ Toplamları kaydetmeden görmek için `fatura.HesaplamalariYap()` çağrılır; 
 | `EKACK1` … `EKACK16` | `TBLFATUEK.ACIK1..16` | Ek açıklamalar |
 | `EIrsaliye` | | `true`: e-irsaliye olarak işaretle |
 | `EfaturaCarisiMi` | | Salt okunur; cari e-fatura mükellefi mi |
-| `EFatOzelKod` | | E-fatura istisna/özel kodu (ör. KDV istisna kodu) |
+| `EFatOzelKod` | | E-fatura istisna/özel kodu (ör. KDV istisna kodu; liste: [E-belge kod listeleri](/logo-araclari/e-belge-kodlari/#kdv-istisna-kodlari)) |
 | `AMBHARTUR` | | Ambar hareket türü (`TAmbarHarTur`) |
 | `CikisYeri` | | Ambar çıkış yeri (`TCikisYeri`) |
 | `FAT_ALTM1`, `FAT_ALTM2` | `FAT_ALTM1/2` | Fatura alt maliyet tutarları |

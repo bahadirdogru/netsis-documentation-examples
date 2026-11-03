@@ -1,0 +1,935 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yama içerikleri · Netsis Dokümantasyonu</title>
+<meta name="description" content="Güncel Netsis ERP yamalarının hangi dosyaları değiştirdiği; NetOpenX50.dll ve NetOpenX REST kurulumunu güncelleyen yamalar.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/surumler/yama-icerikleri/">
+<link rel="alternate" type="text/markdown" href="/surumler/yama-icerikleri.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Yama içerikleri">
+<meta property="og:description" content="Güncel Netsis ERP yamalarının hangi dosyaları değiştirdiği; NetOpenX50.dll ve NetOpenX REST kurulumunu güncelleyen yamalar.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/surumler/yama-icerikleri/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Sürümler</summary><ul><li><a href="/surumler/">Sürümler ve indirme</a></li><li><a href="/surumler/tum-surumler/">Tüm sürümler</a></li><li><a href="/surumler/yama-icerikleri/" aria-current="page">Yama içerikleri</a></li></ul></details><details class="nav-sec" open><summary>Logo araçları</summary><ul><li><a href="/logo-araclari/">Logo e-devlet araçları</a></li><li><a href="/logo-araclari/e-belge-kodlari/">E-belge kod listeleri</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/surumler/">Sürümler ve indirme</a></nav>
+<article>
+<h1 id="yama-icerikleri"><a class="anchor" href="#yama-icerikleri" aria-hidden="true">#</a>Yama içerikleri</h1>
+<p>Sunucu, güncel setlerin içeriğini <code>.rar</code> dosyasının yanında açık klasör olarak da tutar. Bu sayfa her yamanın hangi dosyaları getirdiğini listeler. Klasör yolları kurulum dizinine göredir (ör. <code>TemelSet/NetOpenX50.dll</code> → <code>C:\NETSIS\TemelSet\NetOpenX50.dll</code> gibi). Liste 2026-11-03 tarihinde alındı.</p>
+<h2 id="netopenx-ve-rest-i-guncelleyen-yamalar"><a class="anchor" href="#netopenx-ve-rest-i-guncelleyen-yamalar" aria-hidden="true">#</a>NetOpenX ve REST&#39;i güncelleyen yamalar</h2>
+<p>Entegrasyon yazıyorsanız önemli olan iki dosya <code>TemelSet/NetOpenX50.dll</code> (COM) ve <code>Kurulum/NetsisNoxRestSetup.exe</code> (REST servisi). Bir yamada bu dosyalar varsa NetOpenX davranışı değişmiş olabilir; uygulamanızı yamadan sonra yeniden test edin.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yama</th>
+<th>Tarih</th>
+<th>NetOpenX50.dll</th>
+<th>NetsisNoxRestSetup.exe</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="#9-0-72-5"><code>9.0.72.5</code></a></td>
+<td>2026-09-25</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-72-3"><code>9.0.72.3</code></a></td>
+<td>2026-09-10</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-72-2"><code>9.0.72.2</code></a></td>
+<td>2026-07-31</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-72-1"><code>9.0.72.1</code></a></td>
+<td>2026-07-17</td>
+<td>var</td>
+<td>—</td>
+</tr>
+<tr>
+<td><a href="#9-0-70-11"><code>9.0.70.11</code></a></td>
+<td>2026-09-25</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-70-10"><code>9.0.70.10</code></a></td>
+<td>2026-09-10</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-70-9"><code>9.0.70.9</code></a></td>
+<td>2026-07-31</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-70-7"><code>9.0.70.7</code></a></td>
+<td>2026-06-12</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-70-5"><code>9.0.70.5</code></a></td>
+<td>2026-05-15</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-70-4"><code>9.0.70.4</code></a></td>
+<td>2026-05-07</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-70-2"><code>9.0.70.2</code></a></td>
+<td>2026-03-18</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-70-1"><code>9.0.70.1</code></a></td>
+<td>2026-03-09</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-66-9"><code>9.0.66.9</code></a></td>
+<td>2026-03-09</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-66-7"><code>9.0.66.7</code></a></td>
+<td>2026-02-03</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-66-6"><code>9.0.66.6</code></a></td>
+<td>2026-01-30</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-66-5"><code>9.0.66.5</code></a></td>
+<td>2025-12-26</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-66-4"><code>9.0.66.4</code></a></td>
+<td>2025-12-12</td>
+<td>var</td>
+<td>var</td>
+</tr>
+<tr>
+<td><a href="#9-0-66-1"><code>9.0.66.1</code></a></td>
+<td>2025-09-30</td>
+<td>var</td>
+<td>var</td>
+</tr>
+</tbody></table></div>
+<p>Aşağıda listelenen yamalardan bu tabloda olmayanlar bu iki dosyaya dokunmaz. Açık klasörü olmayan eski yamaların içeriği bu sayfada yok.</p>
+<h2 id="9-0-72-5"><a class="anchor" href="#9-0-72-5" aria-hidden="true">#</a>9.0.72.5</h2>
+<p>2026-09-25 · 37 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_72_5/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_72_5.rar" rel="noopener" target="_blank">9_0_72_5.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Demirbas</code></td>
+<td><code>DEMIRBAS.dll</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>DOVIZ.dll</code>, <code>DizaynM.dll</code>, <code>KULLANIC.dll</code>, <code>LOG.dll</code>, <code>WorkFlow.dll</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>BCEK.dll</code>, <code>Bsen.dll</code>, <code>DEVIR.dll</code>, <code>DINDEPO.dll</code>, <code>DisTicaret.dll</code>, <code>ENTEGRE.dll</code>, <code>KASA.dll</code>, <code>Kargo.dll</code>, <code>MALIYETM.dll</code>, <code>MUHASEBE.dll</code>, <code>MakBkm.dll</code>, <code>NetOpenX50.dll</code> ★, <code>POS.dll</code>, <code>RAPOR.dll</code>, <code>STOK.dll</code>, <code>Teklif.dll</code>, <code>UretAK.dll</code>, <code>banka.dll</code>, <code>cari.dll</code>, <code>dagitim.dll</code>, <code>dekont.dll</code>, <code>fatura.dll</code>, <code>kantar.dll</code>, <code>kkont.dll</code>, <code>mcek.dll</code>, <code>mrp.dll</code>, <code>msen.dll</code>, <code>mustf.dll</code>, <code>uretim.dll</code>, <code>yardimci.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-72-4"><a class="anchor" href="#9-0-72-4" aria-hidden="true">#</a>9.0.72.4</h2>
+<p>2026-09-21 · 10 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_72_4/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_72_4.rar" rel="noopener" target="_blank">9_0_72_4.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Personel</code></td>
+<td><code>LogoBes.exe</code>, <code>NikOpenX50.dll</code>, <code>PENTEG.dll</code>, <code>PERRAPOR.dll</code>, <code>PERSONEL.dll</code>, <code>PYardim.dll</code>, <code>PerDizayn.dll</code>, <code>PerExcelGr.dll</code>, <code>PerNNR.dll</code>, <code>PerNetGr.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-72-3"><a class="anchor" href="#9-0-72-3" aria-hidden="true">#</a>9.0.72.3</h2>
+<p>2026-09-10 · 41 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_72_3/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_72_3.rar" rel="noopener" target="_blank">9_0_72_3.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DBUPDATE</code></td>
+<td><code>CMas1.M80</code>, <code>CMas1.O80</code>, <code>CMas1.P80</code>, <code>CTra1.M80</code>, <code>CTra1.O80</code>, <code>CTra1.P80</code>, <code>NetDBMas.M80</code>, <code>NetDBMas.O80</code>, <code>NetDBMas.P80</code>, <code>NetDBTra.M80</code>, <code>NetDBTra.O80</code>, <code>NetDBTra.P80</code>, <code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Diller</code></td>
+<td><code>FATALM.dll</code>, <code>FATARB.dll</code>, <code>FATAZR.dll</code>, <code>FATFRS.dll</code>, <code>FATING.dll</code>, <code>FATRUS.dll</code>, <code>FATTRK.dll</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura</code></td>
+<td><code>EFaturaSetup.exe</code></td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura/Yedek</code></td>
+<td><code>Netsis.EFatura.WebService.dll</code></td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>NetFKey.Dat</code>, <code>WorkFlow.dll</code></td>
+</tr>
+<tr>
+<td><code>Servis</code></td>
+<td><code>EFaturaAyarlar.exe</code>, <code>EFaturaCariUpdate.exe</code>, <code>EFaturaDbConsole.exe</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>DisTicaret.dll</code>, <code>EFatura.dll</code>, <code>EFaturaConsole.exe</code>, <code>KASA.dll</code>, <code>NetOpenX50.dll</code> ★, <code>STOK.dll</code>, <code>Teklif.dll</code>, <code>cari.dll</code>, <code>dekont.dll</code>, <code>dizayn.dll</code>, <code>fatura.dll</code>, <code>kantar.dll</code>, <code>mustf.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-72-2"><a class="anchor" href="#9-0-72-2" aria-hidden="true">#</a>9.0.72.2</h2>
+<p>2026-07-31 · 11 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_72_2/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_72_2.rar" rel="noopener" target="_blank">9_0_72_2.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Demirbas</code></td>
+<td><code>DEMIRBAS.dll</code></td>
+</tr>
+<tr>
+<td><code>Diller</code></td>
+<td><code>MUHALM.dll</code>, <code>MUHARB.dll</code>, <code>MUHAZR.dll</code>, <code>MUHFRS.dll</code>, <code>MUHING.dll</code>, <code>MUHRUS.dll</code>, <code>MUHTRK.dll</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>MUHASEBE.dll</code>, <code>NetOpenX50.dll</code> ★</td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-72-1"><a class="anchor" href="#9-0-72-1" aria-hidden="true">#</a>9.0.72.1</h2>
+<p>2026-07-17 · 12 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_72_1/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_72_1.rar" rel="noopener" target="_blank">9_0_72_1.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Ortak</code></td>
+<td><code>WorkFlow.dll</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>DisTicaret.dll</code>, <code>KASA.dll</code>, <code>MUHASEBE.dll</code>, <code>NetOpenX50.dll</code> ★, <code>Teklif.dll</code>, <code>cari.dll</code>, <code>dekont.dll</code>, <code>dizayn.dll</code>, <code>fatura.dll</code>, <code>kantar.dll</code>, <code>mustf.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-70-11"><a class="anchor" href="#9-0-70-11" aria-hidden="true">#</a>9.0.70.11</h2>
+<p>2026-09-25 · 5 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_70_11/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_11.rar" rel="noopener" target="_blank">9_0_70_11.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Demirbas</code></td>
+<td><code>DEMIRBAS.dll</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>MUHASEBE.dll</code>, <code>NetOpenX50.dll</code> ★, <code>fatura.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-70-10"><a class="anchor" href="#9-0-70-10" aria-hidden="true">#</a>9.0.70.10</h2>
+<p>2026-09-10 · 40 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_70_10/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_10.rar" rel="noopener" target="_blank">9_0_70_10.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DBUPDATE</code></td>
+<td><code>CMas1.M80</code>, <code>CMas1.O80</code>, <code>CMas1.P80</code>, <code>CTra1.M80</code>, <code>CTra1.O80</code>, <code>CTra1.P80</code>, <code>NetDBMas.M80</code>, <code>NetDBMas.O80</code>, <code>NetDBMas.P80</code>, <code>NetDBTra.M80</code>, <code>NetDBTra.O80</code>, <code>NetDBTra.P80</code>, <code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Diller</code></td>
+<td><code>FATALM.dll</code>, <code>FATARB.dll</code>, <code>FATAZR.dll</code>, <code>FATFRS.dll</code>, <code>FATING.dll</code>, <code>FATRUS.dll</code>, <code>FATTRK.dll</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura</code></td>
+<td><code>EFaturaSetup.exe</code></td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura/Yedek</code></td>
+<td><code>Netsis.EFatura.WebService.dll</code></td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>NetFKey.Dat</code>, <code>WorkFlow.dll</code></td>
+</tr>
+<tr>
+<td><code>Servis</code></td>
+<td><code>EFaturaAyarlar.exe</code>, <code>EFaturaCariUpdate.exe</code>, <code>EFaturaDbConsole.exe</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>DisTicaret.dll</code>, <code>EFatura.dll</code>, <code>EFaturaConsole.exe</code>, <code>KASA.dll</code>, <code>NetOpenX50.dll</code> ★, <code>Teklif.dll</code>, <code>cari.dll</code>, <code>dekont.dll</code>, <code>dizayn.dll</code>, <code>fatura.dll</code>, <code>kantar.dll</code>, <code>mustf.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-70-9"><a class="anchor" href="#9-0-70-9" aria-hidden="true">#</a>9.0.70.9</h2>
+<p>2026-07-31 · 10 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_70_9/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_9.rar" rel="noopener" target="_blank">9_0_70_9.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Diller</code></td>
+<td><code>MUHALM.dll</code>, <code>MUHARB.dll</code>, <code>MUHAZR.dll</code>, <code>MUHFRS.dll</code>, <code>MUHING.dll</code>, <code>MUHRUS.dll</code>, <code>MUHTRK.dll</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>MUHASEBE.dll</code>, <code>NetOpenX50.dll</code> ★</td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-70-8"><a class="anchor" href="#9-0-70-8" aria-hidden="true">#</a>9.0.70.8</h2>
+<p>2026-07-17 · 4 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_70_8/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_8.rar" rel="noopener" target="_blank">9_0_70_8.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TemelSet</code></td>
+<td><code>DisTicaret.dll</code>, <code>MUHASEBE.dll</code>, <code>NetsisEDefter.dll</code>, <code>dekont.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-70-7"><a class="anchor" href="#9-0-70-7" aria-hidden="true">#</a>9.0.70.7</h2>
+<p>2026-06-12 · 4 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_70_7/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_7.rar" rel="noopener" target="_blank">9_0_70_7.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>MUHASEBE.dll</code>, <code>NetOpenX50.dll</code> ★, <code>NetsisEDefter.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-70-6"><a class="anchor" href="#9-0-70-6" aria-hidden="true">#</a>9.0.70.6</h2>
+<p>2026-06-04 · 25 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_70_6/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_6.rar" rel="noopener" target="_blank">9_0_70_6.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DBUPDATE</code></td>
+<td><code>CMas1.M80</code>, <code>CMas1.O80</code>, <code>CMas1.P80</code>, <code>CTra1.M80</code>, <code>CTra1.O80</code>, <code>CTra1.P80</code>, <code>NetDBMas.M80</code>, <code>NetDBMas.O80</code>, <code>NetDBMas.P80</code>, <code>NetDBTra.M80</code>, <code>NetDBTra.O80</code>, <code>NetDBTra.P80</code>, <code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Diller</code></td>
+<td><code>MUHALM.dll</code>, <code>MUHARB.dll</code>, <code>MUHAZR.dll</code>, <code>MUHFRS.dll</code>, <code>MUHING.dll</code>, <code>MUHRUS.dll</code>, <code>MUHTRK.dll</code></td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>DisTicaret.dll</code>, <code>FATURA.dll</code>, <code>MUHASEBE.dll</code>, <code>NetsisEDefter.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-70-5"><a class="anchor" href="#9-0-70-5" aria-hidden="true">#</a>9.0.70.5</h2>
+<p>2026-05-15 · 25 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_70_5/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_5.rar" rel="noopener" target="_blank">9_0_70_5.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DBUPDATE</code></td>
+<td><code>CMas1.M80</code>, <code>CMas1.O80</code>, <code>CMas1.P80</code>, <code>CTra1.M80</code>, <code>CTra1.O80</code>, <code>CTra1.P80</code>, <code>NetDBMas.M80</code>, <code>NetDBMas.O80</code>, <code>NetDBMas.P80</code>, <code>NetDBTra.M80</code>, <code>NetDBTra.O80</code>, <code>NetDBTra.P80</code>, <code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Diller</code></td>
+<td><code>MUHALM.dll</code>, <code>MUHARB.dll</code>, <code>MUHAZR.dll</code>, <code>MUHFRS.dll</code>, <code>MUHING.dll</code>, <code>MUHRUS.dll</code>, <code>MUHTRK.dll</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>MUHASEBE.dll</code>, <code>NetOpenX50.dll</code> ★, <code>NetsisEDefter.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-70-4"><a class="anchor" href="#9-0-70-4" aria-hidden="true">#</a>9.0.70.4</h2>
+<p>2026-05-07 · 40 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_70_4/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_4.rar" rel="noopener" target="_blank">9_0_70_4.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DBUPDATE</code></td>
+<td><code>CMas1.M80</code>, <code>CMas1.O80</code>, <code>CMas1.P80</code>, <code>CTra1.M80</code>, <code>CTra1.O80</code>, <code>CTra1.P80</code>, <code>NetDBMas.M80</code>, <code>NetDBMas.O80</code>, <code>NetDBMas.P80</code>, <code>NetDBTra.M80</code>, <code>NetDBTra.O80</code>, <code>NetDBTra.P80</code>, <code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Diller</code></td>
+<td><code>FATALM.dll</code>, <code>FATARB.dll</code>, <code>FATAZR.dll</code>, <code>FATFRS.dll</code>, <code>FATING.dll</code>, <code>FATRUS.dll</code>, <code>FATTRK.dll</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura</code></td>
+<td><code>EFaturaSetup.exe</code></td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura/Yedek</code></td>
+<td><code>Netsis.EFatura.WebService.dll</code></td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>NetFKey.Dat</code>, <code>WorkFlow.dll</code></td>
+</tr>
+<tr>
+<td><code>Servis</code></td>
+<td><code>EFaturaAyarlar.exe</code>, <code>EFaturaCariUpdate.exe</code>, <code>EFaturaDbConsole.exe</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>CARI.dll</code>, <code>DisTicaret.dll</code>, <code>EFatura.dll</code>, <code>EFaturaConsole.exe</code>, <code>FATURA.dll</code>, <code>KASA.dll</code>, <code>NetOpenX50.dll</code> ★, <code>Teklif.dll</code>, <code>dekont.dll</code>, <code>dizayn.dll</code>, <code>kantar.dll</code>, <code>mustf.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-70-3"><a class="anchor" href="#9-0-70-3" aria-hidden="true">#</a>9.0.70.3</h2>
+<p>2026-04-16 · 18 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_70_3/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_3.rar" rel="noopener" target="_blank">9_0_70_3.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DBUPDATE</code></td>
+<td><code>CMas1.M80</code>, <code>CMas1.O80</code>, <code>CMas1.P80</code>, <code>CTra1.M80</code>, <code>CTra1.O80</code>, <code>CTra1.P80</code>, <code>NetDBMas.M80</code>, <code>NetDBMas.O80</code>, <code>NetDBMas.P80</code>, <code>NetDBTra.M80</code>, <code>NetDBTra.O80</code>, <code>NetDBTra.P80</code>, <code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Demirbas</code></td>
+<td><code>DEMIRENT.dll</code></td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>EBynGndr.dll</code>, <code>MUHASEBE.dll</code>, <code>beyanres.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-70-2"><a class="anchor" href="#9-0-70-2" aria-hidden="true">#</a>9.0.70.2</h2>
+<p>2026-03-18 · 6 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_70_2/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_2.rar" rel="noopener" target="_blank">9_0_70_2.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>EBynGndr.dll</code>, <code>FATURA.dll</code>, <code>MUHASEBE.dll</code>, <code>NetOpenX50.dll</code> ★, <code>beyanres.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-70-1"><a class="anchor" href="#9-0-70-1" aria-hidden="true">#</a>9.0.70.1</h2>
+<p>2026-03-09 · 35 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_70_1/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_70_1.rar" rel="noopener" target="_blank">9_0_70_1.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Diller</code></td>
+<td><code>FATALM.dll</code>, <code>FATARB.dll</code>, <code>FATAZR.dll</code>, <code>FATFRS.dll</code>, <code>FATING.dll</code>, <code>FATRUS.dll</code>, <code>FATTRK.dll</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura</code></td>
+<td><code>EFaturaSetup.exe</code></td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura/Yedek</code></td>
+<td><code>Netsis.EFatura.WebService.dll</code></td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>WorkFlow.dll</code></td>
+</tr>
+<tr>
+<td><code>Servis</code></td>
+<td><code>EFaturaAyarlar.exe</code>, <code>EFaturaCariUpdate.exe</code>, <code>EFaturaDbConsole.exe</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>CARI.dll</code>, <code>DEKDZN.dll</code>, <code>DisTicaret.dll</code>, <code>EFatura.dll</code>, <code>EFaturaConsole.exe</code>, <code>FATURA.dll</code>, <code>KASA.dll</code>, <code>KASADZN.dll</code>, <code>MALIYETM.dll</code>, <code>MALIYETMRes.dll</code>, <code>MUHASEBE.dll</code>, <code>MUHASEBERes.dll</code>, <code>MUSTDZN.dll</code>, <code>NetOpenX50.dll</code> ★, <code>NetsisEDefter.dll</code>, <code>Teklif.dll</code>, <code>barkddzn.dll</code>, <code>dekont.dll</code>, <code>dizayn.dll</code>, <code>kantar.dll</code>, <code>mustf.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-66-11"><a class="anchor" href="#9-0-66-11" aria-hidden="true">#</a>9.0.66.11</h2>
+<p>2026-04-16 · 17 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_66_11/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_11.rar" rel="noopener" target="_blank">9_0_66_11.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DBUPDATE</code></td>
+<td><code>CMas1.M80</code>, <code>CMas1.O80</code>, <code>CMas1.P80</code>, <code>CTra1.M80</code>, <code>CTra1.O80</code>, <code>CTra1.P80</code>, <code>NetDBMas.M80</code>, <code>NetDBMas.O80</code>, <code>NetDBMas.P80</code>, <code>NetDBTra.M80</code>, <code>NetDBTra.O80</code>, <code>NetDBTra.P80</code>, <code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>EBynGndr.dll</code>, <code>MUHASEBE.dll</code>, <code>beyanres.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-66-10"><a class="anchor" href="#9-0-66-10" aria-hidden="true">#</a>9.0.66.10</h2>
+<p>2026-03-18 · 3 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_66_10/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_10.rar" rel="noopener" target="_blank">9_0_66_10.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TemelSet</code></td>
+<td><code>EBynGndr.dll</code>, <code>MUHASEBE.dll</code>, <code>beyanres.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-66-9"><a class="anchor" href="#9-0-66-9" aria-hidden="true">#</a>9.0.66.9</h2>
+<p>2026-03-09 · 35 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_66_9/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_9.rar" rel="noopener" target="_blank">9_0_66_9.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Diller</code></td>
+<td><code>FATALM.dll</code>, <code>FATARB.dll</code>, <code>FATAZR.dll</code>, <code>FATFRS.dll</code>, <code>FATING.dll</code>, <code>FATRUS.dll</code>, <code>FATTRK.dll</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura</code></td>
+<td><code>EFaturaSetup.exe</code></td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura/Yedek</code></td>
+<td><code>Netsis.EFatura.WebService.dll</code></td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>WorkFlow.dll</code></td>
+</tr>
+<tr>
+<td><code>Servis</code></td>
+<td><code>EFaturaAyarlar.exe</code>, <code>EFaturaCariUpdate.exe</code>, <code>EFaturaDbConsole.exe</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>CARI.dll</code>, <code>DEKDZN.dll</code>, <code>DisTicaret.dll</code>, <code>EFatura.dll</code>, <code>EFaturaConsole.exe</code>, <code>FATURA.dll</code>, <code>KASA.dll</code>, <code>KASADZN.dll</code>, <code>MALIYETM.dll</code>, <code>MALIYETMRes.dll</code>, <code>MUHASEBE.dll</code>, <code>MUHASEBERes.dll</code>, <code>MUSTDZN.dll</code>, <code>NetOpenX50.dll</code> ★, <code>NetsisEDefter.dll</code>, <code>Teklif.dll</code>, <code>barkddzn.dll</code>, <code>dekont.dll</code>, <code>dizayn.dll</code>, <code>kantar.dll</code>, <code>mustf.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-66-8"><a class="anchor" href="#9-0-66-8" aria-hidden="true">#</a>9.0.66.8</h2>
+<p>2026-02-05 · 3 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_66_8/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_8.rar" rel="noopener" target="_blank">9_0_66_8.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Demirbas</code></td>
+<td><code>DEMIRBAS.dll</code>, <code>DEMIRENT.dll</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>FATURA.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-66-7"><a class="anchor" href="#9-0-66-7" aria-hidden="true">#</a>9.0.66.7</h2>
+<p>2026-02-03 · 3 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_66_7/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_7.rar" rel="noopener" target="_blank">9_0_66_7.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>FATURA.dll</code>, <code>NetOpenX50.dll</code> ★</td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-66-6"><a class="anchor" href="#9-0-66-6" aria-hidden="true">#</a>9.0.66.6</h2>
+<p>2026-01-30 · 45 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_66_6/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_6.rar" rel="noopener" target="_blank">9_0_66_6.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DBUPDATE</code></td>
+<td><code>CMas1.M80</code>, <code>CMas1.O80</code>, <code>CMas1.P80</code>, <code>CTra1.M80</code>, <code>CTra1.O80</code>, <code>CTra1.P80</code>, <code>NetDBMas.M80</code>, <code>NetDBMas.O80</code>, <code>NetDBMas.P80</code>, <code>NetDBTra.M80</code>, <code>NetDBTra.O80</code>, <code>NetDBTra.P80</code>, <code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Demirbas</code></td>
+<td><code>DEMIRBAS.dll</code></td>
+</tr>
+<tr>
+<td><code>Diller</code></td>
+<td><code>FATALM.dll</code>, <code>FATARB.dll</code>, <code>FATAZR.dll</code>, <code>FATFRS.dll</code>, <code>FATING.dll</code>, <code>FATRUS.dll</code>, <code>FATTRK.dll</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura</code></td>
+<td><code>EFaturaSetup.exe</code></td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura/Yedek</code></td>
+<td><code>Netsis.EFatura.WebService.dll</code></td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>NetFKey.Dat</code>, <code>WorkFlow.dll</code></td>
+</tr>
+<tr>
+<td><code>Servis</code></td>
+<td><code>EFaturaAyarlar.exe</code>, <code>EFaturaCariUpdate.exe</code>, <code>EFaturaDbConsole.exe</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>CARI.dll</code>, <code>DisTicaret.dll</code>, <code>EFatura.dll</code>, <code>EFaturaConsole.exe</code>, <code>FATURA.dll</code>, <code>KASA.dll</code>, <code>MUHASEBE.dll</code>, <code>MUSTDZN.dll</code>, <code>NetOpenX50.dll</code> ★, <code>Teklif.dll</code>, <code>barkddzn.dll</code>, <code>dekont.dll</code>, <code>dizayn.dll</code>, <code>kantar.dll</code>, <code>mustf.dll</code></td>
+</tr>
+<tr>
+<td><code>TemelSet/XSLT</code></td>
+<td><code>general.xslt</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-66-5"><a class="anchor" href="#9-0-66-5" aria-hidden="true">#</a>9.0.66.5</h2>
+<p>2025-12-26 · 49 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_66_5/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_5.rar" rel="noopener" target="_blank">9_0_66_5.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DBUPDATE</code></td>
+<td><code>CMas1.M80</code>, <code>CMas1.O80</code>, <code>CMas1.P80</code>, <code>CTra1.M80</code>, <code>CTra1.O80</code>, <code>CTra1.P80</code>, <code>NetDBMas.M80</code>, <code>NetDBMas.O80</code>, <code>NetDBMas.P80</code>, <code>NetDBTra.M80</code>, <code>NetDBTra.O80</code>, <code>NetDBTra.P80</code>, <code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Diller</code></td>
+<td><code>FATALM.dll</code>, <code>FATARB.dll</code>, <code>FATAZR.dll</code>, <code>FATFRS.dll</code>, <code>FATING.dll</code>, <code>FATRUS.dll</code>, <code>FATTRK.dll</code>, <code>STKALM.dll</code>, <code>STKARB.dll</code>, <code>STKAZR.dll</code>, <code>STKFRS.dll</code>, <code>STKING.dll</code>, <code>STKRUS.dll</code>, <code>STKTRK.dll</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura</code></td>
+<td><code>EFaturaSetup.exe</code></td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura/Yedek</code></td>
+<td><code>Netsis.EFatura.WebService.dll</code></td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>NetFKey.Dat</code>, <code>WorkFlow.dll</code></td>
+</tr>
+<tr>
+<td><code>Servis</code></td>
+<td><code>DBUpdate.exe</code>, <code>EFaturaAyarlar.exe</code>, <code>EFaturaCariUpdate.exe</code>, <code>EFaturaDbConsole.exe</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>CARI.dll</code>, <code>DEVIR.dll</code>, <code>DisTicaret.dll</code>, <code>EFatura.dll</code>, <code>EFaturaConsole.exe</code>, <code>FATURA.dll</code>, <code>KASA.dll</code>, <code>NetOpenX50.dll</code> ★, <code>STOK.dll</code>, <code>Teklif.dll</code>, <code>dekont.dll</code>, <code>dizayn.dll</code>, <code>mustf.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-66-4"><a class="anchor" href="#9-0-66-4" aria-hidden="true">#</a>9.0.66.4</h2>
+<p>2025-12-12 · 36 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_66_4/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_4.rar" rel="noopener" target="_blank">9_0_66_4.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DBUPDATE</code></td>
+<td><code>CMas1.M80</code>, <code>CMas1.O80</code>, <code>CMas1.P80</code>, <code>CTra1.M80</code>, <code>CTra1.O80</code>, <code>CTra1.P80</code>, <code>NetDBMas.M80</code>, <code>NetDBMas.O80</code>, <code>NetDBMas.P80</code>, <code>NetDBTra.M80</code>, <code>NetDBTra.O80</code>, <code>NetDBTra.P80</code>, <code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura</code></td>
+<td><code>EFaturaSetup.exe</code></td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura/Yedek</code></td>
+<td><code>Netsis.EFatura.WebService.dll</code></td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>DOVIZ.dll</code>, <code>NetFKey.Dat</code>, <code>WorkFlow.dll</code></td>
+</tr>
+<tr>
+<td><code>Servis</code></td>
+<td><code>EFaturaAyarlar.exe</code>, <code>EFaturaCariUpdate.exe</code>, <code>EFaturaDbConsole.exe</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>CARI.dll</code>, <code>DisTicaret.dll</code>, <code>EBynGndr.dll</code>, <code>EFatura.dll</code>, <code>EFaturaConsole.exe</code>, <code>FATURA.dll</code>, <code>KASA.dll</code>, <code>MUHASEBE.dll</code>, <code>NetOpenX50.dll</code> ★, <code>Teklif.dll</code>, <code>beyanres.dll</code>, <code>dekont.dll</code>, <code>dizayn.dll</code>, <code>mustf.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-66-3"><a class="anchor" href="#9-0-66-3" aria-hidden="true">#</a>9.0.66.3</h2>
+<p>2025-10-13 · 1 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_66_3/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_3.rar" rel="noopener" target="_blank">9_0_66_3.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TemelSet</code></td>
+<td><code>FATURA.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-66-2"><a class="anchor" href="#9-0-66-2" aria-hidden="true">#</a>9.0.66.2</h2>
+<p>2025-10-03 · 58 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_66_2/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_2.rar" rel="noopener" target="_blank">9_0_66_2.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DBUPDATE</code></td>
+<td><code>CMas1.M80</code>, <code>CMas1.O80</code>, <code>CMas1.P80</code>, <code>CTra1.M80</code>, <code>CTra1.O80</code>, <code>CTra1.P80</code>, <code>NetDBMas.M80</code>, <code>NetDBMas.O80</code>, <code>NetDBMas.P80</code>, <code>NetDBTra.M80</code>, <code>NetDBTra.O80</code>, <code>NetDBTra.P80</code>, <code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Diller</code></td>
+<td><code>PERALM.dll</code>, <code>PERARB.dll</code>, <code>PERAZR.dll</code>, <code>PERFRS.dll</code>, <code>PERING.dll</code>, <code>PERRUS.dll</code>, <code>PERTRK.dll</code>, <code>PKULALM.dll</code>, <code>PKULARB.dll</code>, <code>PKULAZR.dll</code>, <code>PKULFRS.dll</code>, <code>PKULING.dll</code>, <code>PKULRUS.dll</code>, <code>PKULTRK.dll</code>, <code>PRAPALM.dll</code>, <code>PRAPARB.dll</code>, <code>PRAPAZR.dll</code>, <code>PRAPFRS.dll</code>, <code>PRAPING.dll</code>, <code>PRAPRUS.dll</code>, <code>PRAPTRK.dll</code>, <code>PYARALM.dll</code>, <code>PYARARB.dll</code>, <code>PYARAZR.dll</code>, <code>PYARFRS.dll</code>, <code>PYARING.dll</code>, <code>PYARRUS.dll</code>, <code>PYARTRK.dll</code></td>
+</tr>
+<tr>
+<td><code>EXEFILES/Entegre9</code></td>
+<td><code>NETPER.exe</code></td>
+</tr>
+<tr>
+<td><code>EXEFILES/Enterprise9</code></td>
+<td><code>NETPER.exe</code></td>
+</tr>
+<tr>
+<td><code>EXEFILES/Netlite9</code></td>
+<td><code>NETPER.exe</code></td>
+</tr>
+<tr>
+<td><code>EXEFILES/Standard9</code></td>
+<td><code>NETPER.exe</code></td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Personel</code></td>
+<td><code>LogoBes.exe</code>, <code>NikOpenX50.dll</code>, <code>PENTEG.dll</code>, <code>PERRAPOR.dll</code>, <code>PERSONEL.dll</code>, <code>PYardim.dll</code>, <code>PerDizayn.dll</code>, <code>PerExcelGr.dll</code>, <code>PerNNR.dll</code>, <code>PerNetGr.dll</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>DisTicaret.dll</code>, <code>FATURA.dll</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="9-0-66-1"><a class="anchor" href="#9-0-66-1" aria-hidden="true">#</a>9.0.66.1</h2>
+<p>2025-09-30 · 72 dosya · <a href="https://download.logo.com.tr/#/Windows/NETSISERP/9_0_66_1/" rel="noopener" target="_blank">klasörü aç</a> · <a href="https://download.logo.com.tr/Windows/NETSISERP/9_0_66_1.rar" rel="noopener" target="_blank">9_0_66_1.rar</a></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör</th>
+<th>Dosyalar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>DBUPDATE</code></td>
+<td><code>CMas1.M80</code>, <code>CMas1.O80</code>, <code>CMas1.P80</code>, <code>CTra1.M80</code>, <code>CTra1.O80</code>, <code>CTra1.P80</code>, <code>NetDBMas.M80</code>, <code>NetDBMas.O80</code>, <code>NetDBMas.P80</code>, <code>NetDBTra.M80</code>, <code>NetDBTra.O80</code>, <code>NetDBTra.P80</code>, <code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Diller</code></td>
+<td><code>FATALM.dll</code>, <code>FATARB.dll</code>, <code>FATAZR.dll</code>, <code>FATFRS.dll</code>, <code>FATING.dll</code>, <code>FATRUS.dll</code>, <code>FATTRK.dll</code>, <code>NETALM.dll</code>, <code>NETARB.dll</code>, <code>NETAZR.dll</code>, <code>NETFRS.dll</code>, <code>NETING.dll</code>, <code>NETRUS.dll</code>, <code>NETTRK.dll</code>, <code>PERALM.dll</code>, <code>PERARB.dll</code>, <code>PERAZR.dll</code>, <code>PERFRS.dll</code>, <code>PERING.dll</code>, <code>PERRUS.dll</code>, <code>PERTRK.dll</code>, <code>PKULALM.dll</code>, <code>PKULARB.dll</code>, <code>PKULAZR.dll</code>, <code>PKULFRS.dll</code>, <code>PKULING.dll</code>, <code>PKULRUS.dll</code>, <code>PKULTRK.dll</code>, <code>PRAPALM.dll</code>, <code>PRAPARB.dll</code>, <code>PRAPAZR.dll</code>, <code>PRAPFRS.dll</code>, <code>PRAPING.dll</code>, <code>PRAPRUS.dll</code>, <code>PRAPTRK.dll</code>, <code>PYARALM.dll</code>, <code>PYARARB.dll</code>, <code>PYARAZR.dll</code>, <code>PYARFRS.dll</code>, <code>PYARING.dll</code>, <code>PYARRUS.dll</code>, <code>PYARTRK.dll</code></td>
+</tr>
+<tr>
+<td><code>Kurulum</code></td>
+<td><code>NetsisNoxRestSetup.exe</code> ★</td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura</code></td>
+<td><code>EFaturaSetup.exe</code></td>
+</tr>
+<tr>
+<td><code>Kurulum/EFatura/Yedek</code></td>
+<td><code>Netsis.EFatura.WebService.dll</code></td>
+</tr>
+<tr>
+<td><code>Ortak</code></td>
+<td><code>NetFKey.Dat</code></td>
+</tr>
+<tr>
+<td><code>Servis</code></td>
+<td><code>EFaturaAyarlar.exe</code>, <code>EFaturaDbConsole.exe</code></td>
+</tr>
+<tr>
+<td><code>TemelSet</code></td>
+<td><code>DisTicaret.dll</code>, <code>EFatura.dll</code>, <code>EFaturaConsole.exe</code>, <code>FATURA.dll</code>, <code>KASA.dll</code>, <code>NetOpenX50.dll</code> ★, <code>NetsisEDefter.dll</code>, <code>Teklif.dll</code>, <code>dekont.dll</code>, <code>dizayn.dll</code>, <code>mrp.dll</code></td>
+</tr>
+</tbody></table></div>
+<p>★ NetOpenX COM ya da REST dosyası.</p>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/surumler/yama-icerikleri.md">GitHub'da düzenle</a> · <a href="/surumler/yama-icerikleri.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#netopenx-ve-rest-i-guncelleyen-yamalar">NetOpenX ve REST&#39;i güncelleyen yamalar</a></li><li class="l2"><a href="#9-0-72-5">9.0.72.5</a></li><li class="l2"><a href="#9-0-72-4">9.0.72.4</a></li><li class="l2"><a href="#9-0-72-3">9.0.72.3</a></li><li class="l2"><a href="#9-0-72-2">9.0.72.2</a></li><li class="l2"><a href="#9-0-72-1">9.0.72.1</a></li><li class="l2"><a href="#9-0-70-11">9.0.70.11</a></li><li class="l2"><a href="#9-0-70-10">9.0.70.10</a></li><li class="l2"><a href="#9-0-70-9">9.0.70.9</a></li><li class="l2"><a href="#9-0-70-8">9.0.70.8</a></li><li class="l2"><a href="#9-0-70-7">9.0.70.7</a></li><li class="l2"><a href="#9-0-70-6">9.0.70.6</a></li><li class="l2"><a href="#9-0-70-5">9.0.70.5</a></li><li class="l2"><a href="#9-0-70-4">9.0.70.4</a></li><li class="l2"><a href="#9-0-70-3">9.0.70.3</a></li><li class="l2"><a href="#9-0-70-2">9.0.70.2</a></li><li class="l2"><a href="#9-0-70-1">9.0.70.1</a></li><li class="l2"><a href="#9-0-66-11">9.0.66.11</a></li><li class="l2"><a href="#9-0-66-10">9.0.66.10</a></li><li class="l2"><a href="#9-0-66-9">9.0.66.9</a></li><li class="l2"><a href="#9-0-66-8">9.0.66.8</a></li><li class="l2"><a href="#9-0-66-7">9.0.66.7</a></li><li class="l2"><a href="#9-0-66-6">9.0.66.6</a></li><li class="l2"><a href="#9-0-66-5">9.0.66.5</a></li><li class="l2"><a href="#9-0-66-4">9.0.66.4</a></li><li class="l2"><a href="#9-0-66-3">9.0.66.3</a></li><li class="l2"><a href="#9-0-66-2">9.0.66.2</a></li><li class="l2"><a href="#9-0-66-1">9.0.66.1</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

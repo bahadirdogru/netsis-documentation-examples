@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo e-devlet araçları · Netsis Dokümantasyonu</title>
+<meta name="description" content="Logo indirme sunucusundaki Windows/TOOLS klasörü; e-fatura, e-arşiv, e-defter araçları, şema ve kod dosyaları ile hangisinin Netsis'le ilgili olduğu.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/logo-araclari/">
+<link rel="alternate" type="text/markdown" href="/logo-araclari.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Logo e-devlet araçları">
+<meta property="og:description" content="Logo indirme sunucusundaki Windows/TOOLS klasörü; e-fatura, e-arşiv, e-defter araçları, şema ve kod dosyaları ile hangisinin Netsis'le ilgili olduğu.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/logo-araclari/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Sürümler</summary><ul><li><a href="/surumler/">Sürümler ve indirme</a></li><li><a href="/surumler/tum-surumler/">Tüm sürümler</a></li><li><a href="/surumler/yama-icerikleri/">Yama içerikleri</a></li></ul></details><details class="nav-sec" open><summary>Logo araçları</summary><ul><li><a href="/logo-araclari/" aria-current="page">Logo e-devlet araçları</a></li><li><a href="/logo-araclari/e-belge-kodlari/">E-belge kod listeleri</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a></nav>
+<article>
+<h1 id="logo-e-devlet-araclari"><a class="anchor" href="#logo-e-devlet-araclari" aria-hidden="true">#</a>Logo e-devlet araçları</h1>
+<p>Logo&#39;nun indirme sunucusunda Netsis setlerinin yanında bir de <a href="https://download.logo.com.tr/#/Windows/TOOLS/" rel="noopener" target="_blank"><code>Windows/TOOLS</code></a> klasörü vardır. Bu klasörde e-fatura, e-arşiv, e-defter ve banka entegrasyonu için yardımcı araçlar, şema dosyaları ve dokümanlar bulunur.</p>
+<p>Klasördeki araçların çoğu <strong>Logo Tiger / Go ailesi</strong> (Logo Connect, <code>LBSConnLib.dll</code>) içindir; Netsis bu araçları kullanmaz. Netsis için asıl işe yarayanlar GİB kod listeleri, UBL-TR şema dosyaları ve Netsis&#39;e özel banka paketidir. Bu sayfa hangi dosyanın ne olduğunu ve Netsis&#39;le ilgisini özetler.</p>
+<ul>
+<li>Doğrudan dosya adresi: <code>https://download.logo.com.tr/Windows/TOOLS/&lt;yol&gt;</code></li>
+<li>Klasör ağacı (83 dosya, 42 klasör) 2026-11-04 tarihinde alındı. Tarihler dosyanın sunucuya yüklendiği gündür.</li>
+</ul>
+<h2 id="netsis-icin-ise-yarayanlar"><a class="anchor" href="#netsis-icin-ise-yarayanlar" aria-hidden="true">#</a>Netsis için işe yarayanlar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dosya</th>
+<th>Tarih</th>
+<th align="right">Boyut</th>
+<th>Ne işe yarar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/Tevkifat_KdvMuafiyet_Xml/VatDeducts.xml" rel="noopener" target="_blank"><code>Tevkifat_KdvMuafiyet_Xml/VatDeducts.xml</code></a>, <a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/Tevkifat_KdvMuafiyet_Xml/VatExcepts.xml" rel="noopener" target="_blank"><code>VatExcepts.xml</code></a></td>
+<td>2021-12-02</td>
+<td align="right">4 KB, 15 KB</td>
+<td>KDV tevkifat kodları/oranları ve KDV istisna kodları. Tablo hâli: <a href="/logo-araclari/e-belge-kodlari/">E-belge kod listeleri</a></td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/E-Fatura/PayMeansCodes.xml" rel="noopener" target="_blank"><code>E-Fatura/PayMeansCodes.xml</code></a></td>
+<td>2015-03-01</td>
+<td align="right">13 KB</td>
+<td>E-fatura ödeme şekli kodları. Tablo hâli: <a href="/logo-araclari/e-belge-kodlari/#odeme-sekli-kodlari">E-belge kod listeleri</a></td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/Is_ortaklari_e_devlet_uygulamalari/E_FaturaServer/XSD.zip" rel="noopener" target="_blank"><code>E_FaturaServer/XSD.zip</code></a></td>
+<td>2017-07-06</td>
+<td align="right">129 KB</td>
+<td>UBL-TR şema dosyaları (<code>Package.xsd</code>, <code>Manifest.xsd</code>, <code>BasicTypes.xsd</code>, ISO/UNECE kod listeleri) ve <code>EInvoiceSchematron.xml</code>. Kendi ürettiğiniz e-fatura XML&#39;ini doğrulamak için</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/Is_ortaklari_e_devlet_uygulamalari/E_FaturaServer/EInvoiceSchematron.rar" rel="noopener" target="_blank"><code>E_FaturaServer/EInvoiceSchematron.rar</code></a></td>
+<td>2026-03-10</td>
+<td align="right">24 KB</td>
+<td>E-fatura schematron kuralları (<code>EInvoiceSchematron.xml</code>). Klasördeki en güncel doğrulama dosyası; bir önceki sürüm <code>EInvoiceSchematron_old.rar</code></td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/LogoConnect_11_11_SematronDosyalari/Schematron_11_11.zip" rel="noopener" target="_blank"><code>LogoConnect_11_11_SematronDosyalari/Schematron_11_11.zip</code></a></td>
+<td>2022-12-31</td>
+<td align="right">207 KB</td>
+<td>E-fatura ve e-arşiv schematron&#39;u, Logo Connect&#39;in kendi biçiminde (<code>.ldxConfig</code>)</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/EDEFTER/xsd.rar" rel="noopener" target="_blank"><code>EDEFTER/xsd.rar</code></a></td>
+<td>2019-04-25</td>
+<td align="right">71 KB</td>
+<td>E-defter XBRL GL şemaları (<code>gl-cor</code>, <code>gl-bus</code>, <code>gl-muc</code> …)</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/eLogoBanking/eLogoBankingNetsis.zip" rel="noopener" target="_blank"><code>eLogoBanking/eLogoBankingNetsis.zip</code></a></td>
+<td>2026-06-10</td>
+<td align="right">94.6 MB</td>
+<td>eLogo Banking&#39;in <strong>Netsis sürümü</strong> (adından). Yanındaki <code>eLogoBanking.zip</code> diğer Logo ürünleri içindir. İçeriği bu sitede incelenmedi</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/Is_ortaklari_e_devlet_uygulamalari/E-Fatura_Donusum_Sablonlari.xlsx" rel="noopener" target="_blank"><code>E-Fatura_Donusum_Sablonlari.xlsx</code></a></td>
+<td>2014-04-02</td>
+<td align="right">90 KB</td>
+<td>Büyük alıcıların (Migros, Tofaş, Renault, Metro, A101, BİM, ŞOK, Arçelik vb. 29 firma) e-faturada zorunlu tuttuğu ek alanlar: alan adı, açıklama, ERP karşılığı ve UBL-TR yolu (ör. sipariş no → <code>Invoice/OrderReference/ID</code>). Netsis&#39;ten bu firmalara fatura keserken hangi bilginin nereye gitmesi gerektiğini gösterir. 2014 tarihli; firmaların güncel kurallarını kontrol edin</td>
+</tr>
+</tbody></table></div>
+<h2 id="genel-e-belge-dokumanlari"><a class="anchor" href="#genel-e-belge-dokumanlari" aria-hidden="true">#</a>Genel e-belge dokümanları</h2>
+<p>Üründen bağımsız, süreç anlatan dokümanlar. Çoğu 2013–2019 tarihlidir; mevzuat değişmiş olabilir.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dosya</th>
+<th>Tarih</th>
+<th>Konu</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/E-Fatura/e-Fatura.pdf" rel="noopener" target="_blank"><code>E-Fatura/e-Fatura.pdf</code></a></td>
+<td>2013-08-16</td>
+<td>E-fatura genel tanıtım (aynı dosya <code>Is_ortaklari_e_devlet_uygulamalari/</code> altında da var)</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/E-Fatura/e-Logo_Ozel_Entegratorluk_Portali_Kilavuzu.pdf" rel="noopener" target="_blank"><code>E-Fatura/e-Logo_Ozel_Entegratorluk_Portali_Kilavuzu.pdf</code></a></td>
+<td>2014-03-07</td>
+<td>eLogo özel entegratör portalı kullanım kılavuzu</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/Ear%C5%9Fiv%20Raporlar%C4%B1n%C4%B1n%20G%C3%BCnl%C3%BCk%20G%C3%B6nderim%20S%C3%BCreci%20Hakk%C4%B1nda.pdf" rel="noopener" target="_blank"><code>Earşiv Raporlarının Günlük Gönderim Süreci Hakkında.pdf</code></a></td>
+<td>2018-12-20</td>
+<td>E-arşiv raporlarının GİB&#39;e günlük gönderimi</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/EARSIVMAILING/e-Ar%C5%9Fiv%20Mailing%20Tasar%C4%B1m%C4%B1%20Olu%C5%9Fturma.pdf" rel="noopener" target="_blank"><code>EARSIVMAILING/e-Arşiv Mailing Tasarımı Oluşturma.pdf</code></a></td>
+<td>2019-12-16</td>
+<td>E-arşiv fatura e-postası tasarımı (eLogo portalı)</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/e-Mustahsil_Makbuzu_Dokumani/e-Mustahsil_Makbuzu_Dokumani.pdf" rel="noopener" target="_blank"><code>e-Mustahsil_Makbuzu_Dokumani.pdf</code></a></td>
+<td>2019-02-11</td>
+<td>E-müstahsil makbuzu</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/SIPARIS%20PORTALI/eLogo_Siparis_Portali.pdf" rel="noopener" target="_blank"><code>SIPARIS PORTALI/eLogo_Siparis_Portali.pdf</code></a> (+ <code>.mp4</code>)</td>
+<td>2019-01-18</td>
+<td>eLogo sipariş portalı</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/EDEFTER/Logo_E-Defter_Kontrol_Raporu.pdf" rel="noopener" target="_blank"><code>EDEFTER/Logo_E-Defter_Kontrol_Raporu.pdf</code></a></td>
+<td>2015-06-26</td>
+<td>E-defter kontrol raporu (Logo ürünleri için; rapor dosyası <code>.LRG</code>)</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/Is_ortaklari_e_devlet_uygulamalari/E-Defter.pdf" rel="noopener" target="_blank"><code>E-Defter.pdf</code></a>, <a href="https://download.logo.com.tr/Windows/TOOLS/Is_ortaklari_e_devlet_uygulamalari/Logoda_e-Fatura.pptx" rel="noopener" target="_blank"><code>Logoda_e-Fatura.pptx</code></a></td>
+<td>2013</td>
+<td>İş ortakları için e-defter ve e-fatura tanıtım sunumları</td>
+</tr>
+<tr>
+<td><a href="https://download.logo.com.tr/Windows/TOOLS/Is_ortaklari_e_devlet_uygulamalari/IP_Bilgileri_Guncelleme.pdf" rel="noopener" target="_blank"><code>IP_Bilgileri_Guncelleme.pdf</code></a></td>
+<td>2018-11-14</td>
+<td>eLogo servis IP adreslerinin güncellenmesi (güvenlik duvarı izinleri için)</td>
+</tr>
+<tr>
+<td><code>E_FaturaServer/Dokumanlar/</code> (7 dosya)</td>
+<td>2013–2015</td>
+<td>Logo e-Fatura Sunucusu gereksinimleri, kurulumu ve test işlemleri</td>
+</tr>
+</tbody></table></div>
+<h2 id="logo-tiger-go-urunleri-icin-olanlar"><a class="anchor" href="#logo-tiger-go-urunleri-icin-olanlar" aria-hidden="true">#</a>Logo Tiger / Go ürünleri için olanlar</h2>
+<p>Netsis&#39;te kullanılmaz; ne olduklarını tanımak için listelenmiştir.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Klasör / dosya</th>
+<th>Ne</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>LBSConnlib.dll_*</code>, <code>*_LBSConnLib.rar</code>, <code>2.94.00.01-LBSConnLib.dll/</code></td>
+<td>Logo Connect bağlantı kütüphanesi sürümleri (Tiger/Go e-devlet modülü)</td>
+</tr>
+<tr>
+<td><code>LogoConnect_*</code>, <code>TigerPlus_LogoConnect 2.41.00.00 exe.rar</code>, <code>LogoConnect_EFATURASIGN/</code></td>
+<td>Logo Connect yamaları, raporları, kaynak dosyaları ve imza bileşeni</td>
+</tr>
+<tr>
+<td><code>Diyalogo.dll/</code></td>
+<td>E-mutabakat modülü bileşeni (Logo ERP 2.86 öncesi/sonrası için ayrı paketler)</td>
+</tr>
+<tr>
+<td><code>MUKELLEF_KONTROL/</code></td>
+<td>Mükellef kontrol aracı (<code>Mukellef.exe</code>) ve güncelleme notu (PDF)</td>
+</tr>
+<tr>
+<td><code>EDEFTER/2.56_e-defter</code>, <code>2.57_e-defter</code>, <code>LbsEDefterWS/</code>, <code>e-Defter_Imzalama/</code></td>
+<td>Logo e-defter uygulaması ve imzalama aracı</td>
+</tr>
+<tr>
+<td><code>E_FaturaServer/Efatura_Server_*.rar</code>, <code>eFaturaServer_1.70.00.zip</code></td>
+<td>Logo e-Fatura Sunucusu (doğrudan GİB entegrasyonu yapan kurumlar için). En yenisi 1.70.00 (2025-05-06)</td>
+</tr>
+<tr>
+<td><code>GARANTILOGO.DLL/</code>, <code>GARANTILOGO.DLL_NEW/</code></td>
+<td>Garanti bankası entegrasyon DLL&#39;i (adından)</td>
+</tr>
+<tr>
+<td><code>ISBASI_MM/</code></td>
+<td>İşbaşı mali müşavir portalından Luca&#39;ya aktarım</td>
+</tr>
+<tr>
+<td><code>TOPLU VERI INDIR/</code>, <code>Connect_Script_Egitim_Materyalleri.rar</code></td>
+<td>Toplu veri indirme aracı, Logo Connect betik eğitimi</td>
+</tr>
+<tr>
+<td><code>Logo_JavaTimeZoneUpdate.rar</code></td>
+<td>Java saat dilimi güncellemesi (Java tabanlı e-defter araçları için)</td>
+</tr>
+<tr>
+<td><code>2.72.00.00_TigerWings_LBIConfig.rar</code></td>
+<td>Tiger Wings yapılandırması</td>
+</tr>
+<tr>
+<td><code>eLogoAktivasyonSetup_V2.0.zip</code>, <code>AktivasyonExe/</code></td>
+<td>eLogo aktivasyon kurulumu</td>
+</tr>
+<tr>
+<td><code>MusteriDogrulamaSureci/</code>, <code>ChatBot_Sozlesme/</code>, <code>Fesih_belgesi.docx</code></td>
+<td>Müşteri formları ve sözleşmeler</td>
+</tr>
+</tbody></table></div>
+<h2 id="notlar"><a class="anchor" href="#notlar" aria-hidden="true">#</a>Notlar</h2>
+<ul>
+<li>Sunucu bir CrushFTP arayüzüdür. Klasör listesi <code>POST https://download.logo.com.tr/WebInterface/function/</code> adresine <code>command=getXMLListing&amp;format=JSONOBJ&amp;path=/Windows/TOOLS/</code> gövdesiyle alınabilir; oturum gerekmez.</li>
+<li>XML kod dosyaları <strong>ISO-8859-9</strong> (Türkçe) kodludur. UTF-8 olarak okursanız Türkçe karakterler bozulur.</li>
+<li><code>PayMeansCodes.xml</code> biçimsel olarak hatalıdır (<code>&lt;PAYMEANSCODE&gt;</code> açılıp <code>&lt;/PAYMEANS&gt;</code> ile kapanır). XML ayrıştırıcıyla değil, metin olarak okuyun.</li>
+<li>Dosyalar Logo Yazılım&#39;a aittir. Bu site dosyaları barındırmaz, yalnızca bağlantı verir.</li>
+</ul>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/logo-araclari/index.md">GitHub'da düzenle</a> · <a href="/logo-araclari.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#netsis-icin-ise-yarayanlar">Netsis için işe yarayanlar</a></li><li class="l2"><a href="#genel-e-belge-dokumanlari">Genel e-belge dokümanları</a></li><li class="l2"><a href="#logo-tiger-go-urunleri-icin-olanlar">Logo Tiger / Go ürünleri için olanlar</a></li><li class="l2"><a href="#notlar">Notlar</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>
