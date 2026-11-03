@@ -18,6 +18,7 @@ tools/
   serve.js          docs/ klasörünü yerelde sunar
   assets/           CSS ve JS
 docs/               ÜRETİLEN site (GitHub Pages buradan yayınlar). Elle düzenlemeyin.
+kaynak/README.md    Kaynak notları: sitedeki her bölümün hangi kaynaktan alındığı (yayınlanmaz).
 kaynak/logo-dys/    Logo DYS "Netsis Uyarlama Araçları" sayfalarının Markdown kopyası ve ekleri (PDF, örnek projeler).
                     Sitede yayınlanmaz; içerik Logo Yazılım'a aittir.
 kaynak/logo-indirme/ download.logo.com.tr NETSISERP klasörünün sürüm listesi (files.json) ve klasör ağacı (agac.tsv).
