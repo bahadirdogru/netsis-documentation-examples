@@ -42,7 +42,8 @@ const openDirs = [...new Set(tree.filter(e => /^9_0_\d+_\d+\//.test(e.path)).map
 const filesIn = dir => tree.filter(e => e.type === 'F' && e.path.startsWith(dir + '/'));
 
 const frontMatter = (title, description) => `---\ntitle: ${title}\ndescription: ${description}\n---\n\n`;
-const today = new Date().toISOString().slice(0, 10);
+// Listelerin sunucudan alındığı gün (betiğin çalıştığı gün değil); listeyi yenileyince güncelleyin.
+const today = JSON.parse(fs.readFileSync(path.join(SRC, 'alinma.json'), 'utf8')).NETSISERP;
 
 // --- tum-surumler.md ---
 {
