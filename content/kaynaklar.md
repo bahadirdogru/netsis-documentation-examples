@@ -35,7 +35,7 @@ Yeniden üretmek için: `node tools/import-dys.js <döküm.json>` (döküm, sayf
 
 ## Sürümler
 
-Netsis ERP setleri, yamalar, yayın tarihleri ve indirme bağlantıları için [Sürümler ve indirme](/surumler/) bölümüne bakın.
+Netsis ERP setleri, yamalar, yayın tarihleri ve indirme bağlantıları için [Sürümler ve indirme](/surumler/) bölümüne bakın. E-fatura kod listeleri (tevkifat, KDV istisna, ödeme şekli) ve Logo'nun e-devlet araçları için [Logo e-devlet araçları](/logo-araclari/).
 
 ## Diğer araçlar
 

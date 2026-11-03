@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E-belge kod listeleri · Netsis Dokümantasyonu</title>
+<meta name="description" content="KDV tevkifat kodları ve oranları, KDV istisna kodları ve e-fatura ödeme şekli kodları; Logo'nun e-devlet araçları klasöründeki XML listelerinden.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/logo-araclari/e-belge-kodlari/">
+<link rel="alternate" type="text/markdown" href="/logo-araclari/e-belge-kodlari.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="E-belge kod listeleri">
+<meta property="og:description" content="KDV tevkifat kodları ve oranları, KDV istisna kodları ve e-fatura ödeme şekli kodları; Logo'nun e-devlet araçları klasöründeki XML listelerinden.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/logo-araclari/e-belge-kodlari/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Sürümler</summary><ul><li><a href="/surumler/">Sürümler ve indirme</a></li><li><a href="/surumler/tum-surumler/">Tüm sürümler</a></li><li><a href="/surumler/yama-icerikleri/">Yama içerikleri</a></li></ul></details><details class="nav-sec" open><summary>Logo araçları</summary><ul><li><a href="/logo-araclari/">Logo e-devlet araçları</a></li><li><a href="/logo-araclari/e-belge-kodlari/" aria-current="page">E-belge kod listeleri</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/logo-araclari/">Logo e-devlet araçları</a></nav>
+<article>
+<h1 id="e-belge-kod-listeleri"><a class="anchor" href="#e-belge-kod-listeleri" aria-hidden="true">#</a>E-belge kod listeleri</h1>
+<p>E-fatura ve e-arşiv faturada kullanılan GİB kodları. Listeler Logo&#39;nun indirme sunucusundaki <a href="/logo-araclari/">e-devlet araçları</a> klasöründe duran XML dosyalarından alındı. Bu dosyalar Logo ürünlerine kod tablosu aktarmak için hazırlanmıştır (<code>DBOP=&quot;INS&quot;</code> biçimi), ama içerdikleri kodlar GİB&#39;in kodlarıdır ve Netsis&#39;te de aynıdır.</p>
+<blockquote>
+<p><strong>Tarihe dikkat.</strong> XML&#39;lerin en yenisi 2021-12-02 tarihlidir. GİB kod listelerini zaman zaman günceller (yeni tevkifat ve istisna kodları eklenir, adlar değişir). Faturada kullanmadan önce GİB&#39;in güncel <a href="https://ebelge.gib.gov.tr/" rel="noopener" target="_blank">e-Fatura kod listelerini</a> kontrol edin.</p>
+</blockquote>
+<p>Netsis&#39;te bu kodlar e-fatura başlık ve kalem alanlarında kullanılır. NetOpenX&#39;te KDV istisna kodu <code>FatUst.EFatOzelKod</code> alanına yazılır: <a href="/netopenx/fatura-ve-irsaliye/#fatust-alanlari">Fatura ve irsaliye</a>. Tevkifatlı fatura örneği: <a href="https://bahadirdogru.com/c-tevkifatl%C4%B1-fatura/" rel="noopener" target="_blank">bahadirdogru.com</a>.</p>
+<h2 id="kdv-tevkifat-kodlari"><a class="anchor" href="#kdv-tevkifat-kodlari" aria-hidden="true">#</a>KDV tevkifat kodları</h2>
+<p>Kaynak: <a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/Tevkifat_KdvMuafiyet_Xml/VatDeducts.xml" rel="noopener" target="_blank"><code>VatDeducts.xml</code></a> (2021-12-02). Oran, KDV&#39;nin alıcı tarafından tevkif edilen kısmıdır (ör. <code>9/10</code>: KDV&#39;nin onda dokuzu).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kod</th>
+<th>Tevkifat oranı</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>601</code></td>
+<td>4/10</td>
+<td>YAPIM İŞLERİ İLE BU İŞLERLE BİRLİKTE İFA EDİLEN MÜHENDİSLİK-MİMARLIK VE ETÜT-PROJE HİZMETLERİ</td>
+</tr>
+<tr>
+<td><code>602</code></td>
+<td>9/10</td>
+<td>ETÜT,PLAN-PROJE,DANIŞMANLIK,DENETİM VE BENZERİ HİZMETLER</td>
+</tr>
+<tr>
+<td><code>603</code></td>
+<td>7/10</td>
+<td>MAKİNE,TEÇHİZAT,DEMİRBAŞ VE TAŞITLARA AİT TADİL,BAKIM VE ONARIM HİZMETLERİ</td>
+</tr>
+<tr>
+<td><code>604</code></td>
+<td>5/10</td>
+<td>YEMEK SERVİS HİZMETİ</td>
+</tr>
+<tr>
+<td><code>605</code></td>
+<td>5/10</td>
+<td>ORGANİZASYON HİZMETİ</td>
+</tr>
+<tr>
+<td><code>606</code></td>
+<td>9/10</td>
+<td>İŞGÜCÜ TEMİN HİZMETLERİ</td>
+</tr>
+<tr>
+<td><code>607</code></td>
+<td>9/10</td>
+<td>ÖZEL GÜVENLİK HİZMETİ</td>
+</tr>
+<tr>
+<td><code>608</code></td>
+<td>9/10</td>
+<td>YAPI DENETİM HİZMETLERİ</td>
+</tr>
+<tr>
+<td><code>609</code></td>
+<td>7/10</td>
+<td>FASON OLARAK YAPTIRILAN TEKSTİL VE KONFEKSİYON İŞLERİ,ÇANTA VE AYAKKABI DİKİM İŞLERİ VE BU İŞLERE ARACILIK HİZMETLERİ</td>
+</tr>
+<tr>
+<td><code>610</code></td>
+<td>9/10</td>
+<td>TURİSTİK MAĞAZALARA VERİLEN MÜŞTERİ BULMA / GÖTÜRME HİZMETLERİ</td>
+</tr>
+<tr>
+<td><code>611</code></td>
+<td>9/10</td>
+<td>SPOR KULÜPLERİNİN YAYIN, REKLÂM VE İSİM HAKKI GELİRLERİNE KONU İŞLEMLERİ</td>
+</tr>
+<tr>
+<td><code>612</code></td>
+<td>9/10</td>
+<td>TEMİZLİK HİZMETİ</td>
+</tr>
+<tr>
+<td><code>613</code></td>
+<td>9/10</td>
+<td>ÇEVRE VE BAHÇE BAKIM HİZMETLERİ</td>
+</tr>
+<tr>
+<td><code>614</code></td>
+<td>5/10</td>
+<td>SERVİS TAŞIMACILIĞI HİZMETİ</td>
+</tr>
+<tr>
+<td><code>615</code></td>
+<td>7/10</td>
+<td>HER TÜRLÜ BASKI VE BASIM HİZMETLERİ</td>
+</tr>
+<tr>
+<td><code>616</code></td>
+<td>5/10</td>
+<td>DİĞER HİZMETLER [KDVGUT-(I/C-2.1.3.2.13)]</td>
+</tr>
+<tr>
+<td><code>617</code></td>
+<td>7/10</td>
+<td>HURDA METALDEN ELDE EDİLEN KÜLÇE TESLİMLERİ</td>
+</tr>
+<tr>
+<td><code>618</code></td>
+<td>7/10</td>
+<td>HURDA METALDEN ELDE EDİLENLER DIŞINDAKİ BAKIR, ÇİNKO VE ALÜMİNYUM KÜLÇE TESLİMLERİ</td>
+</tr>
+<tr>
+<td><code>619</code></td>
+<td>7/10</td>
+<td>BAKIR, ÇİNKO VE ALÜMİNYUM ÜRÜNLERİNİN TESLİMİ</td>
+</tr>
+<tr>
+<td><code>620</code></td>
+<td>7/10</td>
+<td>İSTİSNADAN VAZGEÇENLERİN HURDA VE ATIK TESLİMİ</td>
+</tr>
+<tr>
+<td><code>621</code></td>
+<td>9/10</td>
+<td>METAL, PLASTİK, LASTİK, KAUÇUK, KÂĞIT VE CAM HURDA VE ATIKLARDAN ELDE EDİLEN HAMMADDE TESLİMİ</td>
+</tr>
+<tr>
+<td><code>622</code></td>
+<td>9/10</td>
+<td>PAMUK, TİFTİK, YÜN VE YAPAĞI İLE HAM POST VE DERİ TESLİMLERİ</td>
+</tr>
+<tr>
+<td><code>623</code></td>
+<td>5/10</td>
+<td>AĞAÇ VE ORMAN ÜRÜNLERİ TESLİMİ</td>
+</tr>
+<tr>
+<td><code>624</code></td>
+<td>2/10</td>
+<td>YÜK TAŞIMACILIĞI HİZMETİ [KDVGUT-(I/C-2.1.3.2.11)]</td>
+</tr>
+<tr>
+<td><code>625</code></td>
+<td>3/10</td>
+<td>TİCARİ REKLAM HİZMETLERİ [KDVGUT-(I/C-2.1.3.2.15)]</td>
+</tr>
+<tr>
+<td><code>626</code></td>
+<td>2/10</td>
+<td>DİĞER TESLİMLER [KDVGUT-(I/C-2.1.3.3.7.)]</td>
+</tr>
+</tbody></table></div>
+<p>Aynı klasördeki daha eski liste (<a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/Tevkifat_XML/VatDeducts.xml" rel="noopener" target="_blank"><code>VatDeducts.xml</code></a> (2021-03-01)) şu satırlarda farklıdır:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kod</th>
+<th>Oran</th>
+<th>Eski listedeki açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>616</code></td>
+<td>5/10</td>
+<td>5018 SAYILI KANUNA EKLİ CETVELLERDEKİ İDARE, KURUM VE KURUŞLARA YAPILAN DİĞER HİZMETLER</td>
+</tr>
+<tr>
+<td><code>650</code></td>
+<td>2/10,3/10,5/10,7/10,9/10</td>
+<td>DİĞERLERİ</td>
+</tr>
+</tbody></table></div>
+<p><a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/Tevkifat_KdvMuafiyet_Xml/VatDeducts2.xml" rel="noopener" target="_blank"><code>VatDeducts2.xml</code></a> (2021-12-02) aynı 26 kalemi <code>6xx</code> yerine <code>2xx</code> numaralarıyla (<code>201</code>–<code>226</code>) içerir. Dosyada <code>2xx</code> numaralarının ne zaman kullanıldığı yazmıyor; GİB&#39;in e-fatura tevkifat kodları <code>6xx</code> aralığındadır.</p>
+<h2 id="kdv-istisna-kodlari"><a class="anchor" href="#kdv-istisna-kodlari" aria-hidden="true">#</a>KDV istisna kodları</h2>
+<p>Kaynak: <a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/Tevkifat_KdvMuafiyet_Xml/VatExcepts.xml" rel="noopener" target="_blank"><code>VatExcepts.xml</code></a> (2021-12-02). 76 kod. Açıklamanın başındaki madde numarası (ör. <code>17/1</code>) 3065 sayılı KDV Kanunu&#39;nun maddesidir; birkaç kodda madde numarası yoktur.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kod</th>
+<th>Tür</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>201</code></td>
+<td>Kısmi</td>
+<td>17/1 Kültür ve Eğitim Amacı Taşıyan İşlemler</td>
+</tr>
+<tr>
+<td><code>202</code></td>
+<td>Kısmi</td>
+<td>17/2-a Sağlık, Çevre Ve Sosyal Yardım Amaçlı İşlemler</td>
+</tr>
+<tr>
+<td><code>204</code></td>
+<td>Kısmi</td>
+<td>17/2-c Yabancı Diplomatik Organ Ve Hayır Kurumlarının Yapacakları Bağışlarla İlgili Mal Ve Hizmet Alışları</td>
+</tr>
+<tr>
+<td><code>205</code></td>
+<td>Kısmi</td>
+<td>17/2-d Taşınmaz Kültür Varlıklarına İlişkin Teslimler ve Mimarlık Hizmetleri</td>
+</tr>
+<tr>
+<td><code>206</code></td>
+<td>Kısmi</td>
+<td>17/2-e Mesleki Kuruluşların İşlemleri</td>
+</tr>
+<tr>
+<td><code>207</code></td>
+<td>Kısmi</td>
+<td>17/3 Askeri Fabrika, Tersane ve Atölyelerin İşlemleri</td>
+</tr>
+<tr>
+<td><code>208</code></td>
+<td>Kısmi</td>
+<td>17/4-c Birleşme, Devir, Dönüşüm ve Bölünme İşlemleri</td>
+</tr>
+<tr>
+<td><code>209</code></td>
+<td>Kısmi</td>
+<td>17/4-e Banka ve Sigorta Muameleleri Vergisi Kapsamına Giren İşlemler</td>
+</tr>
+<tr>
+<td><code>211</code></td>
+<td>Kısmi</td>
+<td>17/4-h Zirai Amaçlı Su Teslimleri İle Köy Tüzel Kişiliklerince Yapılan İçme Suyu teslimleri</td>
+</tr>
+<tr>
+<td><code>212</code></td>
+<td>Kısmi</td>
+<td>17/4-ı Serbest Bölgelerde Verilen Hizmetler</td>
+</tr>
+<tr>
+<td><code>213</code></td>
+<td>Kısmi</td>
+<td>17/4-j Boru Hattı İle Yapılan Petrol Ve Gaz Taşımacılığı</td>
+</tr>
+<tr>
+<td><code>214</code></td>
+<td>Kısmi</td>
+<td>17/4-k Organize Sanayi Bölgelerindeki Arsa ve İşyeri Teslimleri İle Konut Yapı Kooperatiflerinin Üyelerine Konut Teslimleri</td>
+</tr>
+<tr>
+<td><code>215</code></td>
+<td>Kısmi</td>
+<td>17/4-l Varlık Yönetim Şirketlerinin İşlemleri</td>
+</tr>
+<tr>
+<td><code>216</code></td>
+<td>Kısmi</td>
+<td>17/4-m Tasarruf Mevduatı Sigorta Fonunun İşlemleri</td>
+</tr>
+<tr>
+<td><code>217</code></td>
+<td>Kısmi</td>
+<td>17/4-n Basın-Yayın ve Enformasyon Genel Müdürlüğüne Verilen Haber Hizmetleri</td>
+</tr>
+<tr>
+<td><code>218</code></td>
+<td>Kısmi</td>
+<td>KDV 17/4-o md. Gümrük Antrepoları, Geçici Depolama Yerleri ile Gümrüklü Sahalarda Vergisiz Satış Yapılan İşyeri, Depo ve Ardiye Gibi Bağımsız Birimlerin Kiralanması</td>
+</tr>
+<tr>
+<td><code>219</code></td>
+<td>Kısmi</td>
+<td>17/4-p Hazine ve Arsa Ofisi Genel Müdürlüğünün işlemleri</td>
+</tr>
+<tr>
+<td><code>220</code></td>
+<td>Kısmi</td>
+<td>17/4-r İki Tam Yıl Süreyle Sahip Olunan Taşınmaz ve İştirak Hisseleri Satışları</td>
+</tr>
+<tr>
+<td><code>221</code></td>
+<td>Kısmi</td>
+<td>Geçici 15 Konut Yapı Kooperatifleri, Belediyeler ve Sosyal Güvenlik Kuruluşlarına Verilen İnşaat Taahhüt Hizmeti</td>
+</tr>
+<tr>
+<td><code>223</code></td>
+<td>Kısmi</td>
+<td>Geçici 20/1 Teknoloji Geliştirme Bölgelerinde Yapılan İşlemler</td>
+</tr>
+<tr>
+<td><code>225</code></td>
+<td>Kısmi</td>
+<td>Geçici 23 Milli Eğitim Bakanlığına Yapılan Bilgisayar Bağışları İle İlgili Teslimler</td>
+</tr>
+<tr>
+<td><code>226</code></td>
+<td>Kısmi</td>
+<td>17/2-b Özel Okulları, Üniversite ve Yüksekokullar Tarafından Verilen Bedelsiz Eğitim Ve Öğretim Hizmetleri</td>
+</tr>
+<tr>
+<td><code>227</code></td>
+<td>Kısmi</td>
+<td>17/2-b Kanunların Gösterdiği Gerek Üzerine Bedelsiz Olarak Yapılan Teslim ve Hizmetler</td>
+</tr>
+<tr>
+<td><code>228</code></td>
+<td>Kısmi</td>
+<td>17/2-b Kanunun (17/1) Maddesinde Sayılan Kurum ve Kuruluşlara Bedelsiz Olarak Yapılan Teslimler</td>
+</tr>
+<tr>
+<td><code>229</code></td>
+<td>Kısmi</td>
+<td>17/2-b Gıda Bankacılığı Faaliyetinde Bulunan Dernek ve Vakıflara Bağışlanan Gıda, Temizlik, Giyecek ve Yakacak Maddeleri</td>
+</tr>
+<tr>
+<td><code>230</code></td>
+<td>Kısmi</td>
+<td>17/4-g Külçe Altın, Külçe Gümüş Ve Kiymetli Taşlarin Teslimi</td>
+</tr>
+<tr>
+<td><code>231</code></td>
+<td>Kısmi</td>
+<td>17/4-g Metal Plastik, Lastik, Kauçuk, Kağit, Cam Hurda Ve Atıkların Teslimi</td>
+</tr>
+<tr>
+<td><code>232</code></td>
+<td>Kısmi</td>
+<td>17/4-g Döviz, Para, Damga Pulu, Değerli Kağıtlar, Hisse Senedi ve Tahvil Teslimleri</td>
+</tr>
+<tr>
+<td><code>234</code></td>
+<td>Kısmi</td>
+<td>17/4-ş Konut Finansmanı Amacıyla Teminat Gösterilen ve İpotek Konulan Konutların Teslimi</td>
+</tr>
+<tr>
+<td><code>235</code></td>
+<td>Kısmi</td>
+<td>16/1-c Transit ve Gümrük Antrepo Rejimleri İle Geçici Depolama ve Serbest Bölge Hükümlerinin Uygulandığiı Malların Teslimi</td>
+</tr>
+<tr>
+<td><code>236</code></td>
+<td>Kısmi</td>
+<td>19/2 Usulüne Göre Yürürlüğe Girmiş Uluslararası Anlaşmalar Kapsamındaki İstisnalar (İade Hakkı Tanınmayan)</td>
+</tr>
+<tr>
+<td><code>237</code></td>
+<td>Kısmi</td>
+<td>17/4-t 5300 Sayılı Kanuna Göre Düzenlenen Ürün Senetlerinin İhtisas/Ticaret Borsaları Aracılığıyla İlk Teslimlerinden Sonraki Teslim</td>
+</tr>
+<tr>
+<td><code>238</code></td>
+<td>Kısmi</td>
+<td>17/4-u Varlıkların Varlık Kiralama Şirketlerine Devri İle Bu Varlıkların Varlık Kiralama Şirketlerince Kiralanması ve Devralınan Kuruma Devri</td>
+</tr>
+<tr>
+<td><code>239</code></td>
+<td>Kısmi</td>
+<td>17/4-y Taşınmazların Finansal Kiralama Şirketlerine Devri, Finansal Kiralama Şirketi Tarafından Devredene Kiralanması ve Devri</td>
+</tr>
+<tr>
+<td><code>240</code></td>
+<td>Kısmi</td>
+<td>17/4-z Patentli Veya Faydalı Model Belgeli Buluşa İlişkin Gayri Maddi Hakların Kiralanması, Devri ve Satışı</td>
+</tr>
+<tr>
+<td><code>241</code></td>
+<td>Kısmi</td>
+<td>TürkAkım Gaz Boru Hattı Projesine İlişkin Anlaşmanın (9/b) Maddesinde Yer Alan Hizmetler</td>
+</tr>
+<tr>
+<td><code>242</code></td>
+<td>Kısmi</td>
+<td>KDV 17/4-ö md. Gümrük Antrepoları, Geçici Depolama Yerleri ile Gümrüklü Sahalarda, İthalat ve İhracat İşlemlerine konu mallar ile transit rejim kapsamında işlem gören mallar için verilen ardiye, depolama ve terminal hizmetleri</td>
+</tr>
+<tr>
+<td><code>250</code></td>
+<td>Kısmi</td>
+<td>Diğerleri</td>
+</tr>
+<tr>
+<td><code>301</code></td>
+<td>Tam</td>
+<td>11/1-a Mal İhracatı</td>
+</tr>
+<tr>
+<td><code>302</code></td>
+<td>Tam</td>
+<td>11/1-a Hizmet İhracatı</td>
+</tr>
+<tr>
+<td><code>303</code></td>
+<td>Tam</td>
+<td>11/1-a Roaming Hizmetleri</td>
+</tr>
+<tr>
+<td><code>304</code></td>
+<td>Tam</td>
+<td>13/a Deniz Hava ve Demiryolu Taşıma Araçlarının Teslimi İle İnşa, Tadil, Bakım ve Onarımları</td>
+</tr>
+<tr>
+<td><code>305</code></td>
+<td>Tam</td>
+<td>13/b Deniz ve Hava Taşıma Araçları İçin Liman Ve Hava Meydanlarında Yapılan Hizmetler</td>
+</tr>
+<tr>
+<td><code>306</code></td>
+<td>Tam</td>
+<td>13/c Petrol Aramaları ve Petrol Boru Hatlarının İnşa ve Modernizasyonuna İlişkin Yapılan Teslim ve Hizmetler</td>
+</tr>
+<tr>
+<td><code>307</code></td>
+<td>Tam</td>
+<td>13/c Maden Arama, Altın, Gümüş, ve Platin Madenleri İçin İşletme, Zenginleştirme Ve Rafinaj Faaliyetlerine İlişkin Teslim Ve Hizmetler[KDVGUT-(II/8-4)]</td>
+</tr>
+<tr>
+<td><code>308</code></td>
+<td>Tam</td>
+<td>13/d Teşvikli Yatırım Mallarının Teslimi</td>
+</tr>
+<tr>
+<td><code>309</code></td>
+<td>Tam</td>
+<td>13/e Liman Ve Hava Meydanlarının İnşası, Yenilenmesi Ve Genişletilmesi</td>
+</tr>
+<tr>
+<td><code>310</code></td>
+<td>Tam</td>
+<td>13/f Ulusal Güvenlik Amaçlı Teslim ve Hizmetler</td>
+</tr>
+<tr>
+<td><code>311</code></td>
+<td>Tam</td>
+<td>14/1 Uluslararası Taşımacılık</td>
+</tr>
+<tr>
+<td><code>312</code></td>
+<td>Tam</td>
+<td>15/a Diplomatik Organ Ve Misyonlara Yapılan Teslim ve Hizmetler</td>
+</tr>
+<tr>
+<td><code>313</code></td>
+<td>Tam</td>
+<td>15/b Uluslararası Kuruluşlara Yapılan Teslim ve Hizmetler</td>
+</tr>
+<tr>
+<td><code>314</code></td>
+<td>Tam</td>
+<td>19/2 Usulüne Göre Yürürlüğe Girmiş Uluslar Arası Anlaşmalar Kapsamındaki İstisnalar</td>
+</tr>
+<tr>
+<td><code>315</code></td>
+<td>Tam</td>
+<td>14/3 İhraç Konusu Eşyayı Taşıyan Kamyon, Çekici ve Yarı Romorklara Yapılan Motorin Teslimleri</td>
+</tr>
+<tr>
+<td><code>316</code></td>
+<td>Tam</td>
+<td>11/1-a Serbest Bölgelerdeki Müşteriler İçin Yapılan Fason Hizmetler</td>
+</tr>
+<tr>
+<td><code>317</code></td>
+<td>Tam</td>
+<td>17/4-s Engellilerin Eğitimleri, Meslekleri ve Günlük Yaşamlarına İlişkin Araç-Gereç ve Bilgisayar Programları</td>
+</tr>
+<tr>
+<td><code>318</code></td>
+<td>Tam</td>
+<td>Geçici 29 3996 Sayılı Kanuna Göre Yap-İşlet-Devret Modeli Çerçevesinde Gerçekleştirilecek Projeler, 3359 Sayılı Kanuna Göre Kiralama Karşılığı Yaptırılan Sağlık Tesislerine İlişkin Projeler ve 652 Sayılı Kanun Hükmünde Kararnameye Göre Kiralama Karşılığı Yaptırılan Eğitim Öğretim Tesislerine İlişkin Projelere İlişkin Teslim ve Hizmetler</td>
+</tr>
+<tr>
+<td><code>319</code></td>
+<td>Tam</td>
+<td>13/g Başbakanlık Merkez Teşkilatına Yapılan Araç Teslimleri</td>
+</tr>
+<tr>
+<td><code>320</code></td>
+<td>Tam</td>
+<td>Geçici 16 (6111 sayılı K.) İSMEP Kapsamında İstanbul İl Özel İdaresi&#39;ne Bağlı Olarak Faaliyet Gösteren &quot;İstanbul Proje Koordinasyon Birimi&quot;ne Yapılacak Teslim ve Hizmetler</td>
+</tr>
+<tr>
+<td><code>321</code></td>
+<td>Tam</td>
+<td>Geçici 26 Birleşmiş Milletler (BM) ile Kuzey Atlantik Antlaşması Teşkilatı (NATO) Temsilcilikleri ve Bu Teşkilatlara Bağlı Program, Fon ve Özel İhtisas Kuruluşları ile İktisadi İşbirliği ve Kalkınma Teşkilatına (OECD) Resmi Kullanımları İçin Yapılacak Mal Teslimi ve Hizmet İfaları, Bunların Sosyal ve Ekonomik Yardım Amacıyla Bedelsiz Olarak Yapacakları Mal Teslimi ve Hizmet İfaları İle İlgili Bunlara Yapılan Mal Teslimi ve Hizmet İfaları</td>
+</tr>
+<tr>
+<td><code>322</code></td>
+<td>Tam</td>
+<td>11/1-a Türkiye&#39;de İkamet Etmeyenlere Özel Fatura ile Yapılan Teslimler (Bavul Ticareti)</td>
+</tr>
+<tr>
+<td><code>323</code></td>
+<td>Tam</td>
+<td>13/ğ 5300 Sayılı Kanuna Göre Düzenlenen Ürün Senetlerinin İhtisas/Ticaret Borsaları Aracılığıyla İlk Teslimi</td>
+</tr>
+<tr>
+<td><code>324</code></td>
+<td>Tam</td>
+<td>13/h Türkiye Kızılay Derneğine Yapılan Teslim ve Hizmetler ile Türkiye Kızılay Derneğinin Teslim ve Hizmetleri</td>
+</tr>
+<tr>
+<td><code>325</code></td>
+<td>Tam</td>
+<td>13/ı Yem Teslimleri</td>
+</tr>
+<tr>
+<td><code>326</code></td>
+<td>Tam</td>
+<td>13/ı Gıda, Tarım ve Hayvancılık Bakanlığı Tarafından Tescil Edilmiş Gübrelerin Teslimi</td>
+</tr>
+<tr>
+<td><code>327</code></td>
+<td>Tam</td>
+<td>13/ı Gıda, Tarım ve Hayvancılık Bakanlığı Tarafından Tescil Edilmiş Gübrelerin İçeriğinde Bulunan Hammaddelerin Gübre Üreticilerine Teslimi</td>
+</tr>
+<tr>
+<td><code>328</code></td>
+<td>Tam</td>
+<td>13/i Konut veya İşyeri Teslimleri</td>
+</tr>
+<tr>
+<td><code>329</code></td>
+<td>Tam</td>
+<td>Geçici 38 FATİH Projesi Kapsamında Milli Eğitim Bankanlığına Yapılacak Mal Teslimi ve Hizmet İfaları</td>
+</tr>
+<tr>
+<td><code>330</code></td>
+<td>Tam</td>
+<td>KDV 13/j md. Organize Sanayi Bölgeleri ile Küçük Sanayi Sitelerinin İnşasına İlişkin Teslim ve Hizmetler</td>
+</tr>
+<tr>
+<td><code>331</code></td>
+<td>Tam</td>
+<td>KDV 13/m md. Ar-Ge, Yenilik ve Tasarım Faaliyetlerinde Kullanılmak Üzere Yapılan Yeni Makina ve Teçhizat Teslimlerinde İstisna</td>
+</tr>
+<tr>
+<td><code>332</code></td>
+<td>Tam</td>
+<td>KDV Geçici 39. Md. İmalat Sanayiinde Kullanılmak Üzere Yapılan Yeni Makina ve Teçhizat Teslimlerinde İstisna</td>
+</tr>
+<tr>
+<td><code>333</code></td>
+<td>Tam</td>
+<td>KDV 13/k md. Kapsamında Genel ve Özel Bütçeli Kamu İdarelerine, İl Özel İdarelerine, Belediyelere ve Köylere bağışlanan Tesislerin İnşasına İlişkin İstisna</td>
+</tr>
+<tr>
+<td><code>334</code></td>
+<td>Tam</td>
+<td>KDV 13/l md. Kapsamında Yabancılara Verilen Sağlık Hizmetlerinde İstisna</td>
+</tr>
+<tr>
+<td><code>335</code></td>
+<td>Tam</td>
+<td>Basılı Kitap ve Süreli Yayınların Teslimleri</td>
+</tr>
+<tr>
+<td><code>336</code></td>
+<td>Tam</td>
+<td>UEFA Müsabakaları Kapsamında Yapılacak Teslim ve Hizmetler</td>
+</tr>
+<tr>
+<td><code>337</code></td>
+<td>Tam</td>
+<td>Türk Akım Gaz Boru Hattı Projesine İlişkin Anlaşmanın (9/h) Maddesi Kapsamındaki Gaz Taşıma Hizmetleri</td>
+</tr>
+<tr>
+<td><code>350</code></td>
+<td>Tam</td>
+<td>Diğerleri</td>
+</tr>
+</tbody></table></div>
+<h2 id="odeme-sekli-kodlari"><a class="anchor" href="#odeme-sekli-kodlari" aria-hidden="true">#</a>Ödeme şekli kodları</h2>
+<p>Kaynak: <a href="https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/E-Fatura/PayMeansCodes.xml" rel="noopener" target="_blank"><code>PayMeansCodes.xml</code></a> (2015-03-01). UBL-TR <code>cac:PaymentMeans/cbc:PaymentMeansCode</code> alanının değerleri (UN/EDIFACT 4461 listesi). 71 kod.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kod</th>
+<th>Ad</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td>Tanımsız</td>
+<td></td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>EFT Alacak</td>
+<td>EFT Merkezi üzerinden yapılan alacak hareketi.</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td>EFT Borç</td>
+<td>EFT Merkezi üzerinden yapılan borç hareketi.</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td>Vadesiz Hesaba EFT Borç İadesi</td>
+<td>EFT borç hareketinin vadesiz mevduat hesabına iadesi talebi.</td>
+</tr>
+<tr>
+<td><code>5</code></td>
+<td>Vadesiz Hesaba EFT Alacak İadesi</td>
+<td>EFT alacak hareketinin vadesiz mevduat hesabına iadesi talebi.</td>
+</tr>
+<tr>
+<td><code>6</code></td>
+<td>Vadesiz Hesaba EFT Alacak</td>
+<td>EFT Merkezi üzerinden vadesiz mevduat hesabında yapılan alacak hareketi.</td>
+</tr>
+<tr>
+<td><code>7</code></td>
+<td>Vadesiz Hesaba EFT Borç</td>
+<td>EFT Merkezi üzerinden vadesiz mevduat hesabında yapılan borç hareketi.</td>
+</tr>
+<tr>
+<td><code>8</code></td>
+<td>Blokaj</td>
+<td>Hak sahibinin tahsilatı için veya diğer talimatlar gereği bankanın ödemeyi durdurması.</td>
+</tr>
+<tr>
+<td><code>9</code></td>
+<td>Ulusal veya Bölgesel Takas</td>
+<td>Ödemenin ulusal veya bölgesel takas yoluyla yapılması.</td>
+</tr>
+<tr>
+<td><code>10</code></td>
+<td>Nakit</td>
+<td></td>
+</tr>
+<tr>
+<td><code>11</code></td>
+<td>Yatırım Hesabına EFT Alacak İadesi</td>
+<td>EFT alacak hareketinin yatırım hesabına iadesi talebi.</td>
+</tr>
+<tr>
+<td><code>12</code></td>
+<td>Yatırım Hesabına EFT Borç İadesi</td>
+<td>EFT borç hareketinin yatırım hesabına iadesi talebi.</td>
+</tr>
+<tr>
+<td><code>13</code></td>
+<td>Yatırım Hesabına EFT Alacak</td>
+<td>EFT Merkezi üzerinden yatırım hesabında yapılan alacak hareketi.</td>
+</tr>
+<tr>
+<td><code>14</code></td>
+<td>Yatırım Hesabına EFT Borç</td>
+<td>EFT Merkezi üzerinden yatırım hesabında yapılan borç hareketi.</td>
+</tr>
+<tr>
+<td><code>15</code></td>
+<td>Virman Alacak</td>
+<td>Aynı finans kurumunda, alıcı hesabından satıcı hesabına doğru alacak hareketi.</td>
+</tr>
+<tr>
+<td><code>16</code></td>
+<td>Virman Borç</td>
+<td>Aynı finans kurumunda, satıcı hesabından alıcı hesabına doğru borç hareketi.</td>
+</tr>
+<tr>
+<td><code>17</code></td>
+<td>EFT ile CCD (Nakit Süpürme) Alacak Hareketi</td>
+<td>EFT Merkezi üzerinden, nakit süpürme yöntemiyle vadesiz mevduat hesabında yapılan alacak hareketi.</td>
+</tr>
+<tr>
+<td><code>18</code></td>
+<td>EFT ile CCD (Nakit Süpürme) Borç Hareketi</td>
+<td>EFT Merkezi üzerinden, nakit süpürme yöntemiyle vadesiz mevduat hesabında yapılan borç hareketi.</td>
+</tr>
+<tr>
+<td><code>19</code></td>
+<td>EFT ile CTP Alacak Hareketi</td>
+<td>EFT Merkezi üzerinden, CTP ödeme formatı kullanılarak vadesiz mevduat hesabında yapılan alacak hareketi.</td>
+</tr>
+<tr>
+<td><code>20</code></td>
+<td>Çek</td>
+<td></td>
+</tr>
+<tr>
+<td><code>21</code></td>
+<td>Banka Çeki</td>
+<td>Fon ödemelerindeki banka çeki/ödeme emri sorunu...</td>
+</tr>
+<tr>
+<td><code>22</code></td>
+<td>Sertifikalı Banka Çeki</td>
+<td></td>
+</tr>
+<tr>
+<td><code>23</code></td>
+<td>Banka Çeki (Banka ya da benzeri bir kurum tarafından yayınlanan)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>25</code></td>
+<td>Sertifikalı Çek</td>
+<td></td>
+</tr>
+<tr>
+<td><code>26</code></td>
+<td>Yerel Çek</td>
+<td>İfade bozukluğu mu var sanki?</td>
+</tr>
+<tr>
+<td><code>27</code></td>
+<td>EFT ile CTP Borç Hareketi (Vadesiz)</td>
+<td>EFT Merkezi üzerinden, CTP ödeme formatı kullanılarak vadesiz mevduat hesabında yapılan borç hareketi.</td>
+</tr>
+<tr>
+<td><code>28</code></td>
+<td>EFT ile CTX Alacak Hareketi (Vadesiz)</td>
+<td>EFT Merkezi üzerinden, CTX ödeme formatı kullanılarak vadesiz mevduat hesabında yapılan alacak hareketi.</td>
+</tr>
+<tr>
+<td><code>29</code></td>
+<td>EFT ile CTX Borç Hareketi (Vadesiz)</td>
+<td>EFT Merkezi üzerinden, CTX ödeme formatı kullanılarak vadesiz mevduat hesabında yapılan borç hareketi.</td>
+</tr>
+<tr>
+<td><code>30</code></td>
+<td>Alacak Hareketi</td>
+<td></td>
+</tr>
+<tr>
+<td><code>31</code></td>
+<td>Borç Hareketi</td>
+<td></td>
+</tr>
+<tr>
+<td><code>32</code></td>
+<td>EFT ile CCD+ (Nakit Süpürme) Alacak Hareketi</td>
+<td>EFT Merkezi üzerinden, CCD+ ödeme formatı kullanılarak vadesiz mevduat hesabına yapılan alacak hareketi.</td>
+</tr>
+<tr>
+<td><code>33</code></td>
+<td>EFT ile CCD+ (Nakit Süpürme) Borç Hareketi</td>
+<td>EFT Merkezi üzerinden, CCD+ ödeme formatı kullanılarak vadesiz mevduat hesabına yapılan borç hareketi.</td>
+</tr>
+<tr>
+<td><code>34</code></td>
+<td>EFT ile PPD (Talimatlı Ödeme)</td>
+<td>EFT Merkezi üzerinden vadesiz mevduat veya yatırım hesabına yapılan tüketici kredisi hareketi.</td>
+</tr>
+<tr>
+<td><code>35</code></td>
+<td>EFT ile CCD (Nakit Süpürme) Alacak Hareketi</td>
+<td>EFT Merkezi üzerinden vadesiz mevduat veya yatırım hesabına yapılan alacak hareketi.</td>
+</tr>
+<tr>
+<td><code>36</code></td>
+<td>EFT ile CCD (Nakit Süpürme) Borç Hareketi</td>
+<td>EFT Merkezi üzerinden, CCD ödeme formatı kullanılarak yatırım hesabına yapılan borç hareketi.</td>
+</tr>
+<tr>
+<td><code>37</code></td>
+<td>EFT ile CTP Alacak Hareketi (Yatırım)</td>
+<td>EFT Merkezi üzerinden, CTP ödeme formatı kullanılarak yatırım hesabına yapılan alacak hareketi.</td>
+</tr>
+<tr>
+<td><code>38</code></td>
+<td>EFT ile CTP Borç Hareketi (Yatırım)</td>
+<td>EFT Merkezi üzerinden, CTP ödeme formatı kullanılarak yatırım hesabına yapılan borç hareketi.</td>
+</tr>
+<tr>
+<td><code>39</code></td>
+<td>EFT ile CTX Alacak Hareketi (Yatırım)</td>
+<td>EFT Merkezi üzerinden, CTX ödeme formatı kullanılarak yatırım hesabına yapılan alacak hareketi.</td>
+</tr>
+<tr>
+<td><code>40</code></td>
+<td>EFT ile CTX Borç Hareketi (Yatırım)</td>
+<td>EFT Merkezi üzerinden, CTX ödeme formatı kullanılarak yatırım hesabına yapılan borç hareketi.</td>
+</tr>
+<tr>
+<td><code>41</code></td>
+<td>EFT ile CCD+ (Nakit Süpürme) Alacak Hareketi (Yatırım)</td>
+<td>EFT Merkezi üzerinden, CCD+ ödeme formatı kullanılarak yatırım hesabına yapılan alacak hareketi.</td>
+</tr>
+<tr>
+<td><code>42</code></td>
+<td>Banka Hesabına Ödeme</td>
+<td></td>
+</tr>
+<tr>
+<td><code>43</code></td>
+<td>EFT ile CCD+ (Nakit Süpürme) Borç Hareketi (Yatırım)</td>
+<td>EFT Merkezi üzerinden, CCD+ ödeme formatı kullanılarak yatırım hesabına yapılan borç hareketi.</td>
+</tr>
+<tr>
+<td><code>44</code></td>
+<td>Fatura Ödemesi</td>
+<td>Alacaklı tarafından borçluya kesilen ve borçlu tarafından onaylanan fatura.</td>
+</tr>
+<tr>
+<td><code>45</code></td>
+<td>Referanslı İnternet Bankacılığı Alacak Hareketi</td>
+<td>İnternet bankacılığı üzerinden başlatılan ilgili alacak hareketi.</td>
+</tr>
+<tr>
+<td><code>46</code></td>
+<td>Bankalar Arası Borç Hareketi</td>
+<td>Bankalar arası vasıtalar yoluyla borç transferi.</td>
+</tr>
+<tr>
+<td><code>47</code></td>
+<td>İnternet Bankacılığı Borç Hareketi</td>
+<td>İnternet bankacılığı üzerinden başlatılan borç hareketi.</td>
+</tr>
+<tr>
+<td><code>48</code></td>
+<td>Banka Kartı</td>
+<td>Banka veya bir başka finansal kuruluşa ait kartla ödeme.</td>
+</tr>
+<tr>
+<td><code>49</code></td>
+<td>Doğrudan Borçlandırma</td>
+<td>Müşterinin banka hesabı doğrudan bu tutar kadar borçlandırılır.</td>
+</tr>
+<tr>
+<td><code>50</code></td>
+<td>Posta Çeki</td>
+<td></td>
+</tr>
+<tr>
+<td><code>60</code></td>
+<td>Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>61</code></td>
+<td>Borçlu Tarafından İmzalanmış Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>62</code></td>
+<td>Borçlu Tarafından İmzalanmış Bankanın Kefaletindeki Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>63</code></td>
+<td>Borçlu Tarafından İmzalanmış Bir 3. Partinin Kefaletindeki Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>64</code></td>
+<td>Banka Tarafından İmzalanmış Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>65</code></td>
+<td>Banka Tarafından İmzalanmış Bir Başka Bankanın Kefaletindeki Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>66</code></td>
+<td>Bir 3. Parti Tarafından İmzalanmış Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>67</code></td>
+<td>Bir 3. Parti Tarafından İmzalanmış Bankanın Kefaletindeki Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>70</code></td>
+<td>Alacaklı Tarafından Borçludan Keşide Edilen Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>74</code></td>
+<td>Alacaklı Tarafından Bankadan Keşide Edilen Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>75</code></td>
+<td>Alacaklı Tarafından Keşide Edilen Bir Başka Bankanın Kefaletindeki Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>76</code></td>
+<td>Alacaklı Tarafından Keşide Edilen Bir 3. Partinin Kefaletindeki Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>77</code></td>
+<td>Alacaklı Tarafından Bir 3. Partiden Keşide Edilen Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>78</code></td>
+<td>Alacaklı Tarafından Bir 3. Partiden Keşide Edilen Bankanın Kefaletindeki Senet</td>
+<td></td>
+</tr>
+<tr>
+<td><code>91</code></td>
+<td>Ciro Edilemeyen Banka Çeki</td>
+<td>Banka çekinin/ödeme emrinin ciro edilemez olduğunu belirtiyor.</td>
+</tr>
+<tr>
+<td><code>92</code></td>
+<td>Ciro Edilemeyen Yerel Çek</td>
+<td>Çekin fon ödemelerinde ciro edilemez olduğunu belirtiyor.</td>
+</tr>
+<tr>
+<td><code>93</code></td>
+<td>Referans Ciro</td>
+<td>Bu emirle, müşteri bankaya &#39;Referans Ciro&#39; ödeme sisteminin kullanılacağını söylemiş olur. Finlandiya ulusal bankacılık sisteminde kullanılır.</td>
+</tr>
+<tr>
+<td><code>94</code></td>
+<td>Acil Ciro</td>
+<td>Bu emirle, müşteri bankaya ödeme transferi yapılırken &#39;Acil Ciro&#39; bankacılık hizmetinin kullanılacağını söylemiş olur. Finlandiya ulusal bankacılık sisteminde kullanılır.</td>
+</tr>
+<tr>
+<td><code>95</code></td>
+<td>Serbest Formatlı Ciro</td>
+<td>Bu emirle, müşteri bankaya ödeme transferi yapılırken &#39;Serbest Formatlı Ciro&#39; bankacılık hizmetinin kullanılacağını söylemiş olur. Finlandiya ulusal bankacılık sisteminde kullanılır.</td>
+</tr>
+<tr>
+<td><code>96</code></td>
+<td>İstenen ödeme yöntemi kullanıl(a)mıyor</td>
+<td>İstenen ödeme yöntemi kullanıl(a)mıyorsa bu kod kullanılır.</td>
+</tr>
+<tr>
+<td><code>97</code></td>
+<td>Virman</td>
+<td>İki iş ortağının birbirine olan borcunun, gereksiz ödeme hareketlerinin önüne geçmek amacıyla denkleştirilmesi.</td>
+</tr>
+<tr>
+<td><code>ZZZ</code></td>
+<td>Karşılıklı Tanımlanmış</td>
+<td></td>
+</tr>
+</tbody></table></div>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/logo-araclari/e-belge-kodlari.md">GitHub'da düzenle</a> · <a href="/logo-araclari/e-belge-kodlari.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#kdv-tevkifat-kodlari">KDV tevkifat kodları</a></li><li class="l2"><a href="#kdv-istisna-kodlari">KDV istisna kodları</a></li><li class="l2"><a href="#odeme-sekli-kodlari">Ödeme şekli kodları</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

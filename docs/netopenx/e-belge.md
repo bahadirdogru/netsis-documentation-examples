@@ -12,6 +12,8 @@ E-belge işlemleri `EBelge` nesnesiyle yapılır. Akış iki adımdır:
 
 > Gönderim (GİB'e iletim) geri alınamaz. Geliştirme sırasında yalnızca taslak ve görüntüleme adımlarını deneyin.
 
+> Tevkifat, KDV istisna ve ödeme şekli kodları: [E-belge kod listeleri](/logo-araclari/e-belge-kodlari/).
+
 ## Tipler
 
 | `TEBelgeTip` | Belge | Görüntüleme kutusu (`TEBelgeBoxType`) |

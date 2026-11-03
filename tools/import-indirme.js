@@ -122,4 +122,49 @@ const today = new Date().toISOString().slice(0, 10);
   fs.writeFileSync(path.join(SRC, 'tam-set-ozeti.json'), JSON.stringify({ set: latest, klasorler: top }, null, 2));
 }
 
+// --- logo-araclari/e-belge-kodlari.md (Windows/TOOLS altındaki Logo kod XML'lerinden) ---
+{
+  const TOOLS = path.join(SRC, 'tools', 'e-devlet-uygulamalari');
+  const TOOLS_URL = 'https://download.logo.com.tr/Windows/TOOLS/e-devlet-uygulamalari/';
+  // Dosyalar ISO-8859-9 (Türkçe) kodlu; Node'da latin1 okuyup Türkçe harfleri eşle.
+  const TR9 = { '\u00d0': 'Ğ', '\u00dd': 'İ', '\u00de': 'Ş', '\u00f0': 'ğ', '\u00fd': 'ı', '\u00fe': 'ş' };
+  const read = f => fs.readFileSync(path.join(TOOLS, f), 'latin1').replace(/[\u00d0\u00dd\u00de\u00f0\u00fd\u00fe]/g, c => TR9[c]);
+  const cell = s => s.replace(/\s+/g, ' ').replace(/\|/g, '\\|').trim();
+  const toolsTree = fs.readFileSync(path.join(SRC, 'tools-agac.tsv'), 'utf8').trim().split('\n').slice(1).map(l => l.split('\t'));
+  const dateOf = rel => { const e = toolsTree.find(x => x[1] === 'e-devlet-uygulamalari/' + rel); return e ? new Date(+e[3]).toISOString().slice(0, 10) : ''; };
+  const src = rel => `[\`${rel.split('/').pop()}\`](${TOOLS_URL}${enc(rel)}) (${dateOf(rel)})`;
+
+  const deducts = f => [...read(f).matchAll(/<CODE>([^<]*)<\/CODE><NAME>([^<]*)<\/NAME><DEDUCTRATE>([^<]*)/g)].map(m => ({ code: m[1], name: m[2], rate: m[3] }));
+  const vd = deducts('Tevkifat_KdvMuafiyet_Xml/VatDeducts.xml');
+  const vdOld = deducts('Tevkifat_XML/VatDeducts.xml');
+  const vd2 = deducts('Tevkifat_KdvMuafiyet_Xml/VatDeducts2.xml');
+  const ex = [...read('Tevkifat_KdvMuafiyet_Xml/VatExcepts.xml').matchAll(/<CODE>([^<]*)<\/CODE><NAME>([^<]*)<\/NAME><\/VATEXCEPTREASON><TURU>([^<]*)/g)].map(m => ({ code: m[1], name: m[2], type: m[3] }));
+  const pay = [...read('E-Fatura/PayMeansCodes.xml').matchAll(/<CODE>([^<]*)<\/CODE><NAME>([^<]*)<\/NAME><EXPLANATION>([^<]*)/g)].map(m => ({ code: m[1], name: m[2], exp: m[3] }));
+
+  let md = frontMatter('E-belge kod listeleri', 'KDV tevkifat kodları ve oranları, KDV istisna kodları ve e-fatura ödeme şekli kodları; Logo\'nun e-devlet araçları klasöründeki XML listelerinden.');
+  md += `# E-belge kod listeleri\n\n`;
+  md += `E-fatura ve e-arşiv faturada kullanılan GİB kodları. Listeler Logo'nun indirme sunucusundaki [e-devlet araçları](/logo-araclari/) klasöründe duran XML dosyalarından alındı. Bu dosyalar Logo ürünlerine kod tablosu aktarmak için hazırlanmıştır (\`DBOP="INS"\` biçimi), ama içerdikleri kodlar GİB'in kodlarıdır ve Netsis'te de aynıdır.\n\n`;
+  md += `> **Tarihe dikkat.** XML'lerin en yenisi ${dateOf('Tevkifat_KdvMuafiyet_Xml/VatExcepts.xml')} tarihlidir. GİB kod listelerini zaman zaman günceller (yeni tevkifat ve istisna kodları eklenir, adlar değişir). Faturada kullanmadan önce GİB'in güncel [e-Fatura kod listelerini](https://ebelge.gib.gov.tr/) kontrol edin.\n\n`;
+  md += `Netsis'te bu kodlar e-fatura başlık ve kalem alanlarında kullanılır. NetOpenX'te KDV istisna kodu \`FatUst.EFatOzelKod\` alanına yazılır: [Fatura ve irsaliye](/netopenx/fatura-ve-irsaliye/#fatust-alanlari). Tevkifatlı fatura örneği: [bahadirdogru.com](https://bahadirdogru.com/c-tevkifatl%C4%B1-fatura/).\n\n`;
+
+  md += `## KDV tevkifat kodları\n\nKaynak: ${src('Tevkifat_KdvMuafiyet_Xml/VatDeducts.xml')}. Oran, KDV'nin alıcı tarafından tevkif edilen kısmıdır (ör. \`9/10\`: KDV'nin onda dokuzu).\n\n| Kod | Tevkifat oranı | Açıklama |\n|---|---|---|\n`;
+  for (const x of vd) md += `| \`${x.code}\` | ${x.rate} | ${cell(x.name)} |\n`;
+  const diffs = vdOld.filter(o => { const n = vd.find(x => x.code === o.code); return !n || cell(n.name) !== cell(o.name); });
+  if (diffs.length) {
+    md += `\nAynı klasördeki daha eski liste (${src('Tevkifat_XML/VatDeducts.xml')}) şu satırlarda farklıdır:\n\n| Kod | Oran | Eski listedeki açıklama |\n|---|---|---|\n`;
+    for (const x of diffs) md += `| \`${x.code}\` | ${x.rate} | ${cell(x.name)} |\n`;
+  }
+  const same2 = vd2.length === vd.length && vd2.every((x, i) => cell(x.name) === cell(vd[i].name) && x.rate === vd[i].rate);
+  md += `\n${src('Tevkifat_KdvMuafiyet_Xml/VatDeducts2.xml')} ${same2 ? `aynı ${vd2.length} kalemi \`6xx\` yerine \`2xx\` numaralarıyla (\`${vd2[0].code}\`–\`${vd2[vd2.length - 1].code}\`) içerir.` : 'farklı bir liste içerir.'} Dosyada \`2xx\` numaralarının ne zaman kullanıldığı yazmıyor; GİB'in e-fatura tevkifat kodları \`6xx\` aralığındadır.\n\n`;
+
+  md += `## KDV istisna kodları\n\nKaynak: ${src('Tevkifat_KdvMuafiyet_Xml/VatExcepts.xml')}. ${ex.length} kod. Açıklamanın başındaki madde numarası (ör. \`17/1\`) 3065 sayılı KDV Kanunu'nun maddesidir; birkaç kodda madde numarası yoktur.\n\n| Kod | Tür | Açıklama |\n|---|---|---|\n`;
+  for (const x of ex) md += `| \`${x.code}\` | ${cell(x.type).replace('KISMİ İSTİSNA', 'Kısmi').replace('TAM İSTİSNA', 'Tam')} | ${cell(x.name)} |\n`;
+
+  md += `\n## Ödeme şekli kodları\n\nKaynak: ${src('E-Fatura/PayMeansCodes.xml')}. UBL-TR \`cac:PaymentMeans/cbc:PaymentMeansCode\` alanının değerleri (UN/EDIFACT 4461 listesi). ${pay.length} kod.\n\n| Kod | Ad | Açıklama |\n|---|---|---|\n`;
+  for (const x of pay) md += `| \`${x.code}\` | ${cell(x.name)} | ${/^\((İfade kendini açıklıyor|Açıklaması yapılacak)\.\)$/.test(cell(x.exp)) ? '' : cell(x.exp)} |\n`;
+  fs.mkdirSync(path.join(ROOT, 'content', 'logo-araclari'), { recursive: true });
+  fs.writeFileSync(path.join(ROOT, 'content', 'logo-araclari', 'e-belge-kodlari.md'), md);
+  console.log(`e-belge kodları: ${vd.length} tevkifat, ${ex.length} istisna, ${pay.length} ödeme şekli`);
+}
+
 console.log(`${versions.length} sürüm, ${hr.length} HR seti, ${openDirs.length} açık klasör → content/surumler/`);

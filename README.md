@@ -13,7 +13,7 @@ data/schema.json    Veritabanı şeması (Excel'den üretilir, elle düzenlemeyi
 tools/
   import-excel.js   TEMELSET şema Excel'i → data/schema.json
   import-dys.js     Logo DYS sayfa dökümü → kaynak/logo-dys/
-  import-indirme.js Logo indirme sunucusu listesi → content/surumler/
+  import-indirme.js Logo indirme sunucusu listesi → content/surumler/, content/logo-araclari/e-belge-kodlari.md
   build.js          content/ + data/ → docs/
   serve.js          docs/ klasörünü yerelde sunar
   assets/           CSS ve JS
@@ -21,7 +21,7 @@ docs/               ÜRETİLEN site (GitHub Pages buradan yayınlar). Elle düze
 kaynak/README.md    Kaynak notları: sitedeki her bölümün hangi kaynaktan alındığı (yayınlanmaz).
 kaynak/logo-dys/    Logo DYS "Netsis Uyarlama Araçları" sayfalarının Markdown kopyası ve ekleri (PDF, örnek projeler).
                     Sitede yayınlanmaz; içerik Logo Yazılım'a aittir.
-kaynak/logo-indirme/ download.logo.com.tr NETSISERP klasörünün sürüm listesi (files.json) ve klasör ağacı (agac.tsv).
+kaynak/logo-indirme/ download.logo.com.tr NETSISERP ve TOOLS klasörlerinin listeleri (files.json, agac.tsv, tools-agac.tsv) ve TOOLS'tan küçük belgeler (tools/).
 ```
 
 Her sayfa iki biçimde üretilir: `/<yol>/index.html` ve `/<yol>.md`. Ayrıca `llms.txt`, `llms-full.txt`, `veritabani/sema.txt`, `data/schema.json`, `search-index.json`, `sitemap.xml` üretilir.

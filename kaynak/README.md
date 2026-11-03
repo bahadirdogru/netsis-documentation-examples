@@ -14,6 +14,7 @@ Bir sayfayı güncellerken ya da bir bilginin doğruluğundan şüphelendiğiniz
 | K4 | **NetsisQuick** | `C:\Git\netsis-quick` (özellikle `NetsisQuick/cNetsis.cs`) | 2026-11 | Üretimde çalışan NetOpenX COM kodu: bağlantı, sipariş/irsaliye/fatura, belge dönüşümleri, depo transferi, ambar fişi, e-belge, hata yönetimi, Excel kolon eşlemesi |
 | K5 | **Logo DYS – Netsis Uyarlama Araçları** | 6 kök sayfa, aşağıda. Kopyası: [`logo-dys/`](logo-dys/README.md) (76 sayfa, 123 görsel, 28 ek) | 2026-11-03 | NetOpenX nesne örnekleri (C#/VB/Delphi), Kernel, NetOpenX Rest temel/başlangıç/kütüphane/örnek kodlar, NDI, eğitim örnekleri, DocProje |
 | K6 | **Logo indirme sunucusu** | [download.logo.com.tr/#/Windows/NETSISERP/](https://download.logo.com.tr/#/Windows/NETSISERP/). Kopyası: [`logo-indirme/`](logo-indirme/) (`files.json`, `agac.tsv`) | 2026-11-03 | 265 sürümün listesi, tarih, boyut, sürüm notu bağlantısı; açık klasörlerden tam set yapısı ve yama içerikleri |
+| K8 | **Logo indirme sunucusu – TOOLS** | [download.logo.com.tr/#/Windows/TOOLS/](https://download.logo.com.tr/#/Windows/TOOLS/). Kopyası: [`logo-indirme/tools-agac.tsv`](logo-indirme/tools-agac.tsv) ve [`logo-indirme/tools/`](logo-indirme/tools/) (kod XML'leri, şemalar, küçük PDF'ler; ikili araçlar indirilmedi) | 2026-11-04 | Tevkifat/istisna/ödeme şekli kod XML'leri, UBL-TR XSD ve schematron, e-belge dokümanları, alıcı firma e-fatura şablonları |
 | K7 | **Genel Netsis bilgisi** | Kaynak belirtilmeden yazılan, sahada yaygın bilinen bilgi | — | Sayfalarda "doğrulanmadı" diye işaretli olanlar bu gruptadır |
 
 ### K5: Logo DYS kök sayfaları
@@ -61,6 +62,8 @@ Kopyanın üst başlıkları: NetOpenX, NetOpenX Rest, Netsis Data Inspector (ND
 | `rest/guvenlik.md` | K2 | K7 | |
 | `rest/bilinen-sorunlar.md` | K2 | K5, K7 | Logo örneklerindeki hatalar |
 | `surumler/index.md` | K6 | — | Elle yazıldı; klasör açıklamaları dosya adlarından çıkarıldı |
+| `logo-araclari/index.md` | K8 | — | Elle yazıldı. Dosya açıklamalarının bir kısmı yalnızca dosya adından çıkarıldı; sayfada "(adından)" diye işaretli |
+| `logo-araclari/e-belge-kodlari.md` | K8 | — | `tools/import-indirme.js` üretir. XML'ler 2021 tarihli; GİB güncel listesiyle karşılaştırılmadı |
 | `surumler/tum-surumler.md`, `surumler/yama-icerikleri.md` | K6 | — | `tools/import-indirme.js` üretir, elle düzenlemeyin |
 
 "Ek kaynak" sütunundaki eşleme, içerik hazırlanırken kullanılan kaynakların özetidir; satır satır atıf değildir. Kesin atıf gereken bir bilgi için ilgili kaynağa dönüp doğrulayın.
@@ -71,7 +74,7 @@ Kopyanın üst başlıkları: NetOpenX, NetOpenX Rest, Netsis Data Inspector (ND
 |-------|-------|-------|
 | `data/schema.json` | `npm run import:excel` | K1 Excel dosyası (yerelde) |
 | `kaynak/logo-dys/` | `node tools/import-dys.js <döküm.json>` | Tarayıcıda alınan DYS dökümü (sayfalar Vaadin iframe'inde yüklenir) |
-| `content/surumler/tum-surumler.md`, `yama-icerikleri.md` | `npm run import:indirme` | `kaynak/logo-indirme/files.json` ve `agac.tsv` |
+| `content/surumler/tum-surumler.md`, `yama-icerikleri.md`, `content/logo-araclari/e-belge-kodlari.md` | `npm run import:indirme` | `kaynak/logo-indirme/files.json`, `agac.tsv`, `tools-agac.tsv`, `tools/` altındaki XML'ler |
 | `docs/` | `npm run build` | `content/`, `data/` |
 
 `agac.tsv` tarayıcıda CrushFTP'nin `getXMLListing` komutuyla (`POST /WebInterface/function/`, `command=getXMLListing&format=JSONOBJ&path=...`) klasör klasör alındı. `files.json` doğrudan indirilebilir.

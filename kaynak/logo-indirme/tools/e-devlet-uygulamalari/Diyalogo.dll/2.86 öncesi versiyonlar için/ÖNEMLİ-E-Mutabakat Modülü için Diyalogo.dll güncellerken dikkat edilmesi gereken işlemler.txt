@@ -1,0 +1,4 @@
+Logo ERP versiyonları 2.86 sürüm öncesi olan müşterimizde; e-Mutabakat modülünde Diyalogo.dll versiyon yenileme işlemi için;
+- Programın kurulu olduğu ERP dizini içerisindeki, LBSLOAD klasörünün içine Diyalogo.dll dosyasını ekleyip,
+- Logo ERP Dizininin içerisine EdgeBrowser.dll ve WebView2Loader.dlldosyalarını ekleyip,
+- Dosyalar belirtilen dizinlere eklendikten sonra ERP programını yeniden çalıştırıp kontrol edebilirsiniz.
