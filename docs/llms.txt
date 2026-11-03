@@ -1,0 +1,67 @@
+# Netsis Dokümantasyonu
+
+> Netsis ERP için veritabanı şeması, NetOpenX COM ve NetOpenX REST başvuru dokümantasyonu. İnsanlar ve LLM'ler için. Netsis, Logo Yazılım'ın kurumsal ERP ürünüdür (Netsis 3 / Enterprise / Standard). Bu site üç entegrasyon yolunu belgeler: SQL Server veritabanı şeması (salt okunur raporlama), NetOpenX COM kütüphanesi (NetOpenX50.dll) ve NetOpenX REST servisi (api/v2).
+
+Önemli kurallar:
+- Netsis verisine YAZMA işlemi doğrudan SQL ile değil, NetOpenX (COM veya REST) üzerinden yapılmalıdır. SQL yalnızca okuma için güvenlidir.
+- Doğrulanmamış bilgiler sayfalarda "doğrulanmadı" diye işaretlidir.
+- Her sayfanın Markdown hâli, HTML adresindeki son "/" yerine ".md" konarak alınır (ör. https://netsis.bahadirdogru.com/rest/uclar.md).
+
+## Başlangıç
+
+- [Ana sayfa](https://netsis.bahadirdogru.com/index.md): Netsis ERP için veritabanı şeması, NetOpenX COM ve NetOpenX REST başvuru dokümantasyonu.
+- [Genel bakış](https://netsis.bahadirdogru.com/genel-bakis.md): Netsis mimarisi, şirket/şube/işletme kavramları ve entegrasyon yolları.
+- [LLM'ler için](https://netsis.bahadirdogru.com/llm.md): Bu siteyi yapay zekâ asistanlarına ve ajanlara bağlam olarak vermenin yolları.
+
+## Veritabanı
+
+- [Veritabanı](https://netsis.bahadirdogru.com/veritabani.md): Netsis SQL Server şeması; modüller, tablolar, kolonlar, anahtarlar ve indeksler.
+- [Temel tablolar](https://netsis.bahadirdogru.com/veritabani/temel-tablolar.md): Cari, stok, fatura, irsaliye, sipariş, kasa ve muhasebe tabloları ve aralarındaki bağlar.
+- [SQL örnekleri](https://netsis.bahadirdogru.com/veritabani/sql-ornekleri.md): Netsis veritabanı için sık kullanılan okuma sorguları.
+- [Ortak kolonlar](https://netsis.bahadirdogru.com/veritabani/ortak-kolonlar.md): Netsis tablolarında tekrar eden kolonlar
+- [Veri tipleri](https://netsis.bahadirdogru.com/veritabani/veri-tipleri.md): TDB önekli kullanıcı tanımlı tipler
+- [Tüm tablolar](https://netsis.bahadirdogru.com/veritabani/tum-tablolar.md): 714 tablonun alfabetik listesi
+
+## NetOpenX (COM)
+
+- [NetOpenX (COM)](https://netsis.bahadirdogru.com/netopenx.md): NetOpenX50.dll nedir, nasıl kurulur ve .NET projesine eklenir.
+- [Nesne kataloğu](https://netsis.bahadirdogru.com/netopenx/nesne-katalogu.md): Kernel üzerinden üretilen tüm NetOpenX nesneleri, başlıca üyeleri ve Logo örneklerine bağlantılar.
+- [Bağlantı ve kaynak yönetimi](https://netsis.bahadirdogru.com/netopenx/baglanti.md): Kernel ve Sirket nesneleri, yeniSirket parametreleri, COM nesnelerini doğru bırakma.
+- [Fatura ve irsaliye](https://netsis.bahadirdogru.com/netopenx/fatura-ve-irsaliye.md): Fatura, FatUst ve FatKalem nesneleriyle fatura, irsaliye ve sipariş kaydetme, okuma ve silme.
+- [Belge dönüşümleri](https://netsis.bahadirdogru.com/netopenx/belge-donusumleri.md): Siparişten irsaliye ve fatura, irsaliyeden fatura, belge numarası değiştirme.
+- [Depo ve ambar fişleri](https://netsis.bahadirdogru.com/netopenx/depo-ve-ambar.md): Lokal depolar arası transfer ve ambar giriş/çıkış fişi kaydı.
+- [Cari ve stok](https://netsis.bahadirdogru.com/netopenx/cari-ve-stok.md): Cari ve stok kartı oluşturma, okuma (kayitOku) ve silme.
+- [E-belge](https://netsis.bahadirdogru.com/netopenx/e-belge.md): E-fatura, e-arşiv ve e-irsaliye taslağı oluşturma ve HTML görüntüleme.
+- [NetRS ve transaction](https://netsis.bahadirdogru.com/netopenx/netrs-ve-transaction.md): NetOpenX oturumu üzerinden SQL çalıştırma (NetRS) ve NetsisTransaction ile toplu işlemleri geri alınabilir yapma.
+- [Diğer işlemler](https://netsis.bahadirdogru.com/netopenx/diger-islemler.md): Hesaplama, tevkifatlı fatura, TCMB banka kodu güncelleme, talep/teklif okuma.
+- [Enum'lar](https://netsis.bahadirdogru.com/netopenx/enumlar.md): NetOpenX COM enum değerleri ve veritabanı karşılıkları.
+- [Hatalar ve sorun giderme](https://netsis.bahadirdogru.com/netopenx/hatalar.md): NetOpenX COM hataları, nedenleri ve teşhis için hata mesajı kalıbı.
+
+## NetOpenX REST
+
+- [NetOpenX REST](https://netsis.bahadirdogru.com/rest.md): NetOpenX REST servisine genel bakış, lisans ve ürün ailesi.
+- [Kurulum](https://netsis.bahadirdogru.com/rest/kurulum.md): NetsisNoxRestSetup.exe ile NetOpenX REST servisinin kurulumu ve kontrolü.
+- [Kimlik doğrulama](https://netsis.bahadirdogru.com/rest/kimlik-dogrulama.md): api/v2/token ile token alma, Bearer kullanımı, C# oAuth2 ve TokenSafeOperation.
+- [Sorgulama](https://netsis.bahadirdogru.com/rest/sorgulama.md): GET listelerinde limit, offset, sort, fields ve q parametreleri.
+- [Uçlar](https://netsis.bahadirdogru.com/rest/uclar.md): NetOpenX REST api/v2 uç kataloğu; modül bazında yollar, parametreler ve örnekler.
+- [İstemci kütüphanesi](https://netsis.bahadirdogru.com/rest/istemci-kutuphanesi.md): NetOpenX.Rest.Client.dll yönetici sınıfları, yöntemleri ve parametre modelleri.
+- [JSON örnekleri](https://netsis.bahadirdogru.com/rest/json-ornekleri.md): NetOpenX REST istek gövdeleri; fatura, cari, stok, kasa, çek, e-belge, üretim.
+- [Kimlikler ve enum'lar](https://netsis.bahadirdogru.com/rest/kimlikler-ve-enumlar.md): REST uçlarında {id} biçimleri ve enum değerleri.
+- [Transaction ve hatalar](https://netsis.bahadirdogru.com/rest/transaction-ve-hatalar.md): OpenTransaction/Commit/RollBack, yanıt zarfı, hata durumları ve çift kayıt riski.
+- [Güvenlik](https://netsis.bahadirdogru.com/rest/guvenlik.md): NetOpenX REST servisini güvenli yayına alma; ağ, yetki, ham SQL ve anonim uçlar.
+- [Bilinen sorunlar ve açık sorular](https://netsis.bahadirdogru.com/rest/bilinen-sorunlar.md): Logo dokümanı ve örnek kodlardaki tutarsızlıklar, doğrulanmamış noktalar.
+
+## Ek
+
+- [Kaynaklar](https://netsis.bahadirdogru.com/kaynaklar.md): Bu dokümantasyonun dayandığı kaynaklar ve faydalı bağlantılar.
+
+## Veritabanı şeması (makine okunur)
+
+- [Sıkıştırılmış şema metni](https://netsis.bahadirdogru.com/veritabani/sema.txt): 714 tablo, tüm kolonlar, tek dosya
+- [Şema JSON](https://netsis.bahadirdogru.com/data/schema.json): tablolar, kolonlar, anahtarlar, indeksler, varsayılanlar
+- Tek tablo: https://netsis.bahadirdogru.com/veritabani/tablolar/<tablo_adı_küçük_harf>.md (ör. https://netsis.bahadirdogru.com/veritabani/tablolar/tblcasabit.md)
+
+## Optional
+
+- [Tam metin (llms-full.txt)](https://netsis.bahadirdogru.com/llms-full.txt): tüm el yazımı sayfalar tek dosyada
+- [Tüm tabloların listesi](https://netsis.bahadirdogru.com/veritabani/tum-tablolar.md)

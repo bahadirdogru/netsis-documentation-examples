@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transaction ve hatalar · Netsis Dokümantasyonu</title>
+<meta name="description" content="OpenTransaction/Commit/RollBack, yanıt zarfı, hata durumları ve çift kayıt riski.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/rest/transaction-ve-hatalar/">
+<link rel="alternate" type="text/markdown" href="/rest/transaction-ve-hatalar.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Transaction ve hatalar">
+<meta property="og:description" content="OpenTransaction/Commit/RollBack, yanıt zarfı, hata durumları ve çift kayıt riski.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/rest/transaction-ve-hatalar/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/" aria-current="page">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/rest/">NetOpenX REST</a></nav>
+<article>
+<h1 id="transaction-ve-hatalar"><a class="anchor" href="#transaction-ve-hatalar" aria-hidden="true">#</a>Transaction ve hatalar</h1>
+<h2 id="transaction"><a class="anchor" href="#transaction" aria-hidden="true">#</a>Transaction</h2>
+<p>Birden fazla yazma işlemini tek iş olarak yapmak için:</p>
+<ol>
+<li><code>GET api/v2/OpenTransaction</code> → yanıtta <code>transId</code> döner.</li>
+<li>Yazma çağrılarını yap. Gövdelerdeki <code>TransactSupport: true</code> bayrağı transaction desteğini açar.</li>
+<li>Başarılıysa <code>GET api/v2/CommitTransaction?transId=&lt;id&gt;</code>, hata varsa <code>GET api/v2/RollBackTransaction?transId=&lt;id&gt;</code>.</li>
+</ol>
+<blockquote>
+<p>Yazma çağrısının hangi transaction&#39;a bağlandığı (başlık mı, parametre mi, token oturumu mu) Logo dokümanında yazmaz. Gözlem: <code>OpenTransaction</code> yalnızca <code>transId</code> döner ve gövdelerde yalnızca <code>TransactSupport</code> bayrağı vardır; bağın <strong>token oturumu</strong> üzerinden kurulduğu varsayılır (doğrulanmadı). Kritik akışlarda önce test şirketinde sınayın.</p>
+</blockquote>
+<h2 id="yanit-zarfi"><a class="anchor" href="#yanit-zarfi" aria-hidden="true">#</a>Yanıt zarfı</h2>
+<p>İş sonucu döndüren uçlar şu biçimdedir (C# <code>TResult&lt;T&gt;</code>):</p>
+<pre><code class="language-json">{
+  &quot;IsSuccessful&quot;: false,
+  &quot;ErrorCode&quot;: 101,
+  &quot;ErrorDesc&quot;: &quot;Invalid object name &#39;DBMONITOR..TBLSUBELER&#39;&quot;,
+  &quot;Data&quot;: null
+}
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Alan</th>
+<th>Anlam</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>IsSuccessful</code></td>
+<td>İş başarılı mı. <strong>HTTP 200 dönse bile <code>false</code> olabilir</strong></td>
+</tr>
+<tr>
+<td><code>ErrorCode</code></td>
+<td>Netsis/NetOpenX hata kodu</td>
+</tr>
+<tr>
+<td><code>ErrorDesc</code></td>
+<td>Hata açıklaması (Netsis&#39;in kendi mesajı)</td>
+</tr>
+<tr>
+<td><code>Data</code></td>
+<td>Sonuç (tek nesne, liste ya da PDF için base64)</td>
+</tr>
+</tbody></table></div>
+<p>Bazı sistem uçları farklı alan adları kullanır (ör. <code>HealthCheck</code> → <code>IsSuccessful</code> + <code>Description</code>).</p>
+<h2 id="hata-durumlari"><a class="anchor" href="#hata-durumlari" aria-hidden="true">#</a>Hata durumları</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Durum</th>
+<th>Belirti</th>
+<th>Yapılacak</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Token yok / süresi dolmuş</td>
+<td>HTTP <code>401</code></td>
+<td>Yeniden token al, isteği bir kez tekrarla</td>
+</tr>
+<tr>
+<td>Hatalı giriş</td>
+<td><code>400</code> + <code>{&quot;error&quot;:&quot;invalid_grant&quot;, ...}</code></td>
+<td>Kullanıcı, şifre, şirket, şube bilgilerini kontrol et</td>
+</tr>
+<tr>
+<td>İş kuralı hatası</td>
+<td><code>IsSuccessful: false</code>, <code>ErrorDesc</code> dolu</td>
+<td>Mesajı kullanıcıya/loga aktar; tekrar deneme</td>
+</tr>
+<tr>
+<td>Servis kapalı</td>
+<td>bağlantı reddi</td>
+<td><code>public/Ping</code>, Windows servisi, port</td>
+</tr>
+<tr>
+<td>Uzun süren işlem</td>
+<td>zaman aşımı</td>
+<td>İstemci zaman aşımını yükselt; işlemin sunucuda tamamlanıp tamamlanmadığını kontrol et</td>
+</tr>
+</tbody></table></div>
+<p>HTTP durum kodlarının tam eşlemesi Logo tarafından belgelenmemiştir; istemci kodunuz hem HTTP kodunu hem <code>IsSuccessful</code>&#39;u kontrol etmelidir.</p>
+<h2 id="cift-kayit-riski"><a class="anchor" href="#cift-kayit-riski" aria-hidden="true">#</a>Çift kayıt riski</h2>
+<p>Yazma çağrıları <strong>idempotent değildir</strong>. Ağ kopması ya da zaman aşımında istek sunucuda tamamlanmış olabilir; körü körüne tekrar etmek aynı faturayı iki kez yazar.</p>
+<ul>
+<li>Yazmadan önce iş anahtarıyla (belge no, cari kod, harici referans) kaydın varlığını kontrol edin.</li>
+<li>Faturada kendi referansınızı bir alana yazın (ör. <code>EKACK16</code> ya da <code>TBLFATUIRS.EXTERNALREFID</code> kolonuna karşılık gelen alan) ve tekrar denemeden önce bu referansla sorgulayın.</li>
+<li>Zaman aşımı sonrası önce okuyun, sonra gerekiyorsa yazın.</li>
+</ul>
+<h2 id="kaynak-tuketimi"><a class="anchor" href="#kaynak-tuketimi" aria-hidden="true">#</a>Kaynak tüketimi</h2>
+<ul>
+<li>Her token sunucuda bir NetOpenX oturumu açar. Tokenı paylaşın ve önbelleğe alın; her istekte login olmayın.</li>
+<li>Büyük listelerde <code>limit</code>/<code>offset</code> ile sayfalayın; <code>fields</code> ile yalnızca gereken kolonları isteyin.</li>
+</ul>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/rest/transaction-ve-hatalar.md">GitHub'da düzenle</a> · <a href="/rest/transaction-ve-hatalar.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#transaction">Transaction</a></li><li class="l2"><a href="#yanit-zarfi">Yanıt zarfı</a></li><li class="l2"><a href="#hata-durumlari">Hata durumları</a></li><li class="l2"><a href="#cift-kayit-riski">Çift kayıt riski</a></li><li class="l2"><a href="#kaynak-tuketimi">Kaynak tüketimi</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

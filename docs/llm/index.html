@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM'ler için · Netsis Dokümantasyonu</title>
+<meta name="description" content="Bu siteyi yapay zekâ asistanlarına ve ajanlara bağlam olarak vermenin yolları.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/llm/">
+<link rel="alternate" type="text/markdown" href="/llm.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="LLM'ler için">
+<meta property="og:description" content="Bu siteyi yapay zekâ asistanlarına ve ajanlara bağlam olarak vermenin yolları.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/llm/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/" aria-current="page">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a></nav>
+<article>
+<h1 id="llm-ler-icin"><a class="anchor" href="#llm-ler-icin" aria-hidden="true">#</a>LLM&#39;ler için</h1>
+<p>Bu site, yapay zekâ asistanlarının Netsis hakkında doğru kod ve SQL üretebilmesi için makine okunur biçimler de sunar.</p>
+<h2 id="dosyalar"><a class="anchor" href="#dosyalar" aria-hidden="true">#</a>Dosyalar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Dosya</th>
+<th>İçerik</th>
+<th>Ne zaman</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/llms.txt"><code>/llms.txt</code></a></td>
+<td>Sitenin özeti ve tüm sayfaların Markdown bağlantıları (<a href="https://llmstxt.org" rel="noopener" target="_blank">llmstxt.org</a> biçimi)</td>
+<td>Ajan önce bunu okusun</td>
+</tr>
+<tr>
+<td><a href="/llms-full.txt"><code>/llms-full.txt</code></a></td>
+<td>Tüm el yazımı sayfalar tek dosyada (tablo ayrıntıları hariç)</td>
+<td>Tek seferde geniş bağlam</td>
+</tr>
+<tr>
+<td><a href="/veritabani/sema.txt"><code>/veritabani/sema.txt</code></a></td>
+<td>700+ tablonun tüm kolonları, tipleri ve açıklamaları, satır başına bir kolon</td>
+<td>SQL üretimi</td>
+</tr>
+<tr>
+<td><a href="/data/schema.json"><code>/data/schema.json</code></a></td>
+<td>Şemanın tamamı: kolonlar, anahtarlar, indeksler, varsayılanlar</td>
+<td>Programatik kullanım</td>
+</tr>
+<tr>
+<td><code>/&lt;yol&gt;.md</code></td>
+<td>Her sayfanın Markdown hâli</td>
+<td>Tek konu</td>
+</tr>
+</tbody></table></div>
+<p>Her HTML sayfasının Markdown hâli, adresin sonundaki <code>/</code> yerine <code>.md</code> konarak alınır:</p>
+<ul>
+<li><code>https://netsis.bahadirdogru.com/rest/uclar/</code> → <code>https://netsis.bahadirdogru.com/rest/uclar.md</code></li>
+<li><code>https://netsis.bahadirdogru.com/veritabani/tablolar/tblcasabit/</code> → <code>https://netsis.bahadirdogru.com/veritabani/tablolar/tblcasabit.md</code></li>
+</ul>
+<h2 id="asistana-verilecek-kurallar"><a class="anchor" href="#asistana-verilecek-kurallar" aria-hidden="true">#</a>Asistana verilecek kurallar</h2>
+<p>Bir sistem istemine (system prompt) ya da proje talimatına (ör. <code>CLAUDE.md</code>, <code>AGENTS.md</code>) eklenebilir:</p>
+<pre><code class="language-markdown">## Netsis
+- Netsis başvurusu: https://netsis.bahadirdogru.com/llms.txt
+- Tablo ve kolon adlarını uydurma; https://netsis.bahadirdogru.com/veritabani/sema.txt
+  ya da https://netsis.bahadirdogru.com/veritabani/tablolar/&lt;tablo&gt;.md üzerinden doğrula.
+- Netsis tablolarına SQL ile INSERT/UPDATE/DELETE yazma. Yazma işleri NetOpenX COM
+  (NetOpenX50.dll) ya da NetOpenX REST (api/v2) ile yapılır.
+- Fatura/irsaliye kalemleri TBLSTHAR&#39;dadır; başlıkla birleştirme:
+  FISNO = FATIRS_NO AND STHAR_FTIRSIP = FTIRSIP AND STHAR_ACIKLAMA = CARI_KODU.
+- Belge tipi FTIRSIP: 1 satış fat., 2 alış fat., 3 satış irs., 4 alış irs., 6 müşteri sip., 7 satıcı sip.
+- COM nesnelerini finally içinde bırak: Marshal.ReleaseComObject, sirket.LogOff(), kernel.FreeNetsisLibrary().
+- REST&#39;te token: POST api/v2/token (form: grant_type=password, branchcode, username, password,
+  dbname, dbuser, dbpassword, dbtype); sonra Authorization: Bearer.
+- &quot;doğrulanmadı&quot; işaretli bilgileri kesin bilgi gibi sunma.
+</code></pre>
+<h2 id="mcp-ve-araclar"><a class="anchor" href="#mcp-ve-araclar" aria-hidden="true">#</a>MCP ve araçlar</h2>
+<p>Site statik olduğu için herhangi bir &quot;URL getir&quot; (fetch) aracıyla okunabilir. Şema araması için <code>schema.json</code>&#39;u indirip yerelde sorgulamak en hızlısıdır:</p>
+<pre><code class="language-bash">curl -s https://netsis.bahadirdogru.com/data/schema.json \
+  | jq -r &#39;.tables[] | select(.columns[].name == &quot;GIB_FATIRS_NO&quot;) | .name&#39; | sort -u
+</code></pre>
+<h2 id="guvenilirlik"><a class="anchor" href="#guvenilirlik" aria-hidden="true">#</a>Güvenilirlik</h2>
+<ul>
+<li>Şema, belirli bir 9.0.x sürümünün dokümanından üretilmiştir; sizin sürümünüzde fark olabilir.</li>
+<li>REST ve COM bilgisi Logo dokümantasyonu, Logo örnek projeleri ve üretimde çalışan kodlardan derlenmiştir. Kaynak dokümanda olmayan ya da canlıda sınanmamış bilgiler &quot;doğrulanmadı&quot; diye işaretlidir.</li>
+<li>Sitede gerçek şirket verisi, sunucu adresi ya da kimlik bilgisi yoktur; örneklerdeki kodlar ve numaralar temsilidir.</li>
+</ul>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/llm.md">GitHub'da düzenle</a> · <a href="/llm.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#dosyalar">Dosyalar</a></li><li class="l2"><a href="#asistana-verilecek-kurallar">Asistana verilecek kurallar</a></li><li class="l2"><a href="#mcp-ve-araclar">MCP ve araçlar</a></li><li class="l2"><a href="#guvenilirlik">Güvenilirlik</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

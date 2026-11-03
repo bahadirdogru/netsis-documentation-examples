@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kurulum · Netsis Dokümantasyonu</title>
+<meta name="description" content="NetsisNoxRestSetup.exe ile NetOpenX REST servisinin kurulumu ve kontrolü.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/rest/kurulum/">
+<link rel="alternate" type="text/markdown" href="/rest/kurulum.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Kurulum">
+<meta property="og:description" content="NetsisNoxRestSetup.exe ile NetOpenX REST servisinin kurulumu ve kontrolü.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/rest/kurulum/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/" aria-current="page">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/rest/">NetOpenX REST</a></nav>
+<article>
+<h1 id="kurulum"><a class="anchor" href="#kurulum" aria-hidden="true">#</a>Kurulum</h1>
+<h2 id="on-kosullar"><a class="anchor" href="#on-kosullar" aria-hidden="true">#</a>Ön koşullar</h2>
+<ul>
+<li>Netsis <strong>Temelset 8.06 ve üzeri</strong>.</li>
+<li>Microsoft <strong>.NET Framework 4.0</strong> veya üzeri.</li>
+<li>Netsis <strong>Merkezi Kimlik (SSO)</strong> kurulu ve erişilebilir; NetOpenX lisansı SSO&#39;dan indirilmiş.</li>
+<li>Setup dosyası kurulu Netsis sürümüyle uyumlu olmalı.</li>
+</ul>
+<h2 id="setup-adimlari-netsisnoxrestsetup-exe"><a class="anchor" href="#setup-adimlari-netsisnoxrestsetup-exe" aria-hidden="true">#</a>Setup adımları (NetsisNoxRestSetup.exe)</h2>
+<ol>
+<li>Dosyayı <strong>yönetici olarak</strong> çalıştırın.</li>
+<li>Kurulum dili: Türkçe veya İngilizce.</li>
+<li>Ön koşul kontrolünde tüm maddeler <strong>Başarılı</strong> olmalı; değilse eksik bileşeni kurun.</li>
+<li><strong>Özellik seçimi:</strong> &quot;NetOpenX Rest Yönetim Paneli&quot; ve &quot;NetOpenX Rest&quot; seçili olmalı. Değilse sağ tık → &quot;Diske Yükle&quot;.</li>
+<li><strong>Netsis Merkezi Kimlik Denetimi Servis Konfigürasyonu:</strong><ul>
+<li><em>SSO Service Adresi</em>: &quot;Bul&quot; ile ağdaki SSO servisleri listelenir. Elle: <code>sunucu-adı:2023/NetsisSsoService</code>.</li>
+<li><em>SSO STS URL</em>: <code>http://SunucuAdı/NetsisSTS</code>. &quot;Dene&quot; ile test edilir.</li>
+</ul>
+</li>
+<li><strong>Sanal dizin:</strong> varsayılan <code>C:\Netsis\Enterprise8\Nox\</code>. Altında <code>WS</code> ve <code>WSManager</code> klasörleri oluşur.</li>
+<li>Windows servisi: <strong>Netsis NetOpenX Rest Service</strong> (<code>services.msc</code>).</li>
+</ol>
+<h2 id="kurulum-sonrasi-kontrol"><a class="anchor" href="#kurulum-sonrasi-kontrol" aria-hidden="true">#</a>Kurulum sonrası kontrol</h2>
+<ol>
+<li><p><strong>Servis yöneticisi:</strong> <code>...\Nox\WSManager\NetOpenX.Rest.Service.WSManager.exe</code> servis durumunu, ayarlarını ve logları gösterir.</p>
+<ul>
+<li>&quot;Servis Yöntemi&quot; bölümünde <em>Servis</em> dizini kurulumun <code>WS</code> klasörünü göstermeli (ör. <code>C:\Program Files (x86)\Netsis\Nox\WS</code>). Yanlış ya da boş dizin servisin başlamamasına yol açar.</li>
+<li>Sol alttaki kimlik yönetimi simgesiyle SSO değerleri yeniden okunur, &quot;Kaydet&quot; yapılır.</li>
+<li>Servis &quot;Stopped&quot; ise &quot;Başlat&quot;. Hata ayrıntısı için sağ alttaki <strong>Log</strong> düğmesi <code>...\Nox\WS\log</code> klasörünü açar.</li>
+</ul>
+</li>
+<li><p><strong>Yardım sayfası:</strong> <code>http://localhost:7070/api/v2/help</code>. Tüm uçlar, parametreler ve model tipleri burada listelenir. Tek uç için: <code>http://localhost:7070/api/v2/helpinfo?apiId=&lt;METHOD&gt;-api-v2-&lt;yol&gt;</code> (ör. <code>POST-api-v2-ItemSlips-Calculate</code>). Yardım sayfaları token istemez.</p>
+</li>
+<li><p><strong>Test uygulaması:</strong> <code>NetOpenX.Rest.TestApp.exe</code>. &quot;Operation&quot; sekmesindeki &quot;Path&quot; alanına yardım sayfasındaki yol yazılarak çağrı denenir.</p>
+</li>
+<li><p><strong>Anonim sağlık kontrolü:</strong></p>
+<pre><code class="language-bash">curl http://localhost:7070/api/v2/public/Ping
+# &quot;02.11.2026 02:01 &gt; OK&quot;
+curl http://localhost:7070/api/v2/public/Version
+# &quot;9.0.68.0&quot;
+curl http://localhost:7070/api/v2/HealthCheck
+# {&quot;IsSuccessful&quot;:true,&quot;Description&quot;:&quot;NetOpenX Kernel oluşturuldu. Versiyon: 9.0.68.0 ...&quot;}
+</code></pre>
+</li>
+</ol>
+<h2 id="port"><a class="anchor" href="#port" aria-hidden="true">#</a>Port</h2>
+<p>Dokümantasyon ve örnekler <code>7070</code> kullanır; bazı eğitim örnekleri <code>9090</code> kullanır. Gerçek kurulumlarda farklı portlar da kullanılır. Kullanılan portu servis yöneticisinden kontrol edin.</p>
+<h2 id="token-suresi"><a class="anchor" href="#token-suresi" aria-hidden="true">#</a>Token süresi</h2>
+<ul>
+<li>Varsayılan <strong>20 dakika</strong>.</li>
+<li>&quot;NetOpenX Rest Manager&quot; ekranında <em>Access token geçerlilik süresi</em> alanından değiştirilir.</li>
+<li>Süresi dolmuş ya da hiç olmayan token ile gelen istekler <code>401</code> ile reddedilir; yeni token alınmalıdır.</li>
+</ul>
+<h2 id="surumle-gelen-uc-sayisi"><a class="anchor" href="#surumle-gelen-uc-sayisi" aria-hidden="true">#</a>Sürümle gelen uç sayısı</h2>
+<p>9.0.68 sürümlü bir sunucunun yardım sayfasında <strong>379 uç</strong> listelenmiştir. Kaynak başına en çok uç: <code>ItemSlips</code> 23, <code>Company</code> 18, <code>Mrp</code> 11, <code>DocumentLocking</code> 10, <code>PlanningRecord</code> 9, <code>EDocument</code> 8, <code>MaintenanceOrders</code> 8, <code>Print</code> 8, <code>StatementsHeader</code> 8, <code>ARPs</code> 7, <code>ExRates</code> 7, <code>QualityControls</code> 7; ayrıca <code>definitions</code> 47 ve <code>services</code> 49 şema ucu. Sürümünüzdeki tam listeyi her zaman <code>api/v2/help</code>&#39;ten alın.</p>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/rest/kurulum.md">GitHub'da düzenle</a> · <a href="/rest/kurulum.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#on-kosullar">Ön koşullar</a></li><li class="l2"><a href="#setup-adimlari-netsisnoxrestsetup-exe">Setup adımları (NetsisNoxRestSetup.exe)</a></li><li class="l2"><a href="#kurulum-sonrasi-kontrol">Kurulum sonrası kontrol</a></li><li class="l2"><a href="#port">Port</a></li><li class="l2"><a href="#token-suresi">Token süresi</a></li><li class="l2"><a href="#surumle-gelen-uc-sayisi">Sürümle gelen uç sayısı</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

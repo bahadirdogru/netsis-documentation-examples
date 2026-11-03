@@ -1,0 +1,1965 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TBLPARAM · Netsis Dokümantasyonu</title>
+<meta name="description" content="NETSİS GENEL PARAMETRE KAYITLARINI TUTAR">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/tablolar/tblparam/">
+<link rel="alternate" type="text/markdown" href="/veritabani/tablolar/tblparam.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="TBLPARAM">
+<meta property="og:description" content="NETSİS GENEL PARAMETRE KAYITLARINI TUTAR">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/tablolar/tblparam/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/" aria-current="page">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a> <span>/</span> <a href="/veritabani/moduller/genel/">GENEL modülü</a></nav>
+<article>
+<h1 id="tblparam"><a class="anchor" href="#tblparam" aria-hidden="true">#</a>TBLPARAM</h1>
+<blockquote>
+<p>NETSİS GENEL PARAMETRE KAYITLARINI TUTAR</p>
+</blockquote>
+<ul>
+<li><strong>Modül:</strong> <a href="/veritabani/moduller/genel/">GENEL</a></li>
+<li><strong>Kolon sayısı:</strong> 235</li>
+</ul>
+<h2 id="kolonlar"><a class="anchor" href="#kolonlar" aria-hidden="true">#</a>Kolonlar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Kolon</th>
+<th>Tip</th>
+<th>Null</th>
+<th>Varsayılan</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>SUBE_KODU</code></td>
+<td>TDBSMALLINT</td>
+<td>hayır</td>
+<td></td>
+<td><a href="/veritabani/ortak-kolonlar/">Ortak kolon</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>LOCAL_DEPO</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Stok parametre kayıtlarında lokal depo uygulaması parametresini gösterir.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>PROMOSYON</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Promosyon kodunu gösterir. Default NULL değeri atılır.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>FIAT_SISTEMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Stok parametre kayıtlarında özel fiyat sistemi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>HES_SEV_SAB</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebe parametre kayıtları seviye takibi sekmesinde seviye takibi yapılacak parametresini gösterir.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>HS_SEV</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebe parametre kayıtları seviye takibi sekmesinde kaç seviye tanımlanacak alanında girilen seviye sayısını gösterir.</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>SEVIYELER1</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebe parametre kayıtları seviye sayısı1 alanında girilen seviye sayısını gösterir.</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>SEVIYELER2</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebe parametre kayıtları seviye sayısı2 alanında girilen seviye sayısını gösterir.</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>SEVIYELER3</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebe parametre kayıtları seviye sayısı3 alanında girilen seviye sayısını gösterir.</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>SEVIYELER4</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebe parametre kayıtları seviye sayısı4 alanında girilen seviye sayısını gösterir.</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>SEVIYELER5</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebe parametre kayıtları seviye sayısı5 alanında girilen seviye sayısını gösterir.</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>SEVIYELER6</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebe parametre kayıtları seviye sayısı6 alanında girilen seviye sayısını gösterir.</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>SEVIYELER7</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebe parametre kayıtları seviye sayısı7 alanında girilen seviye sayısını gösterir.</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>SEVIYELER8</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebe parametre kayıtları seviye sayısı8 alanında girilen seviye sayısını gösterir.</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>SEVIYELER9</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebe parametre kayıtları seviye sayısı9 alanında girilen seviye sayısını gösterir.</td>
+</tr>
+<tr>
+<td>16</td>
+<td><code>SEVIYELER10</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebe parametre kayıtları seviye sayısı10 alanında girilen seviye sayısını gösterir.</td>
+</tr>
+<tr>
+<td>17</td>
+<td><code>BIRDEN_FAZLA_KASA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Kasa&gt;işlemler&gt;ek işlemler çok kasaya geçme işlemi yapıldığında &#39;E&#39; değerini, tek kasaya dönme işlemi yapılırsa &#39;H&#39; değerini gösterir.</td>
+</tr>
+<tr>
+<td>18</td>
+<td><code>FIRMA_DOV_TIPI</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında düzeltme tipi alanına girilen firma döviz tipini gösterir.</td>
+</tr>
+<tr>
+<td>19</td>
+<td><code>PLASIYER_VAR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında plasiyer uygulaması var parametresini gösterir.</td>
+</tr>
+<tr>
+<td>20</td>
+<td><code>DOVIZ_TAKIBI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında döviz uygulaması var parametresini gösterir.</td>
+</tr>
+<tr>
+<td>21</td>
+<td><code>DOVIZ_CEVRIM</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında döviz çevrim tipi alanında seçilen döviz çevrimini gösterir.</td>
+</tr>
+<tr>
+<td>22</td>
+<td><code>LOG_TUTULACAK</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Log tutulacak parametresini gösterir.</td>
+</tr>
+<tr>
+<td>23</td>
+<td><code>CRAPKOD</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Cari parametre kayıtlarında hareketlerde rapor kodu girilecek parametresini gösterir.</td>
+</tr>
+<tr>
+<td>24</td>
+<td><code>ENT_KAYIT_TAR</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kayıt tarihini gösterir.</td>
+</tr>
+<tr>
+<td>25</td>
+<td><code>MH_HES_ENT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında muhasebe entegre parametresini gösterir.</td>
+</tr>
+<tr>
+<td>26</td>
+<td><code>MSEN_ENT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları çek/senet sekmesinde müşteri senetleri entegre parametresini gösterir.</td>
+</tr>
+<tr>
+<td>27</td>
+<td><code>MSEN_HES_KOD</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları çek/senet sekmesinde müşteri senetleri hesabı için girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>28</td>
+<td><code>MCEK_ENT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları çek/senet sekmesinde müşteri çekleri entegre parametresini gösterir.</td>
+</tr>
+<tr>
+<td>29</td>
+<td><code>MCEK_HES_KOD</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları çek/senet sekmesinde müşteri çekleri hesabı için girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>30</td>
+<td><code>BSEN_ENT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları çek/senet sekmesinde borç senetleri entegre parametresini gösterir.</td>
+</tr>
+<tr>
+<td>31</td>
+<td><code>BSEN_HES_KOD</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları çek/senet sekmesinde borç senetleri hesabı için girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>32</td>
+<td><code>BCEK_ENT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları çek/senet sekmesinde borç çekleri entegre parametresini gösterir.</td>
+</tr>
+<tr>
+<td>33</td>
+<td><code>BCEK_HES_KOD</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları çek/senet sekmesinde borç çekleri hesabı için girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>34</td>
+<td><code>MUH_MUSTD</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları stok/cari sekmesinde müşteri hesabı detaylı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>35</td>
+<td><code>MUH_SATD</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları stok/cari sekmesinde satıcı hesabı detaylı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>36</td>
+<td><code>MUST_HES_KOD</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları stok/cari sekmesinde müşteri hesabı alanına girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>37</td>
+<td><code>SAT_HES_KOD</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları stok/cari sekmesinde satıcı hesabı alanına girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>38</td>
+<td><code>ALIS_HES_DET</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları stok/cari sekmesinde mal alış hesabı detaylı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>39</td>
+<td><code>ALIS_HES_KOD</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları stok/cari sekmesinde mal alış hesabı alanına girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>40</td>
+<td><code>IADEAL_HES_KOD</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları stok/cari sekmesinde alıştan iade hesabı alanına girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>41</td>
+<td><code>SATIS_HES_DET</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları stok/cari sekmesinde mal satış hesabı detaylı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>42</td>
+<td><code>SATIS_HES_KOD</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları stok/cari sekmesinde mal satış hesabı alanına girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>43</td>
+<td><code>IADESAT_HES_KOD</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları stok/cari sekmesinde satıştan iade hesabı alanına girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>44</td>
+<td><code>SAT_HES_KOD1</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları stok/cari sekmesinde diğer satış hesabı-1 alanına girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>45</td>
+<td><code>SAT_HES_KOD2</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları stok/cari sekmesinde diğer satış hesabı-2 alanına girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>46</td>
+<td><code>SAT_HES_KOD3</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları stok/cari sekmesinde diğer satış hesabı-3 alanına girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>47</td>
+<td><code>SATIS_FATURA_ENT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde satış faturaları entegre parametresini gösterir.</td>
+</tr>
+<tr>
+<td>48</td>
+<td><code>ALIS_FATURA_ENT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde alış faturaları entegre parametresini gösterir.</td>
+</tr>
+<tr>
+<td>49</td>
+<td><code>DEPO_TRANS_ENT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde depolar arası transfer faturaları entegre parametresini gösterir.</td>
+</tr>
+<tr>
+<td>50</td>
+<td><code>OKOD1_SATMUHKODD</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde özel kod ile satış hesapları değişecek parametresini gösterir.</td>
+</tr>
+<tr>
+<td>51</td>
+<td><code>SATIS_KOD_ADEDI</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Satiş kodu adedinin bilgisini tutar</td>
+</tr>
+<tr>
+<td>52</td>
+<td><code>KODUN_DEGERI_1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde özel kod-1 alanına girilen özel kodu gösterir.</td>
+</tr>
+<tr>
+<td>53</td>
+<td><code>KODUN_DEGERI_2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde özel kod-2 alanına girilen özel kodu gösterir.</td>
+</tr>
+<tr>
+<td>54</td>
+<td><code>KODUN_DEGERI_3</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde özel kod-3 alanına girilen özel kodu gösterir.</td>
+</tr>
+<tr>
+<td>55</td>
+<td><code>KODUN_DEGERI_4</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde özel kod-4 alanına girilen özel kodu gösterir.</td>
+</tr>
+<tr>
+<td>56</td>
+<td><code>SATIS_KODU_1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde satış kodu-1 alanında seçilen satış hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>57</td>
+<td><code>SATIS_KODU_2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde satış kodu-2 alanında seçilen satış hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>58</td>
+<td><code>SATIS_KODU_3</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde satış kodu-3 alanında seçilen satış hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>59</td>
+<td><code>SATIS_KODU_4</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde satış kodu-4 alanında seçilen satış hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>60</td>
+<td><code>SAT_ISK_ENT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde satış fat. İskontoları entegre parametresini gösterir.</td>
+</tr>
+<tr>
+<td>61</td>
+<td><code>ALIS_ISK_ENT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde alış fat. İskontoları entegre parametresini gösterir.</td>
+</tr>
+<tr>
+<td>62</td>
+<td><code>OZELKOD2DEGISIM</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde özel kod2 ile değişim parametresini gösterir.</td>
+</tr>
+<tr>
+<td>63</td>
+<td><code>OZELKOD2DEGERI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-1 sekmesinde özel kod2 değerini gösterir.</td>
+</tr>
+<tr>
+<td>64</td>
+<td><code>ALIS_HES_KOD_1</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde alış için satır iskontosu hesabını gösterir.</td>
+</tr>
+<tr>
+<td>65</td>
+<td><code>ALIS_HES_KOD_2</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde alış için mal fazlası iskontosu hesabını gösterir.</td>
+</tr>
+<tr>
+<td>66</td>
+<td><code>ALIS_HES_KOD_3</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde alış için genel iskonto-1 hesabını gösterir.</td>
+</tr>
+<tr>
+<td>67</td>
+<td><code>ALIS_HES_KOD_4</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde alış için genel iskonto-2 hesabını gösterir.</td>
+</tr>
+<tr>
+<td>68</td>
+<td><code>ALIS_HES_KOD_5</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde alış için genel iskonto-3 hesabını gösterir.</td>
+</tr>
+<tr>
+<td>69</td>
+<td><code>VERISK_HES_KOD_1</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış için satır iskontosu hesabını gösterir.</td>
+</tr>
+<tr>
+<td>70</td>
+<td><code>VERISK_HES_KOD_2</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış için mal fazlası iskontosu hesabını gösterir.</td>
+</tr>
+<tr>
+<td>71</td>
+<td><code>VERISK_HES_KOD_3</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış için genel iskonto-1 hesabını gösterir.</td>
+</tr>
+<tr>
+<td>72</td>
+<td><code>VERISK_HES_KOD_4</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış için genel iskonto-2 hesabını gösterir.</td>
+</tr>
+<tr>
+<td>73</td>
+<td><code>VERISK_HES_KOD_5</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış için genel iskonto-3 hesabını gösterir.</td>
+</tr>
+<tr>
+<td>74</td>
+<td><code>ALISM_HES_KOD_1</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodlarında fatura ek maliyet sekmesinde alışta ek maliyet-1 hesabında tanımlanan muhasebe hesap kodunu gösterir.</td>
+</tr>
+<tr>
+<td>75</td>
+<td><code>ALISM_HES_KOD_2</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodlarında fatura ek maliyet sekmesinde alışta ek maliyet-2 hesabında tanımlanan muhasebe hesap kodunu gösterir.</td>
+</tr>
+<tr>
+<td>76</td>
+<td><code>SATISM_HES_KOD_1</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodlarında fatura ek maliyet sekmesinde satışta ek maliyet-1 hesabında tanımlanan muhasebe hesap kodunu gösterir.</td>
+</tr>
+<tr>
+<td>77</td>
+<td><code>SATISM_HES_KOD_2</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodlarında fatura ek maliyet sekmesinde satışta ek maliyet-2 hesabında tanımlanan muhasebe hesap kodunu gösterir.</td>
+</tr>
+<tr>
+<td>78</td>
+<td><code>MIK_MUHA_GECSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde faturadan miktarlar faturaya geçecek parametresini gösterir.</td>
+</tr>
+<tr>
+<td>79</td>
+<td><code>SAT_ISK_AL_DEGIS</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>80</td>
+<td><code>BIRDEN_FAZLA_KDV</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde değişik kdv oranları parametresini gösterir.</td>
+</tr>
+<tr>
+<td>81</td>
+<td><code>KAC_KDV</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde kdv oran sayısını gösterir.</td>
+</tr>
+<tr>
+<td>82</td>
+<td><code>KDV_ORAN_1</code></td>
+<td>TDBKDVORAN</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde tanımlanan kdv oranlarını gösterir.</td>
+</tr>
+<tr>
+<td>83</td>
+<td><code>KDV_ORAN_2</code></td>
+<td>TDBKDVORAN</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde tanımlanan kdv oranlarını gösterir.</td>
+</tr>
+<tr>
+<td>84</td>
+<td><code>KDV_ORAN_3</code></td>
+<td>TDBKDVORAN</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde tanımlanan kdv oranlarını gösterir.</td>
+</tr>
+<tr>
+<td>85</td>
+<td><code>KDV_ORAN_4</code></td>
+<td>TDBKDVORAN</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde tanımlanan kdv oranlarını gösterir.</td>
+</tr>
+<tr>
+<td>86</td>
+<td><code>KDV_ORAN_5</code></td>
+<td>TDBKDVORAN</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde tanımlanan kdv oranlarını gösterir.</td>
+</tr>
+<tr>
+<td>87</td>
+<td><code>IND_KDV_HES_KOD_1</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>88</td>
+<td><code>IND_KDV_HES_KOD_2</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>89</td>
+<td><code>IND_KDV_HES_KOD_3</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>90</td>
+<td><code>IND_KDV_HES_KOD_4</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>91</td>
+<td><code>IND_KDV_HES_KOD_5</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>92</td>
+<td><code>TAHED_KDV_HES_KOD_1</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde hesaplanan kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>93</td>
+<td><code>TAHED_KDV_HES_KOD_2</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde hesaplanan kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>94</td>
+<td><code>TAHED_KDV_HES_KOD_3</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde hesaplanan kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>95</td>
+<td><code>TAHED_KDV_HES_KOD_4</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde hesaplanan kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>96</td>
+<td><code>TAHED_KDV_HES_KOD_5</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde hesaplanan kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>97</td>
+<td><code>IADEKDVIND_1</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>98</td>
+<td><code>IADEKDVIND_2</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>99</td>
+<td><code>IADEKDVIND_3</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>100</td>
+<td><code>IADEKDVIND_4</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>101</td>
+<td><code>IADEKDVIND_5</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>102</td>
+<td><code>IADEKDVODE_1</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde ödenecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>103</td>
+<td><code>IADEKDVODE_2</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde ödenecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>104</td>
+<td><code>IADEKDVODE_3</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde ödenecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>105</td>
+<td><code>IADEKDVODE_4</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde ödenecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>106</td>
+<td><code>IADEKDVODE_5</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde ödenecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>107</td>
+<td><code>MALBAZINDA_ISKONTO</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde mal bzında iskonto var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>108</td>
+<td><code>HANGI_ISKONTO</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde mal bazında iskonto tipini gösterir.</td>
+</tr>
+<tr>
+<td>109</td>
+<td><code>ALISK_MBAZ</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde alışta iskonto mal bazında parametresini gösterir.</td>
+</tr>
+<tr>
+<td>110</td>
+<td><code>SATISK_MBAZ</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satışta iskonto mal bazında parametresini gösterir.</td>
+</tr>
+<tr>
+<td>111</td>
+<td><code>ALISK_HANGI_SATKOD</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde alışta hangi satış kodu alanında seçilen satış hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>112</td>
+<td><code>SATISK_HANGI_SATKOD</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satışta hangi satış kodu alanında seçilen satış hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>113</td>
+<td><code>HANGI_MIKTAR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde faturadan miktarlar faturaya geçecek parametresinin işaretlenmesiyle aktif olan ölçü birimi alanında seçilen ölçü birimini gösterir.</td>
+</tr>
+<tr>
+<td>114</td>
+<td><code>MALBAZKDV</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrayon kodları fatura kdv sekmesinde mal bazında kdv parametresini gösterir.</td>
+</tr>
+<tr>
+<td>115</td>
+<td><code>KF_ENT_BORCKOD</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları senet/çek sekmesinde kur farkı borç hesabını gösterir.</td>
+</tr>
+<tr>
+<td>116</td>
+<td><code>KF_ENT_ALACKOD</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları senet/çek sekmesinde kur farkı alacak hesabını gösterir.</td>
+</tr>
+<tr>
+<td>117</td>
+<td><code>YUVARLAMA_KODU</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları genel sekmesinde yuvarlama nedeni ile fark veren fişlerde kapatma borç hesap kodununa girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>118</td>
+<td><code>ORTAKISLEMTIP</code></td>
+<td>varchar(8)</td>
+<td>evet</td>
+<td></td>
+<td>Ortak işlem tipinin tutlduğu sahadır</td>
+</tr>
+<tr>
+<td>119</td>
+<td><code>USER_SOR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında entegre kullanıcı no sorulsun parametresini gösterir.</td>
+</tr>
+<tr>
+<td>120</td>
+<td><code>PAKET_KULLANICI_SAY</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Kullanıcı sayısını gösterir.</td>
+</tr>
+<tr>
+<td>121</td>
+<td><code>CONCURRENT_USER_CNT</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Aynı isimle çalışma adedini gösterir.</td>
+</tr>
+<tr>
+<td>122</td>
+<td><code>OTOMATIK_ISLEM_TIPI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında otomatik işlem tipi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>123</td>
+<td><code>TARIH_KILIT_SIFRE</code></td>
+<td>varchar(20)</td>
+<td>evet</td>
+<td></td>
+<td>Kullanıcı işlemlerindeki tarih kilitleme şifresini gösterir.</td>
+</tr>
+<tr>
+<td>124</td>
+<td><code>YEDEK1</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodlarında fatura ek maliyet sekmesinde alışta iade ötv hesabında tanımlanan muhasebe hesap kodunu gösterir.</td>
+</tr>
+<tr>
+<td>125</td>
+<td><code>YEDEK2</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodlarında fatura ek maliyet sekmesinde satışta ötv hesabında tanımlanan muhasebe hesap kodunu gösterir.</td>
+</tr>
+<tr>
+<td>126</td>
+<td><code>YEDEK3</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodlarında fatura ek maliyet sekmesinde alışta ötv hesabında tanımlanan muhasebe hesap kodunu gösterir.</td>
+</tr>
+<tr>
+<td>127</td>
+<td><code>YEDEK4</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodlarında fatura ek maliyet sekmesinde satışta iade ötv hesabında tanımlanan muhasebe hesap kodunu gösterir.</td>
+</tr>
+<tr>
+<td>128</td>
+<td><code>YEDEK5</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodlarında fatura ek maliyet sekmesinde alışta ötv hesabında tanımlanan muhasebe hesap kodunu gösterir.</td>
+</tr>
+<tr>
+<td>129</td>
+<td><code>YEDEK6</code></td>
+<td>varchar(8)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında para birimi alanına girilen kayıtları gösterir.</td>
+</tr>
+<tr>
+<td>130</td>
+<td><code>YEDEK7</code></td>
+<td>varchar(8)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında para birimi alanına girilen kayıtları gösterir.</td>
+</tr>
+<tr>
+<td>131</td>
+<td><code>YEDEK8</code></td>
+<td>varchar(8)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodlarında fatura ek maliyet sekmesinde satışta iade ötv hesabında tanımlanan muhasebe hesap kodunu gösterir.</td>
+</tr>
+<tr>
+<td>132</td>
+<td><code>YEDEK9</code></td>
+<td>varchar(8)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodlarında fatura ek maliyet sekmesinde satışta iade ötv hesabında tanımlanan muhasebe hesap kodunu gösterir.</td>
+</tr>
+<tr>
+<td>133</td>
+<td><code>YEDEK10</code></td>
+<td>varchar(8)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodlarında fatura ek maliyet sekmesinde satışta iade ötv hesabında tanımlanan muhasebe hesap kodunu gösterir.</td>
+</tr>
+<tr>
+<td>134</td>
+<td><code>YEDEK11</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında proje uygulaması var parametresini gösterir.</td>
+</tr>
+<tr>
+<td>135</td>
+<td><code>YEDEK12</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında seri takibi var parametresini gösterir.</td>
+</tr>
+<tr>
+<td>136</td>
+<td><code>YEDEK13</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları senet/çek sekmesinde dövizli senet/çek için özel hesap kodu uygulaması var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>137</td>
+<td><code>YEDEK14</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında enter tuş desteği parametresini gösterir.</td>
+</tr>
+<tr>
+<td>138</td>
+<td><code>YEDEK15</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları senet/çek sekmesinde dekont/senet/çek modülünde kur farkı kayıtları yapılsın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>139</td>
+<td><code>YEDEK16</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Stok parametre kayıtlarında karma koli uygulaması parametresini gösterir.</td>
+</tr>
+<tr>
+<td>140</td>
+<td><code>YEDEK17</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Cari parametre kayıtlarında özel hesapta proje kodu kontrol edilecek parametresini gösterir.</td>
+</tr>
+<tr>
+<td>141</td>
+<td><code>YEDEK18</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde alış iade iskonto mal bazında parametresini gösterir.</td>
+</tr>
+<tr>
+<td>142</td>
+<td><code>YEDEK19</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında özel hesap penceresi gösterilmesin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>143</td>
+<td><code>YEDEK20</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında özel hesap penceresi gösterilmesin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>144</td>
+<td><code>YEDEK21</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde mal bazında iskonto tipi alanında seçilen hesap tipini gösterir.</td>
+</tr>
+<tr>
+<td>145</td>
+<td><code>YEDEK22</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış iade hangi satış kodu sahasında seçilen satış hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>146</td>
+<td><code>YEDEK23</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış iade hangi satış kodu sahasında seçilen satış hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>147</td>
+<td><code>YEDEK24</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış iade hangi satış kodu sahasında seçilen satış hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>148</td>
+<td><code>YEDEK25</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış iade iskonto mal bazında parametresini gösterir.</td>
+</tr>
+<tr>
+<td>149</td>
+<td><code>YEDEK26</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış iade iskonto mal bazında parametresini gösterir.</td>
+</tr>
+<tr>
+<td>150</td>
+<td><code>YEDEK27</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış iade iskonto mal bazında parametresini gösterir.</td>
+</tr>
+<tr>
+<td>151</td>
+<td><code>YEDEK28</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış iade iskonto mal bazında parametresini gösterir.</td>
+</tr>
+<tr>
+<td>152</td>
+<td><code>YEDEK29</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış iade iskonto mal bazında parametresini gösterir.</td>
+</tr>
+<tr>
+<td>153</td>
+<td><code>YEDEK30</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iskonto-2 sekmesinde satış iade iskonto mal bazında parametresini gösterir.</td>
+</tr>
+<tr>
+<td>154</td>
+<td><code>YEDEK31</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında aktif alan rengi alanında seçilen renki gösterir.</td>
+</tr>
+<tr>
+<td>155</td>
+<td><code>YEDEK32</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında pencere rengi alanında seçilen renki gösterir.</td>
+</tr>
+<tr>
+<td>156</td>
+<td><code>YEDEK33</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları genel sekmesinde aktarım yuvarlama bazı alanında girileni gösterir.</td>
+</tr>
+<tr>
+<td>157</td>
+<td><code>YEDEK34</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında NDI uygulaması var parametresini gösterir.</td>
+</tr>
+<tr>
+<td>158</td>
+<td><code>YEDEK35</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında NDI uygulaması var parametresini gösterir.</td>
+</tr>
+<tr>
+<td>159</td>
+<td><code>YEDEK36</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında NDI uygulaması var parametresini gösterir.</td>
+</tr>
+<tr>
+<td>160</td>
+<td><code>YEDEK37</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre kayıtlarında NDI uygulaması var parametresini gösterir.</td>
+</tr>
+<tr>
+<td>161</td>
+<td><code>EPOSTAVAR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında e-posta uygulaması var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>162</td>
+<td><code>SMTPSNAME</code></td>
+<td>varchar(100)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında smtp server adı alanına girilen mail adresini gösterir.</td>
+</tr>
+<tr>
+<td>163</td>
+<td><code>SMTPUNAME</code></td>
+<td>varchar(100)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında smptp kullanıcı adı alanına girilen kullanıcı adını gösterir.</td>
+</tr>
+<tr>
+<td>164</td>
+<td><code>SMTPUPWD</code></td>
+<td>varchar(50)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında smptp şifre alanına girilen şifreyi gösterir.</td>
+</tr>
+<tr>
+<td>165</td>
+<td><code>ILERIGUVENLIKSISTEMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında güvenlik uygulaması alanında tanımlanan kaydı gösterir. Kolonbazı güvenlik sistemi seçili ise &#39;2&#39;, değilse &#39;H&#39; değerini gösterir.</td>
+</tr>
+<tr>
+<td>166</td>
+<td><code>WORKPLACEVARMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında workplace uygulaması var parametresini gösterir.</td>
+</tr>
+<tr>
+<td>167</td>
+<td><code>FORMBAZIGUVENLIK</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında formbazı güvenlik uygulaması var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>168</td>
+<td><code>HIZLIREHBERKULLAN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında rehber kullanım şekli alanında seçilen rehber tipini gösterir.</td>
+</tr>
+<tr>
+<td>169</td>
+<td><code>OKOD1_ALMUHKODD</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde özel kod ile alış hesapları değişecek parametresini gösterir.</td>
+</tr>
+<tr>
+<td>170</td>
+<td><code>ALIS_KODU_1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde alış kodu-1 alanında seçilen satış hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>171</td>
+<td><code>ALIS_KODU_2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde alış kodu-2 alanında seçilen satış hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>172</td>
+<td><code>ALIS_KODU_3</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde satış kodu-3 alanında seçilen alış hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>173</td>
+<td><code>ALIS_KODU_4</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde satış kodu-4 alanında seçilen alış hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>174</td>
+<td><code>ALIS_KODUN_DEGERI_1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde özel kod-1 alanına girilen özel kodu gösterir.</td>
+</tr>
+<tr>
+<td>175</td>
+<td><code>ALIS_KODUN_DEGERI_2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde özel kod-2 alanına girilen özel kodu gösterir.</td>
+</tr>
+<tr>
+<td>176</td>
+<td><code>ALIS_KODUN_DEGERI_3</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde özel kod-3 alanına girilen özel kodu gösterir.</td>
+</tr>
+<tr>
+<td>177</td>
+<td><code>ALIS_KODUN_DEGERI_4</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel sekmesinde özel kod-4 alanına girilen özel kodu gösterir.</td>
+</tr>
+<tr>
+<td>178</td>
+<td><code>ISLTIPBAZHESKODDEGISIM</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları genel sekmesinde işlme tipi bazında hesap kod değişimi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>179</td>
+<td><code>SCRIPTSYSTEM</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yardımcı programlar şirket/şube/parametre tanımlamalarında dinamik kodlama sistemi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>180</td>
+<td><code>YEDEK60</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>181</td>
+<td><code>YEDEK61</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>182</td>
+<td><code>YEDEK62</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>183</td>
+<td><code>YEDEK63</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>184</td>
+<td><code>YEDEK64</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>185</td>
+<td><code>YEDEK65</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>186</td>
+<td><code>YEDEK66</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>187</td>
+<td><code>YEDEK67</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>188</td>
+<td><code>YEDEK68</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>189</td>
+<td><code>YEDEK69</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>190</td>
+<td><code>KDV_ORAN_6</code></td>
+<td>TDBKDVORAN</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde tanımlanan kdv oranlarını gösterir.</td>
+</tr>
+<tr>
+<td>191</td>
+<td><code>KDV_ORAN_7</code></td>
+<td>TDBKDVORAN</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde tanımlanan kdv oranlarını gösterir.</td>
+</tr>
+<tr>
+<td>192</td>
+<td><code>IND_KDV_HES_KOD_6</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>193</td>
+<td><code>IND_KDV_HES_KOD_7</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>194</td>
+<td><code>TAHED_KDV_HES_KOD_6</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde hesaplanan kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>195</td>
+<td><code>TAHED_KDV_HES_KOD_7</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura kdv sekmesinde hesaplanan kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>196</td>
+<td><code>IADEKDVIND_6</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>197</td>
+<td><code>IADEKDVIND_7</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde indirilecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>198</td>
+<td><code>IADEKDVODE_6</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde ödenecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>199</td>
+<td><code>IADEKDVODE_7</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura iade kdv sekmesinde ödenecek kdv hesaplarını gösterir.</td>
+</tr>
+<tr>
+<td>200</td>
+<td><code>MUHENTEG</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon havuz sistemi kapatılsın işaretli ise 1 değerini alır değil ise 0 değerini alır.</td>
+</tr>
+<tr>
+<td>201</td>
+<td><code>MUHCEVRIMICI</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebeye doğrudan aktarım yapılsın işaretli ise 1 değerini alır değil ise 0 değerini alır.</td>
+</tr>
+<tr>
+<td>202</td>
+<td><code>MUHTERSKAYIT</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Muhasebe fişlerini düzeltme ve silmesinde ters kayıt yapılsın işaretli ise 1 dğerini alır değil ise 0 değerini alır.</td>
+</tr>
+<tr>
+<td>203</td>
+<td><code>MALDAGSATISENTEG</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Satış faturalarına yapılan dağıtım entegre edilsn işaretli ise 1 değerini alır.</td>
+</tr>
+<tr>
+<td>204</td>
+<td><code>MALDAGALISENTEG</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Alış faturalarına yapılan dağıtım entegre edilsn işaretli ise 1 değerini alır.</td>
+</tr>
+<tr>
+<td>205</td>
+<td><code>MALDAGSATISKONTOKOD</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Mal dağıtım satış iskonto hesabı kodu bilgisi</td>
+</tr>
+<tr>
+<td>206</td>
+<td><code>MALDAGSATGELIRKOD</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Mal dağıtım satış gelir hesabı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>207</td>
+<td><code>FISBAS</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fiş basımı yapılsın işaretli ise E değerini alır değil ise H değerini alır.</td>
+</tr>
+<tr>
+<td>208</td>
+<td><code>DOKUMAN</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>KetsDocPlace entegrasyonu için eklenmiştir.</td>
+</tr>
+<tr>
+<td>209</td>
+<td><code>DETAYLI_FIAT_LISTESI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Detaylı fiyat listesi parametresi açık ise E değerini alır.</td>
+</tr>
+<tr>
+<td>210</td>
+<td><code>YUVARLAMA_KODU_ALACAK</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>Yuvarlama nedeni ile fark veren fişlerde kapatma alacak hesap kodu bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>211</td>
+<td><code>KKEGGIDER</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Fatura Genel sekmesindeki Kanunen Kabul Edilmeyen Giderler(KKEG) Gider hesabı muhasebe kodu yer alır.</td>
+</tr>
+<tr>
+<td>212</td>
+<td><code>KKEGKDV</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Fatura Genel sekmesindeki Kanunen Kabul Edilmeyen Giderler(KKEG) KKEG hesabı muhasebe kodu yer alır.</td>
+</tr>
+<tr>
+<td>213</td>
+<td><code>ALISM_HES_KOD_3</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek maliyet sekmesindeki alışta ek maliyet 3 muhasebe hesap kodu bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>214</td>
+<td><code>SATISM_HES_KOD_3</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek maliyet sekmesindeki satışta ek maliyet 3 muhasebe hesap kodu bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>215</td>
+<td><code>GEKAPALISHES</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Fatura Genel 2 sekmesindeki Alış İçin tanımlanan Gekap hesabı yer alır.</td>
+</tr>
+<tr>
+<td>216</td>
+<td><code>GEKAPALISIADEHES</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Fatura Genel 2 sekmesindeki Alış İçin tanımlanan Gekap İade hesabı yer alır.</td>
+</tr>
+<tr>
+<td>217</td>
+<td><code>GEKAPALISAMBALAJHES</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Fatura Genel 2 sekmesindeki Alış İçin tanımlanan Gekap Ambalaj hesabı yer alır.</td>
+</tr>
+<tr>
+<td>218</td>
+<td><code>GEKAPALISIADEAMBALAJHES</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Fatura Genel 2 sekmesindeki Alış İçin tanımlanan Gekap iade ambalaj hesabı yer alır.</td>
+</tr>
+<tr>
+<td>219</td>
+<td><code>GEKAPSATISHES</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Fatura Genel 2 sekmesindeki Satış İçin tanımlanan Gekap hesabı yer alır.</td>
+</tr>
+<tr>
+<td>220</td>
+<td><code>GEKAPSATISIADEHES</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Fatura Genel 2 sekmesindeki Satış İçin tanımlanan Gekap İade hesabı yer alır.</td>
+</tr>
+<tr>
+<td>221</td>
+<td><code>GEKAPSATISAMBALAJHES</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Fatura Genel 2 sekmesindeki Satış İçin tanımlanan Gekap Ambalaj hesabı yer alır.</td>
+</tr>
+<tr>
+<td>222</td>
+<td><code>GEKAPSATISIADEAMBALAJHES</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Fatura Genel 2 sekmesindeki Satış İçin tanımlanan Gekap iade ambalaj hesabı yer alır.</td>
+</tr>
+<tr>
+<td>223</td>
+<td><code>ONLINE_ONAY_SISTEMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Online onay sistemi parametresi açık olması durumunda 1 değerini alır</td>
+</tr>
+<tr>
+<td>224</td>
+<td><code>ALIS_OTV_TEVKIFAT</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura ek maliyet sekmesi alış ÖTV tevkifat hesabı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>225</td>
+<td><code>ALIS_IADEOTV_TEVKIFAT</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura ek maliyet sekmesi alış iade ÖTV tevkifat hesabı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>226</td>
+<td><code>SATIS_OTV_TEVKIFAT</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura ek maliyet sekmesi satış ÖTV tevkifat hesabı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>227</td>
+<td><code>SATIS_IADEOTV_TEVKIFAT</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura ek maliyet sekmesi satış iade ÖTV tevkifat hesabı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>228</td>
+<td><code>ISAKIS_ONLINE_ONAY_SISTEMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İş akış online onay sistemi açık ise 1 değerini alır</td>
+</tr>
+<tr>
+<td>229</td>
+<td><code>TWO_FACTOR</code></td>
+<td>TDBBYTE</td>
+<td>hayır</td>
+<td></td>
+<td>İki adımlı doğrulama yeri değeri yer alır.</td>
+</tr>
+<tr>
+<td>230</td>
+<td><code>KKEGDETAYKDV</code></td>
+<td>TDBMUHKOD</td>
+<td>evet</td>
+<td></td>
+<td>Entegrasyon kodları fatura genel 2 sekmesindeki KKEG KDV detay hesabı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>231</td>
+<td><code>RAPORSONUCLARI</code></td>
+<td>char(1)</td>
+<td>hayır</td>
+<td></td>
+<td>Rapor sonuçları saklansın parametresi yer alır.</td>
+</tr>
+<tr>
+<td>232</td>
+<td><code>RAPORSAYISI</code></td>
+<td>TDBBYTE</td>
+<td>hayır</td>
+<td></td>
+<td>Son alanında yazan değer yer alır.</td>
+</tr>
+<tr>
+<td>233</td>
+<td><code>RAPORKAYITYOLU</code></td>
+<td>varchar(255)</td>
+<td>evet</td>
+<td></td>
+<td>Rapor kayıt yolu bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>234</td>
+<td><code>TWO_FACTOR_TYPE</code></td>
+<td>TDBBYTE</td>
+<td>hayır</td>
+<td></td>
+<td>İki adımlı doğrulama yeri bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>235</td>
+<td><code>KULHAKDEVIR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Kullanıcı hak devri kullanılsın parametresi yer alır.</td>
+</tr>
+</tbody></table></div>
+<h2 id="indeksler"><a class="anchor" href="#indeksler" aria-hidden="true">#</a>İndeksler</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Ad</th>
+<th>Kolonlar</th>
+<th>Tanım</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TBLPARAM_PKEY</code></td>
+<td><code>SUBE_KODU</code></td>
+<td>Clustered</td>
+</tr>
+</tbody></table></div>
+<h2 id="ornek-sorgu"><a class="anchor" href="#ornek-sorgu" aria-hidden="true">#</a>Örnek sorgu</h2>
+<pre><code class="language-sql">SELECT TOP 100 SUBE_KODU, LOCAL_DEPO, PROMOSYON, FIAT_SISTEMI, HES_SEV_SAB, HS_SEV
+FROM dbo.TBLPARAM WITH (NOLOCK);
+</code></pre>
+
+</article>
+<footer class="page-foot"><a href="/veritabani/tablolar/tblparam.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#kolonlar">Kolonlar</a></li><li class="l2"><a href="#indeksler">İndeksler</a></li><li class="l2"><a href="#ornek-sorgu">Örnek sorgu</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STOK modülü · Netsis Dokümantasyonu</title>
+<meta name="description" content="STOK modülündeki 59 tablo">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/moduller/stok/">
+<link rel="alternate" type="text/markdown" href="/veritabani/moduller/stok.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="STOK modülü">
+<meta property="og:description" content="STOK modülündeki 59 tablo">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/moduller/stok/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/" aria-current="page">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a></nav>
+<article>
+<h1 id="stok-modulu-tablolari"><a class="anchor" href="#stok-modulu-tablolari" aria-hidden="true">#</a>STOK modülü tabloları</h1>
+<p>Bu modülde şema dokümanında ayrıntısı bulunan <strong>59</strong> tablo var.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th align="right">Kolon</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/veritabani/tablolar/tblasortimas/"><a class="tbl" href="/veritabani/tablolar/tblasortimas/"><code>TBLASORTIMAS</code></a></a></td>
+<td align="right">21</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblasortitra/"><a class="tbl" href="/veritabani/tablolar/tblasortitra/"><code>TBLASORTITRA</code></a></a></td>
+<td align="right">26</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbarkodbil/"><a class="tbl" href="/veritabani/tablolar/tblbarkodbil/"><code>TBLBARKODBIL</code></a></a></td>
+<td align="right">19</td>
+<td>STOKBAR ISLEMLERI-BARKOD DIZAYNI- SAHA BILGILERI KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbarkodmas/"><a class="tbl" href="/veritabani/tablolar/tblbarkodmas/"><code>TBLBARKODMAS</code></a></a></td>
+<td align="right">21</td>
+<td>STOKBAR ISLEMLERI-BARKOD GENEL BILGILERINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbarkodprm/"><a class="tbl" href="/veritabani/tablolar/tblbarkodprm/"><code>TBLBARKODPRM</code></a></a></td>
+<td align="right">20</td>
+<td>STOKBAR ISLEMLERI-BARKOD PARAMETRELERINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblesnozfiy/"><a class="tbl" href="/veritabani/tablolar/tblesnozfiy/"><code>TBLESNOZFIY</code></a></a></td>
+<td align="right">31</td>
+<td>KAYIT&gt;ESNEK YAPILANDIRMA&gt;ESNEK YAPILANDIRMA ÖZELLİK FİYAT TANIMLAMALARIMENÜSÜNDEKİ KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblesnozmas/"><a class="tbl" href="/veritabani/tablolar/tblesnozmas/"><code>TBLESNOZMAS</code></a></a></td>
+<td align="right">19</td>
+<td>KAYIT&gt;ESNEK YAPILANDIRMA&gt;ESNEK YAPILANDIRMA ÖZELLİK TANIMLARI SABİT BİLGİLER SEKMESİNDE GİRİLEN KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblesnoztra/"><a class="tbl" href="/veritabani/tablolar/tblesnoztra/"><code>TBLESNOZTRA</code></a></a></td>
+<td align="right">22</td>
+<td>KAYIT&gt;ESNEK YAPILANDIRMA&gt;ESNEK YAPILANDIRMA ÖZELLİK TANIMLARI DETAY KAYITLARISEKMESİNDE GİRİLEN KAYITLARI GÖSTERİR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblesnstmas/"><a class="tbl" href="/veritabani/tablolar/tblesnstmas/"><code>TBLESNSTMAS</code></a></a></td>
+<td align="right">25</td>
+<td>STOK KARTI KAYITLARI REÇETE BİLGİLERİ SEKMESİNDEKİ KAYITLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblesnyapmas/"><a class="tbl" href="/veritabani/tablolar/tblesnyapmas/"><code>TBLESNYAPMAS</code></a></a></td>
+<td align="right">22</td>
+<td>KAYIT&gt;ESNEK YAPILANDIRMA&gt;ÜRÜN YAPILANDIRMA TANIMLARI SABİT BİLGİLER SEKMESİNDE GİRİLEN KAYITLARI GÖSTERİR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblesnyapnum/"><a class="tbl" href="/veritabani/tablolar/tblesnyapnum/"><code>TBLESNYAPNUM</code></a></a></td>
+<td align="right">22</td>
+<td>KAYIT&gt;ESNEK YAPILANDIRMA&gt;ESNEK YAPILANDIRMA BAŞLANGIÇ NUMARALARI EKRANINDAKİ TANIMLAMALARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblesnyapprof/"><a class="tbl" href="/veritabani/tablolar/tblesnyapprof/"><code>TBLESNYAPPROF</code></a></a></td>
+<td align="right">21</td>
+<td>KAYIT&gt;ESNEK YAPILANDIRMA&gt;ÜRÜN YAPILANDIRMA PROFİLİ EKRANINDA GİRİLEN KAYITLARI AYNI ZAMANDA ÜRÜN PROFİL VE YAPILANDIRMA KODU TANIMLARI ÜRÜN PROFİL TANIMLARI SEKMESİNDEKİ KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblesnyaptra/"><a class="tbl" href="/veritabani/tablolar/tblesnyaptra/"><code>TBLESNYAPTRA</code></a></a></td>
+<td align="right">21</td>
+<td>KAYIT&gt;ESNEK YAPILANDIRMA&gt;ESNEK YAPILANDIRMA ÜRÜN YAPILANDIRMA TANIMLARI DETAY KAYITLAR SEKMESİNDEKİ KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfiatgrup/"><a class="tbl" href="/veritabani/tablolar/tblfiatgrup/"><code>TBLFIATGRUP</code></a></a></td>
+<td align="right">4</td>
+<td>FİAT GRUBU TANIMLAMALARI TABLOSUDUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfiyatlistinfo/"><a class="tbl" href="/veritabani/tablolar/tblfiyatlistinfo/"><code>TBLFIYATLISTINFO</code></a></a></td>
+<td align="right">24</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblhizmetmaliyetdagitimanahtar/"><a class="tbl" href="/veritabani/tablolar/tblhizmetmaliyetdagitimanahtar/"><code>TBLHIZMETMALIYETDAGITIMANAHTAR</code></a></a></td>
+<td align="right">19</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblhizmetmaliyetfismas/"><a class="tbl" href="/veritabani/tablolar/tblhizmetmaliyetfismas/"><code>TBLHIZMETMALIYETFISMAS</code></a></a></td>
+<td align="right">18</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblhizmetmaliyetfistra/"><a class="tbl" href="/veritabani/tablolar/tblhizmetmaliyetfistra/"><code>TBLHIZMETMALIYETFISTRA</code></a></a></td>
+<td align="right">19</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblhizmetmaliyetmas/"><a class="tbl" href="/veritabani/tablolar/tblhizmetmaliyetmas/"><code>TBLHIZMETMALIYETMAS</code></a></a></td>
+<td align="right">22</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblhizmetmaliyetstharfistra/"><a class="tbl" href="/veritabani/tablolar/tblhizmetmaliyetstharfistra/"><code>TBLHIZMETMALIYETSTHARFISTRA</code></a></a></td>
+<td align="right">19</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblhizmetmaliyettra/"><a class="tbl" href="/veritabani/tablolar/tblhizmetmaliyettra/"><code>TBLHIZMETMALIYETTRA</code></a></a></td>
+<td align="right">19</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblhizmetprimtanim/"><a class="tbl" href="/veritabani/tablolar/tblhizmetprimtanim/"><code>TBLHIZMETPRIMTANIM</code></a></a></td>
+<td align="right">33</td>
+<td>hizmet prim tanımlama ekranındaki bilgiler yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblhizmettutarkapsammas/"><a class="tbl" href="/veritabani/tablolar/tblhizmettutarkapsammas/"><code>TBLHIZMETTUTARKAPSAMMAS</code></a></a></td>
+<td align="right">24</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblhizmettutarkapsamtra-2/"><a class="tbl" href="/veritabani/tablolar/tblhizmettutarkapsamtra/"><code>TBLHIZMETTUTARKAPSAMTRA</code></a></a></td>
+<td align="right">5</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblozelkod1/"><a class="tbl" href="/veritabani/tablolar/tblozelkod1/"><code>TBLOZELKOD1</code></a></a></td>
+<td align="right">5</td>
+<td>ÖZEL KOD1 TANIMLAMA KAYITLARINI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblozelkod2/"><a class="tbl" href="/veritabani/tablolar/tblozelkod2/"><code>TBLOZELKOD2</code></a></a></td>
+<td align="right">5</td>
+<td>ÖZEL KOD2 TANIMLAMA KAYITLARINI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblrepalnish/"><a class="tbl" href="/veritabani/tablolar/tblrepalnish/"><code>TBLREPALNISH</code></a></a></td>
+<td align="right">21</td>
+<td>İŞLEMLER&gt;NETSİS SİPARİŞ ÖNERİSİ&gt;SİPARİŞ OLUŞTURMA SIRASINDA OLUŞAN KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblrepparam/"><a class="tbl" href="/veritabani/tablolar/tblrepparam/"><code>TBLREPPARAM</code></a></a></td>
+<td align="right">6</td>
+<td>STOK&gt;İŞLEMLER&gt;NETSİS SİPAİRŞ ÖNERİSİ&gt;PARAMETRE GİRİŞİ EKRANINA GİRİLEN KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsayim/"><a class="tbl" href="/veritabani/tablolar/tblsayim/"><code>TBLSAYIM</code></a></a></td>
+<td align="right">23</td>
+<td>SAYIM GİRİŞİ EKRANINDA GİRİLEN KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsayimprm/"><a class="tbl" href="/veritabani/tablolar/tblsayimprm/"><code>TBLSAYIMPRM</code></a></a></td>
+<td align="right">14</td>
+<td>SAYIM FARKINI SATIŞ HAREKET İŞLEME EKRANINDA MAHSUP OLUŞTURULSUN PARAMETRESİ İŞARETLENDİĞİNDE SAYIM FAZLASI MUHASEBE KAYITLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsayimseri/"><a class="tbl" href="/veritabani/tablolar/tblsayimseri/"><code>TBLSAYIMSERI</code></a></a></td>
+<td align="right">29</td>
+<td>STOK&gt;İŞLEMLER&gt;STOK SAYIM İŞLEMLERİ&gt;SAYIM GİRİŞİ EKRANINDA SERİLİ BİR STOK GİRİLDİĞİNDE SERİ EKRANINDAKİ SERİ KAYITLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblserinum/"><a class="tbl" href="/veritabani/tablolar/tblserinum/"><code>TBLSERINUM</code></a></a></td>
+<td align="right">3</td>
+<td>SERI NUMARA KAYITLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblseriparam/"><a class="tbl" href="/veritabani/tablolar/tblseriparam/"><code>TBLSERIPARAM</code></a></a></td>
+<td align="right">30</td>
+<td>KAYIT &gt; SERİ TAKİBİ &gt; SERİ PARAMETRE KAYITLARINI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblseritra/"><a class="tbl" href="/veritabani/tablolar/tblseritra/"><code>TBLSERITRA</code></a></a></td>
+<td align="right">37</td>
+<td>SERI TAKİBİ VAR PARAMETRESİ AÇIK OLDUĞUNDA KULLANILAN STHAR ILE BAGLANTILI SERI HAREKET KAYITLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstbirim/"><a class="tbl" href="/veritabani/tablolar/tblstbirim/"><code>TBLSTBIRIM</code></a></a></td>
+<td align="right">27</td>
+<td>STOK ÖLÇÜ BİRİMİ KAYITLARI EKRANINDAN GİRİLEN KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstgrup/"><a class="tbl" href="/veritabani/tablolar/tblstgrup/"><code>TBLSTGRUP</code></a></a></td>
+<td align="right">8</td>
+<td>STOKLAR İÇİN GİRİLEN GRUP KODLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstgrup2/"><a class="tbl" href="/veritabani/tablolar/tblstgrup2/"><code>TBLSTGRUP2</code></a></a></td>
+<td align="right">6</td>
+<td>BİRDEN FAZLA GRUP KODUNA SAHİP STOKLAR İÇİN GİRİLEN GRUP KODLARINI TUTAR. STOK-GRUP KODU TANIMLAMALARI EKRANINA GİRİLEN KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsthar/"><a class="tbl" href="/veritabani/tablolar/tblsthar/"><code>TBLSTHAR</code></a></a></td>
+<td align="right">87</td>
+<td>STOK HAREKET BİLGİLERİNİ TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstmuhdetay/"><a class="tbl" href="/veritabani/tablolar/tblstmuhdetay/"><code>TBLSTMUHDETAY</code></a></a></td>
+<td align="right">31</td>
+<td>MUHASEBE DETAY KOD GİRİŞİNDE TANIMLANAN STOKLARIN ENTEGRASYONLA BAĞLANTILARININ SAĞLANDIĞI BİLGİLERİ TUTAR. ŞUBELER BAZINDA AYRI TANIMLANIR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstok-madabc/"><a class="tbl" href="/veritabani/tablolar/tblstok-madabc/"><code>TBLSTOK_MADABC</code></a></a></td>
+<td align="right">9</td>
+<td>STOK&gt;İŞLEMLER&gt;NETSİS SİPARİŞ ÖNERİSİ&gt;OKM/ABC İZLEME EKRANINA GİRİLEN KAYITLARI TUTAR. Ortalama kullanım miktarı hesaplama ve ABC analizlerinin çalıştırılması ile oluşur.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokabc/"><a class="tbl" href="/veritabani/tablolar/tblstokabc/"><code>TBLSTOKABC</code></a></a></td>
+<td align="right">4</td>
+<td>STOK&gt;İŞLEMLER&gt;NETSİS SİPAİRŞ ÖNERİSİ&gt;ABC TANIMLAMA EKRANINA GİRİLEN KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokasortitra/"><a class="tbl" href="/veritabani/tablolar/tblstokasortitra/"><code>TBLSTOKASORTITRA</code></a></a></td>
+<td align="right">22</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokbar/"><a class="tbl" href="/veritabani/tablolar/tblstokbar/"><code>TBLSTOKBAR</code></a></a></td>
+<td align="right">15</td>
+<td>STOK&gt;KAYIT&gt;BARKOD KAYITLARI EKRANINA GİRİLEN KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokbil/"><a class="tbl" href="/veritabani/tablolar/tblstokbil/"><code>TBLSTOKBIL</code></a></a></td>
+<td align="right">2</td>
+<td>STOK KARTINDA STOK BİLGİSİ SEKMESİNDE YAZILANLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokdp/"><a class="tbl" href="/veritabani/tablolar/tblstokdp/"><code>TBLSTOKDP</code></a></a></td>
+<td align="right">19</td>
+<td>LOKAL DEPO TANIMLAMALARINI TUTAR. STOK MODÜLÜ LOKAL DEPO TANIMLAMALARINDAN KAYIT YAPILIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokfiat/"><a class="tbl" href="/veritabani/tablolar/tblstokfiat/"><code>TBLSTOKFIAT</code></a></a></td>
+<td align="right">24</td>
+<td>STOK FİYAT İŞLEMLERİ İÇİN TANIMLANAN BİLGİLERİ TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokfiatkod/"><a class="tbl" href="/veritabani/tablolar/tblstokfiatkod/"><code>TBLSTOKFIATKOD</code></a></a></td>
+<td align="right">7</td>
+<td>STOK PARAMETRELERİNDE ÖZEL FİYAT SİSTEMİ PARAMETRESİ AÇIK OLDUĞUNDA FİYAT KODU TANIMLAMALARINDA GİRİLEN KAYITLARIN TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokkod1/"><a class="tbl" href="/veritabani/tablolar/tblstokkod1/"><code>TBLSTOKKOD1</code></a></a></td>
+<td align="right">8</td>
+<td>STOK KARTI KAYITLARINDA STOK KARTI2 SEKMESİNDEKİ STOK KOD1 BİLGİLERİNİ TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokkod2/"><a class="tbl" href="/veritabani/tablolar/tblstokkod2/"><code>TBLSTOKKOD2</code></a></a></td>
+<td align="right">8</td>
+<td>STOK KARTI KAYITLARINDA STOK KARTI2 SEKMESİNDEKİ STOK KOD2 BİLGİLERİNİ TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokkod3/"><a class="tbl" href="/veritabani/tablolar/tblstokkod3/"><code>TBLSTOKKOD3</code></a></a></td>
+<td align="right">8</td>
+<td>STOK KARTI KAYITLARINDA STOK KARTI2 SEKMESİNDEKİ STOK KOD3 BİLGİLERİNİ TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokkod4/"><a class="tbl" href="/veritabani/tablolar/tblstokkod4/"><code>TBLSTOKKOD4</code></a></a></td>
+<td align="right">8</td>
+<td>STOK KARTI KAYITLARINDA STOK KARTI2 SEKMESİNDEKİ STOK KOD4 BİLGİLERİNİ TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokkod5/"><a class="tbl" href="/veritabani/tablolar/tblstokkod5/"><code>TBLSTOKKOD5</code></a></a></td>
+<td align="right">8</td>
+<td>STOK KARTI KAYITLARINDA STOK KARTI2 SEKMESİNDEKİ STOK KOD5 BİLGİLERİNİ TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokkoli/"><a class="tbl" href="/veritabani/tablolar/tblstokkoli/"><code>TBLSTOKKOLI</code></a></a></td>
+<td align="right">16</td>
+<td>STOK PARAMERTELERİNDEKI KARMA KOLİ PARAMETRESİ İŞARETLENDİĞİNDE. KARMA KOLİ KAYITLARI EKRANINDA TANIMLANAN KAYITLARI YAPILIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokparam/"><a class="tbl" href="/veritabani/tablolar/tblstokparam/"><code>TBLSTOKPARAM</code></a></a></td>
+<td align="right">38</td>
+<td>STOK PARAMETRELERİNİ TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokph/"><a class="tbl" href="/veritabani/tablolar/tblstokph/"><code>TBLSTOKPH</code></a></a></td>
+<td align="right">33</td>
+<td>STOK KODU BAZINDA BAKİYELERİ TUTAR. KULLANICILAR TARAFINDAN MÜDAHALE EDİLEMEZ. TRİGGER TARAFINDAN GÜNCELLNİR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstoksorumgrup/"><a class="tbl" href="/veritabani/tablolar/tblstoksorumgrup/"><code>TBLSTOKSORUMGRUP</code></a></a></td>
+<td align="right">3</td>
+<td>STOK SORUMLU GRUP TANIMLAMARI EKRANINDAN GİRİLEN KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokure/"><a class="tbl" href="/veritabani/tablolar/tblstokure/"><code>TBLSTOKURE</code></a></a></td>
+<td align="right">11</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstsabit/"><a class="tbl" href="/veritabani/tablolar/tblstsabit/"><code>TBLSTSABIT</code></a></a></td>
+<td align="right">131</td>
+<td>STOK&gt;KAYIT&gt;STOK KARTI KAYITLARINI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstsabitek/"><a class="tbl" href="/veritabani/tablolar/tblstsabitek/"><code>TBLSTSABITEK</code></a></a></td>
+<td align="right">41</td>
+<td>STOK&gt;KAYIT&gt;STOK KARTI KAYITLARINI TUTAR.</td>
+</tr>
+</tbody></table></div>
+<h2 id="ayrintisi-olmayan-tablolar"><a class="anchor" href="#ayrintisi-olmayan-tablolar" aria-hidden="true">#</a>Ayrıntısı olmayan tablolar</h2>
+<p>Aşağıdaki tablolar tablo listesinde bu modülle anılıyor ama kolon ayrıntısı şema dokümanında yok.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TBLREPLANISH</code></td>
+<td>İŞLEMLER&gt;NETSİS SİPARİŞ ÖNERİSİ&gt;SİPARİŞ OLUŞTURMA SIRASINDA OLUŞAN KAYITLARI TUTAR</td>
+</tr>
+</tbody></table></div>
+
+</article>
+<footer class="page-foot"><a href="/veritabani/moduller/stok.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

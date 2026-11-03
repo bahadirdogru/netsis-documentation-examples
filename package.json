@@ -1,0 +1,23 @@
+{
+  "name": "netsis-documentation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Netsis ERP (Logo) için insanlar ve LLM'ler için başvuru dokümantasyonu: veritabanı şeması, NetOpenX COM ve NetOpenX REST.",
+  "scripts": {
+    "import:excel": "node tools/import-excel.js",
+    "build": "node tools/build.js",
+    "serve": "node tools/serve.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bahadirdogru/netsis-documentation-examples.git"
+  },
+  "homepage": "https://netsis.bahadirdogru.com",
+  "license": "MIT",
+  "devDependencies": {
+    "marked": "12.0.2",
+    "turndown": "^7.1.2",
+    "turndown-plugin-gfm": "^1.0.2",
+    "xlsx": "0.18.5"
+  }
+}

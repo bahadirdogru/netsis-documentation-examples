@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Temel tablolar · Netsis Dokümantasyonu</title>
+<meta name="description" content="Cari, stok, fatura, irsaliye, sipariş, kasa ve muhasebe tabloları ve aralarındaki bağlar.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/temel-tablolar/">
+<link rel="alternate" type="text/markdown" href="/veritabani/temel-tablolar.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Temel tablolar">
+<meta property="og:description" content="Cari, stok, fatura, irsaliye, sipariş, kasa ve muhasebe tabloları ve aralarındaki bağlar.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/temel-tablolar/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/" aria-current="page">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a></nav>
+<article>
+<h1 id="temel-tablolar-ve-iliskiler"><a class="anchor" href="#temel-tablolar-ve-iliskiler" aria-hidden="true">#</a>Temel tablolar ve ilişkiler</h1>
+<p>Netsis&#39;te en çok kullanılan tablolar ve bunları birleştirmek için gereken kolonlar. Şema dokümanı yabancı anahtarların hedefini vermediği için bu eşlemeler Netsis&#39;in kendi indekslerinden ve gerçek sorgulardan çıkarılmıştır.</p>
+<h2 id="haritasi"><a class="anchor" href="#haritasi" aria-hidden="true">#</a>Haritası</h2>
+<pre><code class="language-text">TBLCASABIT (cari kart) ──1:1── TBLCASABITEK (cari ek bilgi)
+   │ CARI_KOD
+   ├──&lt; TBLCAHAR (cari hareket)                       CARI_KOD
+   ├──&lt; TBLFATUIRS (fatura/irsaliye başlığı)          CARI_KODU
+   └──&lt; TBLSIPAMAS (sipariş başlığı)                  CARI_KODU
+
+TBLFATUIRS ──&lt; TBLSTHAR (fatura/irsaliye kalemleri)
+   FTIRSIP = STHAR_FTIRSIP, FATIRS_NO = FISNO, CARI_KODU = STHAR_ACIKLAMA
+TBLFATUIRS ──1:1── TBLFATUEK (fatura ek bilgi)
+   FTIRSIP = FKOD, FATIRS_NO = FATIRSNO, CARI_KODU = CKOD
+
+TBLSIPAMAS ──&lt; TBLSIPATRA (sipariş kalemleri)
+   FTIRSIP = STHAR_FTIRSIP, FATIRS_NO = FISNO, CARI_KODU = STHAR_ACIKLAMA
+
+TBLSTSABIT (stok kart) ──1:1── TBLSTSABITEK (stok ek bilgi)
+   │ STOK_KODU
+   ├──&lt; TBLSTHAR      STOK_KODU
+   ├──&lt; TBLSIPATRA    STOK_KODU
+   └──&lt; TBLSTOKPH     STOK_KODU (depo bazında bakiye özeti)
+
+TBLSTOKDP (depo tanımları)    DEPO_KODU ──&lt; TBLSTHAR.DEPO_KODU
+TBLMUPLAN (hesap planı)       HESAP_KODU ──&lt; TBLMUHFIS.HES_KOD, TBLCASABIT.M_KOD
+TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH&#39;a göre)
+</code></pre>
+<h2 id="cari"><a class="anchor" href="#cari" aria-hidden="true">#</a>Cari</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th>İçerik</th>
+<th>Anahtar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblcasabit/"><code>TBLCASABIT</code></a></td>
+<td>Cari kart: kod, isim, tip, adres, vergi no, muhasebe kodu (<code>M_KOD</code>), plasiyer, risk</td>
+<td><code>CARI_KOD</code></td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblcasabitek/"><code>TBLCASABITEK</code></a></td>
+<td>Cari ek bilgiler: kullanıcı tanımlı sahalar <code>KULL1S..8S</code>, <code>KULL1N..8N</code>, TC kimlik vb.</td>
+<td><code>CARI_KOD</code></td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblcahar/"><code>TBLCAHAR</code></a></td>
+<td>Cari hareketleri: borç/alacak, belge no, vade</td>
+<td><code>INC_KEY_NUMBER</code></td>
+</tr>
+</tbody></table></div>
+<ul>
+<li>Cari bakiye <a class="tbl" href="/veritabani/tablolar/tblcahar/"><code>TBLCAHAR</code></a> üzerinden hesaplanır: <code>SUM(BORC) - SUM(ALACAK)</code>. Kart üzerindeki toplam alanlar (<code>CM_BORCT</code>, <code>CM_ALACT</code>) Netsis tarafından tutulur ama raporlama için hareketten hesaplamak daha güvenlidir.</li>
+<li>REST&#39;te cari hareketin kimliği <code>INC_KEY_NUMBER</code> değeridir (<code>api/v2/ARPTransactions/{id}</code>).</li>
+</ul>
+<h2 id="stok"><a class="anchor" href="#stok" aria-hidden="true">#</a>Stok</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th>İçerik</th>
+<th>Anahtar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblstsabit/"><code>TBLSTSABIT</code></a></td>
+<td>Stok kartı: kod, ad, ölçü birimleri, KDV, fiyatlar, barkod 1-3, grup ve rapor kodları</td>
+<td><code>STOK_KODU</code></td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblstsabitek/"><code>TBLSTSABITEK</code></a></td>
+<td>Stok ek bilgi: İngilizce isim (<code>INGISIM</code>), kullanıcı tanımlı sahalar</td>
+<td><code>STOK_KODU</code></td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblsthar/"><code>TBLSTHAR</code></a></td>
+<td>Tüm stok hareketleri: fatura ve irsaliye kalemleri, depo transferleri, ambar fişleri, üretim</td>
+<td><code>INCKEYNO</code></td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblstokdp/"><code>TBLSTOKDP</code></a></td>
+<td>Depo tanımları</td>
+<td><code>DEPO_KODU</code></td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblstokph/"><code>TBLSTOKPH</code></a></td>
+<td>Stok bakiye özeti (depo ve yapılandırma kodu bazında)</td>
+<td><code>STOK_KODU</code></td>
+</tr>
+</tbody></table></div>
+<p>Önemli <a class="tbl" href="/veritabani/tablolar/tblsthar/"><code>TBLSTHAR</code></a> kolonları:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kolon</th>
+<th>Anlam</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>STHAR_GCKOD</code></td>
+<td><code>G</code> giriş, <code>C</code> çıkış</td>
+</tr>
+<tr>
+<td><code>STHAR_GCMIK</code></td>
+<td>Miktar (ana birimde)</td>
+</tr>
+<tr>
+<td><code>STHAR_NF</code> / <code>STHAR_BF</code></td>
+<td>Net / brüt birim fiyat</td>
+</tr>
+<tr>
+<td><code>STHAR_FTIRSIP</code></td>
+<td>Belge tipi (bkz. <a href="/genel-bakis/#belge-tipi-alani-ftirsip">FTIRSIP</a>)</td>
+</tr>
+<tr>
+<td><code>STHAR_HTUR</code></td>
+<td>Hareket türü: <code>A</code> devir, <code>J</code> fatura, <code>H</code> irsaliye, <code>B</code> depolar arası, <code>N</code> faturalaşmış irsaliye, <code>L</code> iade, <code>C</code> üretim, <code>D</code> muhtelif, <code>I</code> kapalı fatura, <code>M</code> zayi iade …</td>
+</tr>
+<tr>
+<td><code>STHAR_BGTIP</code></td>
+<td>Kaynak: <code>F</code> faturadan, <code>I</code> irsaliyeden, <code>U</code>/<code>V</code> üretim girişi/çıkışı</td>
+</tr>
+<tr>
+<td><code>STHAR_ACIKLAMA</code></td>
+<td><strong>Fatura ve irsaliye kalemlerinde cari kodunu tutar.</strong> Adı yanıltıcıdır.</td>
+</tr>
+<tr>
+<td><code>FISNO</code></td>
+<td>Bağlı belge numarası (<code>TBLFATUIRS.FATIRS_NO</code>)</td>
+</tr>
+<tr>
+<td><code>STHAR_SIPNUM</code></td>
+<td>Bağlı sipariş numarası</td>
+</tr>
+<tr>
+<td><code>IRSALIYE_NO</code></td>
+<td>Faturalanmış irsaliyenin numarası</td>
+</tr>
+<tr>
+<td><code>DEPO_KODU</code></td>
+<td>Depo</td>
+</tr>
+</tbody></table></div>
+<h2 id="fatura-irsaliye-siparis"><a class="anchor" href="#fatura-irsaliye-siparis" aria-hidden="true">#</a>Fatura, irsaliye, sipariş</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th>İçerik</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblfatuirs/"><code>TBLFATUIRS</code></a></td>
+<td>Fatura ve irsaliye başlıkları (<code>FTIRSIP</code> 1, 2, 3, 4, 8, 9, A, B…). Toplamlar (<code>BRUTTUTAR</code>, <code>KDV</code>, <code>GENELTOPLAM</code>), vade, plasiyer, proje, <code>GIB_FATIRS_NO</code>.</td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblfatuek/"><code>TBLFATUEK</code></a></td>
+<td>Fatura ek bilgileri: <code>ACIK1..16</code> ek açıklamalar (NetOpenX&#39;te <code>EKACK1..16</code>), teslim bilgileri. Anahtar: <code>FKOD</code>, <code>FATIRSNO</code>, <code>CKOD</code>.</td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblsipamas/"><code>TBLSIPAMAS</code></a></td>
+<td>Sipariş başlıkları (<code>FTIRSIP</code> 6 müşteri, 7 satıcı). <code>TIPI</code>: <code>2</code> yurt içi, <code>6</code> yurt dışı, <code>1</code> kapalı, <code>3</code> onaylanmamış.</td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblsipatra/"><code>TBLSIPATRA</code></a></td>
+<td>Sipariş kalemleri. Yapısı <a class="tbl" href="/veritabani/tablolar/tblsthar/"><code>TBLSTHAR</code></a> ile aynıdır (<code>STHAR_</code> önekli kolonlar).</td>
+</tr>
+</tbody></table></div>
+<p><code>TBLFATUIRS.TIPI</code> değerleri: <code>1</code> kapalı, <code>2</code> açık, <code>3</code> muhtelif, <code>4</code> iade, <code>5</code> zayi iade, <code>6</code> ithalat/ihracat. NetOpenX&#39;teki <code>TFaturaTipi</code> enum&#39;u (<code>ft_Kapali</code>, <code>ft_Acik</code>, <code>ft_Muhtelif</code>, <code>ft_Iade</code>, <code>ft_ZIade</code>, <code>ft_Ihracat</code>…) bu alana yazar.</p>
+<h2 id="e-belge-parametreleri"><a class="anchor" href="#e-belge-parametreleri" aria-hidden="true">#</a>E-belge parametreleri</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th>İçerik</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblefatprm/"><code>TBLEFATPRM</code></a></td>
+<td>E-fatura parametreleri; <code>BIRIMKOD</code> e-fatura numara serisi (ör. <code>ABC</code>)</td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblearsivprm/"><code>TBLEARSIVPRM</code></a></td>
+<td>E-arşiv parametreleri; <code>BIRIMKOD</code> e-arşiv serisi</td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tbleirsseri/"><code>TBLEIRSSERI</code></a></td>
+<td>E-irsaliye serileri (<code>SERI</code>)</td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tbldizaynsabit/"><code>TBLDIZAYNSABIT</code></a></td>
+<td>Belge dizaynları. <code>DIZAYNTIPI</code>: <code>99</code> e-fatura, <code>100</code> e-arşiv, <code>104</code> e-irsaliye (gözlenen değerler)</td>
+</tr>
+</tbody></table></div>
+<h2 id="kasa-muhasebe-diger"><a class="anchor" href="#kasa-muhasebe-diger" aria-hidden="true">#</a>Kasa, muhasebe, diğer</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th>İçerik</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblkasa/"><code>TBLKASA</code></a></td>
+<td>Kasa hareketleri. <code>IO</code>: <code>G</code> gelir, <code>C</code> gider. <code>TIP</code>: <code>B</code> banka, <code>C</code> cari, <code>E</code> çek, <code>F</code> fatura, <code>M</code> muhtelif, <code>S</code> senet, <code>T</code> transfer. <code>CARI_MUH</code>: <code>C</code>/<code>M</code>/<code>B</code></td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblmuplan/"><code>TBLMUPLAN</code></a></td>
+<td>Muhasebe hesap planı (<code>HESAP_KODU</code>)</td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblmuhfis/"><code>TBLMUHFIS</code></a></td>
+<td>Yevmiye fiş satırları (<code>AY_KODU</code>, <code>FISNO</code>, <code>HES_KOD</code>, <code>BA</code>)</td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblmuhagec/"><code>TBLMUHAGEC</code></a></td>
+<td>Muhasebe entegrasyonuna bekleyen kayıtlar</td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblmcek/"><code>TBLMCEK</code></a>, <a class="tbl" href="/veritabani/tablolar/tblmsen/"><code>TBLMSEN</code></a></td>
+<td>Müşteri çekleri / senetleri (portföy)</td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblbcek/"><code>TBLBCEK</code></a>, <a class="tbl" href="/veritabani/tablolar/tblbsen/"><code>TBLBSEN</code></a></td>
+<td>Borç çekleri / senetleri</td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblproje/"><code>TBLPROJE</code></a></td>
+<td>Proje kodları</td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblmasraf/"><code>TBLMASRAF</code></a></td>
+<td>Masraf merkezleri (<code>MKOD</code>)</td>
+</tr>
+<tr>
+<td><a class="tbl" href="/veritabani/tablolar/tblisletmeler/"><code>TBLISLETMELER</code></a>, <a class="tbl" href="/veritabani/tablolar/tblsubeler/"><code>TBLSUBELER</code></a></td>
+<td>İşletme ve şube tanımları</td>
+</tr>
+</tbody></table></div>
+<h2 id="sirket-listesi-ana-veritabani"><a class="anchor" href="#sirket-listesi-ana-veritabani" aria-hidden="true">#</a>Şirket listesi (ana veritabanı)</h2>
+<p>Şirket veritabanlarının listesi <code>NETSIS</code> adlı ana veritabanındadır:</p>
+<pre><code class="language-sql">SELECT DISTINCT SIRKET, SIRKETYILI
+FROM NETSIS.dbo.SIRKETLER30;
+</code></pre>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/veritabani/temel-tablolar.md">GitHub'da düzenle</a> · <a href="/veritabani/temel-tablolar.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#haritasi">Haritası</a></li><li class="l2"><a href="#cari">Cari</a></li><li class="l2"><a href="#stok">Stok</a></li><li class="l2"><a href="#fatura-irsaliye-siparis">Fatura, irsaliye, sipariş</a></li><li class="l2"><a href="#e-belge-parametreleri">E-belge parametreleri</a></li><li class="l2"><a href="#kasa-muhasebe-diger">Kasa, muhasebe, diğer</a></li><li class="l2"><a href="#sirket-listesi-ana-veritabani">Şirket listesi (ana veritabanı)</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

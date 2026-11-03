@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NDIDizayn><Object><ClassName>TFrmFiktif</ClassName><HtmlClassName></HtmlClassName><Name>FrmFiktif</Name><Left>238</Left><Top>5</Top><Width>733</Width><Height>718</Height><Caption>DB BAĞLANTISIZ ÖRNEK NDI</Caption><Color>-16777201</Color><Enabled>True</Enabled><Visible>True</Visible><AutoSize>False</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><BorderStyle>bsSizeable</BorderStyle><Icon/><RSSURLList></RSSURLList><RSSCodeList></RSSCodeList><Object><ClassName>TGroupBox</ClassName><HtmlClassName></HtmlClassName><Name>grpKayit</Name><Left>0</Left><Top>0</Top><Width>717</Width><Height>173</Height><Caption>KAYIT GİRİŞ</Caption><Color>-16777201</Color><Enabled>True</Enabled><TabStop>False</TabStop><TabOrder>0</TabOrder><Visible>True</Visible><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alTop</Align><Object><ClassName>TLabel</ClassName><HtmlClassName>THTMLLabel</HtmlClassName><Name>Label1</Name><Left>37</Left><Top>22</Top><Width>44</Width><Height>13</Height><Caption>Seri No : </Caption><Color>-16777201</Color><Enabled>True</Enabled><Visible>True</Visible><AutoSize>True</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Alignment>taLeftJustify</Alignment><Layout>tlTop</Layout></Object><Object><ClassName>TNDIRehberBtn</ClassName><HtmlClassName>THTMLRehberBtn</HtmlClassName><Name>DemRehber</Name><Left>211</Left><Top>17</Top><Width>22</Width><Height>22</Height><Caption></Caption><Enabled>True</Enabled><Visible>True</Visible><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><RehberKodu>R0000001</RehberKodu><LUCustomEdit>edtSeri</LUCustomEdit><LUCustEditAck>edtDemirbas</LUCustEditAck><RtrnFldIndex>2</RtrnFldIndex><Layout>blGlyphLeft</Layout></Object><Object><ClassName>TLabel</ClassName><HtmlClassName>THTMLLabel</HtmlClassName><Name>Label2</Name><Left>36</Left><Top>46</Top><Width>45</Width><Height>13</Height><Caption>Sicil No : </Caption><Color>-16777201</Color><Enabled>True</Enabled><Visible>True</Visible><AutoSize>True</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Alignment>taLeftJustify</Alignment><Layout>tlTop</Layout></Object><Object><ClassName>TNDIRehberBtn</ClassName><HtmlClassName>THTMLRehberBtn</HtmlClassName><Name>PerRehber</Name><Left>212</Left><Top>42</Top><Width>22</Width><Height>22</Height><Caption></Caption><Enabled>True</Enabled><Visible>True</Visible><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><RehberKodu>R0000002</RehberKodu><LUCustomEdit>edtSicil</LUCustomEdit><LUCustEditAck>edtAdSoyad</LUCustEditAck><RtrnFldIndex>2</RtrnFldIndex><Layout>blGlyphLeft</Layout></Object><Object><ClassName>TLabel</ClassName><HtmlClassName>THTMLLabel</HtmlClassName><Name>Label3</Name><Left>32</Left><Top>77</Top><Width>46</Width><Height>13</Height><Caption>Baş Tar : </Caption><Color>-16777201</Color><Enabled>True</Enabled><Visible>True</Visible><AutoSize>True</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Alignment>taLeftJustify</Alignment><Layout>tlTop</Layout></Object><Object><ClassName>TLabel</ClassName><HtmlClassName>THTMLLabel</HtmlClassName><Name>Label4</Name><Left>182</Left><Top>78</Top><Width>40</Width><Height>13</Height><Caption>Bit Tar : </Caption><Color>-16777201</Color><Enabled>True</Enabled><Visible>True</Visible><AutoSize>True</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Alignment>taLeftJustify</Alignment><Layout>tlTop</Layout></Object><Object><ClassName>TLabel</ClassName><HtmlClassName>THTMLLabel</HtmlClassName><Name>Label5</Name><Left>29</Left><Top>111</Top><Width>52</Width><Height>13</Height><Caption>Açıklama : </Caption><Color>-16777201</Color><Enabled>True</Enabled><Visible>True</Visible><AutoSize>True</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Alignment>taLeftJustify</Alignment><Layout>tlTop</Layout></Object><Object><ClassName>TNetEdit</ClassName><HtmlClassName>THTMLEdit</HtmlClassName><Name>edtSeri</Name><Left>86</Left><Top>18</Top><Width>121</Width><Height>21</Height><Text></Text><CharCase>ecNormal</CharCase><Enabled>True</Enabled><ReadOnly>False</ReadOnly><TabStop>True</TabStop><TabOrder>0</TabOrder><Visible>True</Visible><AutoSize>False</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Alignment>taLeftJustify</Alignment><BorderStyle>bsSingle</BorderStyle><EditMask></EditMask><NDSType>ndstNone</NDSType></Object><Object><ClassName>TNetEdit</ClassName><HtmlClassName>THTMLEdit</HtmlClassName><Name>edtDemirbas</Name><Left>238</Left><Top>18</Top><Width>320</Width><Height>21</Height><Text></Text><CharCase>ecNormal</CharCase><Enabled>True</Enabled><ReadOnly>True</ReadOnly><TabStop>True</TabStop><TabOrder>1</TabOrder><Visible>True</Visible><AutoSize>False</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Alignment>taLeftJustify</Alignment><BorderStyle>bsSingle</BorderStyle><EditMask></EditMask><NDSType>ndstNone</NDSType></Object><Object><ClassName>TNetEdit</ClassName><HtmlClassName>THTMLEdit</HtmlClassName><Name>edtSicil</Name><Left>87</Left><Top>43</Top><Width>121</Width><Height>21</Height><Text></Text><CharCase>ecNormal</CharCase><Enabled>True</Enabled><ReadOnly>False</ReadOnly><TabStop>True</TabStop><TabOrder>2</TabOrder><Visible>True</Visible><AutoSize>False</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Alignment>taLeftJustify</Alignment><BorderStyle>bsSingle</BorderStyle><EditMask></EditMask><NDSType>ndstNone</NDSType></Object><Object><ClassName>TNetEdit</ClassName><HtmlClassName>THTMLEdit</HtmlClassName><Name>edtAdSoyad</Name><Left>239</Left><Top>44</Top><Width>320</Width><Height>21</Height><Text></Text><CharCase>ecNormal</CharCase><Enabled>True</Enabled><ReadOnly>True</ReadOnly><TabStop>True</TabStop><TabOrder>3</TabOrder><Visible>True</Visible><AutoSize>False</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Alignment>taLeftJustify</Alignment><BorderStyle>bsSingle</BorderStyle><EditMask></EditMask><NDSType>ndstNone</NDSType></Object><Object><ClassName>TNetEdit</ClassName><HtmlClassName>THTMLEdit</HtmlClassName><Name>edtBasTar</Name><Left>88</Left><Top>73</Top><Width>80</Width><Height>21</Height><Text>__.__.____</Text><CharCase>ecNormal</CharCase><Enabled>True</Enabled><MaxLength>10</MaxLength><ReadOnly>False</ReadOnly><TabStop>True</TabStop><TabOrder>4</TabOrder><Visible>True</Visible><AutoSize>False</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Alignment>taLeftJustify</Alignment><BorderStyle>bsSingle</BorderStyle><EditMask>00/00/0000</EditMask><NDSType>ndstNone</NDSType></Object><Object><ClassName>TNetEdit</ClassName><HtmlClassName>THTMLEdit</HtmlClassName><Name>edtBitTar</Name><Left>238</Left><Top>74</Top><Width>80</Width><Height>21</Height><Text>__.__.____</Text><CharCase>ecNormal</CharCase><Enabled>True</Enabled><MaxLength>10</MaxLength><ReadOnly>False</ReadOnly><TabStop>True</TabStop><TabOrder>5</TabOrder><Visible>True</Visible><AutoSize>False</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Alignment>taLeftJustify</Alignment><BorderStyle>bsSingle</BorderStyle><EditMask>00/00/0000</EditMask><NDSType>ndstNone</NDSType></Object><Object><ClassName>TNetEdit</ClassName><HtmlClassName>THTMLEdit</HtmlClassName><Name>edtAciklama</Name><Left>88</Left><Top>104</Top><Width>468</Width><Height>21</Height><Text></Text><CharCase>ecNormal</CharCase><Enabled>True</Enabled><ReadOnly>False</ReadOnly><TabStop>True</TabStop><TabOrder>6</TabOrder><Visible>True</Visible><AutoSize>False</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Alignment>taLeftJustify</Alignment><BorderStyle>bsSingle</BorderStyle><EditMask></EditMask><NDSType>ndstNone</NDSType></Object><Object><ClassName>TButton</ClassName><HtmlClassName>THTMLButton</HtmlClassName><Name>btnKaydet</Name><Left>88</Left><Top>136</Top><Width>75</Width><Height>25</Height><Caption>KAYDET</Caption><Enabled>True</Enabled><TabStop>True</TabStop><TabOrder>7</TabOrder><Visible>True</Visible><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Style>bsPushButton</Style></Object><Object><ClassName>TButton</ClassName><HtmlClassName>THTMLButton</HtmlClassName><Name>btnYeni</Name><Left>170</Left><Top>135</Top><Width>75</Width><Height>25</Height><Caption>YENİ</Caption><Enabled>True</Enabled><TabStop>True</TabStop><TabOrder>8</TabOrder><Visible>True</Visible><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Style>bsPushButton</Style></Object><Object><ClassName>TButton</ClassName><HtmlClassName>THTMLButton</HtmlClassName><Name>btnSil</Name><Left>255</Left><Top>134</Top><Width>75</Width><Height>25</Height><Caption>SİL</Caption><Enabled>True</Enabled><TabStop>True</TabStop><TabOrder>9</TabOrder><Visible>True</Visible><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Style>bsPushButton</Style></Object><Object><ClassName>TNetEdit</ClassName><HtmlClassName>THTMLEdit</HtmlClassName><Name>edtID</Name><Left>573</Left><Top>17</Top><Width>121</Width><Height>21</Height><Text></Text><CharCase>ecNormal</CharCase><Enabled>True</Enabled><ReadOnly>False</ReadOnly><TabStop>True</TabStop><TabOrder>10</TabOrder><Visible>False</Visible><AutoSize>False</AutoSize><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alNone</Align><Alignment>taLeftJustify</Alignment><BorderStyle>bsSingle</BorderStyle><EditMask></EditMask><NDSType>ndstNone</NDSType></Object></Object><Object><ClassName>TNDIXGrid</ClassName><HtmlClassName></HtmlClassName><Name>GrdKayitlar</Name><Left>0</Left><Top>173</Top><Width>717</Width><Height>506</Height><Enabled>True</Enabled><TabStop>True</TabStop><TabOrder>1</TabOrder><Visible>True</Visible><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Align>alClient</Align><BevelKind>bkNone</BevelKind><BevelInner>bvRaised</BevelInner><BevelOuter>bvLowered</BevelOuter><BorderStyle>bsSingle</BorderStyle><Active>False</Active><OddRowColor>13948116</OddRowColor><ColCount>9</ColCount><StrColumns><Item><Width>94</Width><DataField>ID</DataField><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Alignment>taLeftJustify</Alignment><Title>ID</Title><ColMaxWidth>False</ColMaxWidth><EditMask></EditMask><NDSType>ndstNone</NDSType></Item><Item><Width>94</Width><DataField>SERIKODU</DataField><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Alignment>taLeftJustify</Alignment><Title>SERİ KODU</Title><ColMaxWidth>False</ColMaxWidth><EditMask></EditMask><NDSType>ndstNone</NDSType></Item><Item><Width>94</Width><DataField>DEMIRBAS_ADI</DataField><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Alignment>taLeftJustify</Alignment><Title>DEMİRBAŞ ADI</Title><ColMaxWidth>False</ColMaxWidth><EditMask></EditMask><NDSType>ndstNone</NDSType></Item><Item><Width>94</Width><DataField>SICILNO</DataField><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Alignment>taLeftJustify</Alignment><Title>SİCİL NO</Title><ColMaxWidth>False</ColMaxWidth><EditMask></EditMask><NDSType>ndstNone</NDSType></Item><Item><Width>94</Width><DataField>AD_SOYAD</DataField><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Alignment>taLeftJustify</Alignment><Title>AD SOYAD</Title><ColMaxWidth>False</ColMaxWidth><EditMask></EditMask><NDSType>ndstNone</NDSType></Item><Item><Width>94</Width><DataField>BASTAR</DataField><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Alignment>taLeftJustify</Alignment><Title>BAŞ. TAR.</Title><ColMaxWidth>False</ColMaxWidth><EditMask></EditMask><NDSType>ndstNone</NDSType></Item><Item><Width>94</Width><DataField>BITTAR</DataField><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Alignment>taLeftJustify</Alignment><Title>BİT. TAR.</Title><ColMaxWidth>False</ColMaxWidth><EditMask></EditMask><NDSType>ndstNone</NDSType></Item><Item><Width>94</Width><DataField>ACIKLAMA</DataField><Font><Name>MS Sans Serif</Name><Height>-11</Height><Color>-16777208</Color><Size>8</Size><Style>0</Style></Font><Alignment>taLeftJustify</Alignment><Title>AÇIKLAMA</Title><ColMaxWidth>False</ColMaxWidth><EditMask></EditMask><NDSType>ndstNone</NDSType></Item></StrColumns><ScrollBars>ssBoth</ScrollBars><DbConnectionCode>DBEMAS</DbConnectionCode><GridSql>SELECT ID,T1.SERIKODU,DEMIRBAS_ADI,T1.SICILNO,AD_SOYAD,BASTAR,BITTAR,ACIKLAMA FROM EMAS..TBLDEMZIMMET T1
+INNER JOIN EMAS..TBLDEMIRBAS T2 ON T1.SERIKODU=T2.SERIKODU
+INNER JOIN EMAS..TBLCALISAN T3 ON T1.SICILNO=T3.SICILNO
+</GridSql></Object></Object><CODE><Object><Name>__0__02_FORMGLOBAL</Name><Event>__0__02_FORMGLOBAL</Event><![CDATA[Dim DB
+Dim DBNOKTASIZ
+Dim qry1
+'Temelsetten NDI
+Set qry1 = Kernel.Values("TS_CORE").NetLibDB.GetNewQuery
+Str = "SELECT db_name() SIRKET"
+qry1.RECSQL(Str)
+DB = qry1.FieldByName("SIRKET").AsString & ".."
+DBNOKTASIZ = qry1.FieldByName("SIRKET").AsString & "."
+qry1.Close
+
+Function PadString(pString,pLength,pChar,pSide)
+  strString = pString
+  strPadding = String(pLength,pChar)
+  If lcase(pSide)="left" then
+    strString = strPadding & strString
+    strString = Right(strString,pLength)
+  else
+    strString = strString & strPadding
+    strString = Left(strString,pLength)
+  End if
+  PadString = strString
+End Function
+
+
+Function TarihFormatla(tarih,ayirac)
+  strDay = Cstr(DatePart("d", tarih))
+  strMonth = Cstr(DatePart("m", tarih))
+  strYear = Cstr(DatePart("yyyy", tarih))
+  strDay=PadString(strDay,2,"0","left")
+  strMonth=PadString(strMonth,2,"0","left")
+  TarihFormatla = strYear + ayirac + strMonth + ayirac + strDay
+End Function
+
+Function TarihGecerli(strtarih)
+  dim sonuc
+  sonuc=True
+  err.clear
+  on error resume next
+    tarih=CDate(strtarih)
+  if err.number>0 then
+    sonuc=False
+  end if
+  TarihGecerli=sonuc
+End Function]]><Zaman>1</Zaman><EventType>0</EventType></Object><Object><Name>btnKaydet</Name><Event>OnClick</Event><![CDATA[if edtSeri.Text="" then
+  NETSISCORE.NetLibWin32.ShowNetsisMesaj "Lutfen bir demirbas seciniz.",2
+  edtSeri.SetFocus
+  exit sub
+end if
+if edtSicil.Text="" then
+  NETSISCORE.NetLibWin32.ShowNetsisMesaj "Lutfen bir calisan seciniz.",2
+  edtSicil.SetFocus
+  exit sub
+end if
+if TarihGecerli(edtBasTar.Text)=False then
+  NETSISCORE.NetLibWin32.ShowNetsisMesaj "Lutfen gecerli bir baslangic tarihi giriniz.",2
+  edtBasTar.SetFocus
+  exit sub
+end if
+if TarihGecerli(edtBitTar.Text)=False then
+  NETSISCORE.NetLibWin32.ShowNetsisMesaj "Lutfen gecerli bir bitis tarihi giriniz.",2
+  edtBitTar.SetFocus
+  exit sub
+end if
+prmResult = NETSISCORE.NetLibWin32.ShowNetsisMesaj("Girmi? oldu?unuz bilgiler kaydedilecek, Emin misiniz?", 8)
+'MSGBOX prmResult 6 EVET 7 HAYIR 2 ?PTAL
+If prmResult=6 Then
+  MSG=""
+  sql="SELECT COUNT(*) FROM "+DB+"TBLDEMZIMMET WHERE ID='"&edtID.Text&"'"
+  'msgbox sql
+  Set qry=NETSISCORE.NetLibDB.GetNewQuery
+  qry1.RecSQL(sql)
+  say=qry1.Fields(0).AsInteger
+  qry1.Close
+  if say=0 then
+    sql="INSERT INTO "+DB+"TBLDEMZIMMET(SERIKODU, SICILNO, BASTAR, BITTAR, ACIKLAMA) SELECT '"& edtSeri.Text &"','"& edtSicil.Text &"','"&TarihFormatla(CDate(edtBasTar.Text),".")&"','"&TarihFormatla(CDate(edtBitTar.Text),".")&"','"&edtAciklama.Text&"'"
+    MSG="Kayit yapildi."
+  else
+    sql="UPDATE "+DB+"TBLDEMZIMMET SET SERIKODU='"& edtSeri.Text &"',SICILNO='"& edtSicil.Text &"',BASTAR='"&TarihFormatla(CDate(edtBasTar.Text),".")&"',BITTAR='"&TarihFormatla(CDate(edtBitTar.Text),".")&"',ACIKLAMA='"&edtAciklama.Text&"' WHERE ID='"&edtID.Text&"'"
+    MSG="Kayit guncellendi."
+  end if
+  'msgbox sql
+  qry1.RecSQL(sql)
+  qry1.Close
+  NETSISCORE.NetLibWin32.ShowNetsisMesaj MSG,2
+  GrdKayitlar.Active=false
+  GrdKayitlar.Active=true
+End If]]><Zaman>1</Zaman><EventType>0</EventType></Object><Object><Name>btnSil</Name><Event>OnClick</Event><![CDATA[prmResult = NETSISCORE.NetLibWin32.ShowNetsisMesaj("Kay?t silinecek, Emin misiniz?", 8)
+'MSGBOX prmResult 6 EVET 7 HAYIR 2 ?PTAL
+If prmResult=6 Then
+  sql="DELETE FROM "+DB+"TBLDEMZIMMET WHERE ID='"&edtID.Text&"'"
+  qry1.RecSQL(sql)
+  qry1.Close
+  NETSISCORE.NetLibWin32.ShowNetsisMesaj "Kayit silindi.",2
+  GrdKayitlar.Active=false
+  GrdKayitlar.Active=true
+End If]]><Zaman>1</Zaman><EventType>0</EventType></Object><Object><Name>btnYeni</Name><Event>OnClick</Event><![CDATA[edtSeri.Text=""
+ edtSicil.Text=""
+ edtDemirbas.Text=""
+ edtAdSoyad.Text=""
+ edtBasTar.PropertyValue("EditMask")="00/00/0000"
+ edtBitTar.PropertyValue("EditMask")="00/00/0000"
+ edtBasTar.Text="  /  /    "
+ edtBitTar.Text="  /  /    "
+ edtAciklama.Text=""
+ edtID.Text=""]]><Zaman>1</Zaman><EventType>0</EventType></Object><Object><Name>edtBasTar</Name><Event>OnExit</Event><![CDATA[if TarihGecerli(edtBasTar.Text)=False then
+  NETSISCORE.NetLibWin32.ShowNetsisMesaj "Lutfen gecerli bir tarih giriniz.",2
+  exit sub
+end if]]><Zaman>1</Zaman><EventType>0</EventType></Object><Object><Name>edtBitTar</Name><Event>OnExit</Event><![CDATA[if TarihGecerli(edtBitTar.Text)=False then
+  NETSISCORE.NetLibWin32.ShowNetsisMesaj "Lutfen gecerli bir tarih giriniz.",2
+  exit sub
+end if]]><Zaman>1</Zaman><EventType>0</EventType></Object><Object><Name>GrdKayitlar</Name><Event>OnDblClick</Event><![CDATA[edtID.Text=GrdKayitlar.Cells(1,GrdKayitlar.Row)
+ edtSeri.Text=GrdKayitlar.Cells(2,GrdKayitlar.Row)
+ edtDemirbas.Text=GrdKayitlar.Cells(3,GrdKayitlar.Row)
+ edtSicil.Text=GrdKayitlar.Cells(4,GrdKayitlar.Row)
+ edtAdSoyad.Text=GrdKayitlar.Cells(5,GrdKayitlar.Row)
+ edtBasTar.Text=GrdKayitlar.Cells(6,GrdKayitlar.Row)
+ edtBitTar.Text=GrdKayitlar.Cells(7,GrdKayitlar.Row)
+ edtAciklama.Text=GrdKayitlar.Cells(8,GrdKayitlar.Row)]]><Zaman>1</Zaman><EventType>0</EventType></Object><Object><Name>TFrmFiktif</Name><Event>OnNetScrSys_FormAcilis</Event><![CDATA[btnYeni.InvokeEvent("OnClick")]]><Zaman>1</Zaman><EventType>0</EventType></Object></CODE>  <NESNEKOD>DBSIZORN</NESNEKOD>
+  <OBJNAME></OBJNAME>
+  <TARIH>24.09.2016</TARIH>
+  <BASLIK>DB BAĞLANTISIZ ÖRNEK NDI</BASLIK>
+  <GRUPKOD></GRUPKOD>
+  <ORTAM>D</ORTAM>
+  <MODALTYPE>N</MODALTYPE>
+  <AKTIF>E</AKTIF>
+  <SIRANO></SIRANO>
+  <DBAWARE>1</DBAWARE>
+  <DBCONNKOD></DBCONNKOD>
+  <NetsisKulNo>-1</NetsisKulNo>
+</NDIDizayn>

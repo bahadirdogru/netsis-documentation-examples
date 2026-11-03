@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://netsis.bahadirdogru.com/sitemap.xml

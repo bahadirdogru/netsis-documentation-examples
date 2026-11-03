@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TBLURETVARDIYAPLANIVARDIYA · Netsis Dokümantasyonu</title>
+<meta name="description" content="MRP-KAYIT-KAYNAK YÖNETİMİ-KAYNAK TANIMLAMA BİLGİLERİNDEKİ VARDİYA PLANI YER ALIR.AYRICA İLERİ ÜRETİM ÇİZELGELEME MAKİNE TANIMLAMA EKRANINDAKİ VARDİYA TANIMLAMASINDAN DA YAPILABİLİR">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/tablolar/tbluretvardiyaplanivardiya/">
+<link rel="alternate" type="text/markdown" href="/veritabani/tablolar/tbluretvardiyaplanivardiya.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="TBLURETVARDIYAPLANIVARDIYA">
+<meta property="og:description" content="MRP-KAYIT-KAYNAK YÖNETİMİ-KAYNAK TANIMLAMA BİLGİLERİNDEKİ VARDİYA PLANI YER ALIR.AYRICA İLERİ ÜRETİM ÇİZELGELEME MAKİNE TANIMLAMA EKRANINDAKİ VARDİYA TANIMLAMASINDAN DA YAPILABİLİR">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/tablolar/tbluretvardiyaplanivardiya/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/" aria-current="page">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a> <span>/</span> <a href="/veritabani/moduller/mrp/">MRP modülü</a></nav>
+<article>
+<h1 id="tbluretvardiyaplanivardiya"><a class="anchor" href="#tbluretvardiyaplanivardiya" aria-hidden="true">#</a>TBLURETVARDIYAPLANIVARDIYA</h1>
+<blockquote>
+<p>MRP-KAYIT-KAYNAK YÖNETİMİ-KAYNAK TANIMLAMA BİLGİLERİNDEKİ VARDİYA PLANI YER ALIR.AYRICA İLERİ ÜRETİM ÇİZELGELEME MAKİNE TANIMLAMA EKRANINDAKİ VARDİYA TANIMLAMASINDAN DA YAPILABİLİR</p>
+</blockquote>
+<ul>
+<li><strong>Modül:</strong> <a href="/veritabani/moduller/mrp/">MRP</a></li>
+<li><strong>Kolon sayısı:</strong> 21</li>
+</ul>
+<h2 id="kolonlar"><a class="anchor" href="#kolonlar" aria-hidden="true">#</a>Kolonlar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Kolon</th>
+<th>Tip</th>
+<th>Null</th>
+<th>Varsayılan</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>ISLETME_KODU</code></td>
+<td>TDBSMALLINT</td>
+<td>hayır</td>
+<td></td>
+<td>İşletme kodu bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>VARDIYAPLANI_ID</code></td>
+<td>TDBINTEGER</td>
+<td>hayır</td>
+<td></td>
+<td>TBLURETVARDIYAPLANI (INCKEYNO)</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>VARDIYA_KOD</code></td>
+<td>TDBVARDIYAKOD</td>
+<td>hayır</td>
+<td></td>
+<td>TBLURETVARDIYA (VARDIYA_KOD)</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>SIRA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Sıra bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>TOPLAM_MIKTAR</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>C_YEDEK1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>C_YEDEK2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>C_YEDEK3</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>C_YEDEK4</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>I_YEDEK1</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>I_YEDEK2</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>F_YEDEK1</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>F_YEDEK2</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>D_YEDEK1</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>D_YEDEK2</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>16</td>
+<td><code>S_YEDEK1</code></td>
+<td>varchar(50)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>17</td>
+<td><code>S_YEDEK2</code></td>
+<td>varchar(50)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>18</td>
+<td><code>KAYITYAPANKUL</code></td>
+<td>TDBNETSISKUL</td>
+<td>evet</td>
+<td></td>
+<td>Kayıt yapan kullanıcı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>19</td>
+<td><code>KAYITTARIHI</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Kayıt tarihi bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>20</td>
+<td><code>DUZELTMEYAPANKUL</code></td>
+<td>TDBNETSISKUL</td>
+<td>evet</td>
+<td></td>
+<td>Düzeltme yapan kullanıcı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>21</td>
+<td><code>DUZELTMETARIHI</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Düzeltme tarihi bilgisi yer alır.</td>
+</tr>
+</tbody></table></div>
+<h2 id="ornek-sorgu"><a class="anchor" href="#ornek-sorgu" aria-hidden="true">#</a>Örnek sorgu</h2>
+<pre><code class="language-sql">SELECT TOP 100 ISLETME_KODU, VARDIYAPLANI_ID, VARDIYA_KOD, SIRA, TOPLAM_MIKTAR, C_YEDEK1
+FROM dbo.TBLURETVARDIYAPLANIVARDIYA WITH (NOLOCK);
+</code></pre>
+
+</article>
+<footer class="page-foot"><a href="/veritabani/tablolar/tbluretvardiyaplanivardiya.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

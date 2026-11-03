@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E-belge · Netsis Dokümantasyonu</title>
+<meta name="description" content="E-fatura, e-arşiv ve e-irsaliye taslağı oluşturma ve HTML görüntüleme.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/netopenx/e-belge/">
+<link rel="alternate" type="text/markdown" href="/netopenx/e-belge.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="E-belge">
+<meta property="og:description" content="E-fatura, e-arşiv ve e-irsaliye taslağı oluşturma ve HTML görüntüleme.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/netopenx/e-belge/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/" aria-current="page">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/netopenx/">NetOpenX (COM)</a></nav>
+<article>
+<h1 id="e-belge-e-fatura-e-arsiv-e-irsaliye"><a class="anchor" href="#e-belge-e-fatura-e-arsiv-e-irsaliye" aria-hidden="true">#</a>E-belge (e-fatura, e-arşiv, e-irsaliye)</h1>
+<p>E-belge işlemleri <code>EBelge</code> nesnesiyle yapılır. Akış iki adımdır:</p>
+<ol>
+<li><strong>Taslak:</strong> Netsis&#39;teki fatura/irsaliyeden e-belge taslağı (UBL) oluşturulur. GİB numarası atanır.</li>
+<li><strong>Gönderim / görüntüleme:</strong> Taslak entegratöre gönderilir ya da HTML olarak görüntülenir.</li>
+</ol>
+<blockquote>
+<p>Gönderim (GİB&#39;e iletim) geri alınamaz. Geliştirme sırasında yalnızca taslak ve görüntüleme adımlarını deneyin.</p>
+</blockquote>
+<h2 id="tipler"><a class="anchor" href="#tipler" aria-hidden="true">#</a>Tipler</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><code>TEBelgeTip</code></th>
+<th>Belge</th>
+<th>Görüntüleme kutusu (<code>TEBelgeBoxType</code>)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ebtEFatura</code></td>
+<td>E-fatura</td>
+<td><code>ebAll</code></td>
+</tr>
+<tr>
+<td><code>ebtArsiv</code></td>
+<td>E-arşiv fatura</td>
+<td><code>ebAll</code></td>
+</tr>
+<tr>
+<td><code>ebtEIrs</code></td>
+<td>E-irsaliye</td>
+<td><code>ebOutbox</code></td>
+</tr>
+</tbody></table></div>
+<p>Hangisinin kullanılacağı carinin durumuna bağlıdır: <code>FatUst.EfaturaCarisiMi</code> <code>true</code> ise e-fatura, değilse e-arşiv.</p>
+<h2 id="faturadan-e-fatura-e-arsiv-taslagi"><a class="anchor" href="#faturadan-e-fatura-e-arsiv-taslagi" aria-hidden="true">#</a>Faturadan e-fatura / e-arşiv taslağı</h2>
+<pre><code class="language-csharp">Fatura fatura = kernel.yeniFatura(sirket, TFaturaTip.ftSFat);
+fatura.OkuUst(faturaNo, cariKod);
+bool efaturaCarisi = fatura.Ust().EfaturaCarisiMi;
+
+EBelge eb = kernel.yeniEBelge(sirket, efaturaCarisi ? TEBelgeTip.ebtEFatura : TEBelgeTip.ebtArsiv);
+eb.BelgeNo  = faturaNo;              // Netsis fatura numarası
+eb.DizaynNo = efaturaCarisi ? eFaturaDizaynNo : eArsivDizaynNo;
+if (!efaturaCarisi) eb.FiyatBilgileriBasilsin = true;
+eb.kayitYeni();                       // taslağı oluştur
+</code></pre>
+<h2 id="irsaliyeden-e-irsaliye-taslagi"><a class="anchor" href="#irsaliyeden-e-irsaliye-taslagi" aria-hidden="true">#</a>İrsaliyeden e-irsaliye taslağı</h2>
+<pre><code class="language-csharp">EBelge eb = kernel.yeniEBelge(sirket, TEBelgeTip.ebtEIrs);
+eb.KaynakTip = TEBelgeKaynakTipi.eitIrs;
+eb.BelgeNo   = irsaliyeNo;
+eb.DizaynNo  = eIrsaliyeDizaynNo;
+eb.FiyatBilgileriBasilsin = fiyatliMi;   // fiyatlı / fiyatsız irsaliye
+eb.kayitYeni();
+</code></pre>
+<h2 id="dizayn-numaralari"><a class="anchor" href="#dizayn-numaralari" aria-hidden="true">#</a>Dizayn numaraları</h2>
+<p>Dizaynlar <a class="tbl" href="/veritabani/tablolar/tbldizaynsabit/"><code>TBLDIZAYNSABIT</code></a> tablosundadır:</p>
+<pre><code class="language-sql">SELECT DIZAYNNO, dbo.TRK(DZNADI + &#39; [&#39; + DZNACIK + &#39;]&#39;) AS ADI
+FROM TBLDIZAYNSABIT
+WHERE DIZAYNTIPI = @tip AND ISLETME_KODU = 1 AND SUBE_KODU = 0;
+-- @tip: 99 e-fatura, 100 e-arşiv, 104 e-irsaliye
+</code></pre>
+<h2 id="gib-numarasini-bulmak"><a class="anchor" href="#gib-numarasini-bulmak" aria-hidden="true">#</a>GİB numarasını bulmak</h2>
+<p>Taslak oluştuktan sonra GİB numarası faturaya yazılır:</p>
+<pre><code class="language-sql">SELECT GIB_FATIRS_NO FROM TBLFATUIRS WHERE FATIRS_NO = @no AND CARI_KODU = @cari;
+</code></pre>
+<p><code>eb.BelgeNo</code>&#39;nun döndürdüğü değer ile bu sorgunun sonucunu karşılaştırmak, taslağın doğru belgeye bağlandığını doğrulamanın pratik yoludur.</p>
+<h2 id="html-goruntuleme"><a class="anchor" href="#html-goruntuleme" aria-hidden="true">#</a>HTML görüntüleme</h2>
+<pre><code class="language-csharp">EBelge eb = kernel.yeniEBelge(sirket, TEBelgeTip.ebtEFatura);
+string htmlYolu = eb.EBelgeGoruntuleme(
+    gibNo,                    // GİB numarası (GIB_FATIRS_NO)
+    @&quot;C:\Temp\efatura&quot;,       // çıktı klasörü
+    TEBelgeBoxType.ebAll,     // kutu
+    &quot;&quot;);                      // zarf (envelope) id, boş geçilebilir
+</code></pre>
+<p>Dönen değer oluşturulan HTML dosyasının yoludur. PDF gerekiyorsa HTML&#39;i bir HTML→PDF aracıyla dönüştürün (NetsisQuick bunu kendi <code>cPdf</code> sınıfıyla yapar).</p>
+<h2 id="seri-bilgileri"><a class="anchor" href="#seri-bilgileri" aria-hidden="true">#</a>Seri bilgileri</h2>
+<pre><code class="language-sql">SELECT BIRIMKOD FROM TBLEFATPRM   WHERE SUBE_KODU = 0;   -- e-fatura serisi
+SELECT BIRIMKOD FROM TBLEARSIVPRM WHERE SUBE_KODU = 0;   -- e-arşiv serisi
+SELECT SERI     FROM TBLEIRSSERI  WHERE C_YEDEK1 IS NULL AND SUBE_KODU = 0;   -- e-irsaliye serileri
+</code></pre>
+<p>REST karşılıkları: <code>POST api/v2/EDocument</code> (taslak), <code>POST api/v2/EDocument/SendEDocument</code>, <code>POST api/v2/EDocument/ShowEDocument</code> (<a href="/rest/json-ornekleri/#e-belge">JSON örnekleri</a>).</p>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/netopenx/e-belge.md">GitHub'da düzenle</a> · <a href="/netopenx/e-belge.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#tipler">Tipler</a></li><li class="l2"><a href="#faturadan-e-fatura-e-arsiv-taslagi">Faturadan e-fatura / e-arşiv taslağı</a></li><li class="l2"><a href="#irsaliyeden-e-irsaliye-taslagi">İrsaliyeden e-irsaliye taslağı</a></li><li class="l2"><a href="#dizayn-numaralari">Dizayn numaraları</a></li><li class="l2"><a href="#gib-numarasini-bulmak">GİB numarasını bulmak</a></li><li class="l2"><a href="#html-goruntuleme">HTML görüntüleme</a></li><li class="l2"><a href="#seri-bilgileri">Seri bilgileri</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

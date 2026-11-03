@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kimlikler ve enum'lar · Netsis Dokümantasyonu</title>
+<meta name="description" content="REST uçlarında {id} biçimleri ve enum değerleri.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/rest/kimlikler-ve-enumlar/">
+<link rel="alternate" type="text/markdown" href="/rest/kimlikler-ve-enumlar.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Kimlikler ve enum'lar">
+<meta property="og:description" content="REST uçlarında {id} biçimleri ve enum değerleri.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/rest/kimlikler-ve-enumlar/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/" aria-current="page">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/rest/">NetOpenX REST</a></nav>
+<article>
+<h1 id="kimlikler-ve-enum-lar"><a class="anchor" href="#kimlikler-ve-enum-lar" aria-hidden="true">#</a>Kimlikler ve enum&#39;lar</h1>
+<h2 id="id-bicimleri"><a class="anchor" href="#id-bicimleri" aria-hidden="true">#</a>{id} biçimleri</h2>
+<p>Birçok kaynakta <code>{id}</code> tek bir kolon değil, <code>;</code> ile ayrılmış <strong>bileşik anahtardır</strong>. URL&#39;de kullanırken encode edin (<code>;</code> → <code>%3B</code> gerekmez ama boşluk ve <code>/</code> içeren kodlar için gerekir).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kaynak</th>
+<th>Biçim</th>
+<th>Örnek</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ItemSlips</code></td>
+<td><code>&lt;JTFaturaTip&gt;;&lt;FATIRS_NO&gt;;&lt;CARI_KOD&gt;</code></td>
+<td><code>ftSSip;000000000000123;120-01-001</code></td>
+</tr>
+<tr>
+<td><code>ItemSlips</code> (yalnız tip ve no)</td>
+<td><code>&lt;JTFaturaTip&gt;;&lt;FATIRS_NO&gt;</code></td>
+<td><code>ftASip;999999999999999</code></td>
+</tr>
+<tr>
+<td>Talep</td>
+<td><code>ftSatTalep;&lt;FATIRS_NO&gt;</code></td>
+<td><code>ftSatTalep;000000000000025</code></td>
+</tr>
+<tr>
+<td><code>CheckAndPNotesMain</code></td>
+<td><code>&lt;JTCekSenType&gt;;&lt;SC_ALB_NO&gt;</code></td>
+<td><code>csMCEK;A00000000000001</code></td>
+</tr>
+<tr>
+<td><code>BankRemittanceTransfer</code></td>
+<td><code>&lt;JTBankaHavaleEftTip&gt;;&lt;?&gt;;;&lt;belge no&gt;</code></td>
+<td><code>tbVirman;1;;000000000000032</code></td>
+</tr>
+<tr>
+<td><code>MixedReceiptsMain</code></td>
+<td><code>&lt;KasaKod&gt;;&lt;BelgeNo&gt;;&lt;CariKod&gt;;&lt;yyyy-MM-dd&gt;</code></td>
+<td><code>01;45454545;00001;2015-10-27</code></td>
+</tr>
+<tr>
+<td><code>ARPTransactions</code></td>
+<td><code>INC_KEY_NUMBER</code> (tam sayı)</td>
+<td><code>178</code></td>
+</tr>
+<tr>
+<td><code>ARPs</code>, <code>Items</code>, <code>GLAccounts</code></td>
+<td>Kod</td>
+<td><code>120-01-001</code>, <code>STK001</code>, <code>120-01-013</code></td>
+</tr>
+<tr>
+<td><code>ForExs</code>, <code>ExRates</code></td>
+<td>Tam sayı (<code>NETSISSIRA</code> / sıra)</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>FinishedGoodsReceiptWChanges</code></td>
+<td><code>UretSon_FisNo</code></td>
+<td><code>000000000000428</code></td>
+</tr>
+<tr>
+<td>Proses kontrol</td>
+<td><code>ProsesKontrolNo</code></td>
+<td><code>000000000000001</code></td>
+</tr>
+<tr>
+<td>Stok planlama</td>
+<td>Stok kodu</td>
+<td><code>SER1X</code></td>
+</tr>
+</tbody></table></div>
+<p><code>SC_ALB_NO</code> değeri <a class="tbl" href="/veritabani/tablolar/tblmcek/"><code>TBLMCEK</code></a>, <a class="tbl" href="/veritabani/tablolar/tblmsen/"><code>TBLMSEN</code></a>, <a class="tbl" href="/veritabani/tablolar/tblbcek/"><code>TBLBCEK</code></a>, <a class="tbl" href="/veritabani/tablolar/tblbsen/"><code>TBLBSEN</code></a> tablolarından gelir. Belgelenmemiş parçalar için ilgili kaynağın <code>definitions</code> ve <code>helpinfo</code> sayfalarına bakın.</p>
+<h2 id="enum-degerleri"><a class="anchor" href="#enum-degerleri" aria-hidden="true">#</a>Enum değerleri</h2>
+<p>C# istemcisinde <code>JT</code> önekli enum&#39;lar kullanılır (COM&#39;daki <code>T</code> önekli enum&#39;ların karşılığı).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Enum</th>
+<th>Değerler</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>JTFaturaTip</code></td>
+<td><code>ftSFat</code> satış faturası, <code>ftAFat</code> alış faturası, <code>ftSSip</code> satış siparişi, <code>ftASip</code> alış siparişi, <code>ftSIrs</code> satış irsaliyesi, <code>ftAIrs</code> alış irsaliyesi, <code>ftSatTalep</code> satış talebi, <code>ftSatTeklif</code> satış teklifi, <code>ftDepo</code> depolar arası, <code>ftAmbarG</code> ambar giriş, <code>ftAmbarC</code> ambar çıkış</td>
+</tr>
+<tr>
+<td><code>JTFaturaTipi</code></td>
+<td><code>ft_YurtIci</code>, <code>ft_YurtDisi</code>, <code>ft_Acik</code>, <code>ft_Ihracat</code>, <code>ft_Bos</code> (COM&#39;daki <code>ft_Kapali</code>, <code>ft_Iade</code>… da beklenir)</td>
+</tr>
+<tr>
+<td><code>JNVTTipi</code></td>
+<td><code>vtMSSQL</code></td>
+</tr>
+<tr>
+<td><code>JTCekSenType</code></td>
+<td><code>csMCEK</code> müşteri çeki, <code>csMSEN</code> müşteri senedi, <code>csBCEK</code> borç çeki, <code>csBSEN</code> borç senedi</td>
+</tr>
+<tr>
+<td><code>JTCekSenetEvrakKaydetmeTipi</code></td>
+<td><code>ektCekSenAlma</code></td>
+</tr>
+<tr>
+<td><code>JTKasaBasimTipi</code></td>
+<td><code>kbMSen</code></td>
+</tr>
+<tr>
+<td><code>JTBankaHavaleEftTip</code></td>
+<td><code>tbBankaHvl</code> havale, <code>tbVirman</code> virman</td>
+</tr>
+<tr>
+<td><code>JTEBelgeTip</code></td>
+<td><code>ebtEFatura</code>, <code>ebtEIrs</code></td>
+</tr>
+<tr>
+<td><code>JTEBelgeYanitTipi</code></td>
+<td><code>ytKabul</code></td>
+</tr>
+<tr>
+<td><code>JTEBelgeBoxType</code></td>
+<td><code>ebAll</code></td>
+</tr>
+<tr>
+<td><code>JTDepoBelgeTipi</code></td>
+<td><code>dbtAlisFaturasi</code>, <code>dbtDepolarArasiTransfer</code></td>
+</tr>
+<tr>
+<td><code>JTDepoIslemTipi</code></td>
+<td><code>ditYerlestirme</code></td>
+</tr>
+<tr>
+<td><code>JTDepoHareketTipi</code></td>
+<td><code>dhtNormal</code></td>
+</tr>
+<tr>
+<td><code>JTAmbarHarTur</code></td>
+<td><code>htUretim</code>, <code>htDepolar</code></td>
+</tr>
+<tr>
+<td><code>JTCikisYeri</code></td>
+<td><code>cyMasrafMer</code></td>
+</tr>
+<tr>
+<td><code>JTHalFatTipi</code></td>
+<td><code>hftHalKomisyon</code></td>
+</tr>
+<tr>
+<td><code>JTBorcAlacak</code></td>
+<td><code>cdHepsi</code></td>
+</tr>
+<tr>
+<td><code>JTDovCevrimTipi</code></td>
+<td><code>DovizSatis</code></td>
+</tr>
+<tr>
+<td><code>JTHareketTipAraligi</code></td>
+<td><code>Devir</code>, <code>Muhtelif</code></td>
+</tr>
+<tr>
+<td><code>JTTarihAraligi</code></td>
+<td><code>TKayit</code></td>
+</tr>
+<tr>
+<td><code>JTMuhAktTuru</code></td>
+<td><code>atAlacak</code></td>
+</tr>
+<tr>
+<td><code>JTAcikReceteBilesenSirasi</code></td>
+<td><code>arbsGirisSirasi</code></td>
+</tr>
+<tr>
+<td><code>JTMrpUrunTipi</code></td>
+<td><code>mutSiparisBakiye</code></td>
+</tr>
+<tr>
+<td><code>JTMrpSiparis</code></td>
+<td><code>msHepsi</code></td>
+</tr>
+<tr>
+<td><code>JTSaticiKoduBosIhtiyaclar</code></td>
+<td><code>biGetirilsin</code></td>
+</tr>
+<tr>
+<td><code>JTGruplamaSecenekTipi</code></td>
+<td><code>gsHicbiri</code></td>
+</tr>
+<tr>
+<td><code>JTProsesKontrolTanimTipi</code></td>
+<td><code>pkIstasyon</code></td>
+</tr>
+<tr>
+<td><code>JTRaporSonucuCiktiTipi</code></td>
+<td><code>rsctExcel</code></td>
+</tr>
+</tbody></table></div>
+<p>Liste örnek kodlarda geçen değerlerle sınırlıdır; tam liste için <code>GET api/v2/definitions/&lt;Kaynak&gt;</code> çıktısındaki enum tanımlarına bakın.</p>
+<h2 id="sayisal-enum-degerleri"><a class="anchor" href="#sayisal-enum-degerleri" aria-hidden="true">#</a>Sayısal enum değerleri</h2>
+<p>JSON&#39;da enum&#39;lar ad (<code>&quot;ftSFat&quot;</code>) ya da sayı (<code>0</code>) olarak gönderilebilir. Gözlenen sayılar:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Alan</th>
+<th>Sayı</th>
+<th>Anlamı</th>
+<th>Kaynak</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>EDocument.Tip</code>, <code>EDocumentType</code></td>
+<td><code>0</code> / <code>1</code> / <code>2</code></td>
+<td>e-arşiv / e-fatura / e-irsaliye</td>
+<td>Postman örneği</td>
+</tr>
+<tr>
+<td>token <code>dbtype</code></td>
+<td><code>0</code></td>
+<td>MSSQL (varsayım)</td>
+<td>örnek kod</td>
+</tr>
+<tr>
+<td><code>FatUst.Tip</code></td>
+<td><code>0</code></td>
+<td><code>ftSFat</code> ile birlikte kullanılmış (varsayım)</td>
+<td>örnek kod</td>
+</tr>
+<tr>
+<td><code>FatUst.TIPI</code></td>
+<td><code>2</code></td>
+<td>açık fatura ile tutarlı (<code>TBLFATUIRS.TIPI = 2</code>) — doğrulanmadı</td>
+<td>örnek kod</td>
+</tr>
+<tr>
+<td><code>BatchInvoicing.FaturaTip</code></td>
+<td><code>2</code></td>
+<td>belirsiz</td>
+<td>Postman örneği</td>
+</tr>
+</tbody></table></div>
+<blockquote>
+<p>Enum sırası sürümler arasında değişebilir. Sayı yerine <strong>adı</strong> göndermek daha güvenlidir; bir sayının anlamından emin değilseniz <code>definitions</code> çıktısından doğrulayın.</p>
+</blockquote>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/rest/kimlikler-ve-enumlar.md">GitHub'da düzenle</a> · <a href="/rest/kimlikler-ve-enumlar.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#id-bicimleri">{id} biçimleri</a></li><li class="l2"><a href="#enum-degerleri">Enum değerleri</a></li><li class="l2"><a href="#sayisal-enum-degerleri">Sayısal enum değerleri</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

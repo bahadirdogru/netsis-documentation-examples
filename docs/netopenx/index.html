@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NetOpenX (COM) · Netsis Dokümantasyonu</title>
+<meta name="description" content="NetOpenX50.dll nedir, nasıl kurulur ve .NET projesine eklenir.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/netopenx/">
+<link rel="alternate" type="text/markdown" href="/netopenx.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="NetOpenX (COM)">
+<meta property="og:description" content="NetOpenX50.dll nedir, nasıl kurulur ve .NET projesine eklenir.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/netopenx/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/" aria-current="page">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a></nav>
+<article>
+<h1 id="netopenx-com"><a class="anchor" href="#netopenx-com" aria-hidden="true">#</a>NetOpenX (COM)</h1>
+<p><strong>NetOpenX</strong>, Netsis&#39;in kart ve belgelerini program dışından, Netsis iş kurallarını uygulayarak eklemek, okumak, değiştirmek ve silmek için sunduğu COM kütüphanesidir. Dosya adı <code>NetOpenX50.dll</code>&#39;dir ve her Netsis setiyle birlikte <code>TEMELSET</code> (9.x&#39;te <code>ENTERPRISE9</code>) klasöründe gelir. Ayrı bir kurulum programı yoktur.</p>
+<p>NetOpenX ile yazılan bir fatura, Netsis ekranından girilmiş gibi davranır: numara verilir, stok ve cari hareketleri oluşur, bakiyeler güncellenir, muhasebe entegrasyonu hazırlanır.</p>
+<blockquote>
+<p><a href="/rest/">NetOpenX REST</a> de arka planda bu kütüphaneyi kullanır. Nesne ve alan adları (<code>FatUst</code>, <code>STra_GCMIK</code>, <code>KDV_DAHILMI</code>…) iki tarafta büyük ölçüde aynıdır.</p>
+</blockquote>
+<h2 id="gereksinimler"><a class="anchor" href="#gereksinimler" aria-hidden="true">#</a>Gereksinimler</h2>
+<ul>
+<li>Netsis kurulu bir Windows makinesi (istemci ya da sunucu). NetOpenX, Netsis&#39;in kendi DLL&#39;lerini ve veritabanı bağlantı katmanını kullanır.</li>
+<li><strong>NetOpenX Runtime lisansı.</strong> Lisans Netsis Merkezi Kimlik Yönetimi&#39;nden (SSO) indirilmiş olmalıdır. Geliştirme lisansı Logo çözüm ortağı üzerinden alınır.</li>
+<li>.NET Framework 4.x (örnekler 4.7.2 ve 4.8 ile yazıldı) ya da COM çağırabilen herhangi bir dil (VB6, VBScript, Delphi, Python <code>win32com</code>…).</li>
+<li>Kullanılan DLL ile veritabanının <strong>aynı Netsis sürümünde</strong> olması. Sürüm farkı, alan eksikliği ya da bağlantı hatası olarak döner.</li>
+</ul>
+<h2 id="kurulum-dll-i-register-etmek"><a class="anchor" href="#kurulum-dll-i-register-etmek" aria-hidden="true">#</a>Kurulum (DLL&#39;i register etmek)</h2>
+<ol>
+<li><p>Netsis sürümüne uygun <code>NetOpenX50.dll</code>&#39;in yerini bulun (ör. <code>C:\NETSIS\ENTERPRISE9\</code> ya da <code>...\TEMELSET\</code>).</p>
+</li>
+<li><p><strong>Kolay yol:</strong> Netsis kurulum klasöründeki <code>ENTERPRISE9\Servis\RegControl.exe</code>&#39;yi <strong>yönetici olarak</strong> çalıştırın. Netsis bileşenlerini toplu register eder.</p>
+</li>
+<li><p><strong>Elle:</strong> yönetici komut isteminde:</p>
+<pre><code class="language-bat">regsvr32 &quot;C:\NETSIS\ENTERPRISE9\NetOpenX50.dll&quot;
+rem kaldırmak için
+regsvr32 /u &quot;C:\NETSIS\ENTERPRISE9\NetOpenX50.dll&quot;
+</code></pre>
+</li>
+<li><p>Visual Studio&#39;da <strong>Add Reference → COM</strong> sekmesinden <code>NetOpenX50</code> kütüphanesini ekleyin. Listede yoksa ya da farklı bir yol/sürüm gösteriyorsa DLL yanlış register edilmiştir.</p>
+</li>
+</ol>
+<p><code>.csproj</code> içinde referans şöyle görünür:</p>
+<pre><code class="language-xml">&lt;COMReference Include=&quot;NetOpenX50&quot;&gt;
+  &lt;Guid&gt;{184B0A14-1416-44D7-978C-DECC4FC09693}&lt;/Guid&gt;
+  &lt;VersionMajor&gt;5&lt;/VersionMajor&gt;
+  &lt;VersionMinor&gt;0&lt;/VersionMinor&gt;
+  &lt;Lcid&gt;0&lt;/Lcid&gt;
+  &lt;WrapperTool&gt;tlbimp&lt;/WrapperTool&gt;
+  &lt;Isolated&gt;False&lt;/Isolated&gt;
+  &lt;EmbedInteropTypes&gt;True&lt;/EmbedInteropTypes&gt;
+&lt;/COMReference&gt;
+</code></pre>
+<p>Basım ve e-belge HTML&#39;i gibi işlerde ek olarak <code>NetBasimX</code> kütüphanesi de referans edilebilir.</p>
+<h3 id="32-64-bit"><a class="anchor" href="#32-64-bit" aria-hidden="true">#</a>32 / 64 bit</h3>
+<p>Netsis istemcisi ve <code>NetOpenX50.dll</code> 32 bit&#39;tir. .NET projesini <strong>x86</strong> hedefiyle ya da <strong>AnyCPU + Prefer 32-bit</strong> ile derleyin. 64 bit süreçten çağrılırsa COM sınıfı bulunamaz (<code>REGDB_E_CLASSNOTREG</code>, &quot;Class not registered&quot;). IIS&#39;te barındırıyorsanız uygulama havuzunda <em>Enable 32-Bit Applications</em> açık olmalıdır.</p>
+<h2 id="nesne-modeli"><a class="anchor" href="#nesne-modeli" aria-hidden="true">#</a>Nesne modeli</h2>
+<pre><code class="language-text">Kernel                       giriş noktası; diğer nesneleri üretir
+ ├─ yeniSirket(...)  → Sirket    şirkete (veritabanına) oturum
+ ├─ yeniFatura(sirket, TFaturaTip) → Fatura
+ │     ├─ Ust()          → FatUst      belge başlığı
+ │     ├─ kalemYeni(stok)→ FatKalem    yeni satır
+ │     ├─ get_Kalem(i)   → FatKalem    mevcut satır (okumada; VB&#39;de Kalem(i))
+ │     └─ EIrsaliyeEkYeni() → IEIrsEkBilgi  e-irsaliye taşıma bilgisi
+ ├─ yeniCari(sirket)  → Cari
+ ├─ yeniStok(sirket)  → Stok   (TemelBilgi(), EkBilgi())
+ ├─ yeniEBelge(sirket, TEBelgeTip) → EBelge
+ ├─ yeniKasa, yeniDekont, yeniCekSenAna, yeniFis, yeniIsEmri, yeniUretim, yeniNetRS, yeniBasim …
+ ├─ Version, SirketListesi, SonNetsisHata
+ └─ FreeNetsisLibrary()          kaynakları bırakır
+</code></pre>
+<p>40&#39;tan fazla fabrika metodunun tam listesi: <strong><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></strong>.</p>
+<p>Sayfalar:</p>
+<ul>
+<li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a>: tüm <code>kernel.yeni…</code> nesneleri ve <code>Sirket</code> üzerindeki işlemler.</li>
+<li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a>: <code>Kernel</code>, <code>Sirket</code>, <code>try/finally</code> şablonu.</li>
+<li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a>: <code>Fatura</code>, <code>FatUst</code>, <code>FatKalem</code> ile belge kaydı, okuma, silme.</li>
+<li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a>: sipariş → irsaliye/fatura, irsaliye → fatura, numara değiştirme.</li>
+<li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a>: depolar arası transfer, ambar giriş/çıkış.</li>
+<li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a>: kart oluşturma, okuma, silme.</li>
+<li><a href="/netopenx/e-belge/">E-belge</a>: e-fatura, e-arşiv, e-irsaliye taslağı ve görüntüleme.</li>
+<li><a href="/netopenx/diger-islemler/">Diğer işlemler</a>: hesaplama, TCMB banka kodları, talep/teklif okuma.</li>
+<li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a>: oturum üzerinden SQL, <code>NetsisTransaction</code>.</li>
+<li><a href="/netopenx/enumlar/">Enum&#39;lar</a>: <code>TFaturaTip</code>, <code>TFaturaTipi</code>, <code>TEBelgeTip</code>…</li>
+<li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a>.</li>
+</ul>
+<h2 id="adlandirma-aliskanliklari"><a class="anchor" href="#adlandirma-aliskanliklari" aria-hidden="true">#</a>Adlandırma alışkanlıkları</h2>
+<ul>
+<li>Metotlar Türkçe ve küçük harfle başlar: <code>yeniSirket</code>, <code>kayitYeni</code>, <code>kayitOku</code>, <code>kayitSil</code>, <code>kayitDuzelt</code>.</li>
+<li>Bazı metotlar büyük harfle başlar: <code>Ust()</code>, <code>OkuUst()</code>, <code>OkuKalem()</code>, <code>YeniNumara()</code>, <code>NumaraDegistir()</code>, <code>Siparis2IrsFat()</code>, <code>Irsaliye2Fatura()</code>, <code>HesaplamalariYap()</code>.</li>
+<li>Özellik adları veritabanı kolonlarına yakındır ama birebir değildir: <code>FatUst.CariKod</code> → <code>TBLFATUIRS.CARI_KODU</code>; <code>FatKalem.STra_GCMIK</code> → <code>TBLSTHAR.STHAR_GCMIK</code>; <code>FatUst.EKACK1</code> → <code>TBLFATUEK.ACIK1</code>.</li>
+<li>Enum&#39;lar <code>T</code> önekiyle başlar: <code>TFaturaTip</code>, <code>TVTTipi</code>, <code>TOkumaTipi</code>.</li>
+</ul>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/netopenx/index.md">GitHub'da düzenle</a> · <a href="/netopenx.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#gereksinimler">Gereksinimler</a></li><li class="l2"><a href="#kurulum-dll-i-register-etmek">Kurulum (DLL&#39;i register etmek)</a></li><li class="l3"><a href="#32-64-bit">32 / 64 bit</a></li><li class="l2"><a href="#nesne-modeli">Nesne modeli</a></li><li class="l2"><a href="#adlandirma-aliskanliklari">Adlandırma alışkanlıkları</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

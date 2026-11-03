@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hatalar ve sorun giderme · Netsis Dokümantasyonu</title>
+<meta name="description" content="NetOpenX COM hataları, nedenleri ve teşhis için hata mesajı kalıbı.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/netopenx/hatalar/">
+<link rel="alternate" type="text/markdown" href="/netopenx/hatalar.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Hatalar ve sorun giderme">
+<meta property="og:description" content="NetOpenX COM hataları, nedenleri ve teşhis için hata mesajı kalıbı.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/netopenx/hatalar/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/" aria-current="page">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/netopenx/">NetOpenX (COM)</a></nav>
+<article>
+<h1 id="hatalar-ve-sorun-giderme"><a class="anchor" href="#hatalar-ve-sorun-giderme" aria-hidden="true">#</a>Hatalar ve sorun giderme</h1>
+<p>NetOpenX hataları .NET&#39;e <code>System.Runtime.InteropServices.COMException</code> olarak gelir. Netsis&#39;in kendi mesajı <code>ex.Message</code> içindedir; <code>ex.ErrorCode</code> HRESULT değeridir.</p>
+<h2 id="netsis-hata-kodu"><a class="anchor" href="#netsis-hata-kodu" aria-hidden="true">#</a>Netsis hata kodu</h2>
+<p>Son Netsis hatasının sayısal kodu <code>kernel.SonNetsisHata</code> nesnesindedir. Mesaj metnini ayrıştırmak yerine bu kodu kullanın:</p>
+<pre><code class="language-csharp">try
+{
+    fatura.OkuUst(&quot;GECERSIZNO&quot;, &quot;GECERSIZCARI&quot;);
+}
+catch (COMException)
+{
+    var hata = kernel.SonNetsisHata;
+    if (hata != null &amp;&amp; hata.Kod == 401)
+        Console.WriteLine(&quot;Fatura bulunamadı.&quot;);
+    else
+        throw;
+}
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kod</th>
+<th>Anlamı (gözlenen)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>401</code></td>
+<td>Okunmak istenen kayıt bulunamadı (<code>OkuUst</code> ile olmayan belge). REST&#39;te de giriş hatasında <code>Hata Kodu : 401</code> döner.</td>
+</tr>
+</tbody></table></div>
+<p>Kod listesi Logo tarafından yayımlanmamıştır; Delphi örneği yalnızca <code>401</code>&#39;i gösterir. REST istemcisinde aynı bilgi <code>JKernel.SonNetsisHata.Kod</code> olarak geçer.</p>
+<h2 id="teshis-edilebilir-hata-mesaji"><a class="anchor" href="#teshis-edilebilir-hata-mesaji" aria-hidden="true">#</a>Teşhis edilebilir hata mesajı</h2>
+<p>Hatanın hangi belgede, hangi satırda çıktığını bilmeden çözmek zordur. NetsisQuick her işlemde bağlamı da mesaja ekler:</p>
+<pre><code class="language-csharp">public static string HataOlustur(string islem, IDictionary&lt;string, string&gt; detay, Exception ex)
+{
+    var sb = new StringBuilder();
+    sb.AppendLine($&quot;{islem} işleminde hata oluştu&quot;);
+    foreach (var d in detay.Where(d =&gt; !string.IsNullOrEmpty(d.Value)))
+        sb.AppendLine($&quot;{d.Key}: {d.Value}&quot;);
+    sb.AppendLine($&quot;Hata: {ex.Message}&quot;);
+    if (ex is COMException com)
+    {
+        sb.AppendLine($&quot;COM Hata Kodu: {com.ErrorCode}&quot;);
+        sb.AppendLine($&quot;COM Hata Kaynağı: {com.Source}&quot;);
+    }
+    return sb.ToString();
+}
+
+// kullanım
+catch (Exception ex)
+{
+    throw new Exception(HataOlustur(&quot;SiparisOlustur&quot;, new Dictionary&lt;string, string&gt; {
+        [&quot;Veritabanı&quot;] = db, [&quot;Cari Kodu&quot;] = cari, [&quot;Excel satırı&quot;] = index.ToString(),
+        [&quot;Stok Kodu&quot;] = stokKodu }, ex));
+}
+</code></pre>
+<h2 id="sik-karsilasilan-durumlar"><a class="anchor" href="#sik-karsilasilan-durumlar" aria-hidden="true">#</a>Sık karşılaşılan durumlar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Belirti</th>
+<th>Olası neden</th>
+<th>Çözüm</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Class not registered</code> / <code>REGDB_E_CLASSNOTREG</code> (0x80040154)</td>
+<td>DLL register edilmemiş ya da süreç 64 bit</td>
+<td><code>RegControl.exe</code> / <code>regsvr32</code>; projeyi x86 derleyin</td>
+</tr>
+<tr>
+<td>Visual Studio COM listesinde NetOpenX yok veya yanlış sürüm</td>
+<td>Yanlış DLL register edilmiş</td>
+<td>Doğru sürümün DLL&#39;ini yeniden register edin</td>
+</tr>
+<tr>
+<td>Bağlantıda lisans hatası</td>
+<td>NetOpenX lisansı yok / indirilmemiş / tüm lisanslar kullanımda</td>
+<td>SSO&#39;dan lisansı indirin; bırakılmayan oturumları kapatın (<code>LogOff</code>, <code>FreeNetsisLibrary</code>)</td>
+</tr>
+<tr>
+<td>Bağlantıda kullanıcı/şifre hatası</td>
+<td>Netsis kullanıcısı ya da DB kullanıcısı yanlış</td>
+<td><code>yeniSirket</code> parametre sırasını kontrol edin (<a href="/netopenx/baglanti/">Bağlantı</a>)</td>
+</tr>
+<tr>
+<td>Kayıtta &quot;stok kodu bulunamadı&quot; benzeri hata</td>
+<td><code>kalemYeni</code>&#39;ye geçersiz stok kodu ya da barkod verildi</td>
+<td>Önce barkodu stok koduna çevirin</td>
+</tr>
+<tr>
+<td>Kayıtta risk hatası</td>
+<td><code>RiskKontrol = true</code> ve cari risk limiti aşıldı</td>
+<td>Risk limitini kontrol edin ya da bayrağı kapatın</td>
+</tr>
+<tr>
+<td>Kaydedilen numara beklenenden farklı</td>
+<td>Aynı numara başka kullanıcı tarafından alındı</td>
+<td><code>kayitYeni()</code> sonrası <code>Ust().FATIRS_NO</code>&#39;yu okuyun</td>
+</tr>
+<tr>
+<td><code>NullReferenceException</code> stok kartında</td>
+<td><code>TemelBilgi()</code> / <code>EkBilgi()</code> çağrılmadı</td>
+<td><a href="/netopenx/cari-ve-stok/#stok-karti-olusturma">Cari ve stok</a></td>
+</tr>
+<tr>
+<td>Uzun çalışan serviste bellek artışı, rastgele hatalar</td>
+<td>COM nesneleri bırakılmıyor</td>
+<td><code>finally</code> içinde <code>Marshal.ReleaseComObject</code> ve <code>FreeNetsisLibrary</code></td>
+</tr>
+<tr>
+<td>Sürüm güncellemesi sonrası alan hataları</td>
+<td>DLL ile veritabanı sürümü farklı</td>
+<td>DLL&#39;i aynı setten yeniden register edin, projeyi yeniden derleyin</td>
+</tr>
+</tbody></table></div>
+<h2 id="hata-ayiklama-ipuclari"><a class="anchor" href="#hata-ayiklama-ipuclari" aria-hidden="true">#</a>Hata ayıklama ipuçları</h2>
+<ul>
+<li>İşlemi önce <strong>test şirketinde</strong> (canlının kopyası) çalıştırın.</li>
+<li>Netsis ekranında aynı belgeyi elle girmeyi deneyin. Ekran hata veriyorsa sorun NetOpenX&#39;te değil, veride ya da parametrededir.</li>
+<li>Yazma sonrası sonucu SQL ile doğrulayın: <a class="tbl" href="/veritabani/tablolar/tblfatuirs/"><code>TBLFATUIRS</code></a>, <a class="tbl" href="/veritabani/tablolar/tblsthar/"><code>TBLSTHAR</code></a>, <a class="tbl" href="/veritabani/tablolar/tblcahar/"><code>TBLCAHAR</code></a>.</li>
+<li>Toplu işlerde her belgeyi ayrı <code>try/catch</code> içine alın ve hangi satırın hata verdiğini kaydedin; bir belgedeki hata diğerlerini durdurmasın.</li>
+</ul>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/netopenx/hatalar.md">GitHub'da düzenle</a> · <a href="/netopenx/hatalar.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#netsis-hata-kodu">Netsis hata kodu</a></li><li class="l2"><a href="#teshis-edilebilir-hata-mesaji">Teşhis edilebilir hata mesajı</a></li><li class="l2"><a href="#sik-karsilasilan-durumlar">Sık karşılaşılan durumlar</a></li><li class="l2"><a href="#hata-ayiklama-ipuclari">Hata ayıklama ipuçları</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

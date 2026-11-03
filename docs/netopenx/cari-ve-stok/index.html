@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cari ve stok · Netsis Dokümantasyonu</title>
+<meta name="description" content="Cari ve stok kartı oluşturma, okuma (kayitOku) ve silme.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/netopenx/cari-ve-stok/">
+<link rel="alternate" type="text/markdown" href="/netopenx/cari-ve-stok.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Cari ve stok">
+<meta property="og:description" content="Cari ve stok kartı oluşturma, okuma (kayitOku) ve silme.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/netopenx/cari-ve-stok/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/" aria-current="page">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/netopenx/">NetOpenX (COM)</a></nav>
+<article>
+<h1 id="cari-ve-stok-kartlari"><a class="anchor" href="#cari-ve-stok-kartlari" aria-hidden="true">#</a>Cari ve stok kartları</h1>
+<p>Kart nesneleri (<code>Cari</code>, <code>Stok</code>) belge nesnelerinden farklı bir okuma modeli kullanır: <code>kayitOku(TOkumaTipi, filtre)</code> ile bir kayıt kümesi açılır, sonra üzerinde gezinilir.</p>
+<h2 id="kayitoku"><a class="anchor" href="#kayitoku" aria-hidden="true">#</a>kayitOku</h2>
+<pre><code class="language-csharp">Cari cari = kernel.yeniCari(sirket);
+if (cari.kayitOku(TOkumaTipi.otAc, &quot;CASABIT.CARI_KOD = &#39;120-01-001&#39;&quot;))
+{
+    cari.kayitOku(TOkumaTipi.otIlk);   // ilk kayda konumlan
+    // ... alanları oku ya da değiştir
+}
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><code>TOkumaTipi</code></th>
+<th>Anlamı</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>otAc</code></td>
+<td>Filtreyle kümeyi aç. Kayıt varsa <code>true</code> döner</td>
+</tr>
+<tr>
+<td><code>otIlk</code></td>
+<td>İlk kayda git</td>
+</tr>
+<tr>
+<td><code>otSonraki</code>, <code>otOnceki</code>, <code>otSon</code></td>
+<td>Sonraki, önceki, son kayda git</td>
+</tr>
+</tbody></table></div>
+<p>Kümede gezinirken <code>TemelBilgi()</code> / <code>EkBilgi()</code> nesneleri o anki kaydı gösterir; örneğin <code>cari.TemelBilgi().CARI_ISIM</code>.</p>
+<p>Filtre bir SQL <code>WHERE</code> parçasıdır ve <strong>tablo takma adı</strong> ister: cari için <code>CASABIT.</code>, stok için <code>stsabit.</code> (öneksiz <code>TBL</code>). Değerleri kullanıcı girdisinden alıyorsanız tırnakları kaçırın (<code>&#39;</code> → <code>&#39;&#39;</code>).</p>
+<h2 id="cari-silme"><a class="anchor" href="#cari-silme" aria-hidden="true">#</a>Cari silme</h2>
+<pre><code class="language-csharp">Cari cari = kernel.yeniCari(sirket);
+if (cari.kayitOku(TOkumaTipi.otAc, $&quot;CASABIT.CARI_KOD=&#39;{kod.Replace(&quot;&#39;&quot;, &quot;&#39;&#39;&quot;)}&#39;&quot;))
+{
+    cari.kayitOku(TOkumaTipi.otIlk);
+    cari.kayitSil();
+}
+</code></pre>
+<p>Hareketi olan cari Netsis tarafından silinmez; hata döner.</p>
+<h2 id="cari-olusturma"><a class="anchor" href="#cari-olusturma" aria-hidden="true">#</a>Cari oluşturma</h2>
+<p>Cari kartı <code>TemelBilgi</code> ve <code>EkBilgi</code> alt nesneleriyle yazılır. REST&#39;teki <code>CariTemelBilgi</code> (<code>ARPsPrimInfo</code>) ve <code>CariEkBilgi</code> (<code>ARPsSuppInfo</code>) bu iki nesnenin karşılığıdır. Alan adları için <a href="/rest/json-ornekleri/#cari-karti">REST cari gövdesine</a> ve <a class="tbl" href="/veritabani/tablolar/tblcasabit/"><code>TBLCASABIT</code></a> / <a class="tbl" href="/veritabani/tablolar/tblcasabitek/"><code>TBLCASABITEK</code></a> tablolarına bakın.</p>
+<pre><code class="language-csharp">Cari cari = kernel.yeniCari(sirket);
+CariTemelBilgi tb = cari.TemelBilgi();   // TBLCASABIT
+CariEkBilgi ek    = cari.EkBilgi();      // TBLCASABITEK
+try
+{
+    tb.CARI_KOD  = &quot;120-01-999&quot;;
+    tb.CARI_ISIM = &quot;Örnek Ticaret A.Ş.&quot;;
+    tb.CARI_TIP  = &quot;S&quot;;                  // Logo örneğindeki değer; kurulumunuzdaki tipleri kontrol edin
+    tb.M_KOD     = &quot;120-01-999&quot;;         // muhasebe kodu
+    tb.CARI_IL   = &quot;İstanbul&quot;;
+    ek.CARI_KOD   = tb.CARI_KOD;
+    ek.TcKimlikNo = &quot;11111111111&quot;;
+    cari.kayitYeni();
+}
+finally
+{
+    Marshal.ReleaseComObject(ek);
+    Marshal.ReleaseComObject(tb);
+    Marshal.ReleaseComObject(cari);
+}
+</code></pre>
+<p>Yapı Logo&#39;nun resmî &quot;Cari Kayıt&quot; örneğiyle aynıdır (<code>TemelBilgi()</code>, <code>EkBilgi()</code>, <code>kayitYeni()</code>). Düzeltme için kaydı <code>kayitOku</code> ile açıp alanları değiştirdikten sonra <code>kayitDuzelt()</code> çağrılır.</p>
+<h2 id="stok-karti-olusturma"><a class="anchor" href="#stok-karti-olusturma" aria-hidden="true">#</a>Stok kartı oluşturma</h2>
+<pre><code class="language-csharp">Stok stok = kernel.yeniStok(sirket);
+StokTemelBilgi tb = stok.TemelBilgi();   // TBLSTSABIT
+StokEkBilgi ek    = stok.EkBilgi();      // TBLSTSABITEK
+
+tb.Stok_Kodu  = &quot;STK-0001&quot;;
+tb.Stok_Adi   = &quot;Örnek ürün&quot;;
+tb.Grup_Kodu  = &quot;GRP1&quot;;
+tb.Kod_1      = &quot;SERI&quot;;           // Kod_1..Kod_5 rapor/özel kodları
+tb.Olcu_Br1   = &quot;AD&quot;;
+tb.Olcu_Br2   = &quot;KL&quot;;
+tb.Pay_1 = 1; tb.Payda_1 = 1;     // ölçü birimi 2 çevrimi
+tb.Pay2  = 1; tb.Payda2  = 1;     // ölçü birimi 3 çevrimi
+tb.KDV_Orani     = 20;
+tb.Alis_Kdv_Kodu = 20;
+tb.Satis_Fiat1   = 100;           // Satis_Fiat1..4, Alis_Fiat1..4
+tb.Barkod1       = &quot;8690000000001&quot;;  // Barkod1..3
+tb.Satici_Kodu   = &quot;320-01-001&quot;;
+tb.DEPO_KODU     = 1;
+
+ek.Stok_Kodu = tb.Stok_Kodu;
+ek.Ingisim   = &quot;Sample product&quot;;
+ek.Kull1S    = &quot;Kullanıcı tanımlı metin 1&quot;;   // Kull1S..Kull8S
+ek.Kull1N    = 42;                            // Kull1N..Kull8N
+
+stok.kayitYeni();
+</code></pre>
+<p><code>StokTemelBilgi</code>&#39;de gözlenen diğer alanlar: <code>Uretici_Kodu</code>, <code>Olcu_Br3</code>, <code>Fiat_birimi</code>, <code>Azami_Stok</code>, <code>Asgari_Stok</code>, <code>Sat_Dov_Tip</code>, <code>Alis_Dov_Tip</code>, <code>Dov_Alis_Fiat</code>, <code>Dov_Mal_Fiat</code>, <code>Dov_Satis_Fiat</code>, <code>Muh_DetayKodu</code>, <code>Birim_Agirlik</code>, <code>Nakliyet_Tut</code>, <code>Onceki_Kod</code>, <code>Sonraki_Kod</code>, <code>SONSTOKKODU</code>, <code>BOY</code>, <code>EN</code>, <code>GENISLIK</code>. <code>StokEkBilgi</code>&#39;de: <code>Birim_Maliyet</code>.</p>
+<blockquote>
+<p><strong>Sık hata:</strong> <code>stok.TemelBilgi()</code> çağrılmadan <code>StokTemelBilgi</code> değişkenine yazmak <code>NullReferenceException</code> verir. Önce <code>kernel.yeniStok(sirket)</code>, sonra <code>TemelBilgi()</code> / <code>EkBilgi()</code>.</p>
+</blockquote>
+<h2 id="stok-silme"><a class="anchor" href="#stok-silme" aria-hidden="true">#</a>Stok silme</h2>
+<pre><code class="language-csharp">Stok stok = kernel.yeniStok(sirket);
+if (stok.kayitOku(TOkumaTipi.otAc, &quot;stsabit.STOK_KODU = &#39;STK-0001&#39;&quot;))
+{
+    stok.kayitOku(TOkumaTipi.otIlk);
+    stok.kayitSil();
+}
+</code></pre>
+<p>REST karşılıkları: <a href="/rest/uclar/#cari-arps-ve-cari-hareket-arptransactions"><code>api/v2/ARPs</code></a>, <a href="/rest/uclar/#stok-items-ve-stok-hareketi-itemtransactions"><code>api/v2/Items</code></a>.</p>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/netopenx/cari-ve-stok.md">GitHub'da düzenle</a> · <a href="/netopenx/cari-ve-stok.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#kayitoku">kayitOku</a></li><li class="l2"><a href="#cari-silme">Cari silme</a></li><li class="l2"><a href="#cari-olusturma">Cari oluşturma</a></li><li class="l2"><a href="#stok-karti-olusturma">Stok kartı oluşturma</a></li><li class="l2"><a href="#stok-silme">Stok silme</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>
