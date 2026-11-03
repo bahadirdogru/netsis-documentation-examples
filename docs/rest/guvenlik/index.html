@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Güvenlik · Netsis Dokümantasyonu</title>
+<meta name="description" content="NetOpenX REST servisini güvenli yayına alma; ağ, yetki, ham SQL ve anonim uçlar.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/rest/guvenlik/">
+<link rel="alternate" type="text/markdown" href="/rest/guvenlik.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Güvenlik">
+<meta property="og:description" content="NetOpenX REST servisini güvenli yayına alma; ağ, yetki, ham SQL ve anonim uçlar.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/rest/guvenlik/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/" aria-current="page">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/rest/">NetOpenX REST</a></nav>
+<article>
+<h1 id="guvenlik"><a class="anchor" href="#guvenlik" aria-hidden="true">#</a>Güvenlik</h1>
+<p>NetOpenX REST servisi şirket verisine yazabilen, ham SQL çalıştırabilen bir servistir. <strong>İnternete doğrudan açmayın.</strong></p>
+<h2 id="ag"><a class="anchor" href="#ag" aria-hidden="true">#</a>Ağ</h2>
+<ul>
+<li>Servisi yalnızca onu kullanan uygulama sunucularının erişebileceği bir ağ bölümünde tutun (güvenlik duvarı izin listesi).</li>
+<li>Dışarıdan erişim gerekiyorsa önüne kimlik doğrulama ve TLS yapan bir ters vekil (reverse proxy) / API ağ geçidi koyun; yalnızca kullandığınız uçları yönlendirin.</li>
+<li>Servis varsayılan olarak HTTP çalışır; ağ üzerinde parola ve token düz metin gider.</li>
+</ul>
+<h2 id="anonim-uclar"><a class="anchor" href="#anonim-uclar" aria-hidden="true">#</a>Anonim uçlar</h2>
+<p><code>public/*</code>, <code>HealthCheck</code>, <code>help</code> ve <code>helpinfo</code> token istemez. Bunlardan bazıları bilgi sızdırır:</p>
+<ul>
+<li><code>public/AuthorizedBranches</code> kullanıcıların şube yetkilerini,</li>
+<li><code>public/CompanyList</code> şirket listesini,</li>
+<li><code>public/GetLicInfo/KeyInfo</code> lisans bilgisini,</li>
+<li><code>help</code> tüm API yüzeyini gösterir.</li>
+</ul>
+<p>Ters vekilde bu uçları dış erişime kapatın.</p>
+<h2 id="ham-sql-uclari"><a class="anchor" href="#ham-sql-uclari" aria-hidden="true">#</a>Ham SQL uçları</h2>
+<p><code>api/v2/Queries</code> ve <code>api/v2/Queries/NetRS</code> gönderilen SQL&#39;i çalıştırır; <code>insert</code>, <code>update</code>, <code>delete</code> de dahildir. Token&#39;ı ele geçiren biri veritabanında her şeyi yapabilir.</p>
+<ul>
+<li>Uygulamalarınızda kullanmayın.</li>
+<li>Ters vekilde engelleyin.</li>
+</ul>
+<h2 id="filtre-enjeksiyonu"><a class="anchor" href="#filtre-enjeksiyonu" aria-hidden="true">#</a>Filtre enjeksiyonu</h2>
+<p><code>q</code> (ve C#&#39;ta <code>SelectFilter.Filter</code>) SQL <code>WHERE</code> parçası olarak işlenir. Kullanıcı girdisini ham koymak SQL enjeksiyonuna açıktır. Kolon adlarını izin listesinden seçin, değerleri kaçırın ve tipini doğrulayın (<a href="/rest/sorgulama/#guvenlik-notu">Sorgulama</a>).</p>
+<h2 id="yama-seviyesi"><a class="anchor" href="#yama-seviyesi" aria-hidden="true">#</a>Yama seviyesi</h2>
+<p>Üçüncü taraf bir kaynak, NetOpenX REST token ucunda kimlik doğrulamasız SQL enjeksiyonu bildirmiştir. Bu bilgi Logo dokümanında yoktur; etkilenen sürümler ve yama <strong>doğrulanmamıştır</strong>. Sunucunuzun sürümünü (<code>public/Version</code>) Logo&#39;dan güncel güvenlik duyurularıyla karşılaştırın ve servisi ağ düzeyinde koruyun.</p>
+<h2 id="kimlik-bilgileri"><a class="anchor" href="#kimlik-bilgileri" aria-hidden="true">#</a>Kimlik bilgileri</h2>
+<ul>
+<li>Örnek kodlardaki kullanıcılar (<code>sa</code>/<code>sapass</code>, <code>NETSIS</code>/<code>NET1</code>, <code>Admin</code>/<code>Admin</code>) <strong>yalnızca örnektir</strong>; üretimde kullanmayın.</li>
+<li>REST için ayrı, yalnızca gereken modüllere yetkili bir Netsis kullanıcısı açın.</li>
+<li>Veritabanı kullanıcısının (<code>TEMELSET</code>) şifresini boş bırakmayın.</li>
+<li>Kimlik bilgilerini kaynak koda, depoya, CI değişkenlerine düz metin koymayın; örnek projelerdeki &quot;Beni hatırla&quot; ayarı bilgileri düz metin saklar.</li>
+</ul>
+<h2 id="yikici-islemler"><a class="anchor" href="#yikici-islemler" aria-hidden="true">#</a>Yıkıcı işlemler</h2>
+<p>Silme, kod değiştirme, e-belge gönderme, toplu MRP gibi işlemleri (<a href="/rest/istemci-kutuphanesi/#yikici-yontemler">liste</a>) yalnızca açıkça tanımlı ve yetkilendirilmiş akışlardan çağırın; her biri için kayıt (audit log) tutun.</p>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/rest/guvenlik.md">GitHub'da düzenle</a> · <a href="/rest/guvenlik.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#ag">Ağ</a></li><li class="l2"><a href="#anonim-uclar">Anonim uçlar</a></li><li class="l2"><a href="#ham-sql-uclari">Ham SQL uçları</a></li><li class="l2"><a href="#filtre-enjeksiyonu">Filtre enjeksiyonu</a></li><li class="l2"><a href="#yama-seviyesi">Yama seviyesi</a></li><li class="l2"><a href="#kimlik-bilgileri">Kimlik bilgileri</a></li><li class="l2"><a href="#yikici-islemler">Yıkıcı işlemler</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nesne kataloğu · Netsis Dokümantasyonu</title>
+<meta name="description" content="Kernel üzerinden üretilen tüm NetOpenX nesneleri, başlıca üyeleri ve Logo örneklerine bağlantılar.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/netopenx/nesne-katalogu/">
+<link rel="alternate" type="text/markdown" href="/netopenx/nesne-katalogu.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Nesne kataloğu">
+<meta property="og:description" content="Kernel üzerinden üretilen tüm NetOpenX nesneleri, başlıca üyeleri ve Logo örneklerine bağlantılar.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/netopenx/nesne-katalogu/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/" aria-current="page">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/netopenx/">NetOpenX (COM)</a></nav>
+<article>
+<h1 id="nesne-katalogu"><a class="anchor" href="#nesne-katalogu" aria-hidden="true">#</a>Nesne kataloğu</h1>
+<p>NetOpenX&#39;te her iş nesnesi <code>Kernel</code> üzerindeki bir <code>yeni…</code> fabrika metoduyla, açık bir <code>Sirket</code> oturumu verilerek üretilir. Bu tablo Logo&#39;nun resmî örnek kodlarından (Logo DYS, &quot;NetOpenX - Örnekler&quot;) derlenmiştir. &quot;Örnek&quot; sütunu, örneklerin bu depodaki kopyasına gider (<a href="https://github.com/bahadirdogru/netsis-documentation-examples/tree/main/kaynak/logo-dys" rel="noopener" target="_blank">kaynak/logo-dys</a>).</p>
+<blockquote>
+<p>Üye listeleri örneklerde geçenlerle sınırlıdır. Tam liste için Visual Studio&#39;da <strong>Object Browser → NetOpenX50</strong> açın.</p>
+</blockquote>
+<h2 id="kartlar"><a class="anchor" href="#kartlar" aria-hidden="true">#</a>Kartlar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Fabrika</th>
+<th>Nesne</th>
+<th>Başlıca üyeler</th>
+<th>Örnek</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>yeniCari(sirket)</code></td>
+<td><code>Cari</code></td>
+<td><code>TemelBilgi()</code> → <code>CariTemelBilgi</code>, <code>EkBilgi()</code> → <code>CariEkBilgi</code>, <code>kayitYeni</code>, <code>kayitOku</code>, <code>kayitDuzelt</code>, <code>kayitSil</code>, <code>NetsisTransaction</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/cari.md" rel="noopener" target="_blank">Cari</a></td>
+</tr>
+<tr>
+<td><code>yeniStok(sirket)</code></td>
+<td><code>Stok</code></td>
+<td><code>TemelBilgi()</code> → <code>StokTemelBilgi</code>, <code>EkBilgi()</code> → <code>StokEkBilgi</code>, <code>kayitYeni</code>, <code>kayitOku</code>, <code>kayitDuzelt</code>, <code>kayitSil</code>, <code>NetsisTransaction</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/stok.md" rel="noopener" target="_blank">Stok</a></td>
+</tr>
+<tr>
+<td><code>yeniMuplan(sirket)</code></td>
+<td><code>Muplan</code></td>
+<td><code>TemelBilgi()</code>, <code>EkBilgi()</code>, <code>kayitYeni</code> (muhasebe hesap planı, <a class="tbl" href="/veritabani/tablolar/tblmuplan/"><code>TBLMUPLAN</code></a>)</td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/muplan.md" rel="noopener" target="_blank">MuPlan</a></td>
+</tr>
+<tr>
+<td><code>yeniProje(sirket)</code></td>
+<td><code>Proje</code></td>
+<td><code>Proje_Kodu</code>, <code>Proje_Aciklama</code>, <code>kayitYeni</code>, <code>kayitOku</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/proje.md" rel="noopener" target="_blank">Proje</a></td>
+</tr>
+<tr>
+<td><code>yeniDoviz(sirket)</code></td>
+<td><code>Doviz</code></td>
+<td><code>BIRIM</code>, <code>ISIM</code>, <code>NETSISSIRA</code>, <code>kayitYeni</code>, <code>kayitOku</code>, <code>DovizKurGuncelle()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/doviz.md" rel="noopener" target="_blank">Doviz</a></td>
+</tr>
+<tr>
+<td><code>yeniKur(sirket)</code></td>
+<td><code>Kur</code></td>
+<td><code>Sira</code>, <code>Tarih</code>, <code>DOV_ALIS</code>, <code>DOV_SATIS</code>, <code>kayitYeni</code>, <code>kayitOku</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/kur.md" rel="noopener" target="_blank">Kur</a></td>
+</tr>
+<tr>
+<td><code>yeniPlanlamaKayitlari(sirket, TStokPlanlamaKayitTip)</code></td>
+<td><code>PlanlamaKayitlari</code></td>
+<td><code>Stok_Kodu</code>, <code>SIPARISKARSILAMA</code>, <code>SIPARISTAKIP</code>, <code>PlanlamaTipi</code>, <code>TEDARIKCITERCIH</code>, <code>REZERV_BAK_TAKIP</code>, <code>kayitYeni</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/planlamakayitlari.md" rel="noopener" target="_blank">Planlama</a></td>
+</tr>
+<tr>
+<td><code>yeniBaglantiAna(sirket)</code></td>
+<td><code>BaglantiAna</code></td>
+<td><code>Oku()</code>, <code>BaglantiAdedi</code>, <code>Baglanti</code> (cari bağlantı/sözleşme kayıtları)</td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/baglanti.md" rel="noopener" target="_blank">Bağlantı</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="stok-ve-satis-belgeleri"><a class="anchor" href="#stok-ve-satis-belgeleri" aria-hidden="true">#</a>Stok ve satış belgeleri</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Fabrika</th>
+<th>Nesne</th>
+<th>Başlıca üyeler</th>
+<th>Örnek</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>yeniFatura(sirket, TFaturaTip)</code></td>
+<td><code>Fatura</code></td>
+<td><code>Ust()</code>, <code>kalemYeni(stok)</code>, <code>get_Kalem(i)</code> / <code>KalemAdedi</code>, <code>OkuUst</code>, <code>OkuKalem</code>, <code>YeniNumara</code>, <code>kayitYeni</code>, <code>kayitSil</code>, <code>HesaplamalariYap</code>, <code>Siparis2IrsFat</code>, <code>Irsaliye2Fatura</code>, <code>NumaraDegistir</code>, <code>SiparisRevizyon</code>, <code>tahsilatYeni</code>, <code>TahsilatKayitKullan</code>, <code>KosulluHesapla</code>, <code>FiyatSistemineGoreHesapla</code>, <code>StokKartinaGoreHesapla</code>, <code>OtomatikCevrimYapilsin</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/fatura.md" rel="noopener" target="_blank">Fatura</a></td>
+</tr>
+<tr>
+<td><code>yeniStokHareket(sirket)</code></td>
+<td><code>StokHareket</code></td>
+<td><code>Stok_Kodu</code>, <code>Sthar_Tarih</code>, <code>Sthar_Htur</code>, <code>Sthar_Gckod</code>, <code>Sthar_Gcmik</code>, <code>Sthar_Bf</code>, <code>DEPO_KODU</code>, <code>GirisDepoKodu</code>, <code>kayitYeni</code>, <code>ReceteliKayit()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/stokhareket.md" rel="noopener" target="_blank">StokHareket</a></td>
+</tr>
+<tr>
+<td><code>new StokPH</code> + <code>sirket.Bakiye_Getir(stokPH)</code></td>
+<td><code>StokPH</code></td>
+<td><code>Stok_Kodu</code> verilir; <code>Top_Giris_Mik</code>, <code>Top_Cikis_Mik</code>, <code>Mus_Top_Siparis</code>, <code>Mus_Top_Teslim</code> okunur</td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/stokph.md" rel="noopener" target="_blank">StokPH</a></td>
+</tr>
+<tr>
+<td><code>yeniTopluFatura(sirket, TFaturaTip)</code></td>
+<td><code>TopluFatura</code></td>
+<td><code>AltCariKodu</code>, <code>UstCariKodu</code>, <code>AltIrsaliyeNumarasi</code>, <code>UstIrsaliyeNumarasi</code>, <code>FaturaNumarasi</code>, <code>IrsaliyelerBirlessin</code>, <code>FaturalastirmaKirilim</code>, <code>HaricTutulacakBelgeNoEkle()</code>, <code>IrsaliyeleriFaturalastir()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/toplufatura.md" rel="noopener" target="_blank">TopluFatura</a></td>
+</tr>
+<tr>
+<td><code>yeniTopluSiparisToIrsFat(sirket, kaynakTip, hedefTip)</code></td>
+<td><code>SiparisTopluIrsFat</code></td>
+<td><code>HaricTutulacakSiparisNoEkle()</code>, <code>TopluSiparisToIrsFat()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/siparisten-toplu-irsaliye-fatura-olusturma.md" rel="noopener" target="_blank">Toplu sipariş</a></td>
+</tr>
+<tr>
+<td><code>YeniTalepTeklifIslem(sirket)</code></td>
+<td><code>TalepTeklifIslem</code></td>
+<td><code>BelgeTipi</code>, <code>BelgeNo</code>, <code>YeniNumara()</code>, <code>kalemYeni()</code>, <code>BelgelerKapatilsin</code>, <code>Siparislestir()</code>, <code>Tekliflestir()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/fatura.md" rel="noopener" target="_blank">Fatura</a></td>
+</tr>
+<tr>
+<td><code>yeniMustahsil(sirket, cariKod)</code></td>
+<td><code>Mustahsil</code></td>
+<td><code>Ust</code>, <code>KalemEkle()</code>, <code>Sakla()</code>, <code>MakbuzOku()</code>, <code>NumaraDegistir()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/mustahsil.md" rel="noopener" target="_blank">Müstahsil</a></td>
+</tr>
+<tr>
+<td><code>yeniMamulRezervasyonu(sirket)</code></td>
+<td><code>MamulRezervasyonu</code></td>
+<td>Müşteri siparişine mamul rezervasyonu ve iptali (<code>TMamulRezervasyonuIslemTipi</code>)</td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/mamul-rezervasyon.md" rel="noopener" target="_blank">Rezervasyon</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="finans"><a class="anchor" href="#finans" aria-hidden="true">#</a>Finans</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Fabrika</th>
+<th>Nesne</th>
+<th>Başlıca üyeler</th>
+<th>Örnek</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>yeniKasa(sirket)</code></td>
+<td><code>Kasa</code></td>
+<td><code>KsMas_Kod</code>, <code>IO</code>, <code>Tip</code>, <code>Kod</code>, <code>Cari_Muh</code>, <code>Fisno</code>, <code>Tutar</code>, <code>Kdv_Dahil</code>, <code>Kdv_Oran</code>, <code>Islem(TKasaIslem)</code>, <code>CSKOdeme()</code>, <code>KasaKalemYeni()</code>, <code>KdvKalemAdedi</code>, <code>kayitOku</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/kasa.md" rel="noopener" target="_blank">Kasa</a></td>
+</tr>
+<tr>
+<td><code>yeniHizliTahsilatAna(sirket)</code></td>
+<td><code>HizliTahsilatAna</code></td>
+<td><code>IslemTarihi</code>, <code>KasaKod</code>, <code>BelgeNo</code>, <code>CariKod</code>, <code>DOVTIP</code>, <code>tahsilatYeni()</code>, <code>kayitYeni</code>, <code>Oku()</code>, <code>kayitSil</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/hizlitahsilat.md" rel="noopener" target="_blank">HızlıTahsilat</a></td>
+</tr>
+<tr>
+<td><code>yeniCekSenAna(sirket, TCekSenType)</code></td>
+<td><code>CekSenetAna</code></td>
+<td><code>EvrakYeni()</code>, <code>EvraklariKaydet()</code>, <code>yeniKefil()</code>, <code>OkunanCS</code>, <code>kayitOku()</code>, <code>NetsisTransaction</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/ceksenet.md" rel="noopener" target="_blank">ÇekSenet</a></td>
+</tr>
+<tr>
+<td><code>yeniCSDekont(sirket, TDekCSTip)</code></td>
+<td><code>DekCekSen</code></td>
+<td>Çek/senet tahsil ve ödeme dekontu: <code>SC_NO</code>, <code>Seri</code>, <code>C_M</code>, <code>Banka_Kodu</code>, <code>Dekont_Tarihi</code>, <code>CSDOdeme()</code>, <code>BCSDOdeme()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/dekceksen.md" rel="noopener" target="_blank">DekÇekSen</a></td>
+</tr>
+<tr>
+<td><code>yeniDekont(sirket)</code></td>
+<td><code>Dekont</code></td>
+<td><code>CDekont()</code> cari, <code>SDekont()</code> stok, <code>MDekont()</code> muhasebe, <code>BDekont()</code> banka; <code>Kod</code>, <code>C_M</code>, <code>B_A</code>, <code>Tutar</code>, <code>Tarih</code>, <code>kayitOku</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/dekont.md" rel="noopener" target="_blank">Dekont</a></td>
+</tr>
+<tr>
+<td><code>yeniDekomas(sirket)</code></td>
+<td><code>Dekomas</code></td>
+<td>Genel dekont: <code>YeniNumaraAl()</code>, <code>KalemEkle()</code>, <code>Tamamla()</code>, <code>BelgeGetir()</code>, <code>TumKalemleriSil()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/dekomas.md" rel="noopener" target="_blank">Dekomas</a></td>
+</tr>
+<tr>
+<td><code>yeniBankaHesTraAna(sirket)</code></td>
+<td><code>BankaHesTraAna</code></td>
+<td><code>HareketYeni()</code>, <code>HareketKaydet()</code>, <code>kayitOku()</code>, <code>OkunanHesTra</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/banka-hesap-hareketleri.md" rel="noopener" target="_blank">Banka hareket</a></td>
+</tr>
+<tr>
+<td><code>yeniBankaHavaleEftVirman(sirket, TBankaHavaleEftTip, …)</code></td>
+<td><code>BankaHavaleEftVirman</code></td>
+<td><code>EvrakYeni()</code>, <code>EvrakKaydet()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/banka-havale-eft.md" rel="noopener" target="_blank">Havale/EFT</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="muhasebe-ve-maliyet"><a class="anchor" href="#muhasebe-ve-maliyet" aria-hidden="true">#</a>Muhasebe ve maliyet</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Fabrika</th>
+<th>Nesne</th>
+<th>Başlıca üyeler</th>
+<th>Örnek</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>yeniFis(sirket)</code></td>
+<td><code>FisAna</code></td>
+<td>Yevmiye fişi: <code>AyKodu</code>, <code>YilKodu</code>, <code>FisTip</code> (<code>TFisType.ftMahsup</code>), <code>Tarih</code>, <code>detayYeni()</code> (<code>TFisAnaDetayType.fdtBorc</code>/<code>fdtAlacak</code>), <code>kayitYeni()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/fisana.md" rel="noopener" target="_blank">FisAna</a></td>
+</tr>
+<tr>
+<td><code>yeniMaliyet(sirket, TMaliyetTip)</code></td>
+<td><code>AmbarFisMuh</code>, <code>DepTransMuh</code>, <code>DagFisOlus</code>, <code>MaliyetMuhasebesi</code>, <code>StokMaliyet</code>, <code>StDovEnfCevir</code></td>
+<td>Ambar fişi / depo transferi muhasebeleştirme, dağıtım fişi, maliyet muhasebesi, stok maliyeti, enflasyon çevrimi; parametreler + <code>Calistir()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/stokmaliyet.md" rel="noopener" target="_blank">Maliyet</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="uretim"><a class="anchor" href="#uretim" aria-hidden="true">#</a>Üretim</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Fabrika</th>
+<th>Nesne</th>
+<th>Başlıca üyeler</th>
+<th>Örnek</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>yeniIsEmri(sirket)</code></td>
+<td><code>IsEmri</code></td>
+<td><code>IsEmriNo</code>, <code>Tarih</code>, <code>StokKodu</code>, <code>Miktar</code>, <code>SiparisNo</code>, <code>TeslimTarihi</code>, <code>kayitYeni</code>, <code>kayitOku</code>, <code>kayitDuzelt</code>, <code>kayitSil</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/isemri.md" rel="noopener" target="_blank">İşemri</a></td>
+</tr>
+<tr>
+<td><code>yeniRecetedenIsemri(sirket)</code></td>
+<td><code>RecetedenIsemri</code></td>
+<td><code>IsemriSecimListHazirla()</code>, <code>IsemriSecimList</code>, <code>IsemriSecimListtenIsemirleriniOlustur()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/isemri.md" rel="noopener" target="_blank">İşemri</a></td>
+</tr>
+<tr>
+<td><code>yeniUretim(sirket)</code></td>
+<td><code>Uretim</code></td>
+<td>Üretim sonu kaydı: <code>UretSon_FisNo</code>, <code>SonFisNumarasi()</code>, <code>UretSon_Mamul</code>, <code>UretSon_Miktar</code>, <code>UretSon_Depo</code>, <code>kayitYeni()</code>, <code>kayitFisNoIleUretimSonu()</code>, <code>kayitSil</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/uretim.md" rel="noopener" target="_blank">Üretim</a></td>
+</tr>
+<tr>
+<td><code>yeniSerbestUSK(sirket)</code></td>
+<td><code>SerbestUSK</code></td>
+<td>Serbest üretim sonu: <code>FisUret()</code>, <code>Kaydet()</code>, <code>FisYukle()</code>, <code>KalemGetir()</code>, <code>YeniKalem()</code>, <code>SeriEkle()</code>, <code>KalemFireDetayEkle()</code>, <code>HataKodu</code>, <code>HataMesaji</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/serbestusk.md" rel="noopener" target="_blank">SerbestUSK</a></td>
+</tr>
+<tr>
+<td><code>yeniUAK(sirket)</code> / <code>yeniUakToUsk(sirket)</code></td>
+<td><code>UAK</code>, <code>UakToUsk</code></td>
+<td>Üretim akış kontrol: <code>UAKYeniKayit()</code>, <code>UAKKaydet()</code>, <code>UAKOku()</code>, <code>UAKSil()</code>; <code>UretimSonuKayitlariOlustur()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/uak.md" rel="noopener" target="_blank">UAK</a></td>
+</tr>
+<tr>
+<td><code>yeniMrp(sirket)</code></td>
+<td><code>Mrp</code></td>
+<td><code>MGPCalistir()</code>, <code>GereksinimPlanlamaOlustur()</code>, <code>IsEmirleriniDengele()</code>, <code>TalepleriDengele()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/mrp.md" rel="noopener" target="_blank">MRP</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="sistem-ve-yardimcilar"><a class="anchor" href="#sistem-ve-yardimcilar" aria-hidden="true">#</a>Sistem ve yardımcılar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Fabrika / üye</th>
+<th>Nesne</th>
+<th>Başlıca üyeler</th>
+<th>Örnek</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>yeniNetRS(sirket)</code></td>
+<td><code>NetRS</code></td>
+<td>SQL: <code>Ac(sql)</code>, <code>EOF</code>, <code>FieldByName(ad).AsString</code>, <code>SonrakiK()</code>, <code>IlkK()</code>, <code>Calistir(sql)</code>, <code>NetsisTransaction()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/netrs.md" rel="noopener" target="_blank">NetRS</a> · <a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></td>
+</tr>
+<tr>
+<td><code>yeniBasim(sirket)</code></td>
+<td><code>Basim</code></td>
+<td><code>FaturaBasimDizaynNo()</code>, <code>FaturaBasim()</code>, <code>YevmiyeFisBasimDizaynNo()</code>, <code>CekSenetBasimDizaynNo()</code>, <code>KasaBasim()</code>, <code>IrsFatBarkodBas()</code>, <code>IrsFatBarkodKalemBas()</code>, <code>FiyatListesiBarkodBas()</code>, <code>PDFPath</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/basim.md" rel="noopener" target="_blank">Basım</a></td>
+</tr>
+<tr>
+<td><code>yeniBelgeKilitleme(sirket)</code></td>
+<td><code>BelgeKilitleme</code></td>
+<td>Fatura, yevmiye, iş emri, reçete, bakım emri kilitleme (<code>TBelgeKilitlemeBelgeTipi</code>, <code>TBelgeKilitDurumTipi</code>)</td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/belge-kilitleme.md" rel="noopener" target="_blank">Kilitleme</a></td>
+</tr>
+<tr>
+<td><code>yeniNetsisBildirim(sirket)</code></td>
+<td><code>NetsisBildirim</code></td>
+<td><code>AliciEkle()</code>, <code>Baslik</code>, <code>Mesaj</code>, <code>GonderimTarih</code>, <code>DosyaEkle()</code>, <code>NetsisLinkEkle()</code>, <code>Gonder()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/bildirim-giris.md" rel="noopener" target="_blank">Bildirim</a></td>
+</tr>
+<tr>
+<td><code>yeniNetsisCore(sirket)</code></td>
+<td><code>ICore</code></td>
+<td><code>NetLibSession</code> (program bilgisi, aktif kullanıcı), <code>NetLibSMS()</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/icore.md" rel="noopener" target="_blank">ICore</a></td>
+</tr>
+<tr>
+<td><code>yeniIsAkis(sirket)</code></td>
+<td><code>WFTObject</code></td>
+<td>İş akışında bekleyen kayıtları onaylama: <code>PATHKODU</code>, <code>ONAYNUMARASI</code>, <code>DURUMU</code>, <code>Calistir</code>, <code>kayitDuzelt</code></td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/wftobject.md" rel="noopener" target="_blank">WFT</a></td>
+</tr>
+<tr>
+<td><code>yeniSirketAktifEXE(...)</code></td>
+<td><code>Sirket</code></td>
+<td>Netsis içinden (Temelset dinamik kodlama) çalışan koddan açık oturumu kullanır</td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/kernel.md" rel="noopener" target="_blank">Kernel</a></td>
+</tr>
+<tr>
+<td><code>kernel.Version</code>, <code>kernel.SirketListesi</code>, <code>kernel.get_EkModulVar(no)</code>, <code>kernel.SonNetsisHata</code></td>
+<td><code>Kernel</code></td>
+<td>Sürüm, şirket listesi (<code>SirketInfo.SirketAdi</code>, <code>SirketYili</code>), ek modül kontrolü, son hata</td>
+<td><a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/kernel.md" rel="noopener" target="_blank">Kernel</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="sirket-uzerindeki-islemler"><a class="anchor" href="#sirket-uzerindeki-islemler" aria-hidden="true">#</a>Sirket üzerindeki işlemler</h2>
+<p><code>Sirket</code> nesnesi yalnızca oturum değildir; şirket düzeyi toplu işlemleri de taşır. REST&#39;teki <a href="/rest/istemci-kutuphanesi/#companymanager"><code>CompanyManager</code></a> yöntemlerinin COM karşılıklarıdır.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Metot</th>
+<th>İşlem</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CariDovizFarklariniKapat(CariKurFarkibilgi)</code></td>
+<td>Cari döviz (kur) farkı kapama</td>
+</tr>
+<tr>
+<td><code>MuhAydanAyaFisAktarim(...)</code></td>
+<td>Muhasebe fişini aydan aya aktarma</td>
+</tr>
+<tr>
+<td><code>MuhHesapKoduAktarim(...)</code></td>
+<td>Muhasebe hesap kodu aktarımı</td>
+</tr>
+<tr>
+<td><code>CariKoduDegistir(...)</code>, <code>StokKoduDegistir(...)</code></td>
+<td>Kod değiştirme (virman seçenekli)</td>
+</tr>
+<tr>
+<td><code>FisNumaraDegisikligi(...)</code></td>
+<td>Yevmiye fiş numarası değiştirme</td>
+</tr>
+<tr>
+<td><code>CariHareketKontrol</code>, <code>StokHareketKontrol</code>, <code>BankaHareketKontrol</code>, <code>YevmiyeKontrol</code></td>
+<td>Hareket ve fiş tutarlılık kontrolleri</td>
+</tr>
+<tr>
+<td><code>AcikReceteAnaliziCalistir(...)</code>, <code>ReceteStokBaglantiOlustur(...)</code></td>
+<td>Reçete işlemleri</td>
+</tr>
+<tr>
+<td><code>EPostaGonder(...)</code></td>
+<td>Netsis e-posta altyapısıyla gönderim</td>
+</tr>
+<tr>
+<td><code>TCMBBankaKodlariOnlineGuncelleme(...)</code></td>
+<td>TCMB banka/şube listesini güncelle</td>
+</tr>
+<tr>
+<td><code>KvkkAnonimlestir(...)</code></td>
+<td>KVKK anonimleştirme</td>
+</tr>
+<tr>
+<td><code>GenelRehber(...)</code></td>
+<td>Genel rehber</td>
+</tr>
+<tr>
+<td><code>Bakiye_Getir(StokPH)</code></td>
+<td>Stok bakiyesi</td>
+</tr>
+<tr>
+<td><code>KantardanSayiOku(...)</code></td>
+<td>Kantar entegrasyonu</td>
+</tr>
+<tr>
+<td><code>DovizCevrim(...)</code>, <code>getirNDS(...)</code></td>
+<td>Döviz çevrimi, NDS bilgisi</td>
+</tr>
+<tr>
+<td><code>SirketAdi</code>, <code>SirketYili</code>, <code>LogOff()</code></td>
+<td>Oturum bilgisi ve kapatma</td>
+</tr>
+</tbody></table></div>
+<p>Parametre ayrıntıları Logo örneğindedir: <a href="https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/sirket.md" rel="noopener" target="_blank">Sirket</a>.</p>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/netopenx/nesne-katalogu.md">GitHub'da düzenle</a> · <a href="/netopenx/nesne-katalogu.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#kartlar">Kartlar</a></li><li class="l2"><a href="#stok-ve-satis-belgeleri">Stok ve satış belgeleri</a></li><li class="l2"><a href="#finans">Finans</a></li><li class="l2"><a href="#muhasebe-ve-maliyet">Muhasebe ve maliyet</a></li><li class="l2"><a href="#uretim">Üretim</a></li><li class="l2"><a href="#sistem-ve-yardimcilar">Sistem ve yardımcılar</a></li><li class="l2"><a href="#sirket-uzerindeki-islemler">Sirket üzerindeki işlemler</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

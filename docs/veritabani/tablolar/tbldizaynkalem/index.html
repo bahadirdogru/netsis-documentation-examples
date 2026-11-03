@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TBLDIZAYNKALEM · Netsis Dokümantasyonu</title>
+<meta name="description" content="DİZAYN KALEM BİLGİLERİ SEKMESİNDEKİ KAYITLARI TUTAR.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/tablolar/tbldizaynkalem/">
+<link rel="alternate" type="text/markdown" href="/veritabani/tablolar/tbldizaynkalem.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="TBLDIZAYNKALEM">
+<meta property="og:description" content="DİZAYN KALEM BİLGİLERİ SEKMESİNDEKİ KAYITLARI TUTAR.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/tablolar/tbldizaynkalem/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/" aria-current="page">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a> <span>/</span> <a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></nav>
+<article>
+<h1 id="tbldizaynkalem"><a class="anchor" href="#tbldizaynkalem" aria-hidden="true">#</a>TBLDIZAYNKALEM</h1>
+<blockquote>
+<p>DİZAYN KALEM BİLGİLERİ SEKMESİNDEKİ KAYITLARI TUTAR.</p>
+</blockquote>
+<ul>
+<li><strong>Modül:</strong> <a href="/veritabani/moduller/dizayn/">DİZAYN</a></li>
+<li><strong>Kolon sayısı:</strong> 88</li>
+<li><strong>Birincil anahtar:</strong> <code>GENELID+SAHAYERI+SATIR+SUTUN+KOSULHASH</code></li>
+</ul>
+<h2 id="kolonlar"><a class="anchor" href="#kolonlar" aria-hidden="true">#</a>Kolonlar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Kolon</th>
+<th>Tip</th>
+<th>Null</th>
+<th>Varsayılan</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>GENELID</code></td>
+<td>TDBINTEGER</td>
+<td>hayır</td>
+<td></td>
+<td>Dizayn no&#39;su bilgisidir.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>KOSULHASH</code></td>
+<td>TDBFLOAT</td>
+<td>hayır</td>
+<td></td>
+<td>Dizayn bazında her kalem girişinde bir artarak kalem nosunu tutan sahadır.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>SAHAYERI</code></td>
+<td>char(1)</td>
+<td>hayır</td>
+<td></td>
+<td>1 üstbilgi,2 kalem,3 alt ,4 Kümüle sabit olmak üzere saha yeri bilgisi tutulur.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>SAHATIPI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>P-B-H-A-I-C-S-R-K-T değerlerini alır;P program,B başlık,H hesap,A açıklama,I ileri hesaplama,C script kod çalıştır,S sql,R resim,K kümüle ,T toplam&#39;a tekabül eder</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>BASLIKYAZ</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Başlık yaz tercihine göre E veya H değerini alır</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>ACIKLAMA</code></td>
+<td>varchar(200)</td>
+<td>evet</td>
+<td></td>
+<td>Açıklama sahasıdır başlık bilgisini tutabildiği gibi resim secildiğinde resimin path&#39;ini de tutabilir.</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>SATIR</code></td>
+<td>TDBBYTE</td>
+<td>hayır</td>
+<td><code>0</code></td>
+<td>Satır bilgisi</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>SUTUN</code></td>
+<td>TDBBYTE</td>
+<td>hayır</td>
+<td><code>0</code></td>
+<td>Sütun bilgisi</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>TOPLAMAL</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Toplam seceniğinin işaretlenip işaretlenmemesine göre E veya H değerini alır</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>BASLANGIC</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Başlangıç sütun bilgisidir</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>UZUNLUK</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Saha uzunluk bilgisi tutulur</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>BASMAMODU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Font&#39;un C:Condense, N:Normal, B:Bold, I:İtalik, U:Underline, D:Condense&amp;bold olmak üzere basım mod bilgisini tutar</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>ONDALIK</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Ondalık hane sayısıdır</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>ALANNO</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Program alan no&#39;su</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>ILKTIP1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında A satırı ilk hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>16</td>
+<td><code>ILKCELL1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında A satırı ilk hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>17</td>
+<td><code>ILKALAN1</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta rehber kullanılıyorsa A satırı ilk hücre alan no bilgisi tutulur</td>
+</tr>
+<tr>
+<td>18</td>
+<td><code>ILKSAYI1</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta sabit kullanılıyorsa A satırı ilk hücre sabit bilgisi tutulur</td>
+</tr>
+<tr>
+<td>19</td>
+<td><code>ISLEM1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap A satırında secilen işlem bilgisi bu sahada tutulur.(*,-,/,+ semboleri)</td>
+</tr>
+<tr>
+<td>20</td>
+<td><code>SONCELL1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında A satırı ikinci hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>21</td>
+<td><code>SONTIP1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında A satırı ikinci hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>22</td>
+<td><code>SONALAN1</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta rehber kullanılıyorsa A satırı ikinci hücre alan no bilgisi tutulur</td>
+</tr>
+<tr>
+<td>23</td>
+<td><code>SONSAYI1</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta sabit kullanılıyorsa A satırı ikinci hücre sabit bilgisi tutulur</td>
+</tr>
+<tr>
+<td>24</td>
+<td><code>ILKTIP2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında B satırı ilk hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>25</td>
+<td><code>ILKCELL2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında B satırı ilk hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>26</td>
+<td><code>ILKALAN2</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta rehber kullanılıyorsa B satırı ilk hücre alan no bilgisi tutulur</td>
+</tr>
+<tr>
+<td>27</td>
+<td><code>ILKSAYI2</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta sabit kullanılıyorsa B satırı ilk hücre sabit bilgisi tutulur</td>
+</tr>
+<tr>
+<td>28</td>
+<td><code>ISLEM2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap B satırında secilen işlem bilgisi bu sahada tutulur.(*,-,/,+ semboleri)</td>
+</tr>
+<tr>
+<td>29</td>
+<td><code>SONCELL2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında B satırı ikinci hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>30</td>
+<td><code>SONTIP2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında B satırı ikinci hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>31</td>
+<td><code>SONALAN2</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta rehber kullanılıyorsa B satırı ikinci hücre alan no bilgisi tutulur</td>
+</tr>
+<tr>
+<td>32</td>
+<td><code>SONSAYI2</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta sabit kullanılıyorsa B satırı ikinci hücre sabit bilgisi tutulur</td>
+</tr>
+<tr>
+<td>33</td>
+<td><code>ILKTIP3</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında C satırı ilk hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>34</td>
+<td><code>ILKCELL3</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında C satırı ilk hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>35</td>
+<td><code>ILKALAN3</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta rehber kullanılıyorsa C satırı ilk hücre alan no bilgisi tutulur</td>
+</tr>
+<tr>
+<td>36</td>
+<td><code>ILKSAYI3</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta sabit kullanılıyorsa C satırı ilk hücre sabit bilgisi tutulur</td>
+</tr>
+<tr>
+<td>37</td>
+<td><code>ISLEM3</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap C satırında secilen işlem bilgisi bu sahada tutulur.(*,-,/,+ semboleri)</td>
+</tr>
+<tr>
+<td>38</td>
+<td><code>SONCELL3</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında C satırı ikinci hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>39</td>
+<td><code>SONTIP3</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında C satırı ikinci hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>40</td>
+<td><code>SONALAN3</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta rehber kullanılıyorsa C satırı ikinci hücre alan no bilgisi tutulur</td>
+</tr>
+<tr>
+<td>41</td>
+<td><code>SONSAYI3</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta sabit kullanılıyorsa C satırı ikinci hücre sabit bilgisi tutulur</td>
+</tr>
+<tr>
+<td>42</td>
+<td><code>ILKTIP4</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında D satırı ilk hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>43</td>
+<td><code>ILKCELL4</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında D satırı ilk hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>44</td>
+<td><code>ILKALAN4</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta rehber kullanılıyorsa D satırı ilk hücre alan no bilgisi tutulur</td>
+</tr>
+<tr>
+<td>45</td>
+<td><code>ILKSAYI4</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta sabit kullanılıyorsa D satırı ilk hücre sabit bilgisi tutulur</td>
+</tr>
+<tr>
+<td>46</td>
+<td><code>ISLEM4</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap D satırında secilen işlem bilgisi bu sahada tutulur.(*,-,/,+ semboleri)</td>
+</tr>
+<tr>
+<td>47</td>
+<td><code>SONCELL4</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında D satırı ikinci hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>48</td>
+<td><code>SONTIP4</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında D satırı ikinci hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>49</td>
+<td><code>SONALAN4</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta rehber kullanılıyorsa D satırı ikinci hücre alan no bilgisi tutulur</td>
+</tr>
+<tr>
+<td>50</td>
+<td><code>SONSAYI4</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta sabit kullanılıyorsa D satırı ikinci hücre sabit bilgisi tutulur</td>
+</tr>
+<tr>
+<td>51</td>
+<td><code>ILKTIP5</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında E satırı ilk hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>52</td>
+<td><code>ILKCELL5</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında E satırı ilk hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>53</td>
+<td><code>ILKALAN5</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta rehber kullanılıyorsa E satırı ilk hücre alan no bilgisi tutulur</td>
+</tr>
+<tr>
+<td>54</td>
+<td><code>ILKSAYI5</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta sabit kullanılıyorsa E satırı ilk hücre sabit bilgisi tutulur</td>
+</tr>
+<tr>
+<td>55</td>
+<td><code>ISLEM5</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap E satırında secilen işlem bilgisi bu sahada tutulur.(*,-,/,+ semboleri)</td>
+</tr>
+<tr>
+<td>56</td>
+<td><code>SONCELL5</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında E satırı ikinci hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>57</td>
+<td><code>SONTIP5</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Hesap kullanıldığında E satırı ikinci hücresi için R:rehber ,S:sabit bilgisini veya hesapta secilen satır harfi(A,B,C,D,E) bilgisi tutulur</td>
+</tr>
+<tr>
+<td>58</td>
+<td><code>SONALAN5</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta rehber kullanılıyorsa E satırı ikinci hücre alan no bilgisi tutulur</td>
+</tr>
+<tr>
+<td>59</td>
+<td><code>SONSAYI5</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Hesapta sabit kullanılıyorsa E satırı ikinci hücre sabit bilgisi tutulur</td>
+</tr>
+<tr>
+<td>60</td>
+<td><code>KOSULVARMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul kullanımı var ise E yoksa H değerini alır</td>
+</tr>
+<tr>
+<td>61</td>
+<td><code>KILKTIP</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul penceresinde ki birinci saha tipidir.R:rehber ,S:sabit olmak üzere değer alır</td>
+</tr>
+<tr>
+<td>62</td>
+<td><code>KILKALAN</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Koşul birinci saha alan bilgisi tutulur</td>
+</tr>
+<tr>
+<td>63</td>
+<td><code>KILKSTR</code></td>
+<td>varchar(50)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul birinci saha sabit bilgisi tutulur</td>
+</tr>
+<tr>
+<td>64</td>
+<td><code>KISLEM</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul matematiksel sembol olarak koşul işlem tipi</td>
+</tr>
+<tr>
+<td>65</td>
+<td><code>KSONTIP</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul penceresinde ki ikinci saha tipidir.R:rehber ,S:sabit olmak üzere değer alır</td>
+</tr>
+<tr>
+<td>66</td>
+<td><code>KSONALAN</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Koşul ikinci saha alan bilgisi tutulur</td>
+</tr>
+<tr>
+<td>67</td>
+<td><code>KSONSTR</code></td>
+<td>varchar(50)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul ikinci saha sabit bilgisi tutulur</td>
+</tr>
+<tr>
+<td>68</td>
+<td><code>SAYISAL</code></td>
+<td>TDBBYTE</td>
+<td>hayır</td>
+<td><code>1</code></td>
+<td>0,1,2 değerlerini alır</td>
+</tr>
+<tr>
+<td>69</td>
+<td><code>SONSAYFATOP</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Son sayfada toplam al parametresine göre E,H değerlerini alır.</td>
+</tr>
+<tr>
+<td>70</td>
+<td><code>KOORKORU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Koordinat koru işaretlenirse E tersi durumda H değerini alır</td>
+</tr>
+<tr>
+<td>71</td>
+<td><code>GERCEKSATIR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Kümüle satır bilgisi haricinde default E olarak tutulur.</td>
+</tr>
+<tr>
+<td>72</td>
+<td><code>ACIKALANNO</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Ek alan no</td>
+</tr>
+<tr>
+<td>73</td>
+<td><code>EKALANUZ</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Ek alan uzunluğu</td>
+</tr>
+<tr>
+<td>74</td>
+<td><code>EKALANONDALIK</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Ek alan ondalık bilgisi</td>
+</tr>
+<tr>
+<td>75</td>
+<td><code>YEDEK1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>76</td>
+<td><code>YEDEK2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>77</td>
+<td><code>YEDEK3</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>78</td>
+<td><code>YEDEK4</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>79</td>
+<td><code>YEDEK5</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>80</td>
+<td><code>YEDEK6</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>81</td>
+<td><code>YEDEK7</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>82</td>
+<td><code>YEDEK8</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>83</td>
+<td><code>YEDEK9</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Resim yükselik değeri</td>
+</tr>
+<tr>
+<td>84</td>
+<td><code>YEDEK10</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Resim genişlik değeri</td>
+</tr>
+<tr>
+<td>85</td>
+<td><code>YEDEK11</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>86</td>
+<td><code>YEDEK12</code></td>
+<td>varchar(10)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>87</td>
+<td><code>SQLKISIT</code></td>
+<td>TDBMEMO</td>
+<td>evet</td>
+<td></td>
+<td>SQL kulanımında yazılan sql cümlesi bu sahada tutlmaktadır.</td>
+</tr>
+<tr>
+<td>88</td>
+<td><code>WORDKEY</code></td>
+<td>varchar(50)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul veya hesap kullaımında registry anahtar bilgisi tutulur.</td>
+</tr>
+</tbody></table></div>
+<h2 id="anahtarlar"><a class="anchor" href="#anahtarlar" aria-hidden="true">#</a>Anahtarlar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tür</th>
+<th>Ad</th>
+<th>Kolonlar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PRIMARY KEY</td>
+<td><code>TBLDIZAYNKALEM_PKEY</code></td>
+<td><code>GENELID+SAHAYERI+SATIR+SUTUN+KOSULHASH</code></td>
+</tr>
+<tr>
+<td>FOREIGN KEY</td>
+<td><code>TBLDIZAYNKALEM_FKEY</code></td>
+<td><code>GENELID</code></td>
+</tr>
+</tbody></table></div>
+<p>Şema dokümanı yabancı anahtarların hangi tabloya bağlandığını vermiyor; yalnızca bu tablodaki kolonları listeliyor.</p>
+<h2 id="indeksler"><a class="anchor" href="#indeksler" aria-hidden="true">#</a>İndeksler</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Ad</th>
+<th>Kolonlar</th>
+<th>Tanım</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TBLDIZAYNKALEM_IND_1</code></td>
+<td><code>GENELID</code></td>
+<td>Non-unique, Non-clustered</td>
+</tr>
+<tr>
+<td><code>TBLDIZAYNKALEM_PKEY</code></td>
+<td><code>GENELID+SAHAYERI+SATIR+SUTUN+KOSULHASH</code></td>
+<td>Clustered</td>
+</tr>
+</tbody></table></div>
+<h2 id="ornek-sorgu"><a class="anchor" href="#ornek-sorgu" aria-hidden="true">#</a>Örnek sorgu</h2>
+<pre><code class="language-sql">SELECT TOP 100 GENELID, KOSULHASH, SAHAYERI, SAHATIPI, BASLIKYAZ, ACIKLAMA
+FROM dbo.TBLDIZAYNKALEM WITH (NOLOCK);
+</code></pre>
+
+</article>
+<footer class="page-foot"><a href="/veritabani/tablolar/tbldizaynkalem.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#kolonlar">Kolonlar</a></li><li class="l2"><a href="#anahtarlar">Anahtarlar</a></li><li class="l2"><a href="#indeksler">İndeksler</a></li><li class="l2"><a href="#ornek-sorgu">Örnek sorgu</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NetRS ve transaction · Netsis Dokümantasyonu</title>
+<meta name="description" content="NetOpenX oturumu üzerinden SQL çalıştırma (NetRS) ve NetsisTransaction ile toplu işlemleri geri alınabilir yapma.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/netopenx/netrs-ve-transaction/">
+<link rel="alternate" type="text/markdown" href="/netopenx/netrs-ve-transaction.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="NetRS ve transaction">
+<meta property="og:description" content="NetOpenX oturumu üzerinden SQL çalıştırma (NetRS) ve NetsisTransaction ile toplu işlemleri geri alınabilir yapma.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/netopenx/netrs-ve-transaction/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/" aria-current="page">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/netopenx/">NetOpenX (COM)</a></nav>
+<article>
+<h1 id="netrs-ve-transaction"><a class="anchor" href="#netrs-ve-transaction" aria-hidden="true">#</a>NetRS ve transaction</h1>
+<h2 id="netrs-oturum-uzerinden-sql"><a class="anchor" href="#netrs-oturum-uzerinden-sql" aria-hidden="true">#</a>NetRS: oturum üzerinden SQL</h2>
+<p><code>NetRS</code>, açık NetOpenX oturumunun veritabanı bağlantısıyla SQL çalıştırır. Ayrı bir <code>SqlConnection</code> açmadan okuma yapmak için kullanışlıdır ve hem MSSQL hem Oracle&#39;da çalışır. REST&#39;teki <code>api/v2/Queries/NetRS</code> ucu bunun HTTP karşılığıdır.</p>
+<pre><code class="language-csharp">NetRS rs = kernel.yeniNetRS(sirket);
+try
+{
+    rs.Ac(&quot;SELECT CARI_KOD, CARI_ISIM FROM TBLCASABIT WHERE SUBE_KODU = 0&quot;);
+    while (!rs.EOF)
+    {
+        string kod = rs.FieldByName(&quot;CARI_KOD&quot;).AsString;
+        // ...
+        rs.SonrakiK();      // sonraki kayıt
+    }
+}
+finally { Marshal.ReleaseComObject(rs); }
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Üye</th>
+<th>İşlev</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Ac(sql)</code></td>
+<td><code>SELECT</code> çalıştırır, imleci ilk kayda konumlar</td>
+</tr>
+<tr>
+<td><code>EOF</code></td>
+<td>Kayıtların sonuna gelindi mi</td>
+</tr>
+<tr>
+<td><code>FieldByName(ad)</code></td>
+<td>Alan; <code>.AsString</code> gibi dönüştürücülerle okunur</td>
+</tr>
+<tr>
+<td><code>IlkK()</code>, <code>SonrakiK()</code></td>
+<td>İlk / sonraki kayda git</td>
+</tr>
+<tr>
+<td><code>Calistir(sql)</code></td>
+<td><code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code> çalıştırır</td>
+</tr>
+<tr>
+<td><code>NetsisTransaction(TTransactionTipi)</code></td>
+<td>Transaction başlat / bitir / geri al</td>
+</tr>
+</tbody></table></div>
+<p>Logo örneklerinde tablo adı <code>TBL</code> öneki olmadan da yazılır (<code>SELECT * FROM CASABIT</code>). Kendi kurulumunuzda hangisinin çalıştığını deneyin; <code>TBL…</code> adları her durumda tablonun kendisidir.</p>
+<blockquote>
+<p><strong><code>Calistir</code> iş kurallarını atlar.</strong> Logo örneği <code>CASABIT</code>/<code>CASABITEK</code>&#39;e <code>INSERT</code> ile cari ekler; bu, <a href="/genel-bakis/#yazma-kurali">yazma kuralının</a> dışındadır. Kart ve belge yazmak için ilgili nesneyi (<code>Cari</code>, <code>Fatura</code>…) kullanın. <code>Calistir</code>&#39;i yalnızca Netsis&#39;in kendisinin de basit <code>UPDATE</code> ile değiştirdiği alanlar ya da kendi yardımcı tablolarınız için kullanın.</p>
+</blockquote>
+<h2 id="netsistransaction"><a class="anchor" href="#netsistransaction" aria-hidden="true">#</a>NetsisTransaction</h2>
+<p>Birden çok kaydı tek bir iş olarak yazmak için iş nesnelerinde (<code>Cari</code>, <code>Stok</code>, <code>CekSenAna</code>, <code>NetRS</code>…) <code>NetsisTransaction</code> vardır:</p>
+<pre><code class="language-csharp">Stok stok = kernel.yeniStok(sirket);
+StokTemelBilgi tb = stok.TemelBilgi();
+StokEkBilgi ek = stok.EkBilgi();
+
+stok.NetsisTransaction(TTransactionTipi.ttBaslat);
+try
+{
+    tb.Stok_Kodu = &quot;STK-0001&quot;; tb.Stok_Adi = &quot;Örnek&quot;;
+    ek.Stok_Kodu = &quot;STK-0001&quot;;
+    stok.kayitYeni();
+    // aynı transaction içinde başka kayıtlar...
+    stok.NetsisTransaction(TTransactionTipi.ttBitir);    // onayla
+}
+catch
+{
+    stok.NetsisTransaction(TTransactionTipi.ttGeriAl);   // geri al
+    throw;
+}
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><code>TTransactionTipi</code></th>
+<th>Anlamı</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ttBaslat</code></td>
+<td>Transaction başlat</td>
+</tr>
+<tr>
+<td><code>ttBitir</code></td>
+<td>Onayla (commit)</td>
+</tr>
+<tr>
+<td><code>ttGeriAl</code></td>
+<td>Geri al (rollback)</td>
+</tr>
+</tbody></table></div>
+<p>Transaction&#39;ın aynı oturumdaki (aynı <code>Sirket</code>) diğer nesnelere de yayıldığı örneklerden anlaşılır; farklı <code>Sirket</code> nesneleri ayrı bağlantılardır. Uzun transaction&#39;lar Netsis kullanıcılarını kilitleyebilir; kısa tutun.</p>
+<p>REST&#39;te karşılığı <code>OpenTransaction</code> / <code>CommitTransaction</code> / <code>RollBackTransaction</code> uçlarıdır (<a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a>).</p>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/netopenx/netrs-ve-transaction.md">GitHub'da düzenle</a> · <a href="/netopenx/netrs-ve-transaction.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

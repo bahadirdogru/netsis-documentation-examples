@@ -1,0 +1,60 @@
+[
+  {
+    "title": "Başlangıç",
+    "items": [
+      "/",
+      "/genel-bakis/",
+      "/llm/"
+    ]
+  },
+  {
+    "title": "Veritabanı",
+    "items": [
+      "/veritabani/",
+      "/veritabani/temel-tablolar/",
+      "/veritabani/sql-ornekleri/",
+      "/veritabani/ortak-kolonlar/",
+      "/veritabani/veri-tipleri/",
+      "/veritabani/tum-tablolar/"
+    ]
+  },
+  {
+    "title": "NetOpenX (COM)",
+    "items": [
+      "/netopenx/",
+      "/netopenx/nesne-katalogu/",
+      "/netopenx/baglanti/",
+      "/netopenx/fatura-ve-irsaliye/",
+      "/netopenx/belge-donusumleri/",
+      "/netopenx/depo-ve-ambar/",
+      "/netopenx/cari-ve-stok/",
+      "/netopenx/e-belge/",
+      "/netopenx/netrs-ve-transaction/",
+      "/netopenx/diger-islemler/",
+      "/netopenx/enumlar/",
+      "/netopenx/hatalar/"
+    ]
+  },
+  {
+    "title": "NetOpenX REST",
+    "items": [
+      "/rest/",
+      "/rest/kurulum/",
+      "/rest/kimlik-dogrulama/",
+      "/rest/sorgulama/",
+      "/rest/uclar/",
+      "/rest/istemci-kutuphanesi/",
+      "/rest/json-ornekleri/",
+      "/rest/kimlikler-ve-enumlar/",
+      "/rest/transaction-ve-hatalar/",
+      "/rest/guvenlik/",
+      "/rest/bilinen-sorunlar/"
+    ]
+  },
+  {
+    "title": "Ek",
+    "items": [
+      "/kaynaklar/"
+    ]
+  }
+]

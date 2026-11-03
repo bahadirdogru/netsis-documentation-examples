@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kimlik doğrulama · Netsis Dokümantasyonu</title>
+<meta name="description" content="api/v2/token ile token alma, Bearer kullanımı, C# oAuth2 ve TokenSafeOperation.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/rest/kimlik-dogrulama/">
+<link rel="alternate" type="text/markdown" href="/rest/kimlik-dogrulama.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Kimlik doğrulama">
+<meta property="og:description" content="api/v2/token ile token alma, Bearer kullanımı, C# oAuth2 ve TokenSafeOperation.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/rest/kimlik-dogrulama/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/" aria-current="page">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/rest/">NetOpenX REST</a></nav>
+<article>
+<h1 id="kimlik-dogrulama"><a class="anchor" href="#kimlik-dogrulama" aria-hidden="true">#</a>Kimlik doğrulama</h1>
+<p>NetOpenX REST, OAuth2 &quot;resource owner password&quot; akışına benzer bir token kullanır. Token şirkete ve şubeye bağlıdır: hangi şirketle işlem yapılacağı token alınırken belirlenir.</p>
+<h2 id="ham-http"><a class="anchor" href="#ham-http" aria-hidden="true">#</a>Ham HTTP</h2>
+<pre><code class="language-http">POST /api/v2/token HTTP/1.1
+Host: netsis-sunucu:7070
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&amp;branchcode=0&amp;username=NETSIS&amp;password=SIFRE&amp;dbname=ACME2024&amp;dbuser=TEMELSET&amp;dbpassword=&amp;dbtype=0
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Alan</th>
+<th>Anlamı</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>grant_type</code></td>
+<td>Her zaman <code>password</code></td>
+</tr>
+<tr>
+<td><code>branchcode</code></td>
+<td>Şube kodu</td>
+</tr>
+<tr>
+<td><code>username</code>, <code>password</code></td>
+<td><strong>Netsis</strong> kullanıcı adı ve şifresi</td>
+</tr>
+<tr>
+<td><code>dbname</code></td>
+<td>Şirket (veritabanı) adı</td>
+</tr>
+<tr>
+<td><code>dbuser</code>, <code>dbpassword</code></td>
+<td>Veritabanı kullanıcısı (çoğunlukla <code>TEMELSET</code>) ve şifresi</td>
+</tr>
+<tr>
+<td><code>dbtype</code></td>
+<td>Veritabanı tipi; <code>0</code> = MSSQL (örneklerde böyle kullanılır, doğrulanmadı)</td>
+</tr>
+</tbody></table></div>
+<p>Başarılı yanıt JSON&#39;dur ve <code>access_token</code> içerir (standart OAuth2 alanları beklenir: <code>access_token</code>, <code>token_type</code>, <code>expires_in</code>; tam alan listesi doğrulanmadı). Sonraki her istekte:</p>
+<pre><code class="language-http">GET /api/v2/ARPs?limit=5 HTTP/1.1
+Authorization: Bearer &lt;access_token&gt;
+</code></pre>
+<p>Hatalı girişte standart OAuth2 hata gövdesi döner:</p>
+<pre><code class="language-json">{&quot;error&quot;:&quot;invalid_grant&quot;,&quot;error_description&quot;:&quot;Hata Kodu : 401\r\nDetay : Login Failed ...&quot;}
+</code></pre>
+<p><code>GET</code> ile token istenirse <code>unsupported_grant_type</code> döner.</p>
+<h3 id="curl"><a class="anchor" href="#curl" aria-hidden="true">#</a>curl</h3>
+<pre><code class="language-bash">TOKEN=$(curl -s -X POST http://localhost:7070/api/v2/token \
+  -d grant_type=password -d branchcode=0 -d username=NETSIS -d password=SIFRE \
+  -d dbname=ACME2024 -d dbuser=TEMELSET -d dbpassword= -d dbtype=0 | jq -r .access_token)
+
+curl -H &quot;Authorization: Bearer $TOKEN&quot; &quot;http://localhost:7070/api/v2/ARPs?limit=5&quot;
+</code></pre>
+<h3 id="python"><a class="anchor" href="#python" aria-hidden="true">#</a>Python</h3>
+<pre><code class="language-python">import requests
+
+BASE = &quot;http://localhost:7070/api/v2&quot;
+r = requests.post(f&quot;{BASE}/token&quot;, data={
+    &quot;grant_type&quot;: &quot;password&quot;, &quot;branchcode&quot;: 0,
+    &quot;username&quot;: &quot;NETSIS&quot;, &quot;password&quot;: &quot;SIFRE&quot;,
+    &quot;dbname&quot;: &quot;ACME2024&quot;, &quot;dbuser&quot;: &quot;TEMELSET&quot;, &quot;dbpassword&quot;: &quot;&quot;, &quot;dbtype&quot;: 0,
+}, timeout=30)
+r.raise_for_status()
+token = r.json()[&quot;access_token&quot;]
+
+s = requests.Session()
+s.headers[&quot;Authorization&quot;] = f&quot;Bearer {token}&quot;
+cariler = s.get(f&quot;{BASE}/ARPs&quot;, params={&quot;limit&quot;: 5}).json()
+</code></pre>
+<h2 id="token-gerektirmeyen-uclar"><a class="anchor" href="#token-gerektirmeyen-uclar" aria-hidden="true">#</a>Token gerektirmeyen uçlar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Uç</th>
+<th>Döner</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GET api/v2/public/Ping</code></td>
+<td><code>&quot;&lt;tarih saat&gt; &gt; OK&quot;</code></td>
+</tr>
+<tr>
+<td><code>GET api/v2/public/Version</code></td>
+<td>NetOpenX sürümü</td>
+</tr>
+<tr>
+<td><code>GET api/v2/public/AuthorizedBranches?company={company}&amp;username={username}</code></td>
+<td>Kullanıcının yetkili şubeleri</td>
+</tr>
+<tr>
+<td><code>GET api/v2/HealthCheck</code></td>
+<td>Kernel oluşturma testi</td>
+</tr>
+<tr>
+<td><code>GET api/v2/help</code>, <code>api/v2/helpinfo?apiId=...</code></td>
+<td>Yardım sayfaları</td>
+</tr>
+</tbody></table></div>
+<p>Token isteyen hafif kontrol ucu: <code>GET api/v2/ping</code> (token yoksa <code>401</code>). Bağlantı testi için idealdir.</p>
+<h2 id="oturumu-kapatma"><a class="anchor" href="#oturumu-kapatma" aria-hidden="true">#</a>Oturumu kapatma</h2>
+<p><code>GET api/v2/revoke</code> (token ile). Kapatılmazsa token süresi dolunca kendiliğinden geçersiz olur.</p>
+<h2 id="c-netopenx-rest-client"><a class="anchor" href="#c-netopenx-rest-client" aria-hidden="true">#</a>C#: NetOpenX.Rest.Client</h2>
+<p>Logo&#39;nun .NET istemci kütüphanesi <code>NetOpenX.Rest.Client.dll</code> token işini sarmalar.</p>
+<pre><code class="language-csharp">using NetOpenX.Rest.Client;
+using NetOpenX.Rest.Client.BLL;
+using NetOpenX.Rest.Client.Model;
+using NetOpenX.Rest.Client.Model.Enums;
+using NetOpenX.Rest.Client.Model.NetOpenX;
+
+var oAuth2 = new oAuth2(&quot;http://localhost:7070&quot;);
+oAuth2.Login(new JLogin
+{
+    BranchCode     = 0,
+    NetsisUser     = &quot;NETSIS&quot;,
+    NetsisPassword = &quot;SIFRE&quot;,
+    DbType         = JNVTTipi.vtMSSQL,
+    DbName         = &quot;ACME2024&quot;,
+    DbUser         = &quot;TEMELSET&quot;,
+    DbPassword     = &quot;&quot;
+});
+string token = oAuth2.AccessToken;
+
+var arps = new ARPsManager(oAuth2);
+var sonuc = arps.GetInternal(new SelectFilter { Limit = 5 });
+</code></pre>
+<p><code>JLogin</code> alanları: <code>BranchCode</code>, <code>NetsisUser</code>, <code>NetsisPassword</code>, <code>DbType</code>, <code>DbName</code>, <code>DbUser</code>, <code>DbPassword</code>, <code>HashCode</code> (anlamı belgelenmemiş). <code>oAuth2</code> üyeleri: <code>Login(JLogin)</code>, <code>LogOut()</code>, <code>AccessToken</code>, <code>TimeOut</code>, <code>AllowCompress</code>, <code>ChangeHeader</code> olayı.</p>
+<h3 id="tokensafeoperation"><a class="anchor" href="#tokensafeoperation" aria-hidden="true">#</a>TokenSafeOperation</h3>
+<p>Token süresi dolduğunda yeniden giriş yapıp işlemi tekrarlayan yardımcı:</p>
+<pre><code class="language-csharp">TokenRestSettings.Init(&quot;http://localhost:7070&quot;, 120, true);   // 2. ve 3. parametre belgelenmemiş
+
+var safeOp = new TokenSafeOperation(new JLogin { /* ... */ });
+var result = safeOp.Exec&lt;List&lt;CasaBit&gt;&gt;(token =&gt;
+{
+    var q = token.CreateManager&lt;QueryManager&gt;();
+    return q.GetInternal(&quot;select top 2 * from TBLCASABIT&quot;);
+});
+</code></pre>
+<p>Aynı blok içinde birden fazla yönetici (<code>CreateManager&lt;T&gt;()</code>) kullanılabilir. Yeniden deneme davranışı kaynak koddan çıkarılmıştır; Logo dokümanında açıkça yazılmaz.</p>
+<h3 id="ham-cagri-requestmanager"><a class="anchor" href="#ham-cagri-requestmanager" aria-hidden="true">#</a>Ham çağrı (RequestManager)</h3>
+<pre><code class="language-csharp">var req = new RequestManager(oAuth2) { Method = &quot;GET&quot;, Path = &quot;api/v2/ARPs?limit=5&quot; };
+string json = req.GetResult();
+</code></pre>
+<h2 id="pratik-oneriler"><a class="anchor" href="#pratik-oneriler" aria-hidden="true">#</a>Pratik öneriler</h2>
+<ul>
+<li>Tokenı <strong>önbelleğe alın</strong> ve süresi dolmadan yenileyin. Örnek projelerdeki &quot;her işlemde yeniden login&quot; deseni yavaştır ve lisans/oturum tüketir.</li>
+<li>401 aldığınızda bir kez yeniden login olup isteği tekrarlayın; yazma isteklerinde tekrar etmeden önce kaydın oluşmadığını kontrol edin (<a href="/rest/transaction-ve-hatalar/#cift-kayit-riski">idempotency</a>).</li>
+<li>Kimlik bilgilerini koda ve depoya koymayın.</li>
+</ul>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/rest/kimlik-dogrulama.md">GitHub'da düzenle</a> · <a href="/rest/kimlik-dogrulama.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#ham-http">Ham HTTP</a></li><li class="l3"><a href="#curl">curl</a></li><li class="l3"><a href="#python">Python</a></li><li class="l2"><a href="#token-gerektirmeyen-uclar">Token gerektirmeyen uçlar</a></li><li class="l2"><a href="#oturumu-kapatma">Oturumu kapatma</a></li><li class="l2"><a href="#c-netopenx-rest-client">C#: NetOpenX.Rest.Client</a></li><li class="l3"><a href="#tokensafeoperation">TokenSafeOperation</a></li><li class="l3"><a href="#ham-cagri-requestmanager">Ham çağrı (RequestManager)</a></li><li class="l2"><a href="#pratik-oneriler">Pratik öneriler</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

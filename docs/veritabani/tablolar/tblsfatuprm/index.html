@@ -1,0 +1,2117 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TBLSFATUPRM · Netsis Dokümantasyonu</title>
+<meta name="description" content="SATIŞ FATURASI PARAMETRELE KAYITLARINI TUTAR">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/tablolar/tblsfatuprm/">
+<link rel="alternate" type="text/markdown" href="/veritabani/tablolar/tblsfatuprm.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="TBLSFATUPRM">
+<meta property="og:description" content="SATIŞ FATURASI PARAMETRELE KAYITLARINI TUTAR">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/tablolar/tblsfatuprm/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/" aria-current="page">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a> <span>/</span> <a href="/veritabani/moduller/fatura/">FATURA modülü</a></nav>
+<article>
+<h1 id="tblsfatuprm"><a class="anchor" href="#tblsfatuprm" aria-hidden="true">#</a>TBLSFATUPRM</h1>
+<blockquote>
+<p>SATIŞ FATURASI PARAMETRELE KAYITLARINI TUTAR</p>
+</blockquote>
+<ul>
+<li><strong>Modül:</strong> <a href="/veritabani/moduller/fatura/">FATURA</a></li>
+<li><strong>Kolon sayısı:</strong> 254</li>
+</ul>
+<h2 id="kolonlar"><a class="anchor" href="#kolonlar" aria-hidden="true">#</a>Kolonlar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Kolon</th>
+<th>Tip</th>
+<th>Null</th>
+<th>Varsayılan</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>SUBE_KODU</code></td>
+<td>TDBSMALLINT</td>
+<td>hayır</td>
+<td></td>
+<td><a href="/veritabani/ortak-kolonlar/">Ortak kolon</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>MAL_BAZI_ISKONTOSU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İskonto sekmesindeki mal bazı iskontosu var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>MAL_FAZLASI_ISKONTO</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İskonto sekmesindeki mal fazlası iskontosu var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>MAL_FAZLASI_KDVSI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İskonto sekmesindeki mal fazlası iskontosundan KDV alınacak mı parametresini gösterir. Mal fazlası iskontosu var mı parametresi işaretlendiğinde aktif olur.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>MALFAZKDVSIBRUTNET</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İskonto sekmesindeki KDV brüt fiyat üzerinden alınsın mı parametresini gösterir. Mal fazlası iskontosu var mı parametresi işaretlendiğinde aktif olur.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>ISKONTO3</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İskonto sekmesindeki Genel iskonto[1] parametresini gösterir.</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>ISKONTO3_TANIM</code></td>
+<td>varchar(20)</td>
+<td>evet</td>
+<td></td>
+<td>Genel iskonto[1]&#39; in belgedeki ismini gösterir.</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>ISKONTO4</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İskonto sekmesindeki Genel iskonto[2] parametresini gösterir.</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>ISKONTO4_TANIM</code></td>
+<td>varchar(20)</td>
+<td>evet</td>
+<td></td>
+<td>Genel iskonto[2]&#39; in belgedeki ismini gösterir.</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>ISKONTO5</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İskonto sekmesindeki Genel iskonto[3] parametresini gösterir.</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>ISKONTO5_TANIM</code></td>
+<td>varchar(20)</td>
+<td>evet</td>
+<td></td>
+<td>Genel iskonto[3]&#39; in belgedeki ismini gösterir.</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>ISKONTO5_HESAPLANSI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel iskonto[3]=birim ağırlık*ağırlıklı iskonto hesaplansın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>FAT_ALTM1_VARMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesinde Ek Maliyet[1] parametresini gösterir.</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>FAT_ALTM1_TANIM</code></td>
+<td>varchar(20)</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesinde Ek Maliyet[1] parametresinin belgedeki adını gösterir.</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>FAT_ALTM1_HESAPLANSI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesinde Ek Maliyet[1]=birim maliyet*nakliye katsayısı hesaplansın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>16</td>
+<td><code>FAT_ALTM2_VARMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesinde Ek Maliyet[2] parametresini gösterir.</td>
+</tr>
+<tr>
+<td>17</td>
+<td><code>NAKLIYE_KDV_ORANI</code></td>
+<td>decimal(5,2)</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesinde Ek Maliyet[1] KDV oranını gösterir.</td>
+</tr>
+<tr>
+<td>18</td>
+<td><code>FAT_ALTM2_TANIM</code></td>
+<td>varchar(20)</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesinde Ek Maliyet[2] parametresinin belgedeki adını gösterir.</td>
+</tr>
+<tr>
+<td>19</td>
+<td><code>FAT_ALTM2_HESAPLANSI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesinde nakliye risk/ sigorta fon olarak hesaplansın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>20</td>
+<td><code>SIGORTA_FON_ORANI</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesinde Ek Maliyet[2] KDV oranını gösterir.</td>
+</tr>
+<tr>
+<td>21</td>
+<td><code>SIGORTA_FON_KDV_ORAN</code></td>
+<td>TDBKDVORAN</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesinde sigorta fon oranını gösterir.</td>
+</tr>
+<tr>
+<td>22</td>
+<td><code>EKSI_BAKIYE_GOSTERIM</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde eksi bakiye göstersin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>23</td>
+<td><code>OZEL_KOD1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde özel kod1 parametresini gösterir.</td>
+</tr>
+<tr>
+<td>24</td>
+<td><code>OZEL_KOD1_SECIM11</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde özel kod1 tanımlama kısmında kodu alanına girilen özel kod1 değerini gösterir.</td>
+</tr>
+<tr>
+<td>25</td>
+<td><code>OZEL_KOD1_SECIM12</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde özel kod1 tanımlama kısmında fiyat tipi alanına girilen satış fiyatı1/2/3/4 den seçileni gösterir.</td>
+</tr>
+<tr>
+<td>26</td>
+<td><code>OZEL_KOD1_SECIM21</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde özel kod1 tanımlama kısmında kodu alanına girilen özel kod1 değerini gösterir.</td>
+</tr>
+<tr>
+<td>27</td>
+<td><code>OZEL_KOD1_SECIM22</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde özel kod1 tanımlama kısmında fiyat tipi alanına girilen satış fiyatı1/2/3/4 den seçileni gösterir.</td>
+</tr>
+<tr>
+<td>28</td>
+<td><code>OZEL_KOD1_SECIM31</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde özel kod1 tanımlama kısmında kodu alanına girilen özel kod1 değerini gösterir.</td>
+</tr>
+<tr>
+<td>29</td>
+<td><code>OZEL_KOD1_SECIM32</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde özel kod1 tanımlama kısmında fiyat tipi alanına girilen satış fiyatı1/2/3/4 den seçileni gösterir.</td>
+</tr>
+<tr>
+<td>30</td>
+<td><code>OZEL_KOD1_SECIM41</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde özel kod1 tanımlama kısmında kodu alanına girilen özel kod1 değerini gösterir.</td>
+</tr>
+<tr>
+<td>31</td>
+<td><code>OZEL_KOD1_SECIM42</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde özel kod1 tanımlama kısmında fiyat tipi alanına girilen satış fiyatı1/2/3/4 den seçileni gösterir.</td>
+</tr>
+<tr>
+<td>32</td>
+<td><code>OZEL_KOD2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde özel kod2 parametresini gösterir.</td>
+</tr>
+<tr>
+<td>33</td>
+<td><code>ACIKLAMA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde açıklama parametresini gösterir.</td>
+</tr>
+<tr>
+<td>34</td>
+<td><code>FATURADA_SERI_VARMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde irsaliyede/faturada seri takibi var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>35</td>
+<td><code>TUTARDAN_BIRIM_FIATA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel4 sekmesinde tutardan birim fiyata geçiş var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>36</td>
+<td><code>MUSTERI_RISK_UYARISI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde müşteride risk takibi yapılsın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>37</td>
+<td><code>AMBNO_TAKIBI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde satış irsaliyelerinde ambar fişno takibi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>38</td>
+<td><code>CARIDE_BOLUNSUN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel4 sekmesinde C/H Vadelere Bölünerek Geçmesin/Geçsin+Koşul C/H Vadelere Böl. Geç. Parametresi Dikkate Alınsın kayıtlarından seçileni gösterir.</td>
+</tr>
+<tr>
+<td>39</td>
+<td><code>DEP_SIPNO</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Dep.Arası Trans./Ambar G.Ç sekmesinde Depolararası transferde sipariş numarası sorulsun mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>40</td>
+<td><code>AMBARCIKISTAKODDEGIS</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Dep.Arası Trans./Ambar G.Ç sekmesinde Ambar Çıkış Fişinde Her Satırda Masraf Kodu Sorulsun Mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>41</td>
+<td><code>FIAT_DEGISIM</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel4 sekmesinde satışta fiyat değişimi yapılabilsin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>42</td>
+<td><code>SIPHERTES</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde sipariş kaydında her satırda teslim tarihi sorulsun mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>43</td>
+<td><code>ALISTAEK</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>44</td>
+<td><code>SATISTAEK</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde sipariş/irsaliye/faturada ek sorgular var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>45</td>
+<td><code>ALTIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde kdv hesaplarında has altın sekmesi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>46</td>
+<td><code>BENZIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel4 sekmesinde tutatdan miktara geçiş yapılsın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>47</td>
+<td><code>MUSTMALBAZIFIAT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde özel kod1 parametresinin işaretli olduğunda aktif olan+ özel kod1 değeri tablodan mı kontrol edilecek parametresini gösterir.</td>
+</tr>
+<tr>
+<td>48</td>
+<td><code>KDVDEGIS</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura kdv sekmesinde Her Satırda KDV Sorulsun Mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>49</td>
+<td><code>SIPKN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde sipariş kaydında tekrar eden stok kontrolü parametresini gösterir.</td>
+</tr>
+<tr>
+<td>50</td>
+<td><code>SABISKMALBAZ</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel4 sekmesinde cari hesapta tanımlanan iskonto mal bazında mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>51</td>
+<td><code>KULLANICI_ADEDI</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>52</td>
+<td><code>URET_RECETE</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde üretim reçetesi getirilsin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>53</td>
+<td><code>FARKLI_BIRIMDEN_GIRI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde farklı birimlerden mal çıkışı yapılsın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>54</td>
+<td><code>DEP_TRANS_CARIYE</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Dep.Arası Trans./Ambar G.Ç sekmesinde Depolararası transfer cariye işlensin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>55</td>
+<td><code>MALIYET_TIPI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Dep.Arası Trans./Ambar G.Ç sekmesinde maliyet tipinde seçilen kaydı gösterir.</td>
+</tr>
+<tr>
+<td>56</td>
+<td><code>IRS_ODEME_GUN_TAKIBI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde toplu faturalamada gün takibi var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>57</td>
+<td><code>ISK_MAL_KODU_OKUMAUZ</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>58</td>
+<td><code>FAT_SIPARIS_TAKIBI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde sipariş takibi yapılacak mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>59</td>
+<td><code>FON_BRUT_NET</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesinde sigorta fonun brüt/ net olup olmadığını gösterir.</td>
+</tr>
+<tr>
+<td>60</td>
+<td><code>SIRALAMA_TURU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde Satış İrsaliye/Sipariş Sıralama Seçeneği parametresinde seçilen kaydı gösterir.</td>
+</tr>
+<tr>
+<td>61</td>
+<td><code>KDV_SORULSUN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura kdv sekmesinde KDV Dahil/Hariç Sorusu Her Faturada Sorulsun Mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>62</td>
+<td><code>KDV_DH</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura kdv sekmesinde Genellikle KDV Hariç Mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>63</td>
+<td><code>SON_KESILEN_FATURAMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>64</td>
+<td><code>GETIRME_SIRASI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel2 sekmesinde faturada/irsaliyede/siparişte tekrar eden stok kodu girişi engellensin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>65</td>
+<td><code>EK_ALAN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel2 sekmesinde ek alan parametresini gösterir.</td>
+</tr>
+<tr>
+<td>66</td>
+<td><code>STOK_AYIR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde siparişte stoktan ayırma yapılsın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>67</td>
+<td><code>EXTRE</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>68</td>
+<td><code>EBAT_GIRILECEK</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel2 sekmesinde ebat bilgisi girilsin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>69</td>
+<td><code>ALIS_FIATI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>70</td>
+<td><code>ALISLAR_BASILSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde sipariş onayı açılsın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>71</td>
+<td><code>ISKONTO3_ORANLANSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Dep.Arası Trans./Ambar G.Ç sekmesinde şubeler arası transfer fişi karşı ambardan onaylansın mı parametresi işaretli olduğunda aktif olan lokal depolar arası trs. Fişi onaylansın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>72</td>
+<td><code>EBATLAR_KACA_BOLUNSU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel2 sekmesinde ebatlar kaça bölünsün parametresini gösterir.</td>
+</tr>
+<tr>
+<td>73</td>
+<td><code>IKINCI_MIKTAR_GIRILS</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel2 sekmesinde ikinci miktar sorulsun mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>74</td>
+<td><code>EBAT_TUTULSUN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel2 sekmesinde ebatlar saklansın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>75</td>
+<td><code>BFISK_ILK</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İskonto sekmesinde Genel İskonto-3 Hesaplamada İlk Düşülsün Mü parametresini gösterir.</td>
+</tr>
+<tr>
+<td>76</td>
+<td><code>KAPLAMA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde kaplama hesaplanacak parametresini gösterir.</td>
+</tr>
+<tr>
+<td>77</td>
+<td><code>KOD2_ZORLANSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde özel kod2 parametresi işaretlendiğinde aktif olan irs/fat/ özel kod[2] boş geçilmesin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>78</td>
+<td><code>ACIK_ZORLANSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde açıklama parametresi işaretlendiğinde aktif olan açıklama boş geçilmesin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>79</td>
+<td><code>YUZDE_SORULSUN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İskonto sekmesinde yüzde/ tutar sorulsun mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>80</td>
+<td><code>DESTEKLEME_FONU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>81</td>
+<td><code>BRUT_GECSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel2 sekmesinde irs/fat kayıtlarında fiyatlar brüt geçsin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>82</td>
+<td><code>ECZA_DEPOSU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>83</td>
+<td><code>GECICI_KDV_SIFIRLAMA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura kdv sekmesinde geçici ötv sıfırlama parametresini gösterir.</td>
+</tr>
+<tr>
+<td>84</td>
+<td><code>KOD2_SKOD</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura kdv sekmesinde Geçici KDV Sıfırlama İçin Kullanılacak Özel Kod-2 parametresini gösterir.</td>
+</tr>
+<tr>
+<td>85</td>
+<td><code>IRS_CARI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel2 sekmesinde irsaliye cari hesaba geçsin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>86</td>
+<td><code>FON_SADECE_ALISTA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>87</td>
+<td><code>ADET_ISKONTOSU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İskonto sekmesinde ölçü birimi 2 ye göre tutar iskontosu yapılsın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>88</td>
+<td><code>BOLGF_HERSATIR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İskonto sekmesinde Her Satırda Değeri Sorulsun Mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>89</td>
+<td><code>KOLAY</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>90</td>
+<td><code>BAZTSOR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde faturada vade baz tarihi sorulsun mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>91</td>
+<td><code>SATIR_BAZI_FIAT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde irsaliye/fatura/siparişte satır bazı fiyat sorulsun mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>92</td>
+<td><code>TRANSIT_IRS</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>93</td>
+<td><code>IRS_TARIHI_KALSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde irsaliyeden faturalamada stokta irsaliye tarihi kalsın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>94</td>
+<td><code>KDV_AYRILSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura kdv sekmesinde Faturalarda KDV Ayrılsın Mı(C/H Kaydında) parametresini gösterir.</td>
+</tr>
+<tr>
+<td>95</td>
+<td><code>KDV_OZEL_KODU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura kdv sekmesinde KDV İle İlgili Özel Kodun Değeri (Kod1 veya Kod2) parametresini gösterir.</td>
+</tr>
+<tr>
+<td>96</td>
+<td><code>FIAT_HANESI_MILYAR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>97</td>
+<td><code>KDVDAHILONCEKDVDUSUL</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura kdv sekmesinde KDV Dahil Faturada İskontodan Önce KDV Düşülsün Mü parametresini gösterir.</td>
+</tr>
+<tr>
+<td>98</td>
+<td><code>FARKLI_TESLIM_YERI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde sipariş/irsaliye/faturada farklı teslim yeri var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>99</td>
+<td><code>FIAT_KONTROLU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde irsaliye/faturada fiyat kontrolü var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>100</td>
+<td><code>FIAT_ORANI_YUKSEK</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde son giriş net fiayatında üst limit parametresi için girilen değeri gösterir.</td>
+</tr>
+<tr>
+<td>101</td>
+<td><code>FIAT_ORANI_DUSUK</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde son giriş net fiayatında alt limit parametresi için girilen değeri gösterir.</td>
+</tr>
+<tr>
+<td>102</td>
+<td><code>SIPARISFIFO</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde Sipariş Sistemi FIFO İle Çalışsın Mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>103</td>
+<td><code>DOVIZ_TAKIP</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel4 sekmesinde döviz takibi yapılacak mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>104</td>
+<td><code>ASIPMAZ</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>105</td>
+<td><code>SSIPMAZ</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde İrsaliye/Faturalarda Sipariş No. Mal Bazında Mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>106</td>
+<td><code>EKSIDE_CIKMA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde mal çıkışlarında eksi bakiye gösterilsin mi parametresinin işaretlenmesiyle aktif olan+eksi bakiyede işlem durdurulsun mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>107</td>
+<td><code>DOVIZ_TAKIP_HANGISI</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Genel4 sekmesinde döviz takibi yapılacak mı parametresi işaretlendiğinde anlam kazanan+döviz takibi hangi değerden yapılacak parametresinde seçilen kaydı gösterir.</td>
+</tr>
+<tr>
+<td>108</td>
+<td><code>KADEMELI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İskonto sekmesinde kademeli kaç iskonto sorulsun parametresin gösterir.</td>
+</tr>
+<tr>
+<td>109</td>
+<td><code>VADE_GUN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel 4 sekmesinde kayıtlarda her satırda vade günü sorulsun parametresini gösterir.</td>
+</tr>
+<tr>
+<td>110</td>
+<td><code>STANDART_BASIM</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>111</td>
+<td><code>SIP_IRS_MUDAHALE_ETM</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde Sipariş Bağlantılı İrsaliyede Fiyat ve Vade Değişmesin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>112</td>
+<td><code>SAT_FIATA_MUD_ETME</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde irsaliye/faturada fiyat değişmesin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>113</td>
+<td><code>KDV_VADE_TAR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura kdv sekmesinde KDV’nin Vade Tarihi Bir Sonraki Ayın 25’i Yapılsın Mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>114</td>
+<td><code>SATIR_ONLINE</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>115</td>
+<td><code>DEP_TRANS_ONAYLI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Dep.Arası Trans./Ambar G.Ç sekmesinde şubeler arası transfer fişi karşı ambardan onaylansın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>116</td>
+<td><code>SATISFIAT_DOVFIAT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde Satış Fiyatı Döviz Fiyatı Olarak Kullanılsın Mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>117</td>
+<td><code>BARKODSYS</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>118</td>
+<td><code>YEDEKP</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>119</td>
+<td><code>TOPLU_DEPO</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde siparişten irsaliyelemede toplu depo kodu var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>120</td>
+<td><code>DEPODA_ISKONTO</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Dep.Arası Trans./Ambar G.Ç sekmesinde Depolar Arası Transferde İskonto Sorulsun Mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>121</td>
+<td><code>SONRABAS</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>122</td>
+<td><code>ACIK_TEKRAR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde açıklama parametresi işaretlendiğinde aktif olan müşteri siparişlerinde açıklama tekrar etsin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>123</td>
+<td><code>BAGLANTI_TAKIBI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>124</td>
+<td><code>BARKODDOSYADANMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde barkod/üretici kodu dosyadan okunsun mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>125</td>
+<td><code>FIYAT_LISTESI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>126</td>
+<td><code>ISK_VADE_MUDAHALE</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde irsaliye/faturada fiyat değişmesin mi parametresinin işaretlenmesiyle aktif olan+irsaliye/faturada iskonto ve vade tarihi değişmesin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>127</td>
+<td><code>SIPKURGUNCELLE</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde Sipariş Kurları Faturada Güncellensin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>128</td>
+<td><code>LOKAL_MUH</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Dep.Arası Trans./Ambar G.Ç sekmesinde lokal depo bazında muhasebe entegrasyonu var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>129</td>
+<td><code>VADE_TAR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel 4 sekmesinde kayıtlarda her satırda vade günü sorulsun parametresinin işaretlenmesiyle aktif hale gelen+Kayıtlarda Her Satırda Vade Tarihi Sorulsun parametresini gösterir.</td>
+</tr>
+<tr>
+<td>130</td>
+<td><code>STOK_LOKAL_DEPO</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde stoktaki lokal depo gelsin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>131</td>
+<td><code>MIKTAR_BIR_GELSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel4 sekmesinde sipariş/irsaliye/faturada miktar bir gelsin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>132</td>
+<td><code>SATIS_DEPO_KODU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel2 sekmesinde fatura/irsaliyelerde toplu depo kodu var mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>133</td>
+<td><code>ITHMUHYAZMA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>134</td>
+<td><code>NUMUNE_TAKIBI_VARMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>135</td>
+<td><code>YURT_DISI_GIDER</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>136</td>
+<td><code>YURT_ICI_GIDER</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>137</td>
+<td><code>SATIS_KODU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>138</td>
+<td><code>OZEL_NAKLIYE</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde özel nakliye sistemi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>139</td>
+<td><code>SIPTE_STOK_KONT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde sipariş stok kontrolü parametresini gösterir.</td>
+</tr>
+<tr>
+<td>140</td>
+<td><code>CARIYE_ISK_YAZILSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde C/H Açıklama İlk İskonto Yazılsın parametresini gösterir.</td>
+</tr>
+<tr>
+<td>141</td>
+<td><code>SF_FIAT0</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde faturada fiyat 0 geçilsin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>142</td>
+<td><code>ALIS_PRM_AYRI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel4 sekmesinde irsaliye vade tarihi faturada değişsin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>143</td>
+<td><code>FACIK_KUL</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde fatura açıklama kullanımı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>144</td>
+<td><code>KERESTE</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde kereste uygulaması parametresini gösterir.</td>
+</tr>
+<tr>
+<td>145</td>
+<td><code>MIKKONT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde miktar 0 geçilsin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>146</td>
+<td><code>KDVEKLENSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde kdv maliyete eklensin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>147</td>
+<td><code>CEVRIMDE_FIYAT_DEG</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>148</td>
+<td><code>AF_FIAT0</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>149</td>
+<td><code>ACIKLAR1</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>150</td>
+<td><code>ACIKLAR2</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>151</td>
+<td><code>ACIKLAR3</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>152</td>
+<td><code>ACIKLAR4</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>153</td>
+<td><code>ACIKLAR5</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>154</td>
+<td><code>ACIKLAR6</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>155</td>
+<td><code>ACIKLAR7</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>156</td>
+<td><code>ACIKLAR8</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>157</td>
+<td><code>ACIKLAR9</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>158</td>
+<td><code>ACIKLAR10</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>159</td>
+<td><code>ACIKLAR11</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>160</td>
+<td><code>ACIKLAR12</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>161</td>
+<td><code>ACIKLAR13</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>162</td>
+<td><code>ACIKLAR14</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde ek sorgular kısmında açık isim alanlarına girilen değerleri gösterir.</td>
+</tr>
+<tr>
+<td>163</td>
+<td><code>ACIKLAR15</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>164</td>
+<td><code>ACIKLAR16</code></td>
+<td>varchar(25)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>165</td>
+<td><code>C_YEDEK1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde hizmet uygulaması parametresini gösterir.</td>
+</tr>
+<tr>
+<td>166</td>
+<td><code>C_YEDEK2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel2 sekmesinde ek alan-2 kullanılacak mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>167</td>
+<td><code>C_YEDEK3</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel6 sekmesinde satır bazında ek açıklama sorulsun mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>168</td>
+<td><code>C_YEDEK4</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde üretim reçetesi getirilsin mi parametresi işaretlendikten sonra aktif olan+yarımamüller getirilsin mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>169</td>
+<td><code>C_YEDEK5</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>170</td>
+<td><code>C_YEDEK6</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde Sipariş Bağlantılı Fatura/İrsaliyede Fazla Teslimat Yapılabilsin Mi parametresini tutar.</td>
+</tr>
+<tr>
+<td>171</td>
+<td><code>C_YEDEK7</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Dep.Arası Trans./Ambar G.Ç sekmesinde Depolar Arası Transferde Çıkış Ve Giriş Depo Kodları Satır Bazında Sorulsun Mun parametresini gösterir.</td>
+</tr>
+<tr>
+<td>172</td>
+<td><code>C_YEDEK8</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel4 sekmesinde irsaliye fatura ile bağlansın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>173</td>
+<td><code>C_YEDEK9</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde farklı çevrimde fiyat değişsin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>174</td>
+<td><code>C_YEDEK10</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura kdv sekmesinde KDV Hesabı Ay Bazında Farklı Hesaba Atılsın parametresini gösterir.</td>
+</tr>
+<tr>
+<td>175</td>
+<td><code>C_YEDEK11</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde sipariş/irsaliye/faturada referans kodu sorulsun mu? Parametresini gösterir.</td>
+</tr>
+<tr>
+<td>176</td>
+<td><code>C_YEDEK12</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesinde yuvarlama alanında seçileni gösterir.</td>
+</tr>
+<tr>
+<td>177</td>
+<td><code>C_YEDEK13</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde müşteride risk takibi yapılsın mı parametresi işaretlendiğinde aktif olan+risk takibi bakiye üzerinden mi yapılsın parametresini gösterir.</td>
+</tr>
+<tr>
+<td>178</td>
+<td><code>C_YEDEK14</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel4 sekmesinde fatura düzeltme işleminde cariden silme parametresini gösterir.</td>
+</tr>
+<tr>
+<td>179</td>
+<td><code>C_YEDEK15</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel kod ve açıklama sekmesinde özel kod2 parametresi işaretli olduğunda aktif olan+özel kod2 değeri tablodan mı kontrol edilecek parametresini gösterir.</td>
+</tr>
+<tr>
+<td>180</td>
+<td><code>C_YEDEK16</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul sekmesinde Sipariş/İrsaliye/Faturada Koşul Uygulaması Var Mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>181</td>
+<td><code>C_YEDEK17</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Dep.Arası Trans./Ambar G.Ç sekmesinde Ambar Fişi Açıklaması Entegrasyona Atılsın parametresini gösterir.</td>
+</tr>
+<tr>
+<td>182</td>
+<td><code>C_YEDEK18</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde Müşteri Siparişlerinden Satıcı Siparişi Oluşturulsun Mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>183</td>
+<td><code>C_YEDEK19</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde tl fiyatları otomatik yuvarlansın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>184</td>
+<td><code>C_YEDEK20</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura siparişte İrsaliye+Faturada Sipariş Vade Tarihi Değişsin Mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>185</td>
+<td><code>HIZMETDEPO</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde hizmet uygulaması parametresi işaretlendiğinde aktif olan+hizmet için kullanılacak depo kodunu gösterir.</td>
+</tr>
+<tr>
+<td>186</td>
+<td><code>REFKOD</code></td>
+<td>varchar(15)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde sipariş/irsaliye/faturada referans kodu sorulsun mu parametresi işaretlendiğinde aktif olan referans kodunu gösterir.</td>
+</tr>
+<tr>
+<td>187</td>
+<td><code>SIRALAMASORULSUN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde sıralama seçeneği faturada sorulsun mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>188</td>
+<td><code>BARKODLUISLEM</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde barkod ile satış işlemi yapılsın parametresini gösterir.</td>
+</tr>
+<tr>
+<td>189</td>
+<td><code>PROJE_KODU</code></td>
+<td>TDBPROJEKOD</td>
+<td>evet</td>
+<td></td>
+<td>Proje kodunu gösterir.</td>
+</tr>
+<tr>
+<td>190</td>
+<td><code>TECTERKDVKODU</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>İhracat sekmesinde tec-ter kdv kodu sahasına girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>191</td>
+<td><code>BORCLUKDVKODU</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>İhracat sekmesinde ihr. Kay. Ft. kdv borçlu kodu sahasına girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>192</td>
+<td><code>FAZTESORAN</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde fazla teslimat oranını gösterir.</td>
+</tr>
+<tr>
+<td>193</td>
+<td><code>ASGARIAZAMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel5 sekmesinde asgari azami stok kontrolü parametresini gösterir.</td>
+</tr>
+<tr>
+<td>194</td>
+<td><code>IRSFATENGELLE</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde Sipariş Bağlantısız İrsaliye/Fatura Girişi Engellensin Mi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>195</td>
+<td><code>KDVCKODMASKE</code></td>
+<td>varchar(15)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura kdv sekmesinde KDV Cari Kod Maskesi parametresini gösterir.</td>
+</tr>
+<tr>
+<td>196</td>
+<td><code>IRSSAKLANSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel2 sekmesinde faturalaştırılan irsaliyeler saklansın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>197</td>
+<td><code>OTV_SIFIRLAMA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde geçici ötv sıfırlama parametresini gösterir.</td>
+</tr>
+<tr>
+<td>198</td>
+<td><code>OTV_SIFIR_KOD2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde Geçici ÖTV Sıfırlama/Geçici ÖTV Sıfırlama İçin Kullanılacak Özel Kod2 parametresini gösterir.</td>
+</tr>
+<tr>
+<td>199</td>
+<td><code>TEVKIFATORANIPAY</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesinde tevkifat oranının payını gösterir.</td>
+</tr>
+<tr>
+<td>200</td>
+<td><code>TEVKIFATORANIPAYDA</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesinde tevkifat oranının paydasını gösterir.</td>
+</tr>
+<tr>
+<td>201</td>
+<td><code>MIKTARNETLESTIRILSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>202</td>
+<td><code>ISKFARKLIHESAP</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İskonto sekmesinde iskontolar brüt fiyattan hesaplansın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>203</td>
+<td><code>SATIRBAZIKOSUL</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul sekmesinde Satır Bazı Koşul Kodu Sorulsun parametresini gösterir.</td>
+</tr>
+<tr>
+<td>204</td>
+<td><code>KOSULKODUFATSERI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul sekmesinde Satır Bazı Koşul Kodu Sorulsun parametresi işaretlenmesiyle aktif olan Satır Bazı Koşul Kodu Kod2 İle Eşleşsin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>205</td>
+<td><code>SATIRBAZITESLIMCARI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde satır bazı teslim cari kodu sorulsun parametresini gösterir.</td>
+</tr>
+<tr>
+<td>206</td>
+<td><code>KAYITYAPANKUL</code></td>
+<td>TDBNETSISKUL</td>
+<td>evet</td>
+<td></td>
+<td><a href="/veritabani/ortak-kolonlar/">Ortak kolon</a></td>
+</tr>
+<tr>
+<td>207</td>
+<td><code>KAYITTARIHI</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td><a href="/veritabani/ortak-kolonlar/">Ortak kolon</a></td>
+</tr>
+<tr>
+<td>208</td>
+<td><code>DUZELTMEYAPANKUL</code></td>
+<td>TDBNETSISKUL</td>
+<td>evet</td>
+<td></td>
+<td><a href="/veritabani/ortak-kolonlar/">Ortak kolon</a></td>
+</tr>
+<tr>
+<td>209</td>
+<td><code>DUZELTMETARIHI</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td><a href="/veritabani/ortak-kolonlar/">Ortak kolon</a></td>
+</tr>
+<tr>
+<td>210</td>
+<td><code>OLCUBIRIMITABLODAN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde farklı birilerinden mal çıkışı yapılsın mı parametresinin işaretlenmesiyle aktif hale gelen+ölçü birimlerinin tablodan okunup okunmaması ile ilgili kaydedileni gösterir.</td>
+</tr>
+<tr>
+<td>211</td>
+<td><code>OLCUBIRIMKODU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde farklı birimlerinden mal çıkışı yapılsın mı parametresinin işaretlenmesiyle aktif hale gelen+ölçü birimleri hangi stok koduna göre getirilsin parametresinde seçilen kaydı gösterir.</td>
+</tr>
+<tr>
+<td>212</td>
+<td><code>FIYATBIRIMISOR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde farklı birimlerden mal çıkışı yapılsın mı parametresi işaretli olduğunda aktif olan+fiyat birimi sorulsun mu parametresini gösterir.</td>
+</tr>
+<tr>
+<td>213</td>
+<td><code>BAKIYEKADARGETIR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel1 sekmesinde üretim reçeteleri saklansın mı parametresi işaretli iken aktif olan+bakiye kadar getirilsin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>214</td>
+<td><code>TUTARONDALIK</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>215</td>
+<td><code>TECTEROTVKODU</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>İhracat sekmesinde tec-ter ötv kodu sahasına girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>216</td>
+<td><code>BORCLUOTVKODU</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>İhracat sekmesinde ihr. Kay. Ft. ötv borçlu kodu sahasına girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>217</td>
+<td><code>OZELHESAPKONTROL</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde özel hesap kapatması yapılmış fatura ile ilgili işlem yapılmasın parametresini göstrir.</td>
+</tr>
+<tr>
+<td>218</td>
+<td><code>IRSALIYEPARCALAMA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel2 sekmesinde faturalaştırılan irsaliyeler saklansın mı parametresi işaretlendiğinde aktif olan+irsaliye bilgilerinin parçalı faturalaştırılması parametresini gösterir.</td>
+</tr>
+<tr>
+<td>219</td>
+<td><code>IRSKN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Bu alan satış fatura parametrelerinde kullanılmamaktadır.</td>
+</tr>
+<tr>
+<td>220</td>
+<td><code>KONSINYE</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde konsinye fatura uygulaması parametresini gösterir.</td>
+</tr>
+<tr>
+<td>221</td>
+<td><code>KDVBORCKODU</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>İhracat sekmesinde ihr. Kur farkı borç kdv kodu için girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>222</td>
+<td><code>KDVALACAKKODU</code></td>
+<td>varchar(35)</td>
+<td>evet</td>
+<td></td>
+<td>İhracat sekmesinde ihr. Kur farkı alacak kdv kodu için girilen muhasebe kodunu gösterir.</td>
+</tr>
+<tr>
+<td>223</td>
+<td><code>IHREXPORTMIK</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İhracat sekmesinde ihracat/ithalat miktarları stoklara geçsin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>224</td>
+<td><code>SIPMALIYET</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura sipariş sekmesinde Siparişte Nakliye Katsayısı Girişi Yapılacak Mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>225</td>
+<td><code>IRSMALIYET</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek1 sekmesinde irsaliye/fatura nakliye katsayısı girişi yapılacak parametresini gösterir.</td>
+</tr>
+<tr>
+<td>226</td>
+<td><code>DATMALIYET</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Dep.Arası Trans./Ambar G.Ç sekmesinde D.A.T. Nakliye Katsayısı Girişi Yapılacak parametresini gösterir.</td>
+</tr>
+<tr>
+<td>227</td>
+<td><code>KOSULDEGISMESIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul sekmesinde Koşul Kodu Girilmişse Fat./İrs./Sip. Fiyat+Satır Bazı Vade Ve Satır İsk.ları Değiştirilmesin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>228</td>
+<td><code>OTV_AYRILSIN</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura kdv sekmesinde faturalarda ötv ayrılsın mı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>229</td>
+<td><code>DAT_TESAYRI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Dep.Arası Trans./Ambar G.Ç sekmesinde Sipariş Baplı D.A.T. de Teslimat Ayrı Takip Edilsin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>230</td>
+<td><code>KOSGRUPUYGULAMAYERI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul sekmesinde Grup Koşu Uygulama Yeri parametresini gösterir.</td>
+</tr>
+<tr>
+<td>231</td>
+<td><code>GRPKOSMALFBAG</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul sekmesinde Mal Fazlası Koşulu Sağlamalı parametresini gösterir.</td>
+</tr>
+<tr>
+<td>232</td>
+<td><code>GRPKOSISKPOLITIKA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul sekmesinde Çakışan Grup Koşullarda Aralık İskonto Politikası parametresini gösterir.</td>
+</tr>
+<tr>
+<td>233</td>
+<td><code>KAPALIFATURACARI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde kapalı fatura cariye işlensin parametresini gösterir.</td>
+</tr>
+<tr>
+<td>234</td>
+<td><code>HIZLITAHSILAT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel3 sekmesinde kapalı faturada tahsilat ekranı çıksın parametresini gösterir.</td>
+</tr>
+<tr>
+<td>235</td>
+<td><code>FAT_ALT_LIMIT</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet sekmesindeki Fatura Alt Limiti değeri yer alır.</td>
+</tr>
+<tr>
+<td>236</td>
+<td><code>OKCBILGI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura ek 1 ÖKC uygulaması parametresi bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>237</td>
+<td><code>IHREXPORTREF</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Yurt dışı tipli satış irsaliyelerinde export referans numarası girilsin değeri yer alır.</td>
+</tr>
+<tr>
+<td>238</td>
+<td><code>IHR_OTV_HESAPLA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İhracat belgeleri için ÖTV Hesaplansın parametresi bilgisi tutulur. Fatura Ek1 sekmesi</td>
+</tr>
+<tr>
+<td>239</td>
+<td><code>IHR_OTV_HESAP_KOD2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>İhracat belgelerinde hesaplama için kullanılacak özel kod 2 değeri yer alır. Fatura Ek 1 sekmesi</td>
+</tr>
+<tr>
+<td>240</td>
+<td><code>FIYATOLCUBR</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fiyat girilen ölçü birimi üzerinden değiştirilsin parametresi yer alır.</td>
+</tr>
+<tr>
+<td>241</td>
+<td><code>ALISTANSATISBELGE</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Alış için eklenen kolon.Alış Parametreleri/Genel 3 sekmesine &quot;Alış Faturasından Satış Belgesi Oluşturulsun&quot; parametresi eklendi. İşaretlendiğinde, Alış faturası üst bilgiler sağ tık menüsünde aktif hale gelen &quot;İşlemler&quot; menüsü ile alış faturasından satış faturası ya da satış irsaliyesi oluşturulabilmesi sağlandı. İşaretli ise E değerini alır.</td>
+</tr>
+<tr>
+<td>242</td>
+<td><code>TEV_KDV_KOD_DEGIS</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>-</td>
+</tr>
+<tr>
+<td>243</td>
+<td><code>IADETESMIK</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>-</td>
+</tr>
+<tr>
+<td>244</td>
+<td><code>SIPKAPA</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Sipariş bağlantılı irsaliye/faturada Sipariş Kapama Açılsın parametresi yer alır.</td>
+</tr>
+<tr>
+<td>245</td>
+<td><code>KDVHARICBRUTNET</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Kdv hariç faturada iskontodan önce kdv hesaplansın parametresi yer alır.</td>
+</tr>
+<tr>
+<td>246</td>
+<td><code>KKEGMASRAFORAN</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>247</td>
+<td><code>KKEGKIRASINIR</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>248</td>
+<td><code>KKEGKDVOTVSINIR</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>249</td>
+<td><code>HALFATURASI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel 3 -Hal faturası parametresi bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>250</td>
+<td><code>FAT_ALTM3_VARMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Fatura Ek Maliyet 3 parametresinin işaretli olup olmadığı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>251</td>
+<td><code>FAT_ALTM3_TANIM</code></td>
+<td>varchar(20)</td>
+<td>evet</td>
+<td></td>
+<td>Ek maliyet 3 tanımı yer alır.</td>
+</tr>
+<tr>
+<td>252</td>
+<td><code>GEKAP</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Genel 3 sekmesindeki Geri Kazanım Katılım Payı Uygulaması Parametresi yer alır.</td>
+</tr>
+<tr>
+<td>253</td>
+<td><code>HIZLIODEME</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Firma krdi kartı için eklenmiştir.</td>
+</tr>
+<tr>
+<td>254</td>
+<td><code>STOPAJUYGULAMASI</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Genel 1 sekmesinde yer alan stopaj uygulamasında seçili değere karşılık gelir. 0- stopaj kullanılmasın gibi.</td>
+</tr>
+</tbody></table></div>
+<h2 id="indeksler"><a class="anchor" href="#indeksler" aria-hidden="true">#</a>İndeksler</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Ad</th>
+<th>Kolonlar</th>
+<th>Tanım</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TBLSFATUPRM_PKEY</code></td>
+<td><code>SUBE_KODU</code></td>
+<td>Clustered</td>
+</tr>
+</tbody></table></div>
+<h2 id="ornek-sorgu"><a class="anchor" href="#ornek-sorgu" aria-hidden="true">#</a>Örnek sorgu</h2>
+<pre><code class="language-sql">SELECT TOP 100 SUBE_KODU, MAL_BAZI_ISKONTOSU, MAL_FAZLASI_ISKONTO, MAL_FAZLASI_KDVSI, MALFAZKDVSIBRUTNET, ISKONTO3
+FROM dbo.TBLSFATUPRM WITH (NOLOCK);
+</code></pre>
+
+</article>
+<footer class="page-foot"><a href="/veritabani/tablolar/tblsfatuprm.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#kolonlar">Kolonlar</a></li><li class="l2"><a href="#indeksler">İndeksler</a></li><li class="l2"><a href="#ornek-sorgu">Örnek sorgu</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BANKA modülü · Netsis Dokümantasyonu</title>
+<meta name="description" content="BANKA modülündeki 51 tablo">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/moduller/banka/">
+<link rel="alternate" type="text/markdown" href="/veritabani/moduller/banka.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="BANKA modülü">
+<meta property="og:description" content="BANKA modülündeki 51 tablo">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/moduller/banka/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/" aria-current="page">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a></nav>
+<article>
+<h1 id="banka-modulu-tablolari"><a class="anchor" href="#banka-modulu-tablolari" aria-hidden="true">#</a>BANKA modülü tabloları</h1>
+<p>Bu modülde şema dokümanında ayrıntısı bulunan <strong>51</strong> tablo var.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th align="right">Kolon</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/veritabani/tablolar/tblbnkdesenmas/"><a class="tbl" href="/veritabani/tablolar/tblbnkdesenmas/"><code>TBLBNKDESENMAS</code></a></a></td>
+<td align="right">24</td>
+<td>BANKA-İŞLEMLER-DOSYA DESEN OLUŞTURMA BÖLÜMÜNDEKİ DESEN BİLGİLERİ YER ALIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkdesentra/"><a class="tbl" href="/veritabani/tablolar/tblbnkdesentra/"><code>TBLBNKDESENTRA</code></a></a></td>
+<td align="right">40</td>
+<td>BANKA-İŞLEMLER-DOSYA DESEN OLUŞTURMA BÖLÜMÜNDEKİ DESEN DETAYLARI YER ALIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkgkssabit/"><a class="tbl" href="/veritabani/tablolar/tblbnkgkssabit/"><code>TBLBNKGKSSABIT</code></a></a></td>
+<td align="right">23</td>
+<td>GENEL KREDI SOZLESMESI(GKS) KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkhessabit/"><a class="tbl" href="/veritabani/tablolar/tblbnkhessabit/"><code>TBLBNKHESSABIT</code></a></a></td>
+<td align="right">46</td>
+<td>BANKA HESAP KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkhestra/"><a class="tbl" href="/veritabani/tablolar/tblbnkhestra/"><code>TBLBNKHESTRA</code></a></a></td>
+<td align="right">41</td>
+<td>BANKA HESAPLARI HAREKET KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkhestrasira/"><a class="tbl" href="/veritabani/tablolar/tblbnkhestrasira/"><code>TBLBNKHESTRASIRA</code></a></a></td>
+<td align="right">1</td>
+<td>TBLHESTRA-INCKEYNO SAHASINA ATANACAK OLAN SONRAKI SAYIYI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkkstmas/"><a class="tbl" href="/veritabani/tablolar/tblbnkkstmas/"><code>TBLBNKKSTMAS</code></a></a></td>
+<td align="right">24</td>
+<td>BANKA KESINTI TANIMLAMALARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkksttip/"><a class="tbl" href="/veritabani/tablolar/tblbnkksttip/"><code>TBLBNKKSTTIP</code></a></a></td>
+<td align="right">18</td>
+<td>BANKA KESINTI TIP KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkkurummas/"><a class="tbl" href="/veritabani/tablolar/tblbnkkurummas/"><code>TBLBNKKURUMMAS</code></a></a></td>
+<td align="right">18</td>
+<td>DEKONT MODULU BANKA BAZINDA KURUM BILGI GIRISI KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnklogtra/"><a class="tbl" href="/veritabani/tablolar/tblbnklogtra/"><code>TBLBNKLOGTRA</code></a></a></td>
+<td align="right">128</td>
+<td>BANKA MODULU HAREKET KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkmsrf/"><a class="tbl" href="/veritabani/tablolar/tblbnkmsrf/"><code>TBLBNKMSRF</code></a></a></td>
+<td align="right">19</td>
+<td>KREDI TAHSILAT KAYITLARINDAN OLUSTURULAN KESINTILERIN KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkodeemir/"><a class="tbl" href="/veritabani/tablolar/tblbnkodeemir/"><code>TBLBNKODEEMIR</code></a></a></td>
+<td align="right">29</td>
+<td>ODEME EMIRLERI SORGULA SAYFASINDAKI KAYITLARI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkodeplan/"><a class="tbl" href="/veritabani/tablolar/tblbnkodeplan/"><code>TBLBNKODEPLAN</code></a></a></td>
+<td align="right">28</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkonlinefonk/"><a class="tbl" href="/veritabani/tablolar/tblbnkonlinefonk/"><code>TBLBNKONLINEFONK</code></a></a></td>
+<td align="right">18</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkonlineprm/"><a class="tbl" href="/veritabani/tablolar/tblbnkonlineprm/"><code>TBLBNKONLINEPRM</code></a></a></td>
+<td align="right">3</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkonlotmodeme/"><a class="tbl" href="/veritabani/tablolar/tblbnkonlotmodeme/"><code>TBLBNKONLOTMODEME</code></a></a></td>
+<td align="right">41</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkonlotmtrans/"><a class="tbl" href="/veritabani/tablolar/tblbnkonlotmtrans/"><code>TBLBNKONLOTMTRANS</code></a></a></td>
+<td align="right">21</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkparamgenel/"><a class="tbl" href="/veritabani/tablolar/tblbnkparamgenel/"><code>TBLBNKPARAMGENEL</code></a></a></td>
+<td align="right">21</td>
+<td>BANKA MODULU GENEL PARAMETRE KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkparamsube/"><a class="tbl" href="/veritabani/tablolar/tblbnkparamsube/"><code>TBLBNKPARAMSUBE</code></a></a></td>
+<td align="right">33</td>
+<td>BANKA MODULU SUBE PARAMETRE KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnksabit/"><a class="tbl" href="/veritabani/tablolar/tblbnksabit/"><code>TBLBNKSABIT</code></a></a></td>
+<td align="right">23</td>
+<td>BANKA ANA KOD KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnksubelimit/"><a class="tbl" href="/veritabani/tablolar/tblbnksubelimit/"><code>TBLBNKSUBELIMIT</code></a></a></td>
+<td align="right">26</td>
+<td>KREDI LIMITI TANIMLAMA KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnksubesabit/"><a class="tbl" href="/veritabani/tablolar/tblbnksubesabit/"><code>TBLBNKSUBESABIT</code></a></a></td>
+<td align="right">35</td>
+<td>BANKA SUBE KAYITLARINI TUTAN TABLO.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnktemsabit/"><a class="tbl" href="/veritabani/tablolar/tblbnktemsabit/"><code>TBLBNKTEMSABIT</code></a></a></td>
+<td align="right">42</td>
+<td>ALINAN VE VERILEN TEMINAT MEKTUBU KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnktemtipsabit/"><a class="tbl" href="/veritabani/tablolar/tblbnktemtipsabit/"><code>TBLBNKTEMTIPSABIT</code></a></a></td>
+<td align="right">16</td>
+<td>TANIMLANAN TEMINAT TIPLERINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnktemtra/"><a class="tbl" href="/veritabani/tablolar/tblbnktemtra/"><code>TBLBNKTEMTRA</code></a></a></td>
+<td align="right">42</td>
+<td>VERILEN TEMINAT MEKTUPLARI KOMISYON KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnktmpemir/"><a class="tbl" href="/veritabani/tablolar/tblbnktmpemir/"><code>TBLBNKTMPEMIR</code></a></a></td>
+<td align="right">5</td>
+<td>ONLİNE BANKACILIKTA ÖDEME EMRİLERİNİ ONLİNE GETİR BUTONUNA BASILDIĞINDA GEÇİCİ OLARAK KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkyetemail/"><a class="tbl" href="/veritabani/tablolar/tblbnkyetemail/"><code>TBLBNKYETEMAIL</code></a></a></td>
+<td align="right">24</td>
+<td>BANKA YETKILI EPOSTA KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbnkyetsabit/"><a class="tbl" href="/veritabani/tablolar/tblbnkyetsabit/"><code>TBLBNKYETSABIT</code></a></a></td>
+<td align="right">34</td>
+<td>BANKA YETKILI KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldbsfaturamas/"><a class="tbl" href="/veritabani/tablolar/tbldbsfaturamas/"><code>TBLDBSFATURAMAS</code></a></a></td>
+<td align="right">18</td>
+<td>BANKA-İŞLEMLER-DBS İŞLEMLERİ- FATURA AKTARIMI EKRANINDAN DOSYA OLUŞTURULAN CARİLERE AİT BİLGİLER YER ALIR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldbsfaturatra/"><a class="tbl" href="/veritabani/tablolar/tbldbsfaturatra/"><code>TBLDBSFATURATRA</code></a></a></td>
+<td align="right">30</td>
+<td>BANKA-İŞLEMLER-DBS İŞLEMLERİ- FATURA AKIBETLERİ YER ALIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldbslimitrisk/"><a class="tbl" href="/veritabani/tablolar/tbldbslimitrisk/"><code>TBLDBSLIMITRISK</code></a></a></td>
+<td align="right">25</td>
+<td>BANKA-İŞLEMLER-DBS İŞLEMLERİ- LİMİT RİSK İŞLEMLERİ İLE BANKADAN GELEN LİMİT VE RİSK BİLGİLERİ YER ALIR. (bu tabloya entegrasyon yapılınca kayıt atmaktadır</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfonsabit/"><a class="tbl" href="/veritabani/tablolar/tblfonsabit/"><code>TBLFONSABIT</code></a></a></td>
+<td align="right">11</td>
+<td>Banka\Kayıt\Fon İşlemleri\Fon Tanımlama Ekranında Girilen Ait Bilgilerin Tutulduğu Tablodur.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkrtmas/"><a class="tbl" href="/veritabani/tablolar/tblkrtmas/"><code>TBLKRTMAS</code></a></a></td>
+<td align="right">20</td>
+<td>KREDI KARTI TANIMLAMALARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkrtmasfirma/"><a class="tbl" href="/veritabani/tablolar/tblkrtmasfirma/"><code>TBLKRTMASFIRMA</code></a></a></td>
+<td align="right">29</td>
+<td>Firma kredi kartı bilgileri yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkrtodeme/"><a class="tbl" href="/veritabani/tablolar/tblkrtodeme/"><code>TBLKRTODEME</code></a></a></td>
+<td align="right">35</td>
+<td>Firma kredi kartı ödeme bilgileri yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkrtsozkst/"><a class="tbl" href="/veritabani/tablolar/tblkrtsozkst/"><code>TBLKRTSOZKST</code></a></a></td>
+<td align="right">17</td>
+<td>SOZLESME KESINTI TANIMLAMALARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkrtsozmas/"><a class="tbl" href="/veritabani/tablolar/tblkrtsozmas/"><code>TBLKRTSOZMAS</code></a></a></td>
+<td align="right">24</td>
+<td>BANKA SOZLESME KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkrtsoztra/"><a class="tbl" href="/veritabani/tablolar/tblkrtsoztra/"><code>TBLKRTSOZTRA</code></a></a></td>
+<td align="right">24</td>
+<td>SOZLESME DETAY KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkrtthslt/"><a class="tbl" href="/veritabani/tablolar/tblkrtthslt/"><code>TBLKRTTHSLT</code></a></a></td>
+<td align="right">25</td>
+<td>KREDI KARTI TAHSILAT KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkrtthsltek/"><a class="tbl" href="/veritabani/tablolar/tblkrtthsltek/"><code>TBLKRTTHSLTEK</code></a></a></td>
+<td align="right">20</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkrttip/"><a class="tbl" href="/veritabani/tablolar/tblkrttip/"><code>TBLKRTTIP</code></a></a></td>
+<td align="right">18</td>
+<td>KREDI KARTI TIP TANIMLAMALARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblonlinebanklog/"><a class="tbl" href="/veritabani/tablolar/tblonlinebanklog/"><code>TBLONLINEBANKLOG</code></a></a></td>
+<td align="right">20</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblswiftdocmas/"><a class="tbl" href="/veritabani/tablolar/tblswiftdocmas/"><code>TBLSWIFTDOCMAS</code></a></a></td>
+<td align="right">26</td>
+<td>MT940 KAYITLARI-BANKA ENTEGRASYONU- YÜKLENEN DOSYAYA AİT HESAP BİLGİLERİ YER ALIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblswiftdoctra/"><a class="tbl" href="/veritabani/tablolar/tblswiftdoctra/"><code>TBLSWIFTDOCTRA</code></a></a></td>
+<td align="right">40</td>
+<td>MT940 KAYITLARI-BANKA ENTEGRASYONU- YÜKLENEN DOSYAYA AİT HAREKET BİLGİLERİ YER ALIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblswiftdoctraek/"><a class="tbl" href="/veritabani/tablolar/tblswiftdoctraek/"><code>TBLSWIFTDOCTRAEK</code></a></a></td>
+<td align="right">22</td>
+<td>MT940 KAYITLARI-MT940 ENTEGRASYONU- YÜKLENEN DOSYAYA AİT HAREKET BİLGİLERİNDEKİ EK AÇIKLAMALAR YER ALIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblswiftislemkod/"><a class="tbl" href="/veritabani/tablolar/tblswiftislemkod/"><code>TBLSWIFTISLEMKOD</code></a></a></td>
+<td align="right">16</td>
+<td>MT940 KAYITLARI-İŞLEM KODLARI BİLGİLERİ YER ALIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblswiftislemkodkural/"><a class="tbl" href="/veritabani/tablolar/tblswiftislemkodkural/"><code>TBLSWIFTISLEMKODKURAL</code></a></a></td>
+<td align="right">19</td>
+<td>MT940 KAYITLARI-İŞLEM KODLARI VE KURALLARI EŞLEŞTİRME BİLGİLERİ YER ALIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblswiftkural/"><a class="tbl" href="/veritabani/tablolar/tblswiftkural/"><code>TBLSWIFTKURAL</code></a></a></td>
+<td align="right">27</td>
+<td>MT940 KAYITLARI-KURAL BİLGİLERİ YER ALIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblswiftparam/"><a class="tbl" href="/veritabani/tablolar/tblswiftparam/"><code>TBLSWIFTPARAM</code></a></a></td>
+<td align="right">26</td>
+<td>MT940 PARAMETRELERİ BİLGİLERİ YER ALIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbltcmbanasabit/"><a class="tbl" href="/veritabani/tablolar/tbltcmbanasabit/"><code>TBLTCMBANASABIT</code></a></a></td>
+<td align="right">18</td>
+<td>TCMB BANKA ANA KOD REHBERİNDEKİ KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbltcmbsubesabit/"><a class="tbl" href="/veritabani/tablolar/tbltcmbsubesabit/"><code>TBLTCMBSUBESABIT</code></a></a></td>
+<td align="right">21</td>
+<td>TCMB BANKA ŞUBE REHBERİNDEKİ KAYITLARI TUTAR</td>
+</tr>
+</tbody></table></div>
+<h2 id="ayrintisi-olmayan-tablolar"><a class="anchor" href="#ayrintisi-olmayan-tablolar" aria-hidden="true">#</a>Ayrıntısı olmayan tablolar</h2>
+<p>Aşağıdaki tablolar tablo listesinde bu modülle anılıyor ama kolon ayrıntısı şema dokümanında yok.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TBLTMPDBSFATURATRA</code></td>
+<td>Doğrudan borçlandırma sistemi tablosudur.Geçici tablodur.</td>
+</tr>
+</tbody></table></div>
+
+</article>
+<footer class="page-foot"><a href="/veritabani/moduller/banka.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

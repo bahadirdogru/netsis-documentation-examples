@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SQL örnekleri · Netsis Dokümantasyonu</title>
+<meta name="description" content="Netsis veritabanı için sık kullanılan okuma sorguları.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/sql-ornekleri/">
+<link rel="alternate" type="text/markdown" href="/veritabani/sql-ornekleri.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="SQL örnekleri">
+<meta property="og:description" content="Netsis veritabanı için sık kullanılan okuma sorguları.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/sql-ornekleri/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/" aria-current="page">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a></nav>
+<article>
+<h1 id="sql-ornekleri"><a class="anchor" href="#sql-ornekleri" aria-hidden="true">#</a>SQL örnekleri</h1>
+<p>Aşağıdaki sorgular <strong>salt okunur</strong> raporlama içindir. Hepsi bir şirket veritabanında çalışır (ör. <code>USE ACME2024;</code>). Şube ve işletme kodlarını kendi kurulumunuza göre değiştirin.</p>
+<blockquote>
+<p>Uygulama kodunda değerleri metin birleştirerek sorguya koymayın; parametre kullanın (<code>@CariKod</code>). Aşağıdaki örneklerde okunabilirlik için sabit değer yazıldı.</p>
+</blockquote>
+<h2 id="cari"><a class="anchor" href="#cari" aria-hidden="true">#</a>Cari</h2>
+<h3 id="cari-listesi"><a class="anchor" href="#cari-listesi" aria-hidden="true">#</a>Cari listesi</h3>
+<pre><code class="language-sql">SELECT CARI_KOD, dbo.TRK(CARI_ISIM) AS CARI_ISIM, CARI_TIP, CARI_IL, VERGI_DAIRESI, VERGI_NUMARASI,
+       M_KOD AS MUHASEBE_KODU, PLASIYER_KODU, EMAIL
+FROM TBLCASABIT WITH (NOLOCK)
+WHERE ISLETME_KODU = 1 AND SUBE_KODU = 0
+ORDER BY CARI_KOD;
+</code></pre>
+<h3 id="cari-bakiyesi"><a class="anchor" href="#cari-bakiyesi" aria-hidden="true">#</a>Cari bakiyesi</h3>
+<pre><code class="language-sql">SELECT h.CARI_KOD, dbo.TRK(c.CARI_ISIM) AS CARI_ISIM,
+       SUM(h.BORC) AS BORC, SUM(h.ALACAK) AS ALACAK,
+       SUM(h.BORC) - SUM(h.ALACAK) AS BAKIYE
+FROM TBLCAHAR h WITH (NOLOCK)
+JOIN TBLCASABIT c WITH (NOLOCK) ON c.CARI_KOD = h.CARI_KOD
+GROUP BY h.CARI_KOD, c.CARI_ISIM
+HAVING ABS(SUM(h.BORC) - SUM(h.ALACAK)) &gt; 0.009
+ORDER BY BAKIYE DESC;
+</code></pre>
+<h3 id="cari-ekstresi"><a class="anchor" href="#cari-ekstresi" aria-hidden="true">#</a>Cari ekstresi</h3>
+<pre><code class="language-sql">SELECT TARIH, VADE_TARIHI, BELGE_NO, ACIKLAMA, BORC, ALACAK,
+       SUM(BORC - ALACAK) OVER (ORDER BY TARIH, INC_KEY_NUMBER) AS YURUYEN_BAKIYE
+FROM TBLCAHAR WITH (NOLOCK)
+WHERE CARI_KOD = &#39;120-01-001&#39;
+ORDER BY TARIH, INC_KEY_NUMBER;
+</code></pre>
+<h3 id="carinin-plasiyeri"><a class="anchor" href="#carinin-plasiyeri" aria-hidden="true">#</a>Carinin plasiyeri</h3>
+<pre><code class="language-sql">SELECT PLASIYER_KODU FROM TBLCASABIT WHERE CARI_KOD = &#39;120-01-001&#39;;
+</code></pre>
+<h2 id="stok"><a class="anchor" href="#stok" aria-hidden="true">#</a>Stok</h2>
+<h3 id="barkoddan-stok-kodu"><a class="anchor" href="#barkoddan-stok-kodu" aria-hidden="true">#</a>Barkoddan stok kodu</h3>
+<pre><code class="language-sql">SELECT STOK_KODU FROM TBLSTSABIT WITH (NOLOCK)
+WHERE BARKOD1 = &#39;8690000000001&#39; OR BARKOD2 = &#39;8690000000001&#39; OR BARKOD3 = &#39;8690000000001&#39;;
+</code></pre>
+<h3 id="depo-bazinda-stok-miktari-hareketten"><a class="anchor" href="#depo-bazinda-stok-miktari-hareketten" aria-hidden="true">#</a>Depo bazında stok miktarı (hareketten)</h3>
+<pre><code class="language-sql">SELECT h.STOK_KODU, dbo.TRK(s.STOK_ADI) AS STOK_ADI, h.DEPO_KODU,
+       SUM(CASE WHEN h.STHAR_GCKOD = &#39;G&#39; THEN h.STHAR_GCMIK ELSE -h.STHAR_GCMIK END) AS MIKTAR
+FROM TBLSTHAR h WITH (NOLOCK)
+JOIN TBLSTSABIT s WITH (NOLOCK) ON s.STOK_KODU = h.STOK_KODU
+GROUP BY h.STOK_KODU, s.STOK_ADI, h.DEPO_KODU
+HAVING SUM(CASE WHEN h.STHAR_GCKOD = &#39;G&#39; THEN h.STHAR_GCMIK ELSE -h.STHAR_GCMIK END) &lt;&gt; 0;
+</code></pre>
+<blockquote>
+<p>Siparişler <a class="tbl" href="/veritabani/tablolar/tblsipatra/"><code>TBLSIPATRA</code></a>&#39;dadır, <a class="tbl" href="/veritabani/tablolar/tblsthar/"><code>TBLSTHAR</code></a>&#39;a girmez; bu yüzden yukarıdaki sorgu fiili stoğu verir. Faturalanmış irsaliyelerin hem irsaliye hem fatura satırı oluşup oluşmadığı kurulum parametrelerine bağlıdır; kendi verinizde <code>STHAR_HTUR</code> dağılımını kontrol edin.</p>
+</blockquote>
+<h3 id="depo-listesi"><a class="anchor" href="#depo-listesi" aria-hidden="true">#</a>Depo listesi</h3>
+<pre><code class="language-sql">SELECT DEPO_KODU, dbo.TRK(DEPO_ISMI) AS DEPO_ISMI
+FROM TBLSTOKDP WHERE SUBE_KODU = 0;
+</code></pre>
+<h2 id="fatura-ve-irsaliye"><a class="anchor" href="#fatura-ve-irsaliye" aria-hidden="true">#</a>Fatura ve irsaliye</h2>
+<h3 id="belge-basligi-ve-kalemleri"><a class="anchor" href="#belge-basligi-ve-kalemleri" aria-hidden="true">#</a>Belge başlığı ve kalemleri</h3>
+<pre><code class="language-sql">SELECT f.FTIRSIP, f.FATIRS_NO, f.CARI_KODU, f.TARIH, f.GENELTOPLAM, f.GIB_FATIRS_NO,
+       h.STOK_KODU, h.STHAR_GCMIK AS MIKTAR, h.STHAR_NF AS NET_FIYAT, h.STHAR_KDV AS KDV_ORANI, h.DEPO_KODU
+FROM TBLFATUIRS f WITH (NOLOCK)
+JOIN TBLSTHAR h WITH (NOLOCK)
+  ON  h.FISNO          = f.FATIRS_NO
+  AND h.STHAR_FTIRSIP  = f.FTIRSIP
+  AND h.STHAR_ACIKLAMA = f.CARI_KODU      -- kalemde cari kodu STHAR_ACIKLAMA&#39;dadır
+WHERE f.FTIRSIP = &#39;1&#39;                       -- satış faturası
+  AND f.FATIRS_NO = &#39;ABC2024000000123&#39;;
+</code></pre>
+<h3 id="ek-aciklamalar-ekack1-16"><a class="anchor" href="#ek-aciklamalar-ekack1-16" aria-hidden="true">#</a>Ek açıklamalar (EKACK1..16)</h3>
+<pre><code class="language-sql">SELECT f.FATIRS_NO, e.ACIK1, e.ACIK2, e.ACIK3
+FROM TBLFATUIRS f
+JOIN TBLFATUEK e ON e.FKOD = f.FTIRSIP AND e.FATIRSNO = f.FATIRS_NO AND e.CKOD = f.CARI_KODU
+WHERE f.FTIRSIP = &#39;1&#39; AND f.FATIRS_NO = &#39;ABC2024000000123&#39;;
+</code></pre>
+<h3 id="faturanin-gib-numarasi"><a class="anchor" href="#faturanin-gib-numarasi" aria-hidden="true">#</a>Faturanın GİB numarası</h3>
+<pre><code class="language-sql">SELECT GIB_FATIRS_NO FROM TBLFATUIRS
+WHERE FATIRS_NO = &#39;ABC2024000000123&#39; AND CARI_KODU = &#39;120-01-001&#39;;
+</code></pre>
+<h3 id="gunluk-satis-ozeti"><a class="anchor" href="#gunluk-satis-ozeti" aria-hidden="true">#</a>Günlük satış özeti</h3>
+<pre><code class="language-sql">SELECT CAST(TARIH AS date) AS GUN, COUNT(*) AS FATURA, SUM(GENELTOPLAM) AS TOPLAM
+FROM TBLFATUIRS WITH (NOLOCK)
+WHERE FTIRSIP = &#39;1&#39; AND TARIH &gt;= DATEADD(day, -30, CAST(GETDATE() AS date))
+GROUP BY CAST(TARIH AS date)
+ORDER BY GUN;
+</code></pre>
+<h2 id="siparis"><a class="anchor" href="#siparis" aria-hidden="true">#</a>Sipariş</h2>
+<h3 id="acik-siparis-kalemleri"><a class="anchor" href="#acik-siparis-kalemleri" aria-hidden="true">#</a>Açık sipariş kalemleri</h3>
+<pre><code class="language-sql">SELECT m.FATIRS_NO AS SIPARIS_NO, m.CARI_KODU, m.TARIH, t.STOK_KODU,
+       t.STHAR_GCMIK AS MIKTAR, t.STHAR_NF AS FIYAT, t.DEPO_KODU
+FROM TBLSIPAMAS m WITH (NOLOCK)
+JOIN TBLSIPATRA t WITH (NOLOCK)
+  ON t.FISNO = m.FATIRS_NO AND t.STHAR_FTIRSIP = m.FTIRSIP AND t.STHAR_ACIKLAMA = m.CARI_KODU
+WHERE m.FTIRSIP = &#39;6&#39;          -- müşteri siparişi
+  AND m.TIPI &lt;&gt; 1;             -- kapalı olmayanlar
+</code></pre>
+<h2 id="e-belge-ve-dizayn"><a class="anchor" href="#e-belge-ve-dizayn" aria-hidden="true">#</a>E-belge ve dizayn</h2>
+<pre><code class="language-sql">-- E-fatura / e-arşiv serileri (şube 0)
+SELECT BIRIMKOD FROM TBLEFATPRM   WHERE SUBE_KODU = 0;
+SELECT BIRIMKOD FROM TBLEARSIVPRM WHERE SUBE_KODU = 0;
+
+-- E-irsaliye serileri
+SELECT SERI FROM TBLEIRSSERI WHERE C_YEDEK1 IS NULL AND SUBE_KODU = 0;
+
+-- Dizaynlar: 99 e-fatura, 100 e-arşiv, 104 e-irsaliye
+SELECT DIZAYNNO, dbo.TRK(DZNADI + &#39; [&#39; + DZNACIK + &#39;]&#39;) AS ADI
+FROM TBLDIZAYNSABIT
+WHERE DIZAYNTIPI = 99 AND ISLETME_KODU = 1 AND SUBE_KODU = 0;
+</code></pre>
+<h2 id="tanimlar"><a class="anchor" href="#tanimlar" aria-hidden="true">#</a>Tanımlar</h2>
+<pre><code class="language-sql">-- Aktif işletme
+SELECT ISLETME_KODU FROM TBLISLETMELER WITH (NOLOCK) WHERE AKTIF = &#39;E&#39; AND ISLETME_KODU &gt; 0;
+
+-- Masraf merkezleri
+SELECT MKOD, dbo.TRK(ISNULL(ACIKLAMA, &#39;&#39;)) AS ACIKLAMA, MUHKOD, SATMUHKOD
+FROM TBLMASRAF WHERE ISLETME_KODU = 1 AND SUBE_KODU = 0 AND MKOD IS NOT NULL;
+
+-- Sunucudaki şirketler
+SELECT DISTINCT SIRKET, SIRKETYILI FROM NETSIS.dbo.SIRKETLER30;
+</code></pre>
+<h2 id="dikkatli-guncellemeler"><a class="anchor" href="#dikkatli-guncellemeler" aria-hidden="true">#</a>Dikkatli güncellemeler</h2>
+<p>Netsis&#39;in kendisinin de yalnızca tek alan değiştirdiği bilinen birkaç işlem SQL ile yapılabilir. Yine de <strong>test şirketinde deneyin</strong>, işlemi bir transaction içinde yapın ve etkilenen satır sayısını kontrol edin.</p>
+<pre><code class="language-sql">-- Müşteri siparişini onayla (TIPI=2) ya da onayı geri al (TIPI=3)
+BEGIN TRAN;
+UPDATE TBLSIPAMAS SET TIPI = 2
+WHERE FTIRSIP = &#39;6&#39; AND FATIRS_NO = @SiparisNo AND CARI_KODU = @CariKod;
+-- @@ROWCOUNT = 1 değilse ROLLBACK
+COMMIT;
+</code></pre>
+<p>Belge, kart ve hareket <strong>oluşturma, silme ve tutar değiştirme</strong> işleri için <a href="/netopenx/">NetOpenX</a> kullanın.</p>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/veritabani/sql-ornekleri.md">GitHub'da düzenle</a> · <a href="/veritabani/sql-ornekleri.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#cari">Cari</a></li><li class="l3"><a href="#cari-listesi">Cari listesi</a></li><li class="l3"><a href="#cari-bakiyesi">Cari bakiyesi</a></li><li class="l3"><a href="#cari-ekstresi">Cari ekstresi</a></li><li class="l3"><a href="#carinin-plasiyeri">Carinin plasiyeri</a></li><li class="l2"><a href="#stok">Stok</a></li><li class="l3"><a href="#barkoddan-stok-kodu">Barkoddan stok kodu</a></li><li class="l3"><a href="#depo-bazinda-stok-miktari-hareketten">Depo bazında stok miktarı (hareketten)</a></li><li class="l3"><a href="#depo-listesi">Depo listesi</a></li><li class="l2"><a href="#fatura-ve-irsaliye">Fatura ve irsaliye</a></li><li class="l3"><a href="#belge-basligi-ve-kalemleri">Belge başlığı ve kalemleri</a></li><li class="l3"><a href="#ek-aciklamalar-ekack1-16">Ek açıklamalar (EKACK1..16)</a></li><li class="l3"><a href="#faturanin-gib-numarasi">Faturanın GİB numarası</a></li><li class="l3"><a href="#gunluk-satis-ozeti">Günlük satış özeti</a></li><li class="l2"><a href="#siparis">Sipariş</a></li><li class="l3"><a href="#acik-siparis-kalemleri">Açık sipariş kalemleri</a></li><li class="l2"><a href="#e-belge-ve-dizayn">E-belge ve dizayn</a></li><li class="l2"><a href="#tanimlar">Tanımlar</a></li><li class="l2"><a href="#dikkatli-guncellemeler">Dikkatli güncellemeler</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

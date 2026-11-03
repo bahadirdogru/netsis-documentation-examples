@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bilinen sorunlar ve açık sorular · Netsis Dokümantasyonu</title>
+<meta name="description" content="Logo dokümanı ve örnek kodlardaki tutarsızlıklar, doğrulanmamış noktalar.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/rest/bilinen-sorunlar/">
+<link rel="alternate" type="text/markdown" href="/rest/bilinen-sorunlar.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Bilinen sorunlar ve açık sorular">
+<meta property="og:description" content="Logo dokümanı ve örnek kodlardaki tutarsızlıklar, doğrulanmamış noktalar.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/rest/bilinen-sorunlar/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/" aria-current="page">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/rest/">NetOpenX REST</a></nav>
+<article>
+<h1 id="bilinen-sorunlar-ve-acik-sorular"><a class="anchor" href="#bilinen-sorunlar-ve-acik-sorular" aria-hidden="true">#</a>Bilinen sorunlar ve açık sorular</h1>
+<p>Logo&#39;nun örnek kodları çalışma garantisi vermez. Kopyalamadan önce derleyin ve test şirketinde sınayın.</p>
+<h2 id="dokumantasyon-ve-orneklerdeki-tutarsizliklar"><a class="anchor" href="#dokumantasyon-ve-orneklerdeki-tutarsizliklar" aria-hidden="true">#</a>Dokümantasyon ve örneklerdeki tutarsızlıklar</h2>
+<ul>
+<li><strong>POST/PUT açıklaması ters.</strong> &quot;Temel&quot; sayfası PUT&#39;u oluşturma, POST&#39;u güncelleme olarak anlatır; uç kataloğu ve davranış standarttır (POST oluşturur).</li>
+<li><strong><code>GLSlps</code> yazımı.</strong> Muhasebe fişi silme yolu sayfada <code>api/v2/GLSlps/{id}</code> yazılı; <code>GLSlips</code> olması beklenir.</li>
+<li><strong>Varsayılan <code>limit</code>.</strong> Bir sayfada 20, diğerinde 10. Her zaman açıkça verin.</li>
+<li><strong><code>ContractsMain</code> şeması.</strong> Açıklama alanında yanlışlıkla &quot;BatchInvoicing&quot; yazılı.</li>
+<li><strong>Değişken adları.</strong> Örneklerde <code>_ArpsManager</code>, <code>_ARPsManager</code> ve tanımsız <code>_CustomersManager</code> karışık kullanılmış.</li>
+<li><strong>&quot;Cari Ekle&quot; örneği önce siler.</strong> <code>DeleteInternalById</code> ardından <code>PostInternal</code> çağrılıyor; var olan kaydı siler.</li>
+<li><strong>Tip uyumsuzlukları.</strong> <code>CheckAndPNotesMainParam.BordroNo</code> bir yerde tam sayı, diğerinde metin; döviz örneğinde <code>string sira = 5;</code> derlenmez; fatura JSON&#39;unda <code>&quot;STra_DOVTIP&quot;: &quot;2&quot;</code> tırnaklı.</li>
+<li><strong><code>FaturaTip</code> iki yerde.</strong> <code>ItemSlips.FaturaTip</code> ve <code>FatUst.Tip</code> birlikte veriliyor; hangisinin öncelikli olduğu yazmıyor. İkisini aynı değerle gönderin.</li>
+<li><strong>Numara çakışması.</strong> Bir örnekte <code>FATIRS_NO</code> elle verilmiş ve <code>KayitliNumaraOtomatikGuncellensin = true</code> aynı anda ayarlı; sunucunun hangisini kullanacağı belirsiz. Kayıt sonrası dönen numarayı okuyun.</li>
+<li><strong>Müstahsil Postman örneği</strong> çek/senet gövdesinin kopyası; müstahsil için doğru gövde değil.</li>
+<li><strong>Serbest üretim alan adları:</strong> <code>UretSon_MalY1</code> / <code>UretSon_Maly2</code> yazımı tutarsız; <code>definitions</code> çıktısından doğrulayın.</li>
+<li><strong>Örnek projelerde her işlemde yeniden login</strong> yapılıyor; token yeniden kullanılmıyor.</li>
+<li><strong>Postman token gövdesinde</strong> <code>dbpassword={{}}</code> değişken adı eksik.</li>
+<li><strong>Tarih biçimi.</strong> Bir örnekte tarih <code>DateTime.Now.ToString()</code> ile gönderiliyor; bölgesel ayara bağlıdır. ISO 8601 kullanın.</li>
+<li><strong>Token yanıtı</strong> bir örnekte elle virgül/iki nokta ile ayrıştırılıyor; gerçek bir JSON ayrıştırıcı kullanın.</li>
+</ul>
+<h2 id="acik-sorular-dogrulanmadi"><a class="anchor" href="#acik-sorular-dogrulanmadi" aria-hidden="true">#</a>Açık sorular (doğrulanmadı)</h2>
+<ol>
+<li>Token yanıtının tam alan listesi (<code>access_token</code>, <code>expires_in</code>, <code>token_type</code>…).</li>
+<li><code>dbtype</code> sayısal değerleri (<code>0</code> = MSSQL varsayımı).</li>
+<li><code>TokenRestSettings.Init</code>&#39;in ikinci ve üçüncü parametreleri.</li>
+<li>Yazma çağrılarının transaction&#39;a nasıl bağlandığı.</li>
+<li>HTTP hata kodlarının tam eşlemesi.</li>
+<li><code>SonKayitNoAl</code>, <code>Hka</code>, <code>Hareket_Turu</code>, <code>AS_C</code>, <code>SC_YERI</code>, <code>SC_SONDUR</code>, <code>IO</code>, <code>Tip</code>, <code>Kdv_Dahil</code> alanlarının tam değer listeleri.</li>
+<li>Sayısal enum değerlerinin (<code>TIPI: 2</code>, <code>BatchInvoicing.FaturaTip: 2</code>) karşılıkları.</li>
+<li><code>api/v2/public/CompanyList</code>&#39;in hangi kurulumlarda çalıştığı (bazılarında <code>DBMONITOR..TBLSUBELER</code> hatası).</li>
+</ol>
+<p>Bu soruların yanıtını biliyorsanız <a href="https://github.com/bahadirdogru/netsis-documentation-examples" rel="noopener" target="_blank">GitHub&#39;da</a> katkıda bulunun.</p>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/rest/bilinen-sorunlar.md">GitHub'da düzenle</a> · <a href="/rest/bilinen-sorunlar.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

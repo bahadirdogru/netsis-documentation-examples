@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uçlar · Netsis Dokümantasyonu</title>
+<meta name="description" content="NetOpenX REST api/v2 uç kataloğu; modül bazında yollar, parametreler ve örnekler.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/rest/uclar/">
+<link rel="alternate" type="text/markdown" href="/rest/uclar.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Uçlar">
+<meta property="og:description" content="NetOpenX REST api/v2 uç kataloğu; modül bazında yollar, parametreler ve örnekler.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/rest/uclar/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/" aria-current="page">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/rest/">NetOpenX REST</a></nav>
+<article>
+<h1 id="uc-katalogu"><a class="anchor" href="#uc-katalogu" aria-hidden="true">#</a>Uç kataloğu</h1>
+<p>Tüm yollar <code>http://&lt;sunucu&gt;:&lt;port&gt;/</code> köküne görelidir ve <code>Authorization: Bearer &lt;token&gt;</code> ister (aksi belirtilmedikçe). Liste uçları <a href="/rest/sorgulama/">sorgu parametrelerini</a> kabul eder. Her kaynak için ayrıca <code>GET api/v2/definitions/&lt;Kaynak&gt;</code> ve <code>GET api/v2/services/&lt;Kaynak&gt;</code> şema uçları vardır.</p>
+<p>İstek gövdeleri: <a href="/rest/json-ornekleri/">JSON örnekleri</a>. Bileşik <code>{id}</code> biçimleri: <a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum&#39;lar</a>.</p>
+<h2 id="cari-arps-ve-cari-hareket-arptransactions"><a class="anchor" href="#cari-arps-ve-cari-hareket-arptransactions" aria-hidden="true">#</a>Cari (ARPs) ve cari hareket (ARPTransactions)</h2>
+<p>Tablolar: <a class="tbl" href="/veritabani/tablolar/tblcasabit/"><code>TBLCASABIT</code></a>, <a class="tbl" href="/veritabani/tablolar/tblcasabitek/"><code>TBLCASABITEK</code></a>, <a class="tbl" href="/veritabani/tablolar/tblcahar/"><code>TBLCAHAR</code></a>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Yol</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td><code>api/v2/ARPs</code></td>
+<td>Cari listesi</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/ARPs/{id}</code></td>
+<td>Tek cari (<code>id</code> = <code>CARI_KOD</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ARPs</code></td>
+<td>Yeni cari</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>api/v2/ARPs/{id}</code></td>
+<td>Cari güncelle</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>api/v2/ARPs/{id}</code></td>
+<td>Cari sil</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/ARPs/PrimInfo</code></td>
+<td>Tüm cari temel bilgileri (<code>ARPsPrimInfo</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ARPs/Risk</code></td>
+<td>Cari risk bilgisi (NetOpenX <code>RiskBul</code>)</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/ARPTransactions</code></td>
+<td>Cari hareketler</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/ARPTransactions/{id}</code></td>
+<td>Tek hareket (<code>id</code> = <code>INC_KEY_NUMBER</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ARPTransactions</code></td>
+<td>Yeni hareket</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>api/v2/ARPTransactions/{id}</code></td>
+<td>Hareket güncelle</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>api/v2/ARPTransactions/{id}</code></td>
+<td>Hareket sil</td>
+</tr>
+</tbody></table></div>
+<p>Cari gövdesi iki parçalıdır: <code>CariTemelBilgi</code> (<code>ARPsPrimInfo</code> → <a class="tbl" href="/veritabani/tablolar/tblcasabit/"><code>TBLCASABIT</code></a>) ve <code>CariEkBilgi</code> (<code>ARPsSuppInfo</code> → <a class="tbl" href="/veritabani/tablolar/tblcasabitek/"><code>TBLCASABITEK</code></a>), ayrıca <code>SubelerdeOrtak</code>, <code>IsletmelerdeOrtak</code> bayrakları. <a href="/rest/json-ornekleri/#cari-karti">Örnek</a>.</p>
+<pre><code class="language-csharp">var m = new ARPsManager(oAuth2);
+var yeni = m.PostInternal(new ARPs
+{
+    CariTemelBilgi = new ARPsPrimInfo { CARI_KOD = &quot;J0001&quot;, CARI_ISIM = &quot;Rest Cari&quot;, CARI_TIP = &quot;S&quot;, Sube_Kodu = 0,
+                                        CARI_ADRES = &quot;İzmir&quot;, CARI_IL = &quot;İzmir&quot;, CARI_ILCE = &quot;Konak&quot;, CARI_TEL = &quot;2320000000&quot; },
+    CariEkBilgi    = new ARPsSuppInfo { CARI_KOD = &quot;J0001&quot;, TcKimlikNo = &quot;11111111111&quot; }
+});
+if (!yeni.IsSuccessful) throw new Exception(yeni.ErrorDesc);
+
+// Güncelleme: yalnızca değişen alanlar
+m.PutInternal(&quot;J0001&quot;, new ARPs { CariTemelBilgi = new ARPsPrimInfo { CARI_KOD = &quot;J0001&quot;, CARI_ILCE = &quot;Karşıyaka&quot; } });
+
+// Cari hareket
+new ARPTransactionsManager(oAuth2).PostInternal(new ARPTransactions
+{
+    CARI_KOD = &quot;J0001&quot;, Tarih = DateTime.Today, Hka = &quot;A&quot;, Aciklama = &quot;rest&quot;, SonKayitNoAl = true
+});
+</code></pre>
+<h2 id="stok-items-ve-stok-hareketi-itemtransactions"><a class="anchor" href="#stok-items-ve-stok-hareketi-itemtransactions" aria-hidden="true">#</a>Stok (Items) ve stok hareketi (ItemTransactions)</h2>
+<p>Tablolar: <a class="tbl" href="/veritabani/tablolar/tblstsabit/"><code>TBLSTSABIT</code></a>, <a class="tbl" href="/veritabani/tablolar/tblstsabitek/"><code>TBLSTSABITEK</code></a>, <a class="tbl" href="/veritabani/tablolar/tblsthar/"><code>TBLSTHAR</code></a>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Yol</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td><code>api/v2/Items</code></td>
+<td>Stok kartları (sıralama örneği: <code>ISLETME_KODU ASC, STOK_KODU ASC</code>)</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/Items/{id}</code></td>
+<td>Tek stok (<code>id</code> = <code>STOK_KODU</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/Items</code></td>
+<td>Yeni stok</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><code>api/v2/Items/{id}</code></td>
+<td>Güncelle</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>api/v2/Items/{id}</code></td>
+<td>Sil</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/Items/PrimInfo</code></td>
+<td>Stok temel bilgileri (<code>ItemPrimInfos</code>)</td>
+</tr>
+<tr>
+<td>GET/POST/PUT/DELETE</td>
+<td><code>api/v2/ItemTransactions[/{id}]</code></td>
+<td>Stok hareketi CRUD</td>
+</tr>
+</tbody></table></div>
+<p>Stok gövdesi: <code>StokTemelBilgi</code> (<code>ItemsPrimInfo</code>) + <code>StokEkBilgi</code> (<code>ItemsSuppInfo</code>). En küçük geçerli gövde stok kodu ve adıdır. <a href="/rest/json-ornekleri/#stok-karti">Örnek</a>.</p>
+<h2 id="fatura-irsaliye-ve-siparis-itemslips"><a class="anchor" href="#fatura-irsaliye-ve-siparis-itemslips" aria-hidden="true">#</a>Fatura, irsaliye ve sipariş (ItemSlips)</h2>
+<p>Tablolar: <a class="tbl" href="/veritabani/tablolar/tblfatuirs/"><code>TBLFATUIRS</code></a>, <a class="tbl" href="/veritabani/tablolar/tblfatuek/"><code>TBLFATUEK</code></a>, <a class="tbl" href="/veritabani/tablolar/tblsthar/"><code>TBLSTHAR</code></a>, <a class="tbl" href="/veritabani/tablolar/tblsipamas/"><code>TBLSIPAMAS</code></a>, <a class="tbl" href="/veritabani/tablolar/tblsipatra/"><code>TBLSIPATRA</code></a>. COM karşılığı: <a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Yol</th>
+<th>Açıklama (NetOpenX karşılığı)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td><code>api/v2/ItemSlips/{id}</code></td>
+<td>Tek belge. <code>id</code> = <code>FaturaTip;FATIRS_NO;CARI_KOD</code>, ör. <code>ftSSip;000000000000123;120-01-001</code></td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/ItemSlips?docType={docType}</code></td>
+<td>Belge tipine göre liste</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips</code></td>
+<td>Yeni belge (<code>kayitYeni</code>)</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>api/v2/ItemSlips/{id}</code></td>
+<td>Sil</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/Details</code></td>
+<td><code>ItemSlipsParam</code> ile tek belge oku</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/Delete</code></td>
+<td>Parametreyle sil</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/Calculate</code></td>
+<td>Kaydetmeden hesapla (<code>HesaplamalariYap</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/Html</code></td>
+<td>Belge HTML&#39;i (<code>GetFaturaHTML</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/NewNumber</code></td>
+<td>Yeni belge numarası (<code>YeniNumara</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/NewEItemSlipsNumber</code></td>
+<td>Yeni e-fatura numarası (<code>YeniEfaturaNumara</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/NewEWaybillNumber</code></td>
+<td>Yeni e-irsaliye numarası</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/ItemSlips/NewEArchiveNumber/{serialNo}</code></td>
+<td>Yeni e-arşiv numarası</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/IncrementNumber</code></td>
+<td>Numarayı 1 artır (<code>NoArtiBir</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/IrsToFat</code></td>
+<td>İrsaliyeden fatura (<code>Irsaliye2Fatura</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/SiparisToIrsFat</code></td>
+<td>Siparişten irsaliye/fatura (<code>Siparis2IrsFat</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/TopluSiparisToIrsFat</code></td>
+<td>Toplu siparişten irsaliye/fatura</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/ChangeNumber</code></td>
+<td>Belge no ve cari kodu değiştir (<code>NumaraDegistir</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/ChangeCode</code></td>
+<td>Cari kodu değiştir (<code>KodDegistir</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/CopyItemSlip</code></td>
+<td>Belge kopyala</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/OrderRevision</code></td>
+<td>Sipariş revizyonu</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/ReadAndSave</code></td>
+<td>Oku ve yeniden kaydet</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/SendEMailDesign</code></td>
+<td>Dizaynla e-posta gönder (<code>DizaynEpostaGonder</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ItemSlips/DeleteItemSlipLinkedWaybill</code></td>
+<td>Faturaya bağlı irsaliyeyi sil</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/ItemSlips/ContractsOpenPrice?restRecord={restRecord}</code></td>
+<td>Belgelenmemiş</td>
+</tr>
+</tbody></table></div>
+<blockquote>
+<p><strong><code>ItemSlips</code> için <code>PUT</code> yoktur.</strong> Belge değiştirmek için silip yeniden oluşturun ya da <code>ReadAndSave</code> / <code>ChangeNumber</code> gibi işlem uçlarını kullanın.</p>
+</blockquote>
+<p>Gövde yapısı: üst düzeyde <code>FaturaTip</code>, <code>Seri</code>, hesaplama bayrakları, <code>FatUst</code> (başlık), <code>Kalems</code> (satırlar). Alan listesi ve örnek: <a href="/rest/json-ornekleri/#fatura">JSON örnekleri</a>. Dönüşüm uçlarının gövdesi <code>{ ItemSlip, DocumentType, DocumentNumber, CustomerCode }</code> biçimindedir; <code>ItemSlip</code> hedef belgenin başlığını ve bayraklarını taşır.</p>
+<pre><code class="language-csharp">var m = new ItemSlipsManager(oAuth2);
+var fatura = new ItemSlips
+{
+    FaturaTip = JTFaturaTip.ftSFat,
+    KayitliNumaraOtomatikGuncellensin = true,
+    FatUst = new ItemSlipsHeader { Tip = JTFaturaTip.ftSFat, CariKod = &quot;120-01-001&quot;, Tarih = DateTime.Today,
+                                   TIPI = JTFaturaTipi.ft_Acik, KDV_DAHILMI = false },
+    Kalems = new List&lt;ItemSlipLines&gt; {
+        new ItemSlipLines { StokKodu = &quot;STK001&quot;, STra_GCMIK = 3, STra_BF = 100, STra_NF = 100, DEPO_KODU = 1, STra_KDV = 20 }
+    }
+};
+var hesap = m.Calculate(fatura);        // önce kontrol (kayıt yok)
+var kayit = m.PostInternal(fatura);     // kaydet
+string no = kayit.Data.FatUst.FATIRS_NO;
+</code></pre>
+<h2 id="toplu-faturalama-batchinvoicing"><a class="anchor" href="#toplu-faturalama-batchinvoicing" aria-hidden="true">#</a>Toplu faturalama (BatchInvoicing)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Yol</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>POST</td>
+<td><code>api/v2/BatchInvoicing</code></td>
+<td>İrsaliyeleri toplu faturalar: satış irsaliyesi → satış faturası, alış irsaliyesi → alış faturası</td>
+</tr>
+</tbody></table></div>
+<p><a href="/rest/json-ornekleri/#toplu-faturalama">Örnek gövde</a>.</p>
+<h2 id="muhasebe-fisi-glslips-ve-hesap-plani-glaccounts"><a class="anchor" href="#muhasebe-fisi-glslips-ve-hesap-plani-glaccounts" aria-hidden="true">#</a>Muhasebe fişi (GLSlips) ve hesap planı (GLAccounts)</h2>
+<p>Tablolar: <a class="tbl" href="/veritabani/tablolar/tblmuhfis/"><code>TBLMUHFIS</code></a>, <a class="tbl" href="/veritabani/tablolar/tblmuplan/"><code>TBLMUPLAN</code></a>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Yol</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td><code>api/v2/GLSlips</code></td>
+<td>Fişler; <code>expandLevel=full</code> ile <code>GLSlipLines</code> ve <code>GLSlipLines2</code> dahil</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/GLSlips/{id}</code></td>
+<td>Tek fiş</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/GLSlips</code></td>
+<td>Yeni fiş</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>api/v2/GLSlps/{id}</code></td>
+<td>Sil. Logo sayfasında yol <code>GLSlps</code> yazılı; <code>GLSlips</code> olması beklenir (doğrulanmadı)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/GLSlips/Details</code></td>
+<td><code>GLSlipsParam</code> ile oku</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/GLSlips/Delete</code></td>
+<td><code>GLSlipsParam</code> ile sil</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/GLAccounts</code></td>
+<td>Hesap planı (<code>sort=HESAP_KODU ASC</code>, <code>q=SUBE_KODU=&#39;1&#39;</code>)</td>
+</tr>
+<tr>
+<td>GET/POST/PUT/DELETE</td>
+<td><code>api/v2/GLAccounts[/{id}]</code></td>
+<td>Hesap CRUD (<code>id</code> = hesap kodu)</td>
+</tr>
+</tbody></table></div>
+<h2 id="cek-ve-senet-checkandpnotesmain"><a class="anchor" href="#cek-ve-senet-checkandpnotesmain" aria-hidden="true">#</a>Çek ve senet (CheckAndPNotesMain)</h2>
+<p>Tablolar: <a class="tbl" href="/veritabani/tablolar/tblmcek/"><code>TBLMCEK</code></a>, <a class="tbl" href="/veritabani/tablolar/tblmsen/"><code>TBLMSEN</code></a>, <a class="tbl" href="/veritabani/tablolar/tblbcek/"><code>TBLBCEK</code></a>, <a class="tbl" href="/veritabani/tablolar/tblbsen/"><code>TBLBSEN</code></a>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Yol</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td><code>api/v2/CheckAndPNotesMain/{id}</code></td>
+<td>Tek bordro. <code>id</code> = <code>JTCekSenType;SC_ALB_NO</code>, ör. <code>csMCEK;A00000000000001</code></td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/CheckAndPNotesMain?docType={docType}</code></td>
+<td>Tipe göre liste</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/CheckAndPNotesMain</code></td>
+<td>Yeni bordro</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>api/v2/CheckAndPNotesMain/{id}</code></td>
+<td>Sil</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/CheckAndPNotesMain/Details</code></td>
+<td><code>CheckAndPNotesMainParam</code> ile oku</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/CheckAndPNotesMain/Delete</code></td>
+<td>Parametreyle sil</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-csharp">var bordro = new CheckAndPNotesMain
+{
+    Tip = JTCekSenType.csMCEK,
+    CekSenEvrakKaydetmeTip = JTCekSenetEvrakKaydetmeTipi.ektCekSenAlma,
+    OtoNumaraGetir = true,
+    Evraklar = new List&lt;CheckAndPNotes&gt; {
+        new CheckAndPNotes { CEKSERI = &quot;H&quot;, SC_GIRTRH = DateTime.Today, SC_VERENK = &quot;120-01-001&quot;,
+                             AS_C = &quot;A&quot;, SC_YERI = &quot;P&quot;, VADETRH = DateTime.Today.AddMonths(1),
+                             SC_ODETRH = DateTime.Today.AddMonths(1), Tutar = 500 }
+    }
+};
+var r = new CheckAndPNotesMainManager(oAuth2).PostInternal(bordro);
+var bordroNo = r.Data.BordroNo;
+</code></pre>
+<p><code>AS_C</code> = <code>A</code> (alacak), <code>SC_YERI</code> = <code>P</code> (portföy) örneklerden alınmıştır; diğer değerler belgelenmemiştir.</p>
+<h2 id="kasa-safedeposits"><a class="anchor" href="#kasa-safedeposits" aria-hidden="true">#</a>Kasa (SafeDeposits)</h2>
+<p>Tablo: <a class="tbl" href="/veritabani/tablolar/tblkasa/"><code>TBLKASA</code></a>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Yol</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td><code>api/v2/SafeDeposits</code></td>
+<td>Kasa hareketleri</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/SafeDeposits/{id}</code></td>
+<td>Tek kayıt</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/SafeDeposits</code></td>
+<td>Yeni kayıt</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>api/v2/SafeDeposits/{id}</code></td>
+<td>Sil</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/SafeDeposits/LastBalance?id={id}</code></td>
+<td>Kasa son bakiyesi (<code>KasaSonBakiye</code>)</td>
+</tr>
+</tbody></table></div>
+<p>Alan değerleri <a class="tbl" href="/veritabani/tablolar/tblkasa/"><code>TBLKASA</code></a> açıklamasından: <code>IO</code> = <code>G</code> gelir / <code>C</code> gider; <code>Tip</code> = <code>B</code> banka, <code>C</code> cari, <code>E</code> çek, <code>F</code> fatura, <code>M</code> muhtelif, <code>S</code> senet, <code>T</code> transfer; <code>Cari_Muh</code> = <code>C</code> cari / <code>M</code> muhasebe / <code>B</code> banka. <a href="/rest/json-ornekleri/#kasa">Örnek</a>.</p>
+<h2 id="hizli-tahsilat-mixedreceiptsmain"><a class="anchor" href="#hizli-tahsilat-mixedreceiptsmain" aria-hidden="true">#</a>Hızlı tahsilat (MixedReceiptsMain)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Yol</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td><code>api/v2/MixedReceiptsMain/{id}</code></td>
+<td>Tek tahsilat. <code>id</code> = <code>KasaKod;BelgeNo;CariKod;yyyy-MM-dd</code></td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/MixedReceiptsMain</code></td>
+<td>Yeni</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>api/v2/MixedReceiptsMain/{id}</code></td>
+<td>Sil</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/MixedReceiptsMain/Details</code></td>
+<td>Parametreyle oku</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/MixedReceiptsMain/Delete</code></td>
+<td>Parametreyle sil</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-csharp">var mr = new MixedReceiptsMain
+{
+    IslemTarihi = DateTime.Today, KasaKod = &quot;01&quot;, BelgeNo = &quot;56565656&quot;, CariKod = &quot;120-01-001&quot;, DOVTIP = 0,
+    Tahsilats = new List&lt;MixedReceipts&gt; {
+        new MixedReceipts { Aciklama = &quot;nakit&quot;, SozKodu = &quot;NAKIT&quot;, Tutar = 150, TaksitSay = 0 }
+    }
+};
+new MixedReceiptsMainManager(oAuth2).PostInternal(mr);
+</code></pre>
+<h2 id="doviz-ve-kur-forexs-exrates"><a class="anchor" href="#doviz-ve-kur-forexs-exrates" aria-hidden="true">#</a>Döviz ve kur (ForExs, ExRates)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Yol</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET/POST</td>
+<td><code>api/v2/ForExs</code></td>
+<td>Döviz tanımları (<code>BIRIM</code>, <code>ISIM</code>, <code>NETSISSIRA</code>)</td>
+</tr>
+<tr>
+<td>GET/PUT/DELETE</td>
+<td><code>api/v2/ForExs/{id}</code></td>
+<td>Tek döviz. Başka yerde kullanılan döviz silinmez</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/ForExs/RefreshExRates?date={date}</code></td>
+<td>Verilen tarihin kurlarını güncelle (<code>DovizKurGuncelle</code>)</td>
+</tr>
+<tr>
+<td>GET/POST</td>
+<td><code>api/v2/ExRates</code></td>
+<td>Kur listesi / yeni kur. <code>SIRA</code> döviz tanımına referanstır</td>
+</tr>
+<tr>
+<td>GET/PUT/DELETE</td>
+<td><code>api/v2/ExRates/{id}</code></td>
+<td>Tek kur</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/ExRates/Details</code>, <code>api/v2/ExRates/Delete</code></td>
+<td><code>ExRatesParam</code> ile oku/sil</td>
+</tr>
+</tbody></table></div>
+<h2 id="basim-print"><a class="anchor" href="#basim-print" aria-hidden="true">#</a>Basım (Print)</h2>
+<p>Basım uçları <strong>PDF&#39;i bayt dizisi</strong> olarak döndürür (JSON&#39;da base64 metin; C#&#39;ta <code>result.Data</code> → <code>byte[]</code>). <code>DesignNumber</code>, Netsis&#39;te tanımlı dizayn numarasıdır (<code>TBLDIZAYNSABIT.DIZAYNNO</code>).</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yol (POST)</th>
+<th>Parametre</th>
+<th>Alanlar</th>
+<th>NetOpenX karşılığı</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>api/v2/Print/ItemSlipsPrinting</code></td>
+<td><code>ItemSlipsPrintParam</code></td>
+<td><code>DesignNumber</code>, <code>DocumentType</code>, <code>DocumentNumber</code>, <code>CustomerCode</code>, <code>StreamSupport</code></td>
+<td><code>FaturaBasimDizaynNo</code></td>
+</tr>
+<tr>
+<td><code>api/v2/Print/GLSlipsPrinting</code></td>
+<td><code>GLSlipsPrintParam</code></td>
+<td><code>DesignNumber</code>, <code>GLSlipsId</code>, <code>Month</code></td>
+<td><code>YevmiyeFisBasimDizaynNo</code></td>
+</tr>
+<tr>
+<td><code>api/v2/Print/CheckAndPNotesMainPrinting</code></td>
+<td><code>CheckAndPNotesMainPrintParam</code></td>
+<td><code>BordroNo</code>, <code>Tip</code>, <code>DesignNumber</code></td>
+<td><code>CekSenetBasimDizaynNo</code></td>
+</tr>
+<tr>
+<td><code>api/v2/Print/SafeDepositsPrinting</code></td>
+<td><code>SafeDepositPrintParam</code></td>
+<td><code>DesignNumber</code>, <code>PrintingType</code>, <code>Sira</code></td>
+<td><code>KasaBasim</code></td>
+</tr>
+<tr>
+<td><code>api/v2/Print/StatementsHeaderPrinting</code></td>
+<td><code>StatementsHeaderPrintParam</code></td>
+<td></td>
+<td><code>DekontBasimDizaynNo</code></td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-csharp">var pdf = new PrintManager(oAuth2).ItemSlipsPrinting(new ItemSlipsPrintParam
+{
+    CustomerCode = &quot;120-01-001&quot;, DesignNumber = 1005,
+    DocumentNumber = &quot;ABC2024000000123&quot;, DocumentType = JTFaturaTip.ftSFat
+});
+File.WriteAllBytes(@&quot;C:\Temp\fatura.pdf&quot;, pdf.Data);
+</code></pre>
+<p>Barkod basımı için <code>PrintManager.ItemSlipsItemsBatchBarcodePrinting</code> ve <code>ItemSlipsItemBarcodePrinting</code> vardır (<a href="/rest/istemci-kutuphanesi/">istemci kütüphanesi</a>).</p>
+<h2 id="e-belge-edocument"><a class="anchor" href="#e-belge-edocument" aria-hidden="true">#</a>E-belge (EDocument)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Yol</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>POST</td>
+<td><code>api/v2/EDocument</code></td>
+<td>E-belge taslağı. <code>Tip</code>: 0 e-arşiv, 1 e-fatura, 2 e-irsaliye</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/EDocument/SendEDocument</code></td>
+<td>Entegratöre/GİB&#39;e gönder. <strong>Geri alınamaz</strong></td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/EDocument/ShowEDocument</code></td>
+<td>HTML görüntüle. <code>HtmlPath</code> boşsa HTML yanıtta döner</td>
+</tr>
+</tbody></table></div>
+<p>Diğer e-belge yöntemleri (yanıt, kalem yanıtı, e-arşiv iptali, cari güncelleme) <a href="/rest/istemci-kutuphanesi/#edocumentmanager">istemci kütüphanesinde</a> listelenmiştir. <a href="/rest/json-ornekleri/#e-belge">JSON örnekleri</a>.</p>
+<h2 id="dinamik-depo-dynamicwarehsslips"><a class="anchor" href="#dinamik-depo-dynamicwarehsslips" aria-hidden="true">#</a>Dinamik depo (DynamicWarehsSlips)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Yol</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>POST</td>
+<td><code>api/v2/DynamicWarehsSlips</code></td>
+<td>Yeni dinamik depo (hücre) fişi</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-csharp">var dyn = new DynamicWarehsSlips
+{
+    HareketTipi = JTDepoIslemTipi.ditYerlestirme,
+    BelgeTipi = JTDepoBelgeTipi.dbtAlisFaturasi,
+    BelgeNumarasi = &quot;A00000000000001&quot;, CariKodu = &quot;320-01-001&quot;,
+    Harekets = new List&lt;DynWarehsSlipLines&gt; {
+        new DynWarehsSlipLines { HucreHareketKalems = new List&lt;DynWarehsSlipCellLines&gt; {
+            new DynWarehsSlipCellLines { HucreKodu = &quot;H1&quot;, NetMiktar = 5, HareketTipi = JTDepoHareketTipi.dhtNormal, StokKodu = &quot;001&quot; } } }
+    }
+};
+new DynamicWarehsSlipsManager(oAuth2).PostInternal(dyn);
+</code></pre>
+<h2 id="uretim"><a class="anchor" href="#uretim" aria-hidden="true">#</a>Üretim</h2>
+<h3 id="serbest-uretim-susk-finishedgoodsreceiptwchanges"><a class="anchor" href="#serbest-uretim-susk-finishedgoodsreceiptwchanges" aria-hidden="true">#</a>Serbest üretim / SUSK (FinishedGoodsReceiptWChanges)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Yol</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td><code>api/v2/FinishedGoodsReceiptWChanges</code></td>
+<td>Kayıtlar (sıralama <code>UretSon_FisNo</code>, <code>UretSon_Tarih</code>)</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/FinishedGoodsReceiptWChanges/{id}</code></td>
+<td>Tek fiş (<code>id</code> = <code>UretSon_FisNo</code>; <code>FisYukle</code>)</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>api/v2/FinishedGoodsReceiptWChanges/{id}</code></td>
+<td>Sil</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/FinishedGoodsReceiptWChanges/ReceiptProduce</code></td>
+<td>Fişi üret ve kaydet (<code>FisUret</code> + <code>Kaydet</code>)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>api/v2/FinishedGoodsReceiptWChanges/Save</code></td>
+<td>Son üretilen fişi sakla</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/FinishedGoodsReceiptWChanges/GetFromProductionOrder/{id}</code></td>
+<td>İş emrinden getir (<code>IsEmrindenGetir</code>)</td>
+</tr>
+</tbody></table></div>
+<p><code>UretSon_Depo</code> giriş deposu, <code>I_Yedek1</code> çıkış deposu, <code>BAKIYE_DEPO</code> = <code>0</code> verilen depo / <code>1</code> tüm depolar. <a href="/rest/json-ornekleri/#serbest-uretim">Örnek</a>.</p>
+<h3 id="is-emri-recete-mrp"><a class="anchor" href="#is-emri-recete-mrp" aria-hidden="true">#</a>İş emri, reçete, MRP</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yol</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>POST api/v2/ProductionOrder</code></td>
+<td>İş emri kaydı (<code>JIsEmri</code>). <a href="/rest/json-ornekleri/#is-emri">Örnek</a></td>
+</tr>
+<tr>
+<td><code>Mrp</code>, <code>PlanningRecord</code>, <code>BOM</code>, <code>ProcessControl</code>, <code>ProductMaterialCost</code>, <code>QualityControls</code>, <code>MaintenanceOrders</code></td>
+<td>Uç yolları sürüme göre <code>api/v2/help</code>&#39;ten alınmalı; yönetici metotları <a href="/rest/istemci-kutuphanesi/">istemci kütüphanesinde</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="siparis-makbuz-ve-diger-belgeler"><a class="anchor" href="#siparis-makbuz-ve-diger-belgeler" aria-hidden="true">#</a>Sipariş, makbuz ve diğer belgeler</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kaynak</th>
+<th>Uçlar</th>
+<th>Not</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ProducerReceipt</code> (müstahsil)</td>
+<td><code>GET/POST api/v2/ProducerReceipt</code>, <code>GET .../ReadLastNumber?customerCode=</code></td>
+<td>Son numara (<code>SonNumaraOku</code>)</td>
+</tr>
+<tr>
+<td><code>StatementsHeader</code> (dekont)</td>
+<td><code>GET api/v2/StatementsHeader</code>, <code>GET/POST/PUT/DELETE .../{id}</code>, <code>POST .../Details</code>, <code>POST .../Delete</code></td>
+<td>Kalemlerle birlikte okur</td>
+</tr>
+<tr>
+<td><code>WorkFlow</code> (iş akışı)</td>
+<td><code>GET/POST api/v2/WorkFlow</code></td>
+<td><code>POST</code> kaydın akış durumunu değiştirir; sıralama <code>PATHKODU</code></td>
+</tr>
+<tr>
+<td><code>ContractsMain</code> (bağlantı)</td>
+<td><code>GET api/v2/ContractsMain/{id}</code></td>
+<td>Yalnızca tek kayıt okuma</td>
+</tr>
+<tr>
+<td><code>CompaniesInfo</code></td>
+<td><code>GET api/v2/CompaniesInfo[/{id}]</code></td>
+<td>Şirket isim bilgileri</td>
+</tr>
+<tr>
+<td><code>Project</code></td>
+<td><code>GET/POST api/v2/Project</code>, <code>GET/PUT/DELETE .../{id}</code></td>
+<td><code>PROJE_KODU</code>, <code>PROJE_ACIKLAMA</code> (<a class="tbl" href="/veritabani/tablolar/tblproje/"><code>TBLPROJE</code></a>)</td>
+</tr>
+<tr>
+<td><code>DocumentLocking</code></td>
+<td>çeşitli</td>
+<td>Belge kilitleme (9.0.6x&#39;te görüldü)</td>
+</tr>
+<tr>
+<td><code>Company</code></td>
+<td>çeşitli</td>
+<td>Şirket düzeyi işlemler: bakiye devri, kod değiştirme, rapor çalıştırma… (<a href="/rest/istemci-kutuphanesi/#companymanager">CompanyManager</a>)</td>
+</tr>
+</tbody></table></div>
+<h2 id="sorgu-queries"><a class="anchor" href="#sorgu-queries" aria-hidden="true">#</a>Sorgu (Queries)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yol</th>
+<th>Açıklama</th>
+<th>Veritabanı</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GET/POST api/v2/Queries</code></td>
+<td>Verilen SQL&#39;i çalıştırır. <strong>Select, insert, update, delete</strong></td>
+<td>Yalnızca MSSQL</td>
+</tr>
+<tr>
+<td><code>GET/POST api/v2/Queries/NetRS</code></td>
+<td>NetRS ile SQL çalıştırır</td>
+<td>MSSQL ve Oracle</td>
+</tr>
+</tbody></table></div>
+<blockquote>
+<p><strong>Ham SQL çalıştırır ve yazma yapabilir.</strong> Uygulamalarınızda okuma için bile tercih etmeyin; doğrudan SQL bağlantısı ya da tipli uçlar daha güvenlidir. Sunucuda bu uçlara erişimi kısıtlayın (<a href="/rest/guvenlik/">Güvenlik</a>).</p>
+</blockquote>
+<h2 id="sistem-uclari"><a class="anchor" href="#sistem-uclari" aria-hidden="true">#</a>Sistem uçları</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yöntem</th>
+<th>Yol</th>
+<th>Token</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>POST</td>
+<td><code>api/v2/token</code></td>
+<td>—</td>
+<td>Token al (<a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a>)</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/revoke</code></td>
+<td>evet</td>
+<td>Oturumu kapat</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/ping</code></td>
+<td>evet</td>
+<td>Token geçerli mi</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/public/Ping</code></td>
+<td>hayır</td>
+<td>Servis ayakta mı</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/public/Version</code></td>
+<td>hayır</td>
+<td>NetOpenX sürümü</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/public/NetsisMasterVersion</code></td>
+<td>hayır</td>
+<td>Ana veritabanı sürümü</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/public/AuthorizedBranches?company=&amp;username=</code></td>
+<td>hayır</td>
+<td>Kullanıcının yetkili şubeleri</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/public/CompanyList</code></td>
+<td>hayır</td>
+<td>Şirket listesi. Bazı kurulumlarda <code>Invalid object name &#39;DBMONITOR..TBLSUBELER&#39;</code> hatası verir; şirketler için <code>NETSIS..SIRKETLER30</code> okunabilir</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/public/GetLicInfo/KeyInfo</code></td>
+<td>hayır</td>
+<td>Lisans bilgisi</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/HealthCheck</code></td>
+<td>hayır</td>
+<td>Kernel oluşturma testi</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/OpenTransaction</code></td>
+<td>evet</td>
+<td>Transaction aç (<a href="/rest/transaction-ve-hatalar/">Transaction</a>)</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/CommitTransaction?transId=</code></td>
+<td>evet</td>
+<td>Onayla</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/RollBackTransaction?transId=</code></td>
+<td>evet</td>
+<td>Geri al</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/services</code>, <code>api/v2/services/describe</code></td>
+<td></td>
+<td>API şeması</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>api/v2/help</code>, <code>api/v2/helpinfo?apiId=</code></td>
+<td>hayır</td>
+<td>Yardım sayfaları</td>
+</tr>
+</tbody></table></div>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/rest/uclar.md">GitHub'da düzenle</a> · <a href="/rest/uclar.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#cari-arps-ve-cari-hareket-arptransactions">Cari (ARPs) ve cari hareket (ARPTransactions)</a></li><li class="l2"><a href="#stok-items-ve-stok-hareketi-itemtransactions">Stok (Items) ve stok hareketi (ItemTransactions)</a></li><li class="l2"><a href="#fatura-irsaliye-ve-siparis-itemslips">Fatura, irsaliye ve sipariş (ItemSlips)</a></li><li class="l2"><a href="#toplu-faturalama-batchinvoicing">Toplu faturalama (BatchInvoicing)</a></li><li class="l2"><a href="#muhasebe-fisi-glslips-ve-hesap-plani-glaccounts">Muhasebe fişi (GLSlips) ve hesap planı (GLAccounts)</a></li><li class="l2"><a href="#cek-ve-senet-checkandpnotesmain">Çek ve senet (CheckAndPNotesMain)</a></li><li class="l2"><a href="#kasa-safedeposits">Kasa (SafeDeposits)</a></li><li class="l2"><a href="#hizli-tahsilat-mixedreceiptsmain">Hızlı tahsilat (MixedReceiptsMain)</a></li><li class="l2"><a href="#doviz-ve-kur-forexs-exrates">Döviz ve kur (ForExs, ExRates)</a></li><li class="l2"><a href="#basim-print">Basım (Print)</a></li><li class="l2"><a href="#e-belge-edocument">E-belge (EDocument)</a></li><li class="l2"><a href="#dinamik-depo-dynamicwarehsslips">Dinamik depo (DynamicWarehsSlips)</a></li><li class="l2"><a href="#uretim">Üretim</a></li><li class="l3"><a href="#serbest-uretim-susk-finishedgoodsreceiptwchanges">Serbest üretim / SUSK (FinishedGoodsReceiptWChanges)</a></li><li class="l3"><a href="#is-emri-recete-mrp">İş emri, reçete, MRP</a></li><li class="l2"><a href="#siparis-makbuz-ve-diger-belgeler">Sipariş, makbuz ve diğer belgeler</a></li><li class="l2"><a href="#sorgu-queries">Sorgu (Queries)</a></li><li class="l2"><a href="#sistem-uclari">Sistem uçları</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

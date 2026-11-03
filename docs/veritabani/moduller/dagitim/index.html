@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DAĞITIM modülü · Netsis Dokümantasyonu</title>
+<meta name="description" content="DAĞITIM modülündeki 29 tablo">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/moduller/dagitim/">
+<link rel="alternate" type="text/markdown" href="/veritabani/moduller/dagitim.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="DAĞITIM modülü">
+<meta property="og:description" content="DAĞITIM modülündeki 29 tablo">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/moduller/dagitim/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/" aria-current="page">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a></nav>
+<article>
+<h1 id="dagitim-modulu-tablolari"><a class="anchor" href="#dagitim-modulu-tablolari" aria-hidden="true">#</a>DAĞITIM modülü tabloları</h1>
+<p>Bu modülde şema dokümanında ayrıntısı bulunan <strong>29</strong> tablo var.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th align="right">Kolon</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/veritabani/tablolar/tbldagaktarimlog/"><a class="tbl" href="/veritabani/tablolar/tbldagaktarimlog/"><code>TBLDAGAKTARIMLOG</code></a></a></td>
+<td align="right">20</td>
+<td>AKTARIM LOG KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagbolgesabit/"><a class="tbl" href="/veritabani/tablolar/tbldagbolgesabit/"><code>TBLDAGBOLGESABIT</code></a></a></td>
+<td align="right">17</td>
+<td>DAGITIM MODULU BOLGE BILGILERINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagcaridagitim/"><a class="tbl" href="/veritabani/tablolar/tbldagcaridagitim/"><code>TBLDAGCARIDAGITIM</code></a></a></td>
+<td align="right">26</td>
+<td>CARI DAGITIM BILGILERI KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagcaristokfiltre/"><a class="tbl" href="/veritabani/tablolar/tbldagcaristokfiltre/"><code>TBLDAGCARISTOKFILTRE</code></a></a></td>
+<td align="right">19</td>
+<td>CARI STOK FILTRELEME KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagdispatching/"><a class="tbl" href="/veritabani/tablolar/tbldagdispatching/"><code>TBLDAGDISPATCHING</code></a></a></td>
+<td align="right">31</td>
+<td>DISPATCHING-DAGITIM SISTEMI KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagfunchist/"><a class="tbl" href="/veritabani/tablolar/tbldagfunchist/"><code>TBLDAGFUNCHIST</code></a></a></td>
+<td align="right">23</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagfunchist-2/"><a class="tbl" href="/veritabani/tablolar/tbldagfunchist/"><code>TBLDAGFUNCHIST</code></a></a></td>
+<td align="right">23</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagfunchistxml/"><a class="tbl" href="/veritabani/tablolar/tbldagfunchistxml/"><code>TBLDAGFUNCHISTXML</code></a></a></td>
+<td align="right">21</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagfunclist/"><a class="tbl" href="/veritabani/tablolar/tbldagfunclist/"><code>TBLDAGFUNCLIST</code></a></a></td>
+<td align="right">20</td>
+<td>FONKSIYON TANIMLAMA KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagfuncscript/"><a class="tbl" href="/veritabani/tablolar/tbldagfuncscript/"><code>TBLDAGFUNCSCRIPT</code></a></a></td>
+<td align="right">15</td>
+<td>FONKSIYON ALAN ONDEGER TANIMLAMALARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagitim/"><a class="tbl" href="/veritabani/tablolar/tbldagitim/"><code>TBLDAGITIM</code></a></a></td>
+<td align="right">20</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagkamyonyuklemebaglanti/"><a class="tbl" href="/veritabani/tablolar/tbldagkamyonyuklemebaglanti/"><code>TBLDAGKAMYONYUKLEMEBAGLANTI</code></a></a></td>
+<td align="right">16</td>
+<td>VASITA/YUKLEME GRUBU BAGLANTISI KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagkmtakip/"><a class="tbl" href="/veritabani/tablolar/tbldagkmtakip/"><code>TBLDAGKMTAKIP</code></a></a></td>
+<td align="right">19</td>
+<td>KILOMETRE TAKIP BILGILERINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagnedenkod/"><a class="tbl" href="/veritabani/tablolar/tbldagnedenkod/"><code>TBLDAGNEDENKOD</code></a></a></td>
+<td align="right">17</td>
+<td>DAGITIM MODULU NEDEN KODLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagparam/"><a class="tbl" href="/veritabani/tablolar/tbldagparam/"><code>TBLDAGPARAM</code></a></a></td>
+<td align="right">84</td>
+<td>DAGITIM MODULU PARAMETRE KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagpenetrasyon/"><a class="tbl" href="/veritabani/tablolar/tbldagpenetrasyon/"><code>TBLDAGPENETRASYON</code></a></a></td>
+<td align="right">21</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagplasziyaret/"><a class="tbl" href="/veritabani/tablolar/tbldagplasziyaret/"><code>TBLDAGPLASZIYARET</code></a></a></td>
+<td align="right">25</td>
+<td>ZIYARET BILGILERI GIRIS/IZLEME KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagrotagruplari/"><a class="tbl" href="/veritabani/tablolar/tbldagrotagruplari/"><code>TBLDAGROTAGRUPLARI</code></a></a></td>
+<td align="right">18</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagrotasabit/"><a class="tbl" href="/veritabani/tablolar/tbldagrotasabit/"><code>TBLDAGROTASABIT</code></a></a></td>
+<td align="right">22</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagrotaziyaretfrekans/"><a class="tbl" href="/veritabani/tablolar/tbldagrotaziyaretfrekans/"><code>TBLDAGROTAZIYARETFREKANS</code></a></a></td>
+<td align="right">43</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagstdagitim/"><a class="tbl" href="/veritabani/tablolar/tbldagstdagitim/"><code>TBLDAGSTDAGITIM</code></a></a></td>
+<td align="right">23</td>
+<td>STOK DAGITIM BILGILERINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagstgrup/"><a class="tbl" href="/veritabani/tablolar/tbldagstgrup/"><code>TBLDAGSTGRUP</code></a></a></td>
+<td align="right">16</td>
+<td>PLASIYER/STOK GRUBU BAGLANTISI KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagstokgrup/"><a class="tbl" href="/veritabani/tablolar/tbldagstokgrup/"><code>TBLDAGSTOKGRUP</code></a></a></td>
+<td align="right">16</td>
+<td>DAGITIM MODULU DAGITIM GRUPLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagvasitabilgi/"><a class="tbl" href="/veritabani/tablolar/tbldagvasitabilgi/"><code>TBLDAGVASITABILGI</code></a></a></td>
+<td align="right">24</td>
+<td>VASITA BILGILERINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagyuklemegrup/"><a class="tbl" href="/veritabani/tablolar/tbldagyuklemegrup/"><code>TBLDAGYUKLEMEGRUP</code></a></a></td>
+<td align="right">17</td>
+<td>DAGITIM MODULU YUKLEME GRUPLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagyukno/"><a class="tbl" href="/veritabani/tablolar/tbldagyukno/"><code>TBLDAGYUKNO</code></a></a></td>
+<td align="right">4</td>
+<td>DISPATCHING YUKLEME VE BELGE NUMARA DUZENLEME KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagziyaretfrekans/"><a class="tbl" href="/veritabani/tablolar/tbldagziyaretfrekans/"><code>TBLDAGZIYARETFREKANS</code></a></a></td>
+<td align="right">43</td>
+<td>CARI ZIYARET TANIMLARI/ZIYARET FREKANSLARI KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldagziyrapordetay/"><a class="tbl" href="/veritabani/tablolar/tbldagziyrapordetay/"><code>TBLDAGZIYRAPORDETAY</code></a></a></td>
+<td align="right">21</td>
+<td>DETAYLI ZIYARET RAPORU KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbltmpdissipatra/"><a class="tbl" href="/veritabani/tablolar/tbltmpdissipatra/"><code>TBLTMPDISSIPATRA</code></a></a></td>
+<td align="right">62</td>
+<td>İŞLEMLER&gt; DİSPATCHING (DAĞITIM SİSTEMİ) SİPARİŞ YÜKLE BUTONUNA BASILDIKTAN SONRA BU TABLOYA KAYITLAR ATILIR.</td>
+</tr>
+</tbody></table></div>
+<h2 id="ayrintisi-olmayan-tablolar"><a class="anchor" href="#ayrintisi-olmayan-tablolar" aria-hidden="true">#</a>Ayrıntısı olmayan tablolar</h2>
+<p>Aşağıdaki tablolar tablo listesinde bu modülle anılıyor ama kolon ayrıntısı şema dokümanında yok.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TBLDAGDISPATCH</code></td>
+<td>DISPATCHING-DAGITIM SISTEMI KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+</tbody></table></div>
+
+</article>
+<footer class="page-foot"><a href="/veritabani/moduller/dagitim.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

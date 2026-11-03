@@ -1,0 +1,3422 @@
+# Netsis Dokümantasyonu — tam metin
+
+> Netsis ERP için veritabanı şeması, NetOpenX COM ve NetOpenX REST başvuru dokümantasyonu. İnsanlar ve LLM'ler için.
+> Kaynak: https://netsis.bahadirdogru.com. Tablo ayrıntıları için https://netsis.bahadirdogru.com/veritabani/sema.txt dosyasına bakın.
+
+<!-- https://netsis.bahadirdogru.com/ -->
+# Netsis Dokümantasyonu
+
+Logo **Netsis** ERP ile entegrasyon yazan geliştiriciler ve onlara yardım eden yapay zekâ asistanları için tek bir başvuru noktası. Resmî dokümantasyonda dağınık duran bilgiyi, gerçek projelerde denenmiş kodla bir araya getirir.
+
+<div class="cards">
+<a class="card" href="/veritabani/"><strong>Veritabanı şeması</strong><span>700+ tablo, 18.000+ kolon. Anahtarlar, indeksler, varsayılanlar ve modül bazında gezinme.</span></a>
+<a class="card" href="/netopenx/"><strong>NetOpenX (COM)</strong><span>NetOpenX50.dll ile fatura, irsaliye, sipariş, cari, stok, e-belge kaydı. C# örnekleri.</span></a>
+<a class="card" href="/rest/"><strong>NetOpenX REST</strong><span>api/v2 uçları, token, sorgu parametreleri, JSON gövdeleri, istemci kütüphanesi.</span></a>
+<a class="card" href="/llm/"><strong>LLM'ler için</strong><span>llms.txt, tam metin, sıkıştırılmış şema ve her sayfanın Markdown hâli.</span></a>
+</div>
+
+## Hangi yolu seçmeliyim?
+
+| İhtiyaç | Önerilen yol | Neden |
+|---------|--------------|-------|
+| Rapor, liste, BI, okuma | [SQL (salt okunur)](/veritabani/) | En hızlı yol. Şema bilgisi bu sitede. |
+| Aynı Windows makinesinde belge/kart yazma | [NetOpenX COM](/netopenx/) | Netsis iş kurallarını (numara, stok, cari bakiye, entegrasyon) uygular. |
+| Uzak sistemden, dil bağımsız yazma | [NetOpenX REST](/rest/) | HTTP/JSON. Arkada yine NetOpenX çalışır. |
+| Toplu fatura, e-belge, dönüşüm | COM veya REST | İkisi de aynı iş nesnelerini kullanır. |
+
+> **Altın kural:** Netsis tablolarına `INSERT`/`UPDATE`/`DELETE` ile doğrudan yazmayın. Bir faturanın kaydı onlarca tabloyu (stok hareketi, cari hareket, bakiye, entegrasyon, e-belge) birlikte günceller. Yazma işini NetOpenX'e bırakın; SQL'i okuma için kullanın. Ayrıntı: [Genel bakış](/genel-bakis/#yazma-kurali).
+
+## Hızlı bağlantılar
+
+- Cari kartı: `TBLCASABIT` · Cari hareket: `TBLCAHAR`
+- Stok kartı: `TBLSTSABIT` · Stok hareketi: `TBLSTHAR`
+- Fatura/irsaliye başlığı: `TBLFATUIRS` · Sipariş başlığı: `TBLSIPAMAS` · Sipariş kalemi: `TBLSIPATRA`
+- Fatura kaydı (COM): [Fatura ve irsaliye](/netopenx/fatura-ve-irsaliye/)
+- Fatura kaydı (REST): [`POST api/v2/ItemSlips`](/rest/uclar/#fatura-irsaliye-ve-siparis-itemslips)
+- Token alma (REST): [`POST api/v2/token`](/rest/kimlik-dogrulama/)
+
+## Katkı
+
+Site [GitHub](https://github.com/bahadirdogru/netsis-documentation-examples) üzerinde açık kaynaktır. Her sayfanın altındaki "GitHub'da düzenle" bağlantısıyla düzeltme önerebilirsiniz.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/genel-bakis/ -->
+# Genel bakış
+
+Netsis, Logo Yazılım'ın orta ve büyük işletmelere yönelik ERP ürünüdür. Masaüstü uygulama Delphi ile yazılmıştır, veriyi **Microsoft SQL Server** (eski kurulumlarda Oracle da desteklenir) üzerinde tutar. Ürün adları sürüme göre değişir: Netsis Enterprise, Netsis Standard, Netsis 3. Bu sitedeki bilgiler **8.x ve 9.0.x** serisine dayanır.
+
+## Temel kavramlar
+
+| Kavram | Netsis'teki karşılığı | Veritabanında |
+|--------|----------------------|---------------|
+| **Şirket** | Muhasebe bütünlüğü olan firma. Her şirket ayrı bir SQL Server veritabanıdır. | Veritabanı adı = şirket kodu (ör. `ACME2024`). |
+| **Şirket listesi** | Sunucudaki tüm şirketler ve yılları | `NETSIS` adlı ana veritabanında `SIRKETLER30` tablosu |
+| **Şube** | Şirket içinde ayrı kayıt tutan birim | Hemen her tabloda `SUBE_KODU` (çoğunlukla `0`) |
+| **İşletme** | Şubelerin üstünde, ayrı raporlanan birim | `ISLETME_KODU` (çoğunlukla `1`). Aktif olan: `TBLISLETMELER.AKTIF = 'E'` |
+| **TEMELSET** | Netsis'in kurulum klasörü ve varsayılan veritabanı kullanıcısı | NetOpenX bağlantısında DB kullanıcısı olarak geçer |
+| **Netsis kullanıcısı** | Programa giriş yapan kullanıcı (ör. `NETSIS`) | Kayıtlarda `KAYITYAPANKUL`, `DUZELTMEYAPANKUL` |
+| **Modül** | Cari, Stok, Fatura, Muhasebe, Banka, Üretim… | Tablo adları modüle göre gruplanır |
+
+Ortak kolonların tam listesi: [Ortak kolonlar](/veritabani/ortak-kolonlar/).
+
+### Tablo adlandırma
+
+- Kalıcı tablolar `TBL` önekiyle başlar: `TBLCASABIT` (cari sabit), `TBLSTHAR` (stok hareket).
+- Son ekler anlam taşır: `SABIT` kart/ana kayıt, `HAR` hareket, `MAS` belge başlığı (master), `TRA` belge satırı (transaction), `PRM` parametre, `EK` ek bilgi, `LOG` iz kaydı.
+- Örnek çiftler: `TBLSIPAMAS` (sipariş başlığı) / `TBLSIPATRA` (sipariş kalemi); `TBLFATUIRS` (fatura/irsaliye başlığı) / `TBLSTHAR` (fatura/irsaliye kalemleri stok hareketi olarak).
+- `MG`, `WOR_`, `WM_` önekli tablolar ek ürünlere (mağaza, saha satış, depo yönetimi) aittir.
+
+### Belge tipi alanı: FTIRSIP
+
+Fatura, irsaliye, sipariş ve depo fişleri aynı tablolarda tutulur. Hangisi olduğunu `FTIRSIP` kolonu söyler (`TBLFATUIRS.FTIRSIP`, `TBLSTHAR.STHAR_FTIRSIP`, `TBLSIPAMAS.FTIRSIP`):
+
+| Değer | Belge |
+|-------|-------|
+| `1` | Satış faturası |
+| `2` | Alış faturası |
+| `3` | Satış irsaliyesi |
+| `4` | Alış irsaliyesi |
+| `6` | Müşteri siparişi (satış) |
+| `7` | Satıcı siparişi (alış) |
+| `8` | Depolar arası transfer çıkışı, lokal depo ve ambar çıkış fişi |
+| `9` | Ambar giriş fişi, şubeler arası transfer girişi |
+| `A` / `B` | Faturalanmış (saklanmış) irsaliye, satış / alış |
+| `E` / `F` | Parçalı irsaliye, satış / alış |
+| `Z` | Birleştirilip tek proformaya bağlanmış irsaliye kayıtları |
+
+Belge numarası `FATIRS_NO` tek başına benzersiz değildir. Bir belgeyi tanımlamak için **`FTIRSIP` + `FATIRS_NO` + `CARI_KODU`** (ve şube) birlikte kullanılır. NetOpenX'te `OkuUst(belgeNo, cariKod)` da bu yüzden iki parametre ister.
+
+## Entegrasyon yolları
+
+```text
+                ┌──────────────────────────────┐
+  Rapor / BI ──▶│ SQL Server (şirket veritabanı)│◀── yalnızca SELECT
+                └──────────────▲───────────────┘
+                               │ iş kuralları, numara, bakiye, entegrasyon
+                ┌──────────────┴───────────────┐
+  .NET / VB ──▶ │  NetOpenX50.dll (COM)         │
+                └──────────────▲───────────────┘
+                               │
+                ┌──────────────┴───────────────┐
+  Her dil  ───▶ │  NetOpenX REST (api/v2, HTTP) │
+                └──────────────────────────────┘
+```
+
+| Yol | Ne zaman | Artı | Eksi |
+|-----|----------|------|------|
+| [SQL](/veritabani/) | Okuma, raporlama | Hızlı, esnek, ek lisans yok | Yazma iş kurallarını atlar |
+| [NetOpenX COM](/netopenx/) | Netsis'in kurulu olduğu Windows makinesinden yazma | Tüm nesneler, olgun, hızlı | Yalnızca Windows ve COM; 32/64 bit uyumu; NetOpenX lisansı |
+| [NetOpenX REST](/rest/) | Uzak sistemden, herhangi bir dilden yazma | HTTP/JSON, dil bağımsız | Ayrı servis kurulumu; bazı uçlar az belgelenmiş; NetOpenX lisansı |
+
+### Yazma kuralı
+
+Netsis'te bir satış faturası kaydedildiğinde program en az şunları yapar: belge numarasını ilerletir, `TBLFATUIRS` başlığını ve `TBLSTHAR` stok hareketlerini yazar, `TBLCAHAR` cari hareketini oluşturur, bakiye ve risk alanlarını günceller, muhasebe entegrasyonu için `TBLMUHAGEC` kaydı atar, e-fatura/e-arşiv işaretlerini ayarlar. Bunları SQL ile elle taklit etmek veri bozulmasına yol açar.
+
+- **Okuma:** SQL serbest. Kilitlenmeyi önlemek için raporlarda `WITH (NOLOCK)` yaygındır (kirli okuma riskini bilerek).
+- **Yazma:** NetOpenX COM veya REST. İstisna olarak, Netsis'in kendi ekranının da yalnızca tek bir alanı değiştirdiği bilinen durumlarda (ör. sipariş onay durumu `TBLSIPAMAS.TIPI`) dikkatli `UPDATE` kullanılabilir; bu bile risklidir ve [örnekleri](/veritabani/sql-ornekleri/#dikkatli-guncellemeler) ayrı işaretlenmiştir.
+
+## Türkçe karakterler
+
+Netsis bazı kurulumlarda metin alanlarını kendi kod sayfası dönüşümüyle saklar. SQL'den okunan isimlerde Türkçe harfler bozuk görünüyorsa şirket veritabanındaki `dbo.TRK()` fonksiyonu kullanılır:
+
+```sql
+SELECT CARI_KOD, dbo.TRK(CARI_ISIM) AS CARI_ISIM
+FROM TBLCASABIT WITH (NOLOCK);
+```
+
+`TRK` her kurulumda olmayabilir; yoksa veritabanı harmanlamasını (collation, genellikle `Turkish_CI_AS`) kontrol edin.
+
+## Sürümler
+
+- NetOpenX REST, **Netsis 8.06 ve üzeri** gerektirir.
+- 9.0.x sürümleri yılda 6–8 kez çıkar (ör. `9.0.45-2023.R1` … `9.0.53-2024.R1`). Yeni REST uçları ve NetOpenX özellikleri bu sürümlerle gelir (ör. işlem tipi desteği 9.0.40 ile).
+- Kurulu NetOpenX sürümü: REST'te `GET api/v2/public/Version`.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/llm/ -->
+# LLM'ler için
+
+Bu site, yapay zekâ asistanlarının Netsis hakkında doğru kod ve SQL üretebilmesi için makine okunur biçimler de sunar.
+
+## Dosyalar
+
+| Dosya | İçerik | Ne zaman |
+|-------|--------|----------|
+| [`/llms.txt`](/llms.txt) | Sitenin özeti ve tüm sayfaların Markdown bağlantıları ([llmstxt.org](https://llmstxt.org) biçimi) | Ajan önce bunu okusun |
+| [`/llms-full.txt`](/llms-full.txt) | Tüm el yazımı sayfalar tek dosyada (tablo ayrıntıları hariç) | Tek seferde geniş bağlam |
+| [`/veritabani/sema.txt`](/veritabani/sema.txt) | 700+ tablonun tüm kolonları, tipleri ve açıklamaları, satır başına bir kolon | SQL üretimi |
+| [`/data/schema.json`](/data/schema.json) | Şemanın tamamı: kolonlar, anahtarlar, indeksler, varsayılanlar | Programatik kullanım |
+| `/<yol>.md` | Her sayfanın Markdown hâli | Tek konu |
+
+Her HTML sayfasının Markdown hâli, adresin sonundaki `/` yerine `.md` konarak alınır:
+
+- `https://netsis.bahadirdogru.com/rest/uclar/` → `https://netsis.bahadirdogru.com/rest/uclar.md`
+- `https://netsis.bahadirdogru.com/veritabani/tablolar/tblcasabit/` → `https://netsis.bahadirdogru.com/veritabani/tablolar/tblcasabit.md`
+
+## Asistana verilecek kurallar
+
+Bir sistem istemine (system prompt) ya da proje talimatına (ör. `CLAUDE.md`, `AGENTS.md`) eklenebilir:
+
+```markdown
+## Netsis
+- Netsis başvurusu: https://netsis.bahadirdogru.com/llms.txt
+- Tablo ve kolon adlarını uydurma; https://netsis.bahadirdogru.com/veritabani/sema.txt
+  ya da https://netsis.bahadirdogru.com/veritabani/tablolar/<tablo>.md üzerinden doğrula.
+- Netsis tablolarına SQL ile INSERT/UPDATE/DELETE yazma. Yazma işleri NetOpenX COM
+  (NetOpenX50.dll) ya da NetOpenX REST (api/v2) ile yapılır.
+- Fatura/irsaliye kalemleri TBLSTHAR'dadır; başlıkla birleştirme:
+  FISNO = FATIRS_NO AND STHAR_FTIRSIP = FTIRSIP AND STHAR_ACIKLAMA = CARI_KODU.
+- Belge tipi FTIRSIP: 1 satış fat., 2 alış fat., 3 satış irs., 4 alış irs., 6 müşteri sip., 7 satıcı sip.
+- COM nesnelerini finally içinde bırak: Marshal.ReleaseComObject, sirket.LogOff(), kernel.FreeNetsisLibrary().
+- REST'te token: POST api/v2/token (form: grant_type=password, branchcode, username, password,
+  dbname, dbuser, dbpassword, dbtype); sonra Authorization: Bearer.
+- "doğrulanmadı" işaretli bilgileri kesin bilgi gibi sunma.
+```
+
+## MCP ve araçlar
+
+Site statik olduğu için herhangi bir "URL getir" (fetch) aracıyla okunabilir. Şema araması için `schema.json`'u indirip yerelde sorgulamak en hızlısıdır:
+
+```bash
+curl -s https://netsis.bahadirdogru.com/data/schema.json \
+  | jq -r '.tables[] | select(.columns[].name == "GIB_FATIRS_NO") | .name' | sort -u
+```
+
+## Güvenilirlik
+
+- Şema, belirli bir 9.0.x sürümünün dokümanından üretilmiştir; sizin sürümünüzde fark olabilir.
+- REST ve COM bilgisi Logo dokümantasyonu, Logo örnek projeleri ve üretimde çalışan kodlardan derlenmiştir. Kaynak dokümanda olmayan ya da canlıda sınanmamış bilgiler "doğrulanmadı" diye işaretlidir.
+- Sitede gerçek şirket verisi, sunucu adresi ya da kimlik bilgisi yoktur; örneklerdeki kodlar ve numaralar temsilidir.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/veritabani/ -->
+# Veritabanı şeması
+
+Bu bölüm Netsis şirket veritabanının şemasını belgeler. Her tablonun kolonları, tipleri, boş geçilebilirliği, varsayılan değerleri, anahtarları ve indeksleri ayrı sayfadadır.
+
+- **Başlangıç için:** [Temel tablolar](/veritabani/temel-tablolar/): cari, stok, fatura, sipariş tablolarının nasıl bağlandığı.
+- **Hazır sorgular:** [SQL örnekleri](/veritabani/sql-ornekleri/).
+- **Tek tablo:** üstteki arama kutusuna tablo ya da kolon adı yazın (ör. `STHAR_GCMIK`), ya da [tüm tablolar](/veritabani/tum-tablolar/) listesini süzün.
+- **Makine okunur:** [sema.txt](/veritabani/sema.txt) (tek dosya, sıkıştırılmış) ve [schema.json](/data/schema.json).
+
+## Bu şemayı okurken
+
+- Şema dokümanı bir **9.0.x** sürümüne aittir. Sizin sürümünüzde kolon eklenmiş ya da kaldırılmış olabilir. Kesin bilgi için kendi veritabanınızda:
+
+  ```sql
+  SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE
+  FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE TABLE_NAME = 'TBLCASABIT'
+  ORDER BY ORDINAL_POSITION;
+  ```
+
+- Yabancı anahtar satırları yalnızca bu tablodaki kolonları gösterir; hedef tabloyu göstermez. İlişkiler için [Temel tablolar](/veritabani/temel-tablolar/) sayfasındaki eşlemeye bakın.
+- Kolon açıklamaları Netsis ekranlarındaki adlara göre yazılmıştır ("KAYIT>STOK KARTI" gibi menü yolları geçer).
+- `TDB` önekli tipler Netsis'in kullanıcı tanımlı tipleridir: [Veri tipleri](/veritabani/veri-tipleri/).
+- Kaynaktaki bariz hatalar düzeltilmiştir (ör. `TBLFATUIRS` içinde `TBLTEKLIFMAS` diye yazılmış kolon aslında `FTIRSIP`).
+
+
+## Modüller
+
+| Modül | Tablo | Örnek tablolar |
+|-------|------:|----------------|
+| [GENEL](/veritabani/moduller/genel/) | 10 | `TBLNFDMAS`, `TBLNFDTRA`, `TBLPARAM`, `TBLEVRAK` |
+| [CARİ](/veritabani/moduller/cari/) | 56 | `TBLADRESMAS`, `TBLCARIPLASIYER`, `TBLCABNKSABIT`, `TBLCAGRUP` |
+| [STOK](/veritabani/moduller/stok/) | 59 | `TBLSTSABIT`, `TBLSTOKBIL`, `TBLSTOKDP`, `TBLSTOKKOD1` |
+| [FATURA](/veritabani/moduller/fatura/) | 55 | `TBLSSATIRAC`, `TBLSIPAMAS`, `TBLSEVKMAS`, `TBLSEVKTRA` |
+| [BANKA](/veritabani/moduller/banka/) | 51 | `TBLTCMBANASABIT`, `TBLTCMBSUBESABIT`, `TBLBNKGKSSABIT`, `TBLBNKHESSABIT` |
+| [KASA](/veritabani/moduller/kasa/) | 4 | `KASANUM`, `TBLKASA`, `TBLKASAMAS`, `TBLKASAEK` |
+| [MUHASEBE](/veritabani/moduller/muhasebe/) | 45 | `TBLMUHAPRM`, `TBLYANS600`, `TBLYANS700`, `TBLNETBIL` |
+| [SENET-ÇEK](/veritabani/moduller/senet-cek/) | 27 | `TBLKAMBBSEN`, `TBLBCEK`, `TBLBCEKNO`, `TBLBCEKPAR` |
+| [ENTEGRASYON](/veritabani/moduller/entegrasyon/) | 5 | `TBLMUHAGEC`, `TBLREFERANS`, `TBLFATUISK`, `TBLENTKUMULASYON` |
+| [ÜRETİM](/veritabani/moduller/uretim/) | 42 | `TBLURTYENIALAN`, `TBLURTYENIALANTABLO`, `TBLURTYENIALANDEGER`, `TBLURMSUBEDEPO` |
+| [TALEP-TEKLİF](/veritabani/moduller/talep-teklif/) | 3 | `TBLTEKLIFPRM`, `TBLTEKLIFMAS`, `TBLTEKLIFTRA` |
+| [DİZAYN](/veritabani/moduller/dizayn/) | 5 | `TBLDIZAYNMOD`, `TBLDIZAYNSABIT`, `TBLDZNBASIMLOG`, `TBLDIZAYNGENEL` |
+| [DEKONT](/veritabani/moduller/dekont/) | 9 | `TBLDEKONO`, `TBLDAMGASOZ`, `TBLDAMGAVERGISI`, `TBLDEKOPRM` |
+| [RAPOR](/veritabani/moduller/rapor/) | 30 | `TBLMUSMAL (Müşteri Mal Analizi)`, `TBLSATMAL (Satıcı Mal Analizi)`, `TBLSAT12 (Satıcı 12 Aylık Alış)`, `TBLSAT12DUMY` |
+| [YARDIMCI PROGRAMLAR](/veritabani/moduller/yardimci-programlar/) | 28 | `TBLNDS`, `TBLSUBELER`, `TBLPAKETDBPARAM`, `TBLPRGPRM` |
+| [POS](/veritabani/moduller/pos/) | 7 | `TBLPOSPARAM`, `TBLMUHASEBEKODLAR`, `TBLTERAZIPARAM`, `TBLPOSODEME` |
+| [LOG](/veritabani/moduller/log/) | 4 | `TBLNETSISLOG`, `TBLLOGPARAM`, `TBLLOGKULTABLOLAR`, `TBLNETSISLOG_MAPPING` |
+| [KULLANICI İŞLEMLERİ](/veritabani/moduller/kullanici-islemleri/) | 10 | `TBLSATIRGUVENLIK (Oracle veritabanında vardır.)`, `TBLKULEMAIL`, `TBLKULLANHAKP`, `TBLKULLANP` |
+| [CRM](/veritabani/moduller/crm/) | 40 | `TBLCRMADAYURUN`, `TBLCRMADAY`, `TBLCRMPARAM`, `TBLCRMANK` |
+| [MRP](/veritabani/moduller/mrp/) | 61 | `TBLOPERATIONS_KATALOG`, `TBLISTASYON`, `TBLISTASYON_TAKVIM`, `TBLGENEL_TAKVIM` |
+| [KALİTE KONTROL](/veritabani/moduller/kalite-kontrol/) | 18 | `TBLKKTRA`, `TBLKKREDKABUL`, `TBLKKPARAM`, `TBLKKOLCUM` |
+| [MÜSTAHSİL](/veritabani/moduller/mustahsil/) | 8 | `TBLMUSTAHSI`, `TBLMUSTNO`, `TBLMUSTPRM`, `TBLTEMBAG` |
+| [KANTAR](/veritabani/moduller/kantar/) | 2 | `TBLTARTIMBLG`, `TBLTBLKANTPRM` |
+| [ÜRETİM AKIŞ KONTROL](/veritabani/moduller/uretim-akis-kontrol/) | 4 | `TBLUAKAKTIVITESABIT`, `TBLUAKARIZASABIT`, `TBLUAKPARAM`, `TBLUAKMAS` |
+| [İŞ AKIŞ YÖNETİMİ](/veritabani/moduller/is-akis-yonetimi/) | 4 | `TBLWORKPATH`, `TBLWORKPATHTRA`, `TBLWORKFLOWTRA`, `TBLWORKPATHOPERATOR` |
+| [DİNAMİK DEPO](/veritabani/moduller/dinamik-depo/) | 11 | `TBLSTHACIM`, `TBLDEPDURUM`, `TBLDEPHACİMGRP`, `TBLDEPHAR` |
+| [DAĞITIM](/veritabani/moduller/dagitim/) | 29 | `TBLTMPDISSIPATRA`, `TBLDAGBOLGESABIT`, `TBLDAGCARIDAGITIM`, `TBLDAGVASITABILGI` |
+| [MAKİNA BAKIM](/veritabani/moduller/makina-bakim/) | 25 | `TBLBKMSB`, `TBLBKMDURUM`, `TBLBKMTIP`, `TBLBKMSOZTIP` |
+| [MALİYET MUHASEBESİ](/veritabani/moduller/maliyet-muhasebesi/) | 10 | `TBLMALIANAG`, `TBLMALISIRA`, `TBLMALISARF`, `TBLMALIGRUP` |
+| [DÖVİZ](/veritabani/moduller/doviz/) | 1 | `TBLCARIKUR` |
+| [NETSİS SÜREÇ YÖNETİMİ](/veritabani/moduller/netsis-surec-yonetimi/) | 16 | `TBLBSCMODELMAS`, `TBLBSCVIZYONMAS`, `TBLBSCMISYONMAS`, `TBLBSCSTRATEJIMAS` |
+| [DIŞ TİCARET](/veritabani/moduller/dis-ticaret/) | 35 | `TBLIHRODEMETIP`, `TBLIHRODEMEACIK`, `TBLIHRGUMRUKMAS`, `TBLPAKETMAS` |
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/veritabani/temel-tablolar/ -->
+# Temel tablolar ve ilişkiler
+
+Netsis'te en çok kullanılan tablolar ve bunları birleştirmek için gereken kolonlar. Şema dokümanı yabancı anahtarların hedefini vermediği için bu eşlemeler Netsis'in kendi indekslerinden ve gerçek sorgulardan çıkarılmıştır.
+
+## Haritası
+
+```text
+TBLCASABIT (cari kart) ──1:1── TBLCASABITEK (cari ek bilgi)
+   │ CARI_KOD
+   ├──< TBLCAHAR (cari hareket)                       CARI_KOD
+   ├──< TBLFATUIRS (fatura/irsaliye başlığı)          CARI_KODU
+   └──< TBLSIPAMAS (sipariş başlığı)                  CARI_KODU
+
+TBLFATUIRS ──< TBLSTHAR (fatura/irsaliye kalemleri)
+   FTIRSIP = STHAR_FTIRSIP, FATIRS_NO = FISNO, CARI_KODU = STHAR_ACIKLAMA
+TBLFATUIRS ──1:1── TBLFATUEK (fatura ek bilgi)
+   FTIRSIP = FKOD, FATIRS_NO = FATIRSNO, CARI_KODU = CKOD
+
+TBLSIPAMAS ──< TBLSIPATRA (sipariş kalemleri)
+   FTIRSIP = STHAR_FTIRSIP, FATIRS_NO = FISNO, CARI_KODU = STHAR_ACIKLAMA
+
+TBLSTSABIT (stok kart) ──1:1── TBLSTSABITEK (stok ek bilgi)
+   │ STOK_KODU
+   ├──< TBLSTHAR      STOK_KODU
+   ├──< TBLSIPATRA    STOK_KODU
+   └──< TBLSTOKPH     STOK_KODU (depo bazında bakiye özeti)
+
+TBLSTOKDP (depo tanımları)    DEPO_KODU ──< TBLSTHAR.DEPO_KODU
+TBLMUPLAN (hesap planı)       HESAP_KODU ──< TBLMUHFIS.HES_KOD, TBLCASABIT.M_KOD
+TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH'a göre)
+```
+
+## Cari
+
+| Tablo | İçerik | Anahtar |
+|-------|--------|---------|
+| `TBLCASABIT` | Cari kart: kod, isim, tip, adres, vergi no, muhasebe kodu (`M_KOD`), plasiyer, risk | `CARI_KOD` |
+| `TBLCASABITEK` | Cari ek bilgiler: kullanıcı tanımlı sahalar `KULL1S..8S`, `KULL1N..8N`, TC kimlik vb. | `CARI_KOD` |
+| `TBLCAHAR` | Cari hareketleri: borç/alacak, belge no, vade | `INC_KEY_NUMBER` |
+
+- Cari bakiye `TBLCAHAR` üzerinden hesaplanır: `SUM(BORC) - SUM(ALACAK)`. Kart üzerindeki toplam alanlar (`CM_BORCT`, `CM_ALACT`) Netsis tarafından tutulur ama raporlama için hareketten hesaplamak daha güvenlidir.
+- REST'te cari hareketin kimliği `INC_KEY_NUMBER` değeridir (`api/v2/ARPTransactions/{id}`).
+
+## Stok
+
+| Tablo | İçerik | Anahtar |
+|-------|--------|---------|
+| `TBLSTSABIT` | Stok kartı: kod, ad, ölçü birimleri, KDV, fiyatlar, barkod 1-3, grup ve rapor kodları | `STOK_KODU` |
+| `TBLSTSABITEK` | Stok ek bilgi: İngilizce isim (`INGISIM`), kullanıcı tanımlı sahalar | `STOK_KODU` |
+| `TBLSTHAR` | Tüm stok hareketleri: fatura ve irsaliye kalemleri, depo transferleri, ambar fişleri, üretim | `INCKEYNO` |
+| `TBLSTOKDP` | Depo tanımları | `DEPO_KODU` |
+| `TBLSTOKPH` | Stok bakiye özeti (depo ve yapılandırma kodu bazında) | `STOK_KODU` |
+
+Önemli `TBLSTHAR` kolonları:
+
+| Kolon | Anlam |
+|-------|-------|
+| `STHAR_GCKOD` | `G` giriş, `C` çıkış |
+| `STHAR_GCMIK` | Miktar (ana birimde) |
+| `STHAR_NF` / `STHAR_BF` | Net / brüt birim fiyat |
+| `STHAR_FTIRSIP` | Belge tipi (bkz. [FTIRSIP](/genel-bakis/#belge-tipi-alani-ftirsip)) |
+| `STHAR_HTUR` | Hareket türü: `A` devir, `J` fatura, `H` irsaliye, `B` depolar arası, `N` faturalaşmış irsaliye, `L` iade, `C` üretim, `D` muhtelif, `I` kapalı fatura, `M` zayi iade … |
+| `STHAR_BGTIP` | Kaynak: `F` faturadan, `I` irsaliyeden, `U`/`V` üretim girişi/çıkışı |
+| `STHAR_ACIKLAMA` | **Fatura ve irsaliye kalemlerinde cari kodunu tutar.** Adı yanıltıcıdır. |
+| `FISNO` | Bağlı belge numarası (`TBLFATUIRS.FATIRS_NO`) |
+| `STHAR_SIPNUM` | Bağlı sipariş numarası |
+| `IRSALIYE_NO` | Faturalanmış irsaliyenin numarası |
+| `DEPO_KODU` | Depo |
+
+## Fatura, irsaliye, sipariş
+
+| Tablo | İçerik |
+|-------|--------|
+| `TBLFATUIRS` | Fatura ve irsaliye başlıkları (`FTIRSIP` 1, 2, 3, 4, 8, 9, A, B…). Toplamlar (`BRUTTUTAR`, `KDV`, `GENELTOPLAM`), vade, plasiyer, proje, `GIB_FATIRS_NO`. |
+| `TBLFATUEK` | Fatura ek bilgileri: `ACIK1..16` ek açıklamalar (NetOpenX'te `EKACK1..16`), teslim bilgileri. Anahtar: `FKOD`, `FATIRSNO`, `CKOD`. |
+| `TBLSIPAMAS` | Sipariş başlıkları (`FTIRSIP` 6 müşteri, 7 satıcı). `TIPI`: `2` yurt içi, `6` yurt dışı, `1` kapalı, `3` onaylanmamış. |
+| `TBLSIPATRA` | Sipariş kalemleri. Yapısı `TBLSTHAR` ile aynıdır (`STHAR_` önekli kolonlar). |
+
+`TBLFATUIRS.TIPI` değerleri: `1` kapalı, `2` açık, `3` muhtelif, `4` iade, `5` zayi iade, `6` ithalat/ihracat. NetOpenX'teki `TFaturaTipi` enum'u (`ft_Kapali`, `ft_Acik`, `ft_Muhtelif`, `ft_Iade`, `ft_ZIade`, `ft_Ihracat`…) bu alana yazar.
+
+## E-belge parametreleri
+
+| Tablo | İçerik |
+|-------|--------|
+| `TBLEFATPRM` | E-fatura parametreleri; `BIRIMKOD` e-fatura numara serisi (ör. `ABC`) |
+| `TBLEARSIVPRM` | E-arşiv parametreleri; `BIRIMKOD` e-arşiv serisi |
+| `TBLEIRSSERI` | E-irsaliye serileri (`SERI`) |
+| `TBLDIZAYNSABIT` | Belge dizaynları. `DIZAYNTIPI`: `99` e-fatura, `100` e-arşiv, `104` e-irsaliye (gözlenen değerler) |
+
+## Kasa, muhasebe, diğer
+
+| Tablo | İçerik |
+|-------|--------|
+| `TBLKASA` | Kasa hareketleri. `IO`: `G` gelir, `C` gider. `TIP`: `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhtelif, `S` senet, `T` transfer. `CARI_MUH`: `C`/`M`/`B` |
+| `TBLMUPLAN` | Muhasebe hesap planı (`HESAP_KODU`) |
+| `TBLMUHFIS` | Yevmiye fiş satırları (`AY_KODU`, `FISNO`, `HES_KOD`, `BA`) |
+| `TBLMUHAGEC` | Muhasebe entegrasyonuna bekleyen kayıtlar |
+| `TBLMCEK`, `TBLMSEN` | Müşteri çekleri / senetleri (portföy) |
+| `TBLBCEK`, `TBLBSEN` | Borç çekleri / senetleri |
+| `TBLPROJE` | Proje kodları |
+| `TBLMASRAF` | Masraf merkezleri (`MKOD`) |
+| `TBLISLETMELER`, `TBLSUBELER` | İşletme ve şube tanımları |
+
+## Şirket listesi (ana veritabanı)
+
+Şirket veritabanlarının listesi `NETSIS` adlı ana veritabanındadır:
+
+```sql
+SELECT DISTINCT SIRKET, SIRKETYILI
+FROM NETSIS.dbo.SIRKETLER30;
+```
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/veritabani/sql-ornekleri/ -->
+# SQL örnekleri
+
+Aşağıdaki sorgular **salt okunur** raporlama içindir. Hepsi bir şirket veritabanında çalışır (ör. `USE ACME2024;`). Şube ve işletme kodlarını kendi kurulumunuza göre değiştirin.
+
+> Uygulama kodunda değerleri metin birleştirerek sorguya koymayın; parametre kullanın (`@CariKod`). Aşağıdaki örneklerde okunabilirlik için sabit değer yazıldı.
+
+## Cari
+
+### Cari listesi
+
+```sql
+SELECT CARI_KOD, dbo.TRK(CARI_ISIM) AS CARI_ISIM, CARI_TIP, CARI_IL, VERGI_DAIRESI, VERGI_NUMARASI,
+       M_KOD AS MUHASEBE_KODU, PLASIYER_KODU, EMAIL
+FROM TBLCASABIT WITH (NOLOCK)
+WHERE ISLETME_KODU = 1 AND SUBE_KODU = 0
+ORDER BY CARI_KOD;
+```
+
+### Cari bakiyesi
+
+```sql
+SELECT h.CARI_KOD, dbo.TRK(c.CARI_ISIM) AS CARI_ISIM,
+       SUM(h.BORC) AS BORC, SUM(h.ALACAK) AS ALACAK,
+       SUM(h.BORC) - SUM(h.ALACAK) AS BAKIYE
+FROM TBLCAHAR h WITH (NOLOCK)
+JOIN TBLCASABIT c WITH (NOLOCK) ON c.CARI_KOD = h.CARI_KOD
+GROUP BY h.CARI_KOD, c.CARI_ISIM
+HAVING ABS(SUM(h.BORC) - SUM(h.ALACAK)) > 0.009
+ORDER BY BAKIYE DESC;
+```
+
+### Cari ekstresi
+
+```sql
+SELECT TARIH, VADE_TARIHI, BELGE_NO, ACIKLAMA, BORC, ALACAK,
+       SUM(BORC - ALACAK) OVER (ORDER BY TARIH, INC_KEY_NUMBER) AS YURUYEN_BAKIYE
+FROM TBLCAHAR WITH (NOLOCK)
+WHERE CARI_KOD = '120-01-001'
+ORDER BY TARIH, INC_KEY_NUMBER;
+```
+
+### Carinin plasiyeri
+
+```sql
+SELECT PLASIYER_KODU FROM TBLCASABIT WHERE CARI_KOD = '120-01-001';
+```
+
+## Stok
+
+### Barkoddan stok kodu
+
+```sql
+SELECT STOK_KODU FROM TBLSTSABIT WITH (NOLOCK)
+WHERE BARKOD1 = '8690000000001' OR BARKOD2 = '8690000000001' OR BARKOD3 = '8690000000001';
+```
+
+### Depo bazında stok miktarı (hareketten)
+
+```sql
+SELECT h.STOK_KODU, dbo.TRK(s.STOK_ADI) AS STOK_ADI, h.DEPO_KODU,
+       SUM(CASE WHEN h.STHAR_GCKOD = 'G' THEN h.STHAR_GCMIK ELSE -h.STHAR_GCMIK END) AS MIKTAR
+FROM TBLSTHAR h WITH (NOLOCK)
+JOIN TBLSTSABIT s WITH (NOLOCK) ON s.STOK_KODU = h.STOK_KODU
+GROUP BY h.STOK_KODU, s.STOK_ADI, h.DEPO_KODU
+HAVING SUM(CASE WHEN h.STHAR_GCKOD = 'G' THEN h.STHAR_GCMIK ELSE -h.STHAR_GCMIK END) <> 0;
+```
+
+> Siparişler `TBLSIPATRA`'dadır, `TBLSTHAR`'a girmez; bu yüzden yukarıdaki sorgu fiili stoğu verir. Faturalanmış irsaliyelerin hem irsaliye hem fatura satırı oluşup oluşmadığı kurulum parametrelerine bağlıdır; kendi verinizde `STHAR_HTUR` dağılımını kontrol edin.
+
+### Depo listesi
+
+```sql
+SELECT DEPO_KODU, dbo.TRK(DEPO_ISMI) AS DEPO_ISMI
+FROM TBLSTOKDP WHERE SUBE_KODU = 0;
+```
+
+## Fatura ve irsaliye
+
+### Belge başlığı ve kalemleri
+
+```sql
+SELECT f.FTIRSIP, f.FATIRS_NO, f.CARI_KODU, f.TARIH, f.GENELTOPLAM, f.GIB_FATIRS_NO,
+       h.STOK_KODU, h.STHAR_GCMIK AS MIKTAR, h.STHAR_NF AS NET_FIYAT, h.STHAR_KDV AS KDV_ORANI, h.DEPO_KODU
+FROM TBLFATUIRS f WITH (NOLOCK)
+JOIN TBLSTHAR h WITH (NOLOCK)
+  ON  h.FISNO          = f.FATIRS_NO
+  AND h.STHAR_FTIRSIP  = f.FTIRSIP
+  AND h.STHAR_ACIKLAMA = f.CARI_KODU      -- kalemde cari kodu STHAR_ACIKLAMA'dadır
+WHERE f.FTIRSIP = '1'                       -- satış faturası
+  AND f.FATIRS_NO = 'ABC2024000000123';
+```
+
+### Ek açıklamalar (EKACK1..16)
+
+```sql
+SELECT f.FATIRS_NO, e.ACIK1, e.ACIK2, e.ACIK3
+FROM TBLFATUIRS f
+JOIN TBLFATUEK e ON e.FKOD = f.FTIRSIP AND e.FATIRSNO = f.FATIRS_NO AND e.CKOD = f.CARI_KODU
+WHERE f.FTIRSIP = '1' AND f.FATIRS_NO = 'ABC2024000000123';
+```
+
+### Faturanın GİB numarası
+
+```sql
+SELECT GIB_FATIRS_NO FROM TBLFATUIRS
+WHERE FATIRS_NO = 'ABC2024000000123' AND CARI_KODU = '120-01-001';
+```
+
+### Günlük satış özeti
+
+```sql
+SELECT CAST(TARIH AS date) AS GUN, COUNT(*) AS FATURA, SUM(GENELTOPLAM) AS TOPLAM
+FROM TBLFATUIRS WITH (NOLOCK)
+WHERE FTIRSIP = '1' AND TARIH >= DATEADD(day, -30, CAST(GETDATE() AS date))
+GROUP BY CAST(TARIH AS date)
+ORDER BY GUN;
+```
+
+## Sipariş
+
+### Açık sipariş kalemleri
+
+```sql
+SELECT m.FATIRS_NO AS SIPARIS_NO, m.CARI_KODU, m.TARIH, t.STOK_KODU,
+       t.STHAR_GCMIK AS MIKTAR, t.STHAR_NF AS FIYAT, t.DEPO_KODU
+FROM TBLSIPAMAS m WITH (NOLOCK)
+JOIN TBLSIPATRA t WITH (NOLOCK)
+  ON t.FISNO = m.FATIRS_NO AND t.STHAR_FTIRSIP = m.FTIRSIP AND t.STHAR_ACIKLAMA = m.CARI_KODU
+WHERE m.FTIRSIP = '6'          -- müşteri siparişi
+  AND m.TIPI <> 1;             -- kapalı olmayanlar
+```
+
+## E-belge ve dizayn
+
+```sql
+-- E-fatura / e-arşiv serileri (şube 0)
+SELECT BIRIMKOD FROM TBLEFATPRM   WHERE SUBE_KODU = 0;
+SELECT BIRIMKOD FROM TBLEARSIVPRM WHERE SUBE_KODU = 0;
+
+-- E-irsaliye serileri
+SELECT SERI FROM TBLEIRSSERI WHERE C_YEDEK1 IS NULL AND SUBE_KODU = 0;
+
+-- Dizaynlar: 99 e-fatura, 100 e-arşiv, 104 e-irsaliye
+SELECT DIZAYNNO, dbo.TRK(DZNADI + ' [' + DZNACIK + ']') AS ADI
+FROM TBLDIZAYNSABIT
+WHERE DIZAYNTIPI = 99 AND ISLETME_KODU = 1 AND SUBE_KODU = 0;
+```
+
+## Tanımlar
+
+```sql
+-- Aktif işletme
+SELECT ISLETME_KODU FROM TBLISLETMELER WITH (NOLOCK) WHERE AKTIF = 'E' AND ISLETME_KODU > 0;
+
+-- Masraf merkezleri
+SELECT MKOD, dbo.TRK(ISNULL(ACIKLAMA, '')) AS ACIKLAMA, MUHKOD, SATMUHKOD
+FROM TBLMASRAF WHERE ISLETME_KODU = 1 AND SUBE_KODU = 0 AND MKOD IS NOT NULL;
+
+-- Sunucudaki şirketler
+SELECT DISTINCT SIRKET, SIRKETYILI FROM NETSIS.dbo.SIRKETLER30;
+```
+
+## Dikkatli güncellemeler
+
+Netsis'in kendisinin de yalnızca tek alan değiştirdiği bilinen birkaç işlem SQL ile yapılabilir. Yine de **test şirketinde deneyin**, işlemi bir transaction içinde yapın ve etkilenen satır sayısını kontrol edin.
+
+```sql
+-- Müşteri siparişini onayla (TIPI=2) ya da onayı geri al (TIPI=3)
+BEGIN TRAN;
+UPDATE TBLSIPAMAS SET TIPI = 2
+WHERE FTIRSIP = '6' AND FATIRS_NO = @SiparisNo AND CARI_KODU = @CariKod;
+-- @@ROWCOUNT = 1 değilse ROLLBACK
+COMMIT;
+```
+
+Belge, kart ve hareket **oluşturma, silme ve tutar değiştirme** işleri için [NetOpenX](/netopenx/) kullanın.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/veritabani/ortak-kolonlar/ -->
+# Ortak kolonlar
+
+Netsis tablolarının çoğunda aynı anlamla tekrar eden kolonlar. Tablo sayfalarında "Ortak kolon" olarak işaretlenen alanlar bunlardır.
+
+| Kolon | Açıklama | Bulunduğu tablo sayısı |
+|-------|----------|-----------------------:|
+| `SUBE_KODU` | İlgili kaydın hangi şube kodunda yapıldığını gösterir. | 366 |
+| `ISLETME_KODU` | İlgili kaydın hangi işletme kodunda yapıldığını gösterir. | 279 |
+| `INCKEYNO - INC_KEY_NUMBER_STRA_INC` | Netsis tablolarında tekil sıra numarası olarak kullanılmaktadır | 253 |
+| `MODUL_NO` | Paketlerde kullanılan modül numarasıdır. Kullanıcı tanımlamaları modulu rehberinden değerleri öğrenilebilir | 7 |
+| `KAYITTARIHI` | İlgili kaydın kayıt tarihini gösterir. | 476 |
+| `KAYITYAPANKUL` | Kaydı yapan kullanıcıyı gösterir. | 474 |
+| `DUZELTMETARIHI` | Kaydın düzeltme tarihini gösterir. | 468 |
+| `DUZELTMEYAPANKUL` | Kaydı düzelten kullanıcıyı gösterir. | 466 |
+| `ONAYTIPI` | Workplace uygulaması için kullanılan ortak alandır. | 41 |
+| `ONAYNUM` | Workplace uygulaması için kullanılan ortak alandır. | 41 |
+| `DEPO_KODU` | Kayıtla ilgili stoğun depo kodunu gösterir. | 16 |
+| `PROJE_KODU` | Kaydın hangi proje koduna ait olduğunu gösterir. | 54 |
+| `UPDATE_KODU` | — | 23 |
+
+## Yedek sahalar
+
+`C_YEDEK1..`, `I_YEDEK1..`, `F_YEDEK1..`, `S_YEDEK1..`, `B_YEDEK1..`, `L_YEDEK1..` gibi kolonlar "daha sonra kullanılmak için bırakılan yedek saha"dır. Önek tipi gösterir: `C` char, `I` integer, `F` float, `S` string (varchar), `B` byte, `L` long/integer. Bazı ekranlar bu sahaları kullanıcı tanımlı bilgi için kullanır; dolu olup olmadığını kendi verinizde kontrol edin.
+
+## Kullanıcı tanımlı sahalar
+
+Ek bilgi tablolarında (`TBLCASABITEK`, `TBLSTSABITEK`) `KULL1S..KULL8S` metin, `KULL1N..KULL8N` sayısal kullanıcı tanımlı sahalardır. NetOpenX'te `EkBilgi()` nesnesinin `Kull1S`, `Kull1N` özellikleriyle yazılır.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/veritabani/veri-tipleri/ -->
+# Veri tipleri
+
+Netsis şeması SQL Server'ın yerleşik tiplerinin yanında `TDB` önekli **kullanıcı tanımlı tipler** (user-defined data type) kullanır. Bunlar yerleşik bir tipin takma adıdır; sorgu yazarken altta yatan tip gibi davranırlar.
+
+| Tip | Kullanım sayısı | Örnek uzunluk | Anlamı |
+|-----|---------------:|--------------:|--------|
+| `varchar` | 3517 | 30 | SQL Server yerleşik tipi |
+| `char` | 3341 | 1 | SQL Server yerleşik tipi |
+| `TDBFLOAT` | 3146 | 13 | Tutar, miktar, fiyat. Ondalıklı sayı (şemada uzunluk 13, hassasiyet 28, ölçek 8) |
+| `TDBDATETIME` | 2409 | 8 | Tarih / tarih-saat |
+| `TDBINTEGER` | 1801 | 4 | int tabanlı tam sayı |
+| `TDBSMALLINT` | 1320 | 2 | smallint tabanlı; şube, işletme kodu gibi küçük sayılar |
+| `TDBNETSISKUL` | 831 | 12 | Netsis kullanıcı adı (12 karakter) |
+| `TDBBYTE` | 556 | 1 | tinyint tabanlı; tip/durum kodları |
+| `TDBMUHKOD` | 347 | 35 | Muhasebe hesap kodu (35 karakter) |
+| `TDBBELGENO` | 181 | 15 | Belge / fiş numarası (genellikle 15 karakter) |
+| `TDBSTOKKOD` | 171 | 35 | Stok kodu |
+| `TDBCARIKOD` | 162 | 15 | Cari hesap kodu |
+| `int` | 100 | 4 | SQL Server yerleşik tipi |
+| `datetime` | 87 | 8 | SQL Server yerleşik tipi |
+| `TDBGRUPKOD` | 81 | 8 | Grup kodu |
+| `TDBPROJEKOD` | 73 | 15 | Proje kodu |
+| `TDBMEMO` | 67 | 16 | Uzun metin |
+| `text` | 58 | 16 | SQL Server yerleşik tipi |
+| `decimal` | 48 | 13 | SQL Server yerleşik tipi |
+| `float` | 43 | 8 | SQL Server yerleşik tipi |
+| `TDBPLASIYER` | 39 | 8 | Plasiyer (satış temsilcisi) kodu |
+| `TDBKDVORAN` | 29 | 5 | KDV oranı |
+| `TDBREFKOD` | 28 | 15 | Referans kodu |
+| `TDBTELFAX` | 27 | 20 | Telefon / faks numarası |
+| `image` | 25 | 16 | SQL Server yerleşik tipi |
+| `smallint` | 24 | 2 | SQL Server yerleşik tipi |
+| `tinyint` | 19 | 1 | SQL Server yerleşik tipi |
+| `smalldatetime` | 19 | 4 | SQL Server yerleşik tipi |
+| `TDBANKETKODU` | 8 | 15 | Netsis kullanıcı tanımlı tipi |
+| `nvarchar` | 8 | 30 | SQL Server yerleşik tipi |
+| `varbinary` | 7 | -1 | SQL Server yerleşik tipi |
+| `TDBENTKEY` | 7 | 50 | Entegrasyon anahtarı |
+| `VarChar` | 6 | 50 | SQL Server yerleşik tipi |
+| `TDBADAYKOD` | 6 | 15 | Netsis kullanıcı tanımlı tipi |
+| `TDBAKTIVITEKOD` | 6 | 35 | Netsis kullanıcı tanımlı tipi |
+| `TDBCRMKULKOD` | 6 | 35 | Netsis kullanıcı tanımlı tipi |
+| `TDBSIKAYETKOD` | 4 | 35 | Netsis kullanıcı tanımlı tipi |
+| `bit` | 3 | 1 | SQL Server yerleşik tipi |
+| `bigint` | 3 | 8 | SQL Server yerleşik tipi |
+| `TDBURETGRUPKOD` | 3 | 15 | Netsis kullanıcı tanımlı tipi |
+| `TDBVARDIYAKOD` | 3 | 15 | Netsis kullanıcı tanımlı tipi |
+| `TDBSKYAKTIVITEKOD` | 2 | 35 | Netsis kullanıcı tanımlı tipi |
+
+Bir kullanıcı tanımlı tipin altındaki gerçek tipi görmek için:
+
+```sql
+SELECT name, TYPE_NAME(system_type_id) AS base_type, max_length, precision, scale
+FROM sys.types WHERE is_user_defined = 1 AND name LIKE 'TDB%';
+```
+
+## Evet/Hayır alanları
+
+Netsis mantıksal alanları çoğunlukla `char(1)` içinde `'E'` (evet) / `'H'` (hayır) olarak tutar. Bazı parametre alanları `'1'`/`'0'` kullanır. Kolon açıklamasını kontrol edin.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/veritabani/tum-tablolar/ -->
+# Tüm tablolar
+
+Bkz. https://netsis.bahadirdogru.com/veritabani/sema.txt
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/netopenx/ -->
+# NetOpenX (COM)
+
+**NetOpenX**, Netsis'in kart ve belgelerini program dışından, Netsis iş kurallarını uygulayarak eklemek, okumak, değiştirmek ve silmek için sunduğu COM kütüphanesidir. Dosya adı `NetOpenX50.dll`'dir ve her Netsis setiyle birlikte `TEMELSET` (9.x'te `ENTERPRISE9`) klasöründe gelir. Ayrı bir kurulum programı yoktur.
+
+NetOpenX ile yazılan bir fatura, Netsis ekranından girilmiş gibi davranır: numara verilir, stok ve cari hareketleri oluşur, bakiyeler güncellenir, muhasebe entegrasyonu hazırlanır.
+
+> [NetOpenX REST](/rest/) de arka planda bu kütüphaneyi kullanır. Nesne ve alan adları (`FatUst`, `STra_GCMIK`, `KDV_DAHILMI`…) iki tarafta büyük ölçüde aynıdır.
+
+## Gereksinimler
+
+- Netsis kurulu bir Windows makinesi (istemci ya da sunucu). NetOpenX, Netsis'in kendi DLL'lerini ve veritabanı bağlantı katmanını kullanır.
+- **NetOpenX Runtime lisansı.** Lisans Netsis Merkezi Kimlik Yönetimi'nden (SSO) indirilmiş olmalıdır. Geliştirme lisansı Logo çözüm ortağı üzerinden alınır.
+- .NET Framework 4.x (örnekler 4.7.2 ve 4.8 ile yazıldı) ya da COM çağırabilen herhangi bir dil (VB6, VBScript, Delphi, Python `win32com`…).
+- Kullanılan DLL ile veritabanının **aynı Netsis sürümünde** olması. Sürüm farkı, alan eksikliği ya da bağlantı hatası olarak döner.
+
+## Kurulum (DLL'i register etmek)
+
+1. Netsis sürümüne uygun `NetOpenX50.dll`'in yerini bulun (ör. `C:\NETSIS\ENTERPRISE9\` ya da `...\TEMELSET\`).
+2. **Kolay yol:** Netsis kurulum klasöründeki `ENTERPRISE9\Servis\RegControl.exe`'yi **yönetici olarak** çalıştırın. Netsis bileşenlerini toplu register eder.
+3. **Elle:** yönetici komut isteminde:
+
+   ```bat
+   regsvr32 "C:\NETSIS\ENTERPRISE9\NetOpenX50.dll"
+   rem kaldırmak için
+   regsvr32 /u "C:\NETSIS\ENTERPRISE9\NetOpenX50.dll"
+   ```
+
+4. Visual Studio'da **Add Reference → COM** sekmesinden `NetOpenX50` kütüphanesini ekleyin. Listede yoksa ya da farklı bir yol/sürüm gösteriyorsa DLL yanlış register edilmiştir.
+
+`.csproj` içinde referans şöyle görünür:
+
+```xml
+<COMReference Include="NetOpenX50">
+  <Guid>{184B0A14-1416-44D7-978C-DECC4FC09693}</Guid>
+  <VersionMajor>5</VersionMajor>
+  <VersionMinor>0</VersionMinor>
+  <Lcid>0</Lcid>
+  <WrapperTool>tlbimp</WrapperTool>
+  <Isolated>False</Isolated>
+  <EmbedInteropTypes>True</EmbedInteropTypes>
+</COMReference>
+```
+
+Basım ve e-belge HTML'i gibi işlerde ek olarak `NetBasimX` kütüphanesi de referans edilebilir.
+
+### 32 / 64 bit
+
+Netsis istemcisi ve `NetOpenX50.dll` 32 bit'tir. .NET projesini **x86** hedefiyle ya da **AnyCPU + Prefer 32-bit** ile derleyin. 64 bit süreçten çağrılırsa COM sınıfı bulunamaz (`REGDB_E_CLASSNOTREG`, "Class not registered"). IIS'te barındırıyorsanız uygulama havuzunda *Enable 32-Bit Applications* açık olmalıdır.
+
+## Nesne modeli
+
+```text
+Kernel                       giriş noktası; diğer nesneleri üretir
+ ├─ yeniSirket(...)  → Sirket    şirkete (veritabanına) oturum
+ ├─ yeniFatura(sirket, TFaturaTip) → Fatura
+ │     ├─ Ust()          → FatUst      belge başlığı
+ │     ├─ kalemYeni(stok)→ FatKalem    yeni satır
+ │     ├─ get_Kalem(i)   → FatKalem    mevcut satır (okumada; VB'de Kalem(i))
+ │     └─ EIrsaliyeEkYeni() → IEIrsEkBilgi  e-irsaliye taşıma bilgisi
+ ├─ yeniCari(sirket)  → Cari
+ ├─ yeniStok(sirket)  → Stok   (TemelBilgi(), EkBilgi())
+ ├─ yeniEBelge(sirket, TEBelgeTip) → EBelge
+ ├─ yeniKasa, yeniDekont, yeniCekSenAna, yeniFis, yeniIsEmri, yeniUretim, yeniNetRS, yeniBasim …
+ ├─ Version, SirketListesi, SonNetsisHata
+ └─ FreeNetsisLibrary()          kaynakları bırakır
+```
+
+40'tan fazla fabrika metodunun tam listesi: **[Nesne kataloğu](/netopenx/nesne-katalogu/)**.
+
+Sayfalar:
+
+- [Nesne kataloğu](/netopenx/nesne-katalogu/): tüm `kernel.yeni…` nesneleri ve `Sirket` üzerindeki işlemler.
+- [Bağlantı ve kaynak yönetimi](/netopenx/baglanti/): `Kernel`, `Sirket`, `try/finally` şablonu.
+- [Fatura ve irsaliye](/netopenx/fatura-ve-irsaliye/): `Fatura`, `FatUst`, `FatKalem` ile belge kaydı, okuma, silme.
+- [Belge dönüşümleri](/netopenx/belge-donusumleri/): sipariş → irsaliye/fatura, irsaliye → fatura, numara değiştirme.
+- [Depo ve ambar fişleri](/netopenx/depo-ve-ambar/): depolar arası transfer, ambar giriş/çıkış.
+- [Cari ve stok](/netopenx/cari-ve-stok/): kart oluşturma, okuma, silme.
+- [E-belge](/netopenx/e-belge/): e-fatura, e-arşiv, e-irsaliye taslağı ve görüntüleme.
+- [Diğer işlemler](/netopenx/diger-islemler/): hesaplama, TCMB banka kodları, talep/teklif okuma.
+- [NetRS ve transaction](/netopenx/netrs-ve-transaction/): oturum üzerinden SQL, `NetsisTransaction`.
+- [Enum'lar](/netopenx/enumlar/): `TFaturaTip`, `TFaturaTipi`, `TEBelgeTip`…
+- [Hatalar ve sorun giderme](/netopenx/hatalar/).
+
+## Adlandırma alışkanlıkları
+
+- Metotlar Türkçe ve küçük harfle başlar: `yeniSirket`, `kayitYeni`, `kayitOku`, `kayitSil`, `kayitDuzelt`.
+- Bazı metotlar büyük harfle başlar: `Ust()`, `OkuUst()`, `OkuKalem()`, `YeniNumara()`, `NumaraDegistir()`, `Siparis2IrsFat()`, `Irsaliye2Fatura()`, `HesaplamalariYap()`.
+- Özellik adları veritabanı kolonlarına yakındır ama birebir değildir: `FatUst.CariKod` → `TBLFATUIRS.CARI_KODU`; `FatKalem.STra_GCMIK` → `TBLSTHAR.STHAR_GCMIK`; `FatUst.EKACK1` → `TBLFATUEK.ACIK1`.
+- Enum'lar `T` önekiyle başlar: `TFaturaTip`, `TVTTipi`, `TOkumaTipi`.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/netopenx/nesne-katalogu/ -->
+# Nesne kataloğu
+
+NetOpenX'te her iş nesnesi `Kernel` üzerindeki bir `yeni…` fabrika metoduyla, açık bir `Sirket` oturumu verilerek üretilir. Bu tablo Logo'nun resmî örnek kodlarından (Logo DYS, "NetOpenX - Örnekler") derlenmiştir. "Örnek" sütunu, örneklerin bu depodaki kopyasına gider ([kaynak/logo-dys](https://github.com/bahadirdogru/netsis-documentation-examples/tree/main/kaynak/logo-dys)).
+
+> Üye listeleri örneklerde geçenlerle sınırlıdır. Tam liste için Visual Studio'da **Object Browser → NetOpenX50** açın.
+
+
+## Kartlar
+
+| Fabrika | Nesne | Başlıca üyeler | Örnek |
+|---------|-------|----------------|-------|
+| `yeniCari(sirket)` | `Cari` | `TemelBilgi()` → `CariTemelBilgi`, `EkBilgi()` → `CariEkBilgi`, `kayitYeni`, `kayitOku`, `kayitDuzelt`, `kayitSil`, `NetsisTransaction` | [Cari](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/cari.md) |
+| `yeniStok(sirket)` | `Stok` | `TemelBilgi()` → `StokTemelBilgi`, `EkBilgi()` → `StokEkBilgi`, `kayitYeni`, `kayitOku`, `kayitDuzelt`, `kayitSil`, `NetsisTransaction` | [Stok](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/stok.md) |
+| `yeniMuplan(sirket)` | `Muplan` | `TemelBilgi()`, `EkBilgi()`, `kayitYeni` (muhasebe hesap planı, `TBLMUPLAN`) | [MuPlan](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/muplan.md) |
+| `yeniProje(sirket)` | `Proje` | `Proje_Kodu`, `Proje_Aciklama`, `kayitYeni`, `kayitOku` | [Proje](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/proje.md) |
+| `yeniDoviz(sirket)` | `Doviz` | `BIRIM`, `ISIM`, `NETSISSIRA`, `kayitYeni`, `kayitOku`, `DovizKurGuncelle()` | [Doviz](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/doviz.md) |
+| `yeniKur(sirket)` | `Kur` | `Sira`, `Tarih`, `DOV_ALIS`, `DOV_SATIS`, `kayitYeni`, `kayitOku` | [Kur](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/kur.md) |
+| `yeniPlanlamaKayitlari(sirket, TStokPlanlamaKayitTip)` | `PlanlamaKayitlari` | `Stok_Kodu`, `SIPARISKARSILAMA`, `SIPARISTAKIP`, `PlanlamaTipi`, `TEDARIKCITERCIH`, `REZERV_BAK_TAKIP`, `kayitYeni` | [Planlama](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/planlamakayitlari.md) |
+| `yeniBaglantiAna(sirket)` | `BaglantiAna` | `Oku()`, `BaglantiAdedi`, `Baglanti` (cari bağlantı/sözleşme kayıtları) | [Bağlantı](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/baglanti.md) |
+
+## Stok ve satış belgeleri
+
+| Fabrika | Nesne | Başlıca üyeler | Örnek |
+|---------|-------|----------------|-------|
+| `yeniFatura(sirket, TFaturaTip)` | `Fatura` | `Ust()`, `kalemYeni(stok)`, `get_Kalem(i)` / `KalemAdedi`, `OkuUst`, `OkuKalem`, `YeniNumara`, `kayitYeni`, `kayitSil`, `HesaplamalariYap`, `Siparis2IrsFat`, `Irsaliye2Fatura`, `NumaraDegistir`, `SiparisRevizyon`, `tahsilatYeni`, `TahsilatKayitKullan`, `KosulluHesapla`, `FiyatSistemineGoreHesapla`, `StokKartinaGoreHesapla`, `OtomatikCevrimYapilsin` | [Fatura](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/fatura.md) |
+| `yeniStokHareket(sirket)` | `StokHareket` | `Stok_Kodu`, `Sthar_Tarih`, `Sthar_Htur`, `Sthar_Gckod`, `Sthar_Gcmik`, `Sthar_Bf`, `DEPO_KODU`, `GirisDepoKodu`, `kayitYeni`, `ReceteliKayit()` | [StokHareket](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/stokhareket.md) |
+| `new StokPH` + `sirket.Bakiye_Getir(stokPH)` | `StokPH` | `Stok_Kodu` verilir; `Top_Giris_Mik`, `Top_Cikis_Mik`, `Mus_Top_Siparis`, `Mus_Top_Teslim` okunur | [StokPH](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/stokph.md) |
+| `yeniTopluFatura(sirket, TFaturaTip)` | `TopluFatura` | `AltCariKodu`, `UstCariKodu`, `AltIrsaliyeNumarasi`, `UstIrsaliyeNumarasi`, `FaturaNumarasi`, `IrsaliyelerBirlessin`, `FaturalastirmaKirilim`, `HaricTutulacakBelgeNoEkle()`, `IrsaliyeleriFaturalastir()` | [TopluFatura](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/toplufatura.md) |
+| `yeniTopluSiparisToIrsFat(sirket, kaynakTip, hedefTip)` | `SiparisTopluIrsFat` | `HaricTutulacakSiparisNoEkle()`, `TopluSiparisToIrsFat()` | [Toplu sipariş](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/siparisten-toplu-irsaliye-fatura-olusturma.md) |
+| `YeniTalepTeklifIslem(sirket)` | `TalepTeklifIslem` | `BelgeTipi`, `BelgeNo`, `YeniNumara()`, `kalemYeni()`, `BelgelerKapatilsin`, `Siparislestir()`, `Tekliflestir()` | [Fatura](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/fatura.md) |
+| `yeniMustahsil(sirket, cariKod)` | `Mustahsil` | `Ust`, `KalemEkle()`, `Sakla()`, `MakbuzOku()`, `NumaraDegistir()` | [Müstahsil](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/mustahsil.md) |
+| `yeniMamulRezervasyonu(sirket)` | `MamulRezervasyonu` | Müşteri siparişine mamul rezervasyonu ve iptali (`TMamulRezervasyonuIslemTipi`) | [Rezervasyon](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/mamul-rezervasyon.md) |
+
+## Finans
+
+| Fabrika | Nesne | Başlıca üyeler | Örnek |
+|---------|-------|----------------|-------|
+| `yeniKasa(sirket)` | `Kasa` | `KsMas_Kod`, `IO`, `Tip`, `Kod`, `Cari_Muh`, `Fisno`, `Tutar`, `Kdv_Dahil`, `Kdv_Oran`, `Islem(TKasaIslem)`, `CSKOdeme()`, `KasaKalemYeni()`, `KdvKalemAdedi`, `kayitOku` | [Kasa](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/kasa.md) |
+| `yeniHizliTahsilatAna(sirket)` | `HizliTahsilatAna` | `IslemTarihi`, `KasaKod`, `BelgeNo`, `CariKod`, `DOVTIP`, `tahsilatYeni()`, `kayitYeni`, `Oku()`, `kayitSil` | [HızlıTahsilat](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/hizlitahsilat.md) |
+| `yeniCekSenAna(sirket, TCekSenType)` | `CekSenetAna` | `EvrakYeni()`, `EvraklariKaydet()`, `yeniKefil()`, `OkunanCS`, `kayitOku()`, `NetsisTransaction` | [ÇekSenet](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/ceksenet.md) |
+| `yeniCSDekont(sirket, TDekCSTip)` | `DekCekSen` | Çek/senet tahsil ve ödeme dekontu: `SC_NO`, `Seri`, `C_M`, `Banka_Kodu`, `Dekont_Tarihi`, `CSDOdeme()`, `BCSDOdeme()` | [DekÇekSen](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/dekceksen.md) |
+| `yeniDekont(sirket)` | `Dekont` | `CDekont()` cari, `SDekont()` stok, `MDekont()` muhasebe, `BDekont()` banka; `Kod`, `C_M`, `B_A`, `Tutar`, `Tarih`, `kayitOku` | [Dekont](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/dekont.md) |
+| `yeniDekomas(sirket)` | `Dekomas` | Genel dekont: `YeniNumaraAl()`, `KalemEkle()`, `Tamamla()`, `BelgeGetir()`, `TumKalemleriSil()` | [Dekomas](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/dekomas.md) |
+| `yeniBankaHesTraAna(sirket)` | `BankaHesTraAna` | `HareketYeni()`, `HareketKaydet()`, `kayitOku()`, `OkunanHesTra` | [Banka hareket](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/banka-hesap-hareketleri.md) |
+| `yeniBankaHavaleEftVirman(sirket, TBankaHavaleEftTip, …)` | `BankaHavaleEftVirman` | `EvrakYeni()`, `EvrakKaydet()` | [Havale/EFT](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/banka-havale-eft.md) |
+
+## Muhasebe ve maliyet
+
+| Fabrika | Nesne | Başlıca üyeler | Örnek |
+|---------|-------|----------------|-------|
+| `yeniFis(sirket)` | `FisAna` | Yevmiye fişi: `AyKodu`, `YilKodu`, `FisTip` (`TFisType.ftMahsup`), `Tarih`, `detayYeni()` (`TFisAnaDetayType.fdtBorc`/`fdtAlacak`), `kayitYeni()` | [FisAna](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/fisana.md) |
+| `yeniMaliyet(sirket, TMaliyetTip)` | `AmbarFisMuh`, `DepTransMuh`, `DagFisOlus`, `MaliyetMuhasebesi`, `StokMaliyet`, `StDovEnfCevir` | Ambar fişi / depo transferi muhasebeleştirme, dağıtım fişi, maliyet muhasebesi, stok maliyeti, enflasyon çevrimi; parametreler + `Calistir()` | [Maliyet](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/stokmaliyet.md) |
+
+## Üretim
+
+| Fabrika | Nesne | Başlıca üyeler | Örnek |
+|---------|-------|----------------|-------|
+| `yeniIsEmri(sirket)` | `IsEmri` | `IsEmriNo`, `Tarih`, `StokKodu`, `Miktar`, `SiparisNo`, `TeslimTarihi`, `kayitYeni`, `kayitOku`, `kayitDuzelt`, `kayitSil` | [İşemri](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/isemri.md) |
+| `yeniRecetedenIsemri(sirket)` | `RecetedenIsemri` | `IsemriSecimListHazirla()`, `IsemriSecimList`, `IsemriSecimListtenIsemirleriniOlustur()` | [İşemri](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/isemri.md) |
+| `yeniUretim(sirket)` | `Uretim` | Üretim sonu kaydı: `UretSon_FisNo`, `SonFisNumarasi()`, `UretSon_Mamul`, `UretSon_Miktar`, `UretSon_Depo`, `kayitYeni()`, `kayitFisNoIleUretimSonu()`, `kayitSil` | [Üretim](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/uretim.md) |
+| `yeniSerbestUSK(sirket)` | `SerbestUSK` | Serbest üretim sonu: `FisUret()`, `Kaydet()`, `FisYukle()`, `KalemGetir()`, `YeniKalem()`, `SeriEkle()`, `KalemFireDetayEkle()`, `HataKodu`, `HataMesaji` | [SerbestUSK](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/serbestusk.md) |
+| `yeniUAK(sirket)` / `yeniUakToUsk(sirket)` | `UAK`, `UakToUsk` | Üretim akış kontrol: `UAKYeniKayit()`, `UAKKaydet()`, `UAKOku()`, `UAKSil()`; `UretimSonuKayitlariOlustur()` | [UAK](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/uak.md) |
+| `yeniMrp(sirket)` | `Mrp` | `MGPCalistir()`, `GereksinimPlanlamaOlustur()`, `IsEmirleriniDengele()`, `TalepleriDengele()` | [MRP](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/mrp.md) |
+
+## Sistem ve yardımcılar
+
+| Fabrika / üye | Nesne | Başlıca üyeler | Örnek |
+|---------------|-------|----------------|-------|
+| `yeniNetRS(sirket)` | `NetRS` | SQL: `Ac(sql)`, `EOF`, `FieldByName(ad).AsString`, `SonrakiK()`, `IlkK()`, `Calistir(sql)`, `NetsisTransaction()` | [NetRS](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/netrs.md) · [NetRS ve transaction](/netopenx/netrs-ve-transaction/) |
+| `yeniBasim(sirket)` | `Basim` | `FaturaBasimDizaynNo()`, `FaturaBasim()`, `YevmiyeFisBasimDizaynNo()`, `CekSenetBasimDizaynNo()`, `KasaBasim()`, `IrsFatBarkodBas()`, `IrsFatBarkodKalemBas()`, `FiyatListesiBarkodBas()`, `PDFPath` | [Basım](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/basim.md) |
+| `yeniBelgeKilitleme(sirket)` | `BelgeKilitleme` | Fatura, yevmiye, iş emri, reçete, bakım emri kilitleme (`TBelgeKilitlemeBelgeTipi`, `TBelgeKilitDurumTipi`) | [Kilitleme](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/belge-kilitleme.md) |
+| `yeniNetsisBildirim(sirket)` | `NetsisBildirim` | `AliciEkle()`, `Baslik`, `Mesaj`, `GonderimTarih`, `DosyaEkle()`, `NetsisLinkEkle()`, `Gonder()` | [Bildirim](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/bildirim-giris.md) |
+| `yeniNetsisCore(sirket)` | `ICore` | `NetLibSession` (program bilgisi, aktif kullanıcı), `NetLibSMS()` | [ICore](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/icore.md) |
+| `yeniIsAkis(sirket)` | `WFTObject` | İş akışında bekleyen kayıtları onaylama: `PATHKODU`, `ONAYNUMARASI`, `DURUMU`, `Calistir`, `kayitDuzelt` | [WFT](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/wftobject.md) |
+| `yeniSirketAktifEXE(...)` | `Sirket` | Netsis içinden (Temelset dinamik kodlama) çalışan koddan açık oturumu kullanır | [Kernel](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/kernel.md) |
+| `kernel.Version`, `kernel.SirketListesi`, `kernel.get_EkModulVar(no)`, `kernel.SonNetsisHata` | `Kernel` | Sürüm, şirket listesi (`SirketInfo.SirketAdi`, `SirketYili`), ek modül kontrolü, son hata | [Kernel](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/kernel.md) |
+
+## Sirket üzerindeki işlemler
+
+`Sirket` nesnesi yalnızca oturum değildir; şirket düzeyi toplu işlemleri de taşır. REST'teki [`CompanyManager`](/rest/istemci-kutuphanesi/#companymanager) yöntemlerinin COM karşılıklarıdır.
+
+| Metot | İşlem |
+|-------|-------|
+| `CariDovizFarklariniKapat(CariKurFarkibilgi)` | Cari döviz (kur) farkı kapama |
+| `MuhAydanAyaFisAktarim(...)` | Muhasebe fişini aydan aya aktarma |
+| `MuhHesapKoduAktarim(...)` | Muhasebe hesap kodu aktarımı |
+| `CariKoduDegistir(...)`, `StokKoduDegistir(...)` | Kod değiştirme (virman seçenekli) |
+| `FisNumaraDegisikligi(...)` | Yevmiye fiş numarası değiştirme |
+| `CariHareketKontrol`, `StokHareketKontrol`, `BankaHareketKontrol`, `YevmiyeKontrol` | Hareket ve fiş tutarlılık kontrolleri |
+| `AcikReceteAnaliziCalistir(...)`, `ReceteStokBaglantiOlustur(...)` | Reçete işlemleri |
+| `EPostaGonder(...)` | Netsis e-posta altyapısıyla gönderim |
+| `TCMBBankaKodlariOnlineGuncelleme(...)` | TCMB banka/şube listesini güncelle |
+| `KvkkAnonimlestir(...)` | KVKK anonimleştirme |
+| `GenelRehber(...)` | Genel rehber |
+| `Bakiye_Getir(StokPH)` | Stok bakiyesi |
+| `KantardanSayiOku(...)` | Kantar entegrasyonu |
+| `DovizCevrim(...)`, `getirNDS(...)` | Döviz çevrimi, NDS bilgisi |
+| `SirketAdi`, `SirketYili`, `LogOff()` | Oturum bilgisi ve kapatma |
+
+Parametre ayrıntıları Logo örneğindedir: [Sirket](https://github.com/bahadirdogru/netsis-documentation-examples/blob/main/kaynak/logo-dys/sayfalar/netopenx/sirket.md).
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/netopenx/baglanti/ -->
+# Bağlantı ve kaynak yönetimi
+
+Her NetOpenX işlemi aynı iskeletle başlar: bir `Kernel` oluştur, `yeniSirket` ile şirkete bağlan, işi yap, **her durumda** oturumu kapat ve COM nesnelerini bırak.
+
+## yeniSirket
+
+```csharp
+using NetOpenX50;
+using System.Runtime.InteropServices;
+
+Kernel kernel = new Kernel();
+Sirket sirket = kernel.yeniSirket(
+    TVTTipi.vtMSSQL,   // 1. veritabanı tipi (Oracle için vtOracle)
+    "ACME2024",        // 2. şirket = veritabanı adı
+    "TEMELSET",        // 3. veritabanı kullanıcısı
+    "",                // 4. veritabanı şifresi
+    "NETSIS",          // 5. Netsis kullanıcı adı
+    "netsis_sifresi",  // 6. Netsis şifresi
+    0);                // 7. şube kodu
+```
+
+| # | Parametre | Not |
+|---|-----------|-----|
+| 1 | `TVTTipi` | `vtMSSQL` ya da `vtOracle` |
+| 2 | Şirket adı | Netsis'teki şirket kodu; SQL Server'da veritabanı adıdır. Liste: `NETSIS.dbo.SIRKETLER30` |
+| 3 | DB kullanıcısı | Çoğu kurulumda `TEMELSET` |
+| 4 | DB şifresi | `TEMELSET` kullanıcısının şifresi (çoğu kurulumda boş) |
+| 5 | Netsis kullanıcısı | Programa giriş yapan kullanıcı; yetkileri uygulanır. Kayıtlarda `KAYITYAPANKUL` olarak görünür |
+| 6 | Netsis şifresi | |
+| 7 | Şube kodu | `TBLSUBELER`'deki şube. Tek şubeli kurulumlarda `0`. Logo'nun bazı eski örneklerinde `32767` geçer (anlamı belgelenmemiş) |
+
+## Kernel bilgileri
+
+`Kernel`, şirkete bağlanmadan da bazı bilgileri verir:
+
+```csharp
+Kernel kernel = new Kernel();
+try
+{
+    string surum = kernel.Version;                 // NetOpenX sürümü
+
+    SirketList liste = kernel.SirketListesi;       // sunucudaki şirketler
+    for (int i = 0; i < liste.SirketSayisi; i++)
+    {
+        SirketInfo s = liste.get_SirketInfo(i);
+        Console.WriteLine($"{s.SirketAdi} {s.SirketYili}");
+    }
+    Marshal.ReleaseComObject(liste);
+
+    bool ekModulVar = kernel.get_EkModulVar(100);  // ek modül yüklü mü (0–254)
+}
+finally
+{
+    kernel.FreeNetsisLibrary();
+    Marshal.ReleaseComObject(kernel);
+}
+```
+
+Netsis'in içinden çalışan kodda (Temelset dinamik kodlama, NDI) yeni oturum açmak yerine açık oturum kullanılır: `kernel.yeniSirketAktifEXE(NETSISCORE)`.
+
+> Bağlantı bilgilerini koda gömmeyin. NetsisQuick bunları `Properties.Settings` içinde tutar; daha iyisi Windows Credential Manager ya da şifreli yapılandırmadır.
+
+## Doğru şablon: try / catch / finally
+
+COM nesneleri .NET çöp toplayıcısıyla zamanında bırakılmaz. Bırakılmayan `Kernel` ve `Sirket`, Netsis oturumunu ve veritabanı bağlantısını açık tutar; uzun çalışan uygulamalarda lisans ve bellek sorunlarına yol açabilir. Logo'nun ve bahadirdogru.com'un tüm örnekleri bu yüzden `finally` içinde temizlik yapar.
+
+```csharp
+Kernel kernel = null;
+Sirket sirket = null;
+Fatura fatura = null;
+try
+{
+    kernel = new Kernel();
+    sirket = kernel.yeniSirket(TVTTipi.vtMSSQL, db, dbUser, dbPass, netsisUser, netsisPass, sube);
+
+    fatura = kernel.yeniFatura(sirket, TFaturaTip.ftSFat);
+    // ... iş ...
+}
+catch (COMException ex)
+{
+    // Netsis'in hata mesajı ex.Message içindedir (ör. "Stok kodu bulunamadı")
+    throw new Exception($"Netsis hatası ({ex.ErrorCode:X}): {ex.Message}", ex);
+}
+finally
+{
+    if (fatura != null) Marshal.ReleaseComObject(fatura);
+    if (sirket != null) { sirket.LogOff(); Marshal.ReleaseComObject(sirket); }
+    if (kernel != null) { kernel.FreeNetsisLibrary(); Marshal.ReleaseComObject(kernel); }
+}
+```
+
+Sıra önemlidir: önce iş nesneleri (`FatKalem`, `FatUst`, `Fatura`, `EBelge`…), sonra `sirket.LogOff()` + `Sirket`, en son `kernel.FreeNetsisLibrary()` + `Kernel`.
+
+Bazı örneklerde ayrıca şu eklenir:
+
+```csharp
+GC.Collect();
+GC.WaitForPendingFinalizers();
+```
+
+## Yeniden kullanılabilir yardımcı
+
+Her metotta aynı bloğu yazmamak için:
+
+```csharp
+public static class Netsis
+{
+    public static T Run<T>(string db, Func<Kernel, Sirket, T> work)
+    {
+        Kernel kernel = null;
+        Sirket sirket = null;
+        try
+        {
+            kernel = new Kernel();
+            sirket = kernel.yeniSirket(TVTTipi.vtMSSQL, db,
+                Config.DbUser, Config.DbPassword, Config.NetsisUser, Config.NetsisPassword, Config.Sube);
+            return work(kernel, sirket);
+        }
+        finally
+        {
+            if (sirket != null) { sirket.LogOff(); Marshal.ReleaseComObject(sirket); }
+            if (kernel != null) { kernel.FreeNetsisLibrary(); Marshal.ReleaseComObject(kernel); }
+        }
+    }
+}
+
+// kullanım
+string no = Netsis.Run("ACME2024", (k, s) =>
+{
+    var f = k.yeniFatura(s, TFaturaTip.ftSSip);
+    try { /* ... */ f.kayitYeni(); return f.Ust().FATIRS_NO; }
+    finally { Marshal.ReleaseComObject(f); }
+});
+```
+
+## Oturum ömrü
+
+- Her işlemde yeni oturum açmak basit ve güvenlidir ama yavaştır (bağlantı birkaç saniye sürebilir).
+- Toplu işlerde tek bir `Kernel`/`Sirket` açıp çok sayıda belge yazmak daha hızlıdır. Bu durumda hata alan belgeden sonra nesnenin durumuna güvenmeyin; o belge için yeni `Fatura` nesnesi oluşturun.
+- Aynı `Kernel`/`Sirket` nesnesini birden fazla thread'den aynı anda kullanmayın. Paralel iş gerekiyorsa her thread kendi oturumunu açsın; eşzamanlı oturum sayısını lisans sınırlar.
+- Delphi tabanlı COM sunucuları genellikle tek iş parçacıklı (STA) modelle çalışır. Windows servisinde ya da ASP.NET'te sorun yaşarsanız işi STA bir thread'de çalıştırmayı deneyin (doğrulanmadı).
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/netopenx/fatura-ve-irsaliye/ -->
+# Fatura ve irsaliye
+
+Netsis'te fatura, irsaliye, sipariş, teklif, talep, depolar arası transfer ve ambar fişi **aynı nesneyle** yazılır: `Fatura`. Belgenin türünü `kernel.yeniFatura(sirket, TFaturaTip)` çağrısındaki enum belirler.
+
+| Belge | `TFaturaTip` | Tablo |
+|-------|--------------|-------|
+| Satış faturası | `ftSFat` | `TBLFATUIRS` (FTIRSIP=1) + `TBLSTHAR` |
+| Alış faturası | `ftAFat` | `TBLFATUIRS` (2) |
+| Satış irsaliyesi | `ftSIrs` | `TBLFATUIRS` (3) |
+| Alış irsaliyesi | `ftAIrs` | `TBLFATUIRS` (4) |
+| Müşteri (satış) siparişi | `ftSSip` | `TBLSIPAMAS` (6) + `TBLSIPATRA` |
+| Satıcı (alış) siparişi | `ftASip` | `TBLSIPAMAS` (7) |
+| Satış teklifi | `ftSatTeklif` | teklif tabloları |
+| Lokal depolar arası transfer | `ftLokalDepo` | `TBLFATUIRS` (8) |
+| Ambar giriş / çıkış fişi | `ftAmbarG` / `ftAmbarC` | `TBLFATUIRS` (9 / 8) |
+
+Tam liste: [Enum'lar](/netopenx/enumlar/#tfaturatip).
+
+## Yeni belge: adım adım
+
+```csharp
+Fatura fatura = kernel.yeniFatura(sirket, TFaturaTip.ftSFat);
+
+// 1) Numara al. Parametre seri önekidir ("A", "ABC" ...)
+string no = fatura.YeniNumara("ABC");
+
+// 2) Başlık
+FatUst ust = fatura.Ust();
+ust.FATIRS_NO   = no;
+ust.CariKod     = "120-01-001";
+ust.Tarih       = DateTime.Today;
+ust.FiiliTarih  = DateTime.Today;
+ust.ENTEGRE_TRH = DateTime.Today;
+ust.TIPI        = TFaturaTipi.ft_Acik;     // açık fatura
+ust.KDV_DAHILMI = false;
+ust.PLA_KODU    = "01";                     // plasiyer
+ust.Proje_Kodu  = "1";
+ust.EKACK1      = "Sipariş: 4711";          // ek açıklama 1..16
+
+// 3) Kalemler
+FatKalem kalem = fatura.kalemYeni("STK001");   // stok kodu
+kalem.DEPO_KODU  = 1;
+kalem.STra_GCMIK = 10;       // miktar
+kalem.STra_BF    = 125.50;   // brüt birim fiyat
+kalem.STra_NF    = 125.50;   // net birim fiyat
+kalem.STra_KDV   = 20;       // KDV oranı
+kalem.STra_SatIsk = 5;       // satır iskontosu 1 (%)
+
+// 4) Kaydet
+fatura.kayitYeni();
+string kaydedilenNo = ust.FATIRS_NO;   // Netsis numarayı değiştirmiş olabilir
+```
+
+> **Numara değişebilir.** `YeniNumara` ile alınan numara, kayıt anında başka bir kullanıcı aynı numarayı kullandıysa Netsis tarafından ilerletilir. Her zaman `kayitYeni()` sonrası `ust.FATIRS_NO`'yu okuyun.
+
+### Hesaplama bayrakları
+
+`kayitYeni()` öncesi `Fatura` nesnesinde ayarlanır:
+
+| Özellik | Etkisi |
+|---------|--------|
+| `KosulluHesapla` | Koşul (kampanya, iskonto) tanımlarına göre hesapla |
+| `FiyatSistemineGoreHesapla` | Fiyat listesinden fiyat getir |
+| `StokKartinaGoreHesapla` | Stok kartındaki fiyat/KDV ile hesapla |
+| `RiskKontrol` | Cari risk limitini kontrol et; aşılırsa kayıt hata verir |
+
+Toplamları kaydetmeden görmek için `fatura.HesaplamalariYap()` çağrılır; sonra `FatUst` üzerindeki toplam alanları okunabilir.
+
+### FatUst alanları
+
+| Alan | Tablo kolonu | Açıklama |
+|------|--------------|----------|
+| `FATIRS_NO` | `FATIRS_NO` | Belge no (15 karakter) |
+| `GIB_FATIRS_NO` | `GIB_FATIRS_NO` | GİB (e-fatura/e-arşiv) numarası, 16 karakter |
+| `CariKod` | `CARI_KODU` | Cari. Ambar fişinde masraf merkezi kodu yazılır |
+| `CARI_KOD2` | `CARI_KOD2` | Farklı teslim (teslim carisi) |
+| `Tarih` | `TARIH` | Belge tarihi |
+| `FiiliTarih` | | Fiili sevk/teslim tarihi |
+| `ENTEGRE_TRH` | | Muhasebe entegrasyon tarihi |
+| `SIPARIS_TEST` | `SIPARIS_TEST` | Sipariş teslim tarihi |
+| `FIYATTARIHI`, `KOSULTARIHI`, `DovBazTarihi` | | Fiyat, koşul ve döviz baz tarihleri |
+| `TIPI` | `TIPI` | `TFaturaTipi`: açık, kapalı, iade, ihracat… |
+| `KDV_DAHILMI` | `KDV_DAHILMI` | Fiyatlar KDV dahil mi |
+| `PLA_KODU` | `PLA_KODU` | Plasiyer |
+| `Proje_Kodu` | `PROJE_KODU` | Proje |
+| `KOD1`, `KOD2` | `KOD1`, `KOD2` | Özel kodlar |
+| `KOSVADEGUNU` | `KOSVADEGUNU` | Vade günü |
+| `EKACK1` … `EKACK16` | `TBLFATUEK.ACIK1..16` | Ek açıklamalar |
+| `EIrsaliye` | | `true`: e-irsaliye olarak işaretle |
+| `EfaturaCarisiMi` | | Salt okunur; cari e-fatura mükellefi mi |
+| `EFatOzelKod` | | E-fatura istisna/özel kodu (ör. KDV istisna kodu) |
+| `AMBHARTUR` | | Ambar hareket türü (`TAmbarHarTur`) |
+| `CikisYeri` | | Ambar çıkış yeri (`TCikisYeri`) |
+| `FAT_ALTM1`, `FAT_ALTM2` | `FAT_ALTM1/2` | Fatura alt maliyet tutarları |
+
+### FatKalem alanları
+
+| Alan | Tablo kolonu | Açıklama |
+|------|--------------|----------|
+| (kurucu) `kalemYeni(stokKodu)` | `STOK_KODU` | Stok kodu |
+| `STra_GCMIK` | `STHAR_GCMIK` | Miktar |
+| `STra_BF` | `STHAR_BF` | Brüt birim fiyat |
+| `STra_NF` | `STHAR_NF` | Net birim fiyat |
+| `STra_KDV` | `STHAR_KDV` | KDV oranı |
+| `STra_SatIsk`, `STra_SatIsk2` … `STra_SatIsk6` | `STHAR_SATISK…` | Satır iskontoları |
+| `STra_DOVTIP`, `STra_DOVFIAT` | `STHAR_DOVTIP`, `STHAR_DOVFIAT` | Döviz tipi ve dövizli fiyat |
+| `Olcubr` | `OLCUBR` | Ölçü birimi sırası (1, 2, 3) |
+| `DEPO_KODU` | `DEPO_KODU` | Depo (çıkış deposu) |
+| `Gir_Depo_Kodu` | | Depolar arası transferde giriş deposu |
+| `ProjeKodu` | `PROJE_KODU` | Kalem proje kodu |
+| `MuhasebeKodu` | `MUH_KODU` | Kalem muhasebe kodu (ambar fişlerinde) |
+| `Ekalan`, `Ekalanneden` | `EKALAN`, `EKALAN_NEDEN` | Ek alan. `Ekalanneden = "1"` iken `Ekalan` kalem açıklaması (ör. hizmet kartında satır adı) olarak basılır |
+
+> `STra_SatIsk` ilk iskontodur. NetsisQuick'in eski bir sürümünde üç iskonto da `STra_SatIsk`'e yazılıp birbirini ezmişti; 2. ve 3. iskonto için `STra_SatIsk2`, `STra_SatIsk3` kullanın.
+
+### Barkoddan stok kodu bulmak
+
+`kalemYeni` stok kodu ister. Elinizde barkod varsa önce SQL ile çevirin:
+
+```sql
+SELECT STOK_KODU FROM TBLSTSABIT WHERE BARKOD1 = @barkod
+```
+
+## Mevcut belgeyi okumak
+
+```csharp
+Fatura fatura = kernel.yeniFatura(sirket, TFaturaTip.ftSatTeklif);
+fatura.OkuUst("000000000088886", "120-01-001");   // belge no, cari kod
+fatura.OkuKalem();
+
+FatUst ust = fatura.Ust();
+for (int i = 0; i < fatura.KalemAdedi; i++)
+{
+    FatKalem k = fatura.get_Kalem(i);      // C#'ta indeksli özellik; VB/Delphi'de fatura.Kalem(i)
+    Console.WriteLine($"{k.StokKodu} {k.STra_GCMIK} x {k.STra_BF}");
+}
+```
+
+`OkuUst` belge numarası **ve cari kodu** ister, çünkü aynı numara farklı carilerde tekrar edebilir. Belge bulunamazsa hata fırlar ve `kernel.SonNetsisHata.Kod` `401` olur ([Hatalar](/netopenx/hatalar/#netsis-hata-kodu)).
+
+Logo'nun örneğinde bu okuma deseniyle bir faturayı başka bir şirkete kopyalama da gösterilir: kaynak kalemlerden `STra_GCMIK`, `STra_GCMIK2`, `CEVRIM`, `STra_TAR`, `STra_NF`, `STra_BF`, `STra_IAF`, `STra_KDV`, `DEPO_KODU` hedef faturanın `kalemYeni(stokKodu)` satırına aktarılır.
+
+## Belgeyi silmek
+
+```csharp
+Fatura irsaliye = kernel.yeniFatura(sirket, TFaturaTip.ftSIrs);
+irsaliye.OkuUst(irsaliyeNo, cariKod);
+irsaliye.OkuKalem();
+irsaliye.kayitSil();
+```
+
+Silme, ekrandan silmede olduğu gibi belgeye bağlı stok ve cari hareketlerini de kaldırır. E-belgesi gönderilmiş ya da faturalanmış bir irsaliyeyi silmeyin; önce bağlı belgeyi ele alın.
+
+## Belgeyi düzeltmek
+
+Okunan belgede alan değiştirip `kayitDuzelt()` çağrılır (metot NetsisQuick'te yorum satırı olarak geçer; davranışı doğrulanmadı):
+
+```csharp
+fatura.OkuUst(no, cari);
+fatura.OkuKalem();
+fatura.Ust().Tarih = new DateTime(2024, 5, 1);
+fatura.kayitDuzelt();
+```
+
+## E-irsaliye olarak kaydetmek
+
+E-irsaliye numarası farklı bir metotla alınır ve taşıma bilgisi eklenir:
+
+```csharp
+Fatura irs = kernel.yeniFatura(sirket, TFaturaTip.ftSIrs);
+FatUst ust = irs.Ust();
+ust.EIrsaliye = true;
+ust.FATIRS_NO = irs.YeniEIrsaliyeNumara("EIR");   // e-irsaliye serisi (TBLEIRSSERI)
+ust.CariKod = cariKod;
+ust.Tarih = DateTime.Today;
+
+IEIrsEkBilgi ek = irs.EIrsaliyeEkYeni();
+ek.PLAKA = "34ABC123";
+ek.TASIYICIVKN = "1234567890";
+ek.TASIYICIADI = "Taşıyıcı A.Ş.";
+ek.TASIYICIIL = "İstanbul";
+ek.TASIYICIILCE = "Tuzla";
+ek.TASIYICIULKE = "TR";
+ek.TASIYICIPOSTAKODU = "34940";
+ek.SOFOR1ADI = "Ad"; ek.SOFOR1SOYADI = "Soyad"; ek.SOFOR1TCKN = "11111111111";
+ek.SEVKTAR = DateTime.Now;
+ek.DORSEPLAKA1 = "34XYZ99";
+
+FatKalem k = irs.kalemYeni("STK001");
+k.STra_GCMIK = 5; k.DEPO_KODU = 1;
+irs.kayitYeni();
+```
+
+`IEIrsEkBilgi` ayrıca `SOFOR2…`, `SOFOR3…`, `SOFOR1ACIKLAMA`, `DORSEPLAKA2`, `DORSEPLAKA3` alanlarını taşır. Taslak oluşturma ve gönderim için [E-belge](/netopenx/e-belge/).
+
+## Excel'den toplu belge (NetsisQuick deseni)
+
+NetsisQuick, Excel satırlarını kalemlere çevirir. Satır başına beklenen kolonlar:
+
+| Excel kolonu | Hedef |
+|--------------|-------|
+| `StokKodu` ya da `Barkod` | `kalemYeni(...)` |
+| `Adet` | `STra_GCMIK` |
+| `BrutFiyat`, `NetFiyat` | `STra_BF`, `STra_NF` |
+| `Iskonto1..3` | `STra_SatIsk`, `STra_SatIsk2`, `STra_SatIsk3` |
+| `StokAdi` | `Ekalanneden = "1"`, `Ekalan = StokAdi` |
+| `EkAck1..16` (ilk satır) | `FatUst.EKACK1..16` |
+| `MuhasebeKodu` | `MuhasebeKodu` (ambar fişi) |
+
+NetsisQuick yalnızca dolu hücreleri ilgili alana yazar. Boş fiyatı `0` olarak yazmak, Netsis'in stok kartından ya da fiyat listesinden getireceği fiyatı ezebilir.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/netopenx/belge-donusumleri/ -->
+# Belge dönüşümleri
+
+Netsis'te sipariş → irsaliye → fatura zinciri, kaynak belgeyi okuyup hedef belge nesnesine aktaran metotlarla yapılır. Dönüşüm, kaynak belgedeki bağlantıları (sipariş bakiyesi, irsaliyenin faturalandı işareti) de günceller. Kalemleri elle kopyalamak bu bağlantıyı kurmaz.
+
+| Metot | Kaynak | Hedef |
+|-------|--------|-------|
+| `siparis.Siparis2IrsFat(hedef)` | `ftSSip` / `ftASip` | irsaliye (`ftSIrs`/`ftAIrs`) ya da fatura (`ftSFat`/`ftAFat`) |
+| `irsaliye.Irsaliye2Fatura(hedef)` | `ftSIrs` / `ftAIrs` | fatura |
+| `belge.NumaraDegistir(yeniNo, cariKod, bool)` | herhangi | aynı belge, yeni numara |
+
+## Siparişten irsaliye
+
+```csharp
+Fatura siparis = kernel.yeniFatura(sirket, TFaturaTip.ftASip);   // satıcı siparişi
+siparis.OkuUst(siparisNo, cariKod);
+siparis.OkuKalem();
+
+Fatura irsaliye = kernel.yeniFatura(sirket, TFaturaTip.ftAIrs);  // alış irsaliyesi
+FatUst irsUst = irsaliye.Ust();
+irsUst.EIrsaliye = eIrsaliyeMi;
+irsUst.FATIRS_NO = eIrsaliyeMi
+    ? irsaliye.YeniEIrsaliyeNumara(seri)
+    : irsaliye.YeniNumara(seri);
+
+siparis.Siparis2IrsFat(irsaliye);      // kaydı da yapar
+string irsaliyeNo = irsUst.FATIRS_NO;
+```
+
+Satış tarafı için `ftSSip` → `ftSIrs`.
+
+## Siparişten fatura (e-fatura / e-arşiv serisiyle)
+
+Hedef faturanın serisi, carinin e-fatura mükellefi olup olmamasına göre seçilir:
+
+```csharp
+Fatura siparis = kernel.yeniFatura(sirket, TFaturaTip.ftSSip);
+siparis.OkuUst(siparisNo, cariKod);
+siparis.OkuKalem();
+FatUst sipUst = siparis.Ust();
+
+// e-fatura mükellefi ise e-fatura serisi, değilse e-arşiv serisi
+string seri = sipUst.EfaturaCarisiMi
+    ? Sql("SELECT TOP 1 BIRIMKOD FROM TBLEFATPRM")
+    : Sql("SELECT TOP 1 BIRIMKOD FROM TBLEARSIVPRM");
+
+Fatura fatura = kernel.yeniFatura(sirket, TFaturaTip.ftSFat);
+FatUst fatUst = fatura.Ust();
+fatUst.FATIRS_NO = fatura.YeniNumara(seri);
+fatUst.GIB_FATIRS_NO = GibNumarasi(seri, fatUst.FATIRS_NO);
+fatUst.EFatOzelKod = sipUst.EFatOzelKod;    // istisna kodunu taşı
+
+siparis.Siparis2IrsFat(fatura);
+string faturaNo = fatUst.FATIRS_NO;
+```
+
+### GİB numarası
+
+E-fatura numarası 16 karakterdir: `SERİ(3) + YIL(4) + SIRA(9)`, ör. `ABC2024000000123`. Netsis'in iç `FATIRS_NO` alanı 15 karakter olduğundan bazı kurulumlarda yılın iki hanesi tutulur (`ABC024000000123`). NetsisQuick bu durumda GİB numarasını şöyle üretir:
+
+```csharp
+// "ABC024000000123" → "ABC2024000000123"
+static string GibNumarasi(string seri, string netsisNo)
+    => seri.Trim() + "2" + netsisNo.Substring(seri.Length);
+```
+
+Bu dönüşüm kurulumun numaralama ayarına bağlıdır; kendi verinizde `TBLFATUIRS.FATIRS_NO` ile `GIB_FATIRS_NO`'yu karşılaştırarak doğrulayın.
+
+## İrsaliyeden fatura
+
+```csharp
+Fatura irsaliye = kernel.yeniFatura(sirket, TFaturaTip.ftSIrs);
+irsaliye.OkuUst(irsaliyeNo, cariKod);
+irsaliye.OkuKalem();
+FatUst irsUst = irsaliye.Ust();
+
+Fatura fatura = kernel.yeniFatura(sirket, TFaturaTip.ftSFat);
+FatUst fatUst = fatura.Ust();
+fatUst.FATIRS_NO = fatura.YeniNumara(seri);
+fatUst.GIB_FATIRS_NO = GibNumarasi(seri, fatUst.FATIRS_NO);
+fatUst.EFatOzelKod = irsUst.EFatOzelKod;
+
+irsaliye.Irsaliye2Fatura(fatura);
+```
+
+## Numara değiştirme
+
+```csharp
+// İrsaliye numarası
+Fatura irs = kernel.yeniFatura(sirket, TFaturaTip.ftSIrs);
+irs.OkuUst(eskiNo, cariKod);
+irs.OkuKalem();
+irs.NumaraDegistir(yeniNo, cariKod, true);
+
+// Sipariş numarası (cari değişmiyor)
+Fatura sip = kernel.yeniFatura(sirket, TFaturaTip.ftSSip);
+sip.OkuUst(sipNo, cariKod);
+sip.OkuKalem();
+sip.NumaraDegistir(yeniSipNo, null, false);
+```
+
+Değişikliği doğrulamak için belgeyi yeni numarayla tekrar okuyun (`OkuUst(yeniNo, cariKod)`) ve `Ust().FATIRS_NO`'yu kontrol edin. Üçüncü parametrenin anlamı belgelenmemiştir; örneklerde cari kodu verildiğinde `true`, verilmediğinde `false` kullanılmıştır.
+
+## Sipariş onayı
+
+Sipariş onay durumu `TBLSIPAMAS.TIPI` alanındadır (`2` onaylı yurt içi, `3` onaylanmamış). NetOpenX'te ayrı bir metot gözlenmedi; NetsisQuick bunu SQL ile yapar, bkz. [Dikkatli güncellemeler](/veritabani/sql-ornekleri/#dikkatli-guncellemeler).
+
+REST karşılıkları: `POST api/v2/ItemSlips/SiparisToIrsFat`, `POST api/v2/ItemSlips/IrsToFat`, `POST api/v2/ItemSlips/ChangeNumber` ([REST uçları](/rest/uclar/#fatura-irsaliye-ve-siparis-itemslips)).
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/netopenx/depo-ve-ambar/ -->
+# Depo ve ambar fişleri
+
+Depolar arası transfer ve ambar fişleri de `Fatura` nesnesiyle yazılır. Farkı başlıktaki birkaç alandır.
+
+## Lokal depolar arası transfer
+
+```csharp
+Fatura dat = kernel.yeniFatura(sirket, TFaturaTip.ftLokalDepo);
+FatUst ust = dat.Ust();
+ust.FATIRS_NO   = dat.YeniNumara("N");
+ust.Tarih       = DateTime.Today;
+ust.FiiliTarih  = DateTime.Today;
+ust.TIPI        = TFaturaTipi.ft_Bos;
+ust.AMBHARTUR   = TAmbarHarTur.htMuhtelif;
+ust.Proje_Kodu  = "1";
+// CariKod verilmez
+
+FatKalem k = dat.kalemYeni("STK001");
+k.STra_GCMIK    = 10;
+k.STra_BF       = 0;
+k.DEPO_KODU     = 5;   // çıkış deposu
+k.Gir_Depo_Kodu = 1;   // giriş deposu: 5'ten 1'e transfer
+k.ProjeKodu     = "1";
+
+dat.kayitYeni();
+```
+
+Tabloda `TBLFATUIRS.FTIRSIP = '8'`, `YEDEK = 'D'` olarak görünür; her kalem için çıkış ve giriş stok hareketi oluşur.
+
+## Ambar giriş / çıkış fişi
+
+Ambar fişi stoğu bir cariye bağlı olmadan artırır ya da azaltır (sarf, sayım farkı, numune…). Çıkış fişinde masraf merkezi ve muhasebe kodu verilir.
+
+```csharp
+Fatura ambar = kernel.yeniFatura(sirket, TFaturaTip.ftAmbarC);   // giriş için ftAmbarG
+FatUst ust = ambar.Ust();
+ust.FATIRS_NO  = ambar.YeniNumara("AMB");
+ust.CariKod    = "MM01";                  // ambar fişinde masraf merkezi kodu (TBLMASRAF.MKOD)
+ust.Tarih      = DateTime.Today;
+ust.FiiliTarih = DateTime.Today;
+ust.DovBazTarihi = DateTime.Today;
+ust.AMBHARTUR  = TAmbarHarTur.htMuhtelif;
+ust.CikisYeri  = TCikisYeri.cyMasrafMer;  // ya da cyStokKod
+ust.Proje_Kodu = "1";
+
+FatKalem k = ambar.kalemYeni("STK001");
+k.STra_GCMIK   = 3;
+k.STra_BF      = 0;
+k.DEPO_KODU    = 1;
+k.MuhasebeKodu = "770-01-001";            // çıkış için gider hesabı
+k.Ekalan       = "MM01";                  // NetsisQuick masraf kodunu kalemde de taşır
+
+ambar.kayitYeni();
+```
+
+| Alan | Değerler (gözlenen) |
+|------|---------------------|
+| `AMBHARTUR` (`TAmbarHarTur`) | `htMuhtelif`, `htUretim`, `htDepolar` |
+| `CikisYeri` (`TCikisYeri`) | `cyStokKod`, `cyMasrafMer` |
+
+Masraf merkezlerini listelemek için:
+
+```sql
+SELECT MKOD, dbo.TRK(ISNULL(ACIKLAMA,'')) AS ACIKLAMA, MUHKOD, SATMUHKOD
+FROM TBLMASRAF WHERE ISLETME_KODU = 1 AND SUBE_KODU = 0 AND MKOD IS NOT NULL;
+```
+
+Tabloda ambar fişleri `TBLFATUIRS.YEDEK = 'X'` ile işaretlenir.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/netopenx/cari-ve-stok/ -->
+# Cari ve stok kartları
+
+Kart nesneleri (`Cari`, `Stok`) belge nesnelerinden farklı bir okuma modeli kullanır: `kayitOku(TOkumaTipi, filtre)` ile bir kayıt kümesi açılır, sonra üzerinde gezinilir.
+
+## kayitOku
+
+```csharp
+Cari cari = kernel.yeniCari(sirket);
+if (cari.kayitOku(TOkumaTipi.otAc, "CASABIT.CARI_KOD = '120-01-001'"))
+{
+    cari.kayitOku(TOkumaTipi.otIlk);   // ilk kayda konumlan
+    // ... alanları oku ya da değiştir
+}
+```
+
+| `TOkumaTipi` | Anlamı |
+|--------------|--------|
+| `otAc` | Filtreyle kümeyi aç. Kayıt varsa `true` döner |
+| `otIlk` | İlk kayda git |
+| `otSonraki`, `otOnceki`, `otSon` | Sonraki, önceki, son kayda git |
+
+Kümede gezinirken `TemelBilgi()` / `EkBilgi()` nesneleri o anki kaydı gösterir; örneğin `cari.TemelBilgi().CARI_ISIM`.
+
+Filtre bir SQL `WHERE` parçasıdır ve **tablo takma adı** ister: cari için `CASABIT.`, stok için `stsabit.` (öneksiz `TBL`). Değerleri kullanıcı girdisinden alıyorsanız tırnakları kaçırın (`'` → `''`).
+
+## Cari silme
+
+```csharp
+Cari cari = kernel.yeniCari(sirket);
+if (cari.kayitOku(TOkumaTipi.otAc, $"CASABIT.CARI_KOD='{kod.Replace("'", "''")}'"))
+{
+    cari.kayitOku(TOkumaTipi.otIlk);
+    cari.kayitSil();
+}
+```
+
+Hareketi olan cari Netsis tarafından silinmez; hata döner.
+
+## Cari oluşturma
+
+Cari kartı `TemelBilgi` ve `EkBilgi` alt nesneleriyle yazılır. REST'teki `CariTemelBilgi` (`ARPsPrimInfo`) ve `CariEkBilgi` (`ARPsSuppInfo`) bu iki nesnenin karşılığıdır. Alan adları için [REST cari gövdesine](/rest/json-ornekleri/#cari-karti) ve `TBLCASABIT` / `TBLCASABITEK` tablolarına bakın.
+
+```csharp
+Cari cari = kernel.yeniCari(sirket);
+CariTemelBilgi tb = cari.TemelBilgi();   // TBLCASABIT
+CariEkBilgi ek    = cari.EkBilgi();      // TBLCASABITEK
+try
+{
+    tb.CARI_KOD  = "120-01-999";
+    tb.CARI_ISIM = "Örnek Ticaret A.Ş.";
+    tb.CARI_TIP  = "S";                  // Logo örneğindeki değer; kurulumunuzdaki tipleri kontrol edin
+    tb.M_KOD     = "120-01-999";         // muhasebe kodu
+    tb.CARI_IL   = "İstanbul";
+    ek.CARI_KOD   = tb.CARI_KOD;
+    ek.TcKimlikNo = "11111111111";
+    cari.kayitYeni();
+}
+finally
+{
+    Marshal.ReleaseComObject(ek);
+    Marshal.ReleaseComObject(tb);
+    Marshal.ReleaseComObject(cari);
+}
+```
+
+Yapı Logo'nun resmî "Cari Kayıt" örneğiyle aynıdır (`TemelBilgi()`, `EkBilgi()`, `kayitYeni()`). Düzeltme için kaydı `kayitOku` ile açıp alanları değiştirdikten sonra `kayitDuzelt()` çağrılır.
+
+## Stok kartı oluşturma
+
+```csharp
+Stok stok = kernel.yeniStok(sirket);
+StokTemelBilgi tb = stok.TemelBilgi();   // TBLSTSABIT
+StokEkBilgi ek    = stok.EkBilgi();      // TBLSTSABITEK
+
+tb.Stok_Kodu  = "STK-0001";
+tb.Stok_Adi   = "Örnek ürün";
+tb.Grup_Kodu  = "GRP1";
+tb.Kod_1      = "SERI";           // Kod_1..Kod_5 rapor/özel kodları
+tb.Olcu_Br1   = "AD";
+tb.Olcu_Br2   = "KL";
+tb.Pay_1 = 1; tb.Payda_1 = 1;     // ölçü birimi 2 çevrimi
+tb.Pay2  = 1; tb.Payda2  = 1;     // ölçü birimi 3 çevrimi
+tb.KDV_Orani     = 20;
+tb.Alis_Kdv_Kodu = 20;
+tb.Satis_Fiat1   = 100;           // Satis_Fiat1..4, Alis_Fiat1..4
+tb.Barkod1       = "8690000000001";  // Barkod1..3
+tb.Satici_Kodu   = "320-01-001";
+tb.DEPO_KODU     = 1;
+
+ek.Stok_Kodu = tb.Stok_Kodu;
+ek.Ingisim   = "Sample product";
+ek.Kull1S    = "Kullanıcı tanımlı metin 1";   // Kull1S..Kull8S
+ek.Kull1N    = 42;                            // Kull1N..Kull8N
+
+stok.kayitYeni();
+```
+
+`StokTemelBilgi`'de gözlenen diğer alanlar: `Uretici_Kodu`, `Olcu_Br3`, `Fiat_birimi`, `Azami_Stok`, `Asgari_Stok`, `Sat_Dov_Tip`, `Alis_Dov_Tip`, `Dov_Alis_Fiat`, `Dov_Mal_Fiat`, `Dov_Satis_Fiat`, `Muh_DetayKodu`, `Birim_Agirlik`, `Nakliyet_Tut`, `Onceki_Kod`, `Sonraki_Kod`, `SONSTOKKODU`, `BOY`, `EN`, `GENISLIK`. `StokEkBilgi`'de: `Birim_Maliyet`.
+
+> **Sık hata:** `stok.TemelBilgi()` çağrılmadan `StokTemelBilgi` değişkenine yazmak `NullReferenceException` verir. Önce `kernel.yeniStok(sirket)`, sonra `TemelBilgi()` / `EkBilgi()`.
+
+## Stok silme
+
+```csharp
+Stok stok = kernel.yeniStok(sirket);
+if (stok.kayitOku(TOkumaTipi.otAc, "stsabit.STOK_KODU = 'STK-0001'"))
+{
+    stok.kayitOku(TOkumaTipi.otIlk);
+    stok.kayitSil();
+}
+```
+
+REST karşılıkları: [`api/v2/ARPs`](/rest/uclar/#cari-arps-ve-cari-hareket-arptransactions), [`api/v2/Items`](/rest/uclar/#stok-items-ve-stok-hareketi-itemtransactions).
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/netopenx/e-belge/ -->
+# E-belge (e-fatura, e-arşiv, e-irsaliye)
+
+E-belge işlemleri `EBelge` nesnesiyle yapılır. Akış iki adımdır:
+
+1. **Taslak:** Netsis'teki fatura/irsaliyeden e-belge taslağı (UBL) oluşturulur. GİB numarası atanır.
+2. **Gönderim / görüntüleme:** Taslak entegratöre gönderilir ya da HTML olarak görüntülenir.
+
+> Gönderim (GİB'e iletim) geri alınamaz. Geliştirme sırasında yalnızca taslak ve görüntüleme adımlarını deneyin.
+
+## Tipler
+
+| `TEBelgeTip` | Belge | Görüntüleme kutusu (`TEBelgeBoxType`) |
+|--------------|-------|---------------------------------------|
+| `ebtEFatura` | E-fatura | `ebAll` |
+| `ebtArsiv` | E-arşiv fatura | `ebAll` |
+| `ebtEIrs` | E-irsaliye | `ebOutbox` |
+
+Hangisinin kullanılacağı carinin durumuna bağlıdır: `FatUst.EfaturaCarisiMi` `true` ise e-fatura, değilse e-arşiv.
+
+## Faturadan e-fatura / e-arşiv taslağı
+
+```csharp
+Fatura fatura = kernel.yeniFatura(sirket, TFaturaTip.ftSFat);
+fatura.OkuUst(faturaNo, cariKod);
+bool efaturaCarisi = fatura.Ust().EfaturaCarisiMi;
+
+EBelge eb = kernel.yeniEBelge(sirket, efaturaCarisi ? TEBelgeTip.ebtEFatura : TEBelgeTip.ebtArsiv);
+eb.BelgeNo  = faturaNo;              // Netsis fatura numarası
+eb.DizaynNo = efaturaCarisi ? eFaturaDizaynNo : eArsivDizaynNo;
+if (!efaturaCarisi) eb.FiyatBilgileriBasilsin = true;
+eb.kayitYeni();                       // taslağı oluştur
+```
+
+## İrsaliyeden e-irsaliye taslağı
+
+```csharp
+EBelge eb = kernel.yeniEBelge(sirket, TEBelgeTip.ebtEIrs);
+eb.KaynakTip = TEBelgeKaynakTipi.eitIrs;
+eb.BelgeNo   = irsaliyeNo;
+eb.DizaynNo  = eIrsaliyeDizaynNo;
+eb.FiyatBilgileriBasilsin = fiyatliMi;   // fiyatlı / fiyatsız irsaliye
+eb.kayitYeni();
+```
+
+## Dizayn numaraları
+
+Dizaynlar `TBLDIZAYNSABIT` tablosundadır:
+
+```sql
+SELECT DIZAYNNO, dbo.TRK(DZNADI + ' [' + DZNACIK + ']') AS ADI
+FROM TBLDIZAYNSABIT
+WHERE DIZAYNTIPI = @tip AND ISLETME_KODU = 1 AND SUBE_KODU = 0;
+-- @tip: 99 e-fatura, 100 e-arşiv, 104 e-irsaliye
+```
+
+## GİB numarasını bulmak
+
+Taslak oluştuktan sonra GİB numarası faturaya yazılır:
+
+```sql
+SELECT GIB_FATIRS_NO FROM TBLFATUIRS WHERE FATIRS_NO = @no AND CARI_KODU = @cari;
+```
+
+`eb.BelgeNo`'nun döndürdüğü değer ile bu sorgunun sonucunu karşılaştırmak, taslağın doğru belgeye bağlandığını doğrulamanın pratik yoludur.
+
+## HTML görüntüleme
+
+```csharp
+EBelge eb = kernel.yeniEBelge(sirket, TEBelgeTip.ebtEFatura);
+string htmlYolu = eb.EBelgeGoruntuleme(
+    gibNo,                    // GİB numarası (GIB_FATIRS_NO)
+    @"C:\Temp\efatura",       // çıktı klasörü
+    TEBelgeBoxType.ebAll,     // kutu
+    "");                      // zarf (envelope) id, boş geçilebilir
+```
+
+Dönen değer oluşturulan HTML dosyasının yoludur. PDF gerekiyorsa HTML'i bir HTML→PDF aracıyla dönüştürün (NetsisQuick bunu kendi `cPdf` sınıfıyla yapar).
+
+## Seri bilgileri
+
+```sql
+SELECT BIRIMKOD FROM TBLEFATPRM   WHERE SUBE_KODU = 0;   -- e-fatura serisi
+SELECT BIRIMKOD FROM TBLEARSIVPRM WHERE SUBE_KODU = 0;   -- e-arşiv serisi
+SELECT SERI     FROM TBLEIRSSERI  WHERE C_YEDEK1 IS NULL AND SUBE_KODU = 0;   -- e-irsaliye serileri
+```
+
+REST karşılıkları: `POST api/v2/EDocument` (taslak), `POST api/v2/EDocument/SendEDocument`, `POST api/v2/EDocument/ShowEDocument` ([JSON örnekleri](/rest/json-ornekleri/#e-belge)).
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/netopenx/netrs-ve-transaction/ -->
+# NetRS ve transaction
+
+## NetRS: oturum üzerinden SQL
+
+`NetRS`, açık NetOpenX oturumunun veritabanı bağlantısıyla SQL çalıştırır. Ayrı bir `SqlConnection` açmadan okuma yapmak için kullanışlıdır ve hem MSSQL hem Oracle'da çalışır. REST'teki `api/v2/Queries/NetRS` ucu bunun HTTP karşılığıdır.
+
+```csharp
+NetRS rs = kernel.yeniNetRS(sirket);
+try
+{
+    rs.Ac("SELECT CARI_KOD, CARI_ISIM FROM TBLCASABIT WHERE SUBE_KODU = 0");
+    while (!rs.EOF)
+    {
+        string kod = rs.FieldByName("CARI_KOD").AsString;
+        // ...
+        rs.SonrakiK();      // sonraki kayıt
+    }
+}
+finally { Marshal.ReleaseComObject(rs); }
+```
+
+| Üye | İşlev |
+|-----|-------|
+| `Ac(sql)` | `SELECT` çalıştırır, imleci ilk kayda konumlar |
+| `EOF` | Kayıtların sonuna gelindi mi |
+| `FieldByName(ad)` | Alan; `.AsString` gibi dönüştürücülerle okunur |
+| `IlkK()`, `SonrakiK()` | İlk / sonraki kayda git |
+| `Calistir(sql)` | `INSERT`/`UPDATE`/`DELETE` çalıştırır |
+| `NetsisTransaction(TTransactionTipi)` | Transaction başlat / bitir / geri al |
+
+Logo örneklerinde tablo adı `TBL` öneki olmadan da yazılır (`SELECT * FROM CASABIT`). Kendi kurulumunuzda hangisinin çalıştığını deneyin; `TBL…` adları her durumda tablonun kendisidir.
+
+> **`Calistir` iş kurallarını atlar.** Logo örneği `CASABIT`/`CASABITEK`'e `INSERT` ile cari ekler; bu, [yazma kuralının](/genel-bakis/#yazma-kurali) dışındadır. Kart ve belge yazmak için ilgili nesneyi (`Cari`, `Fatura`…) kullanın. `Calistir`'i yalnızca Netsis'in kendisinin de basit `UPDATE` ile değiştirdiği alanlar ya da kendi yardımcı tablolarınız için kullanın.
+
+## NetsisTransaction
+
+Birden çok kaydı tek bir iş olarak yazmak için iş nesnelerinde (`Cari`, `Stok`, `CekSenAna`, `NetRS`…) `NetsisTransaction` vardır:
+
+```csharp
+Stok stok = kernel.yeniStok(sirket);
+StokTemelBilgi tb = stok.TemelBilgi();
+StokEkBilgi ek = stok.EkBilgi();
+
+stok.NetsisTransaction(TTransactionTipi.ttBaslat);
+try
+{
+    tb.Stok_Kodu = "STK-0001"; tb.Stok_Adi = "Örnek";
+    ek.Stok_Kodu = "STK-0001";
+    stok.kayitYeni();
+    // aynı transaction içinde başka kayıtlar...
+    stok.NetsisTransaction(TTransactionTipi.ttBitir);    // onayla
+}
+catch
+{
+    stok.NetsisTransaction(TTransactionTipi.ttGeriAl);   // geri al
+    throw;
+}
+```
+
+| `TTransactionTipi` | Anlamı |
+|--------------------|--------|
+| `ttBaslat` | Transaction başlat |
+| `ttBitir` | Onayla (commit) |
+| `ttGeriAl` | Geri al (rollback) |
+
+Transaction'ın aynı oturumdaki (aynı `Sirket`) diğer nesnelere de yayıldığı örneklerden anlaşılır; farklı `Sirket` nesneleri ayrı bağlantılardır. Uzun transaction'lar Netsis kullanıcılarını kilitleyebilir; kısa tutun.
+
+REST'te karşılığı `OpenTransaction` / `CommitTransaction` / `RollBackTransaction` uçlarıdır ([Transaction ve hatalar](/rest/transaction-ve-hatalar/)).
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/netopenx/diger-islemler/ -->
+# Diğer işlemler
+
+## Kaydetmeden hesaplama
+
+```csharp
+Fatura f = kernel.yeniFatura(sirket, TFaturaTip.ftSFat);
+FatUst ust = f.Ust();
+ust.CariKod = "00001"; ust.Tarih = DateTime.Now; ust.TIPI = TFaturaTipi.ft_Acik;
+FatKalem k = f.kalemYeni("STK01");
+k.STra_GCMIK = 1; k.STra_NF = 100; k.STra_BF = 100; k.STra_KDV = 20; k.DEPO_KODU = 1;
+
+f.HesaplamalariYap();     // toplamlar, KDV, iskontolar hesaplanır
+// ust üzerindeki toplam alanlarını oku; istersen sonra f.kayitYeni()
+```
+
+## Fatura alt maliyet alanı (tevkifatlı fatura örneği)
+
+[bahadirdogru.com'daki tevkifatlı fatura örneği](https://bahadirdogru.com/c-tevkifatl%C4%B1-fatura/) `HesaplamalariYap()` sonrasında başlıktaki `FAT_ALTM2` alanını `-1` yapıp kaydeder. Tevkifat oranı ve kodu bu örnekte gösterilmez; Netsis'te tevkifat genellikle stok/cari kartındaki tevkifat tanımı ve e-fatura parametresi (`TBLEFATPRM.EFATTEVKOD`) üzerinden gelir. Kendi kurulumunuzda test şirketinde doğrulayın.
+
+```csharp
+f.HesaplamalariYap();
+f.Ust().FAT_ALTM2 = -1;
+f.kayitYeni();
+```
+
+## TCMB banka kodlarını güncelleme
+
+`Sirket` nesnesi üzerinde, TCMB'nin yayımladığı banka/şube listesini çevrimiçi güncelleyen bir metot vardır:
+
+```csharp
+sirket.TCMBBankaKodlariOnlineGuncelleme("0001", "");
+```
+
+Parametrelerin anlamı belgelenmemiştir (ilk parametre örnekte banka kodu biçiminde).
+
+## Talep / teklif okuma
+
+```csharp
+Fatura teklif = kernel.yeniFatura(sirket, TFaturaTip.ftSatTeklif);
+teklif.OkuUst(teklifNo, cariKod);
+teklif.OkuKalem();
+for (int i = 0; i < teklif.KalemAdedi; i++)
+{
+    FatKalem k = teklif.get_Kalem(i);
+    // k.StokKodu, k.STra_BF ...
+}
+```
+
+Talep ve teklifleri siparişe ya da teklife dönüştürmek için COM'da `kernel.YeniTalepTeklifIslem(sirket)` nesnesi vardır: `BelgeTipi`, `BelgeNo`, `kalemYeni()`, `BelgelerKapatilsin` ayarlanır, sonra `Siparislestir()` ya da `Tekliflestir()` çağrılır. REST karşılığı `DemandOfferManager.ConvertToOrder` / `ConvertToOffer` ([istemci kütüphanesi](/rest/istemci-kutuphanesi/)). Talep tipleri: `ftSatTalep`, `ftAlTalep`; teklif tipleri: `ftSatTeklif`, `ftAlTeklif`.
+
+## Stok bakiyesi
+
+```csharp
+StokPH ph = new StokPH();        // VB: Dim StokPH As New NetOpenX.StokPH
+ph.Stok_Kodu = "STK001";
+sirket.Bakiye_Getir(ph);
+double giris = ph.Top_Giris_Mik, cikis = ph.Top_Cikis_Mik;
+double sipBekleyen = ph.Mus_Top_Siparis, sipTeslim = ph.Mus_Top_Teslim;
+```
+
+Örnek Logo'nun VB kodundan uyarlanmıştır; SQL'de `TBLSTOKPH` tablosuna karşılık gelir.
+
+## Diğer nesneler
+
+Kasa, dekont, çek/senet, banka hareketi, havale/EFT, yevmiye fişi, iş emri, üretim sonu, MRP, maliyet, basım, belge kilitleme, bildirim, iş akışı onayı gibi işlemlerin her biri ayrı bir `kernel.yeni…` nesnesiyle yapılır. Tam liste: [Nesne kataloğu](/netopenx/nesne-katalogu/).
+
+## Oracle üzerinde bağlantı
+
+```csharp
+sirket = kernel.yeniSirket(TVTTipi.vtOracle, "ENTERPRISE8", "TEMELSET", "", "NETSIS", "sifre", 0);
+```
+
+Eski bir örnekte enum adları `NETSISVT.vtOracle` ve `FaturaTipi.ftSatTeklif` olarak geçer; bu, NetOpenX'in eski tür kitaplığı adlarıdır. `NetOpenX50` ile `TVTTipi` ve `TFaturaTip` kullanılır.
+
+## Basım (NetBasimX)
+
+Fatura ve diğer belgelerin Netsis dizaynıyla basımı için `NetBasimX` COM kütüphanesi vardır. NetsisQuick referans eder ama kullanım örneği bu sitede henüz yok. REST tarafında basım uçları PDF döndürür: [Basım (Print)](/rest/uclar/#basim-print).
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/netopenx/enumlar/ -->
+# Enum'lar
+
+Aşağıdaki değerler gerçek kodda kullanılmış ya da REST istemci kütüphanesinde aynı adla görülmüştür. NetOpenX'in tür kitaplığında daha fazla değer vardır; Visual Studio'da Object Browser ile `NetOpenX50` altındaki tüm enum'ları görebilirsiniz.
+
+## TFaturaTip
+
+Belgenin türü (`kernel.yeniFatura` ikinci parametresi).
+
+| Değer | Belge | `FTIRSIP` |
+|-------|-------|-----------|
+| `ftSFat` | Satış faturası | `1` |
+| `ftAFat` | Alış faturası | `2` |
+| `ftSIrs` | Satış irsaliyesi | `3` |
+| `ftAIrs` | Alış irsaliyesi | `4` |
+| `ftSSip` | Müşteri (satış) siparişi | `6` |
+| `ftASip` | Satıcı (alış) siparişi | `7` |
+| `ftLokalDepo` | Lokal depolar arası transfer | `8` |
+| `ftAmbarC` | Ambar çıkış fişi | `8` |
+| `ftAmbarG` | Ambar giriş fişi | `9` |
+| `ftSatTeklif` | Satış teklifi | — |
+| `ftSatTalep` | Satış talebi (REST'te görüldü) | — |
+| `ftDepo` | Depolar arası (REST'te görüldü) | — |
+
+## TFaturaTipi
+
+Faturanın alt tipi, `FatUst.TIPI` (`TBLFATUIRS.TIPI`).
+
+| Değer | Anlamı | `TIPI` (tablo) |
+|-------|--------|----------------|
+| `ft_Kapali` | Kapalı (peşin) | `1` |
+| `ft_Acik` | Açık (vadeli) | `2` |
+| `ft_Muhtelif` | Muhtelif | `3` |
+| `ft_Iade` | İade | `4` |
+| `ft_ZIade` | Zayi iade | `5` |
+| `ft_Ihracat` | İhracat / ithalat | `6` |
+| `ft_YurtIci` | Yurt içi (siparişlerde) | — |
+| `ft_YurtDisi` | Yurt dışı (siparişlerde) | — |
+| `ft_Bos` | Boş (depo/ambar fişlerinde) | — |
+
+Sayısal eşleme tablo açıklamasından çıkarılmıştır; enum'un iç sayısal değeri farklı olabilir. REST'e sayı gönderiyorsanız [REST enum notlarına](/rest/kimlikler-ve-enumlar/) bakın.
+
+## TVTTipi
+
+| Değer | Veritabanı |
+|-------|------------|
+| `vtMSSQL` | Microsoft SQL Server |
+| `vtOracle` | Oracle |
+
+## TOkumaTipi
+
+| Değer | Anlamı |
+|-------|--------|
+| `otAc` | Filtreyle kayıt kümesini aç |
+| `otIlk` | İlk kayda git |
+
+## TEBelgeTip
+
+| Değer | Belge |
+|-------|-------|
+| `ebtEFatura` | E-fatura |
+| `ebtArsiv` | E-arşiv |
+| `ebtEIrs` | E-irsaliye |
+
+## TEBelgeKaynakTipi
+
+| Değer | Anlamı |
+|-------|--------|
+| `eitIrs` | Kaynak belge irsaliye |
+
+## TEBelgeBoxType
+
+| Değer | Anlamı |
+|-------|--------|
+| `ebAll` | Tüm kutular |
+| `ebOutbox` | Giden kutusu |
+
+## TAmbarHarTur
+
+| Değer | Anlamı |
+|-------|--------|
+| `htMuhtelif` | Muhtelif |
+| `htUretim` | Üretim |
+| `htDepolar` | Depolar arası |
+
+## TCikisYeri
+
+| Değer | Anlamı |
+|-------|--------|
+| `cyStokKod` | Stok kodu |
+| `cyMasrafMer` | Masraf merkezi |
+
+## TFatUstDegissin
+
+NetsisQuick'te yorum satırında geçer; fiyat/kur değişiminde neyin yeniden hesaplanacağını seçer: `fudFiyat`, `fudDovizFiyati`, `fudKur`.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/netopenx/hatalar/ -->
+# Hatalar ve sorun giderme
+
+NetOpenX hataları .NET'e `System.Runtime.InteropServices.COMException` olarak gelir. Netsis'in kendi mesajı `ex.Message` içindedir; `ex.ErrorCode` HRESULT değeridir.
+
+## Netsis hata kodu
+
+Son Netsis hatasının sayısal kodu `kernel.SonNetsisHata` nesnesindedir. Mesaj metnini ayrıştırmak yerine bu kodu kullanın:
+
+```csharp
+try
+{
+    fatura.OkuUst("GECERSIZNO", "GECERSIZCARI");
+}
+catch (COMException)
+{
+    var hata = kernel.SonNetsisHata;
+    if (hata != null && hata.Kod == 401)
+        Console.WriteLine("Fatura bulunamadı.");
+    else
+        throw;
+}
+```
+
+| Kod | Anlamı (gözlenen) |
+|-----|-------------------|
+| `401` | Okunmak istenen kayıt bulunamadı (`OkuUst` ile olmayan belge). REST'te de giriş hatasında `Hata Kodu : 401` döner. |
+
+Kod listesi Logo tarafından yayımlanmamıştır; Delphi örneği yalnızca `401`'i gösterir. REST istemcisinde aynı bilgi `JKernel.SonNetsisHata.Kod` olarak geçer.
+
+## Teşhis edilebilir hata mesajı
+
+Hatanın hangi belgede, hangi satırda çıktığını bilmeden çözmek zordur. NetsisQuick her işlemde bağlamı da mesaja ekler:
+
+```csharp
+public static string HataOlustur(string islem, IDictionary<string, string> detay, Exception ex)
+{
+    var sb = new StringBuilder();
+    sb.AppendLine($"{islem} işleminde hata oluştu");
+    foreach (var d in detay.Where(d => !string.IsNullOrEmpty(d.Value)))
+        sb.AppendLine($"{d.Key}: {d.Value}");
+    sb.AppendLine($"Hata: {ex.Message}");
+    if (ex is COMException com)
+    {
+        sb.AppendLine($"COM Hata Kodu: {com.ErrorCode}");
+        sb.AppendLine($"COM Hata Kaynağı: {com.Source}");
+    }
+    return sb.ToString();
+}
+
+// kullanım
+catch (Exception ex)
+{
+    throw new Exception(HataOlustur("SiparisOlustur", new Dictionary<string, string> {
+        ["Veritabanı"] = db, ["Cari Kodu"] = cari, ["Excel satırı"] = index.ToString(),
+        ["Stok Kodu"] = stokKodu }, ex));
+}
+```
+
+## Sık karşılaşılan durumlar
+
+| Belirti | Olası neden | Çözüm |
+|---------|-------------|-------|
+| `Class not registered` / `REGDB_E_CLASSNOTREG` (0x80040154) | DLL register edilmemiş ya da süreç 64 bit | `RegControl.exe` / `regsvr32`; projeyi x86 derleyin |
+| Visual Studio COM listesinde NetOpenX yok veya yanlış sürüm | Yanlış DLL register edilmiş | Doğru sürümün DLL'ini yeniden register edin |
+| Bağlantıda lisans hatası | NetOpenX lisansı yok / indirilmemiş / tüm lisanslar kullanımda | SSO'dan lisansı indirin; bırakılmayan oturumları kapatın (`LogOff`, `FreeNetsisLibrary`) |
+| Bağlantıda kullanıcı/şifre hatası | Netsis kullanıcısı ya da DB kullanıcısı yanlış | `yeniSirket` parametre sırasını kontrol edin ([Bağlantı](/netopenx/baglanti/)) |
+| Kayıtta "stok kodu bulunamadı" benzeri hata | `kalemYeni`'ye geçersiz stok kodu ya da barkod verildi | Önce barkodu stok koduna çevirin |
+| Kayıtta risk hatası | `RiskKontrol = true` ve cari risk limiti aşıldı | Risk limitini kontrol edin ya da bayrağı kapatın |
+| Kaydedilen numara beklenenden farklı | Aynı numara başka kullanıcı tarafından alındı | `kayitYeni()` sonrası `Ust().FATIRS_NO`'yu okuyun |
+| `NullReferenceException` stok kartında | `TemelBilgi()` / `EkBilgi()` çağrılmadı | [Cari ve stok](/netopenx/cari-ve-stok/#stok-karti-olusturma) |
+| Uzun çalışan serviste bellek artışı, rastgele hatalar | COM nesneleri bırakılmıyor | `finally` içinde `Marshal.ReleaseComObject` ve `FreeNetsisLibrary` |
+| Sürüm güncellemesi sonrası alan hataları | DLL ile veritabanı sürümü farklı | DLL'i aynı setten yeniden register edin, projeyi yeniden derleyin |
+
+## Hata ayıklama ipuçları
+
+- İşlemi önce **test şirketinde** (canlının kopyası) çalıştırın.
+- Netsis ekranında aynı belgeyi elle girmeyi deneyin. Ekran hata veriyorsa sorun NetOpenX'te değil, veride ya da parametrededir.
+- Yazma sonrası sonucu SQL ile doğrulayın: `TBLFATUIRS`, `TBLSTHAR`, `TBLCAHAR`.
+- Toplu işlerde her belgeyi ayrı `try/catch` içine alın ve hangi satırın hata verdiğini kaydedin; bir belgedeki hata diğerlerini durdurmasın.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/rest/ -->
+# NetOpenX REST
+
+**NetOpenX REST**, [NetOpenX](/netopenx/) COM kütüphanesinin üzerine kurulu bir HTTP/JSON servisidir. Kart ve belge CRUD işlemlerini, belge dönüşümlerini, basımı ve e-belge işlemlerini `api/v2/...` uçlarıyla sunar. Windows servisi olarak Netsis sunucusunda çalışır; istemci herhangi bir dilde yazılabilir.
+
+```text
+İstemci (her dil) ──HTTP/JSON──▶ Netsis NetOpenX Rest Service ──COM──▶ NetOpenX50 ──▶ SQL Server
+                                  (Windows, varsayılan :7070)
+```
+
+## Ne zaman REST, ne zaman COM?
+
+| | COM | REST |
+|-|-----|------|
+| Çalıştığı yer | Netsis kurulu Windows makinesi | Ağdaki herhangi bir istemci |
+| Dil | COM çağırabilen diller | Her dil |
+| Kapsam | Tüm NetOpenX nesneleri | Yardım sayfasına göre ~380 uç; çoğu NetOpenX işlemini kapsar |
+| Oturum | `Kernel`/`Sirket` | OAuth2 benzeri token (varsayılan 20 dk) |
+| Kurulum | DLL register | `NetsisNoxRestSetup.exe` ile servis kurulumu |
+
+## Ürün ailesi
+
+Logo, REST'i üç ayrı üründe sunar. Bu site **NetOpenX REST**'i belgeler.
+
+| | Logo Apps REST | Logo Objects REST | NetOpenX REST |
+|-|----------------|-------------------|---------------|
+| Destek | Netsis3, Tiger3, Go3 | Logo Objects tabanlı ürünler | Netsis (Temelset 8.06+) |
+| Nesne seti | Data nesnesi | Tüm data nesneleri | Kartlar + fişler |
+| Metotlar | Kartlar, fişler | Tüm (Logo Objects) | Tüm (NetOpenX) |
+
+## Lisans
+
+- REST servisinin **ayrı bir lisansı yoktur**; NetOpenX altyapısını kullanır. Sistemde **NetOpenX Runtime lisansı** bulunmalıdır.
+- Lisans, kullanılacak istemci uygulama sayısına göre belirlenir.
+- Geliştirme lisansı Logo Yazılım'dan, Logo çözüm ortağı aracılığıyla alınır. Geliştirme, gerekli eğitimi ve sertifikayı tamamlamış çözüm ortaklarınca yapılır.
+- İstemci lisans kontrolü **Netsis Merkezi Kimlik Yönetimi (SSO)** üzerinden yapılır; kurulumdan önce lisansın SSO'dan indirilmiş olması gerekir.
+
+## İşleyiş
+
+1. **Token al:** Netsis kullanıcı adı/şifresi, şirket (veritabanı) ve şube ile `POST api/v2/token`. [Kimlik doğrulama](/rest/kimlik-dogrulama/)
+2. **İşlem yap:** `Authorization: Bearer <token>` başlığıyla uçları çağır. Veri işlemi (ör. sipariş aktarımı), belge dönüşümü, borç kapama, sorgulama…
+3. **Kapat:** `GET api/v2/revoke` ile oturumu kapat ya da token süresinin dolmasını bekle.
+
+## HTTP yöntemleri
+
+| Yöntem | Anlamı |
+|--------|--------|
+| `GET` | Okuma (liste ya da tek kayıt) |
+| `POST` | Yeni kayıt ve işlem uçları (`/Calculate`, `/IrsToFat`…) |
+| `PUT` | Güncelleme (her kaynakta yok; ör. `ItemSlips` için `PUT` yoktur) |
+| `DELETE` | Silme |
+
+> Logo'nun "Temel" sayfası POST ve PUT'u ters açıklıyor ("PUT: yeni kaynak oluşturmak"). Uç kataloğu ve gerçek davranış standarttır: **POST oluşturur, PUT günceller**.
+
+## Bölümler
+
+- [Kurulum](/rest/kurulum/): setup, servis, yardım sayfası, token süresi.
+- [Kimlik doğrulama](/rest/kimlik-dogrulama/): `api/v2/token`, C# `oAuth2`, `TokenSafeOperation`.
+- [Sorgulama](/rest/sorgulama/): `limit`, `offset`, `sort`, `fields`, `q`.
+- [Uçlar](/rest/uclar/): modül bazında tüm uç kataloğu.
+- [İstemci kütüphanesi](/rest/istemci-kutuphanesi/): `NetOpenX.Rest.Client.dll` yöneticileri ve parametreleri.
+- [JSON örnekleri](/rest/json-ornekleri/): istek gövdeleri.
+- [Kimlikler ve enum'lar](/rest/kimlikler-ve-enumlar/): `{id}` biçimleri, enum değerleri.
+- [Transaction ve hatalar](/rest/transaction-ve-hatalar/).
+- [Güvenlik](/rest/guvenlik/).
+- [Bilinen sorunlar ve açık sorular](/rest/bilinen-sorunlar/).
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/rest/kurulum/ -->
+# Kurulum
+
+## Ön koşullar
+
+- Netsis **Temelset 8.06 ve üzeri**.
+- Microsoft **.NET Framework 4.0** veya üzeri.
+- Netsis **Merkezi Kimlik (SSO)** kurulu ve erişilebilir; NetOpenX lisansı SSO'dan indirilmiş.
+- Setup dosyası kurulu Netsis sürümüyle uyumlu olmalı.
+
+## Setup adımları (NetsisNoxRestSetup.exe)
+
+1. Dosyayı **yönetici olarak** çalıştırın.
+2. Kurulum dili: Türkçe veya İngilizce.
+3. Ön koşul kontrolünde tüm maddeler **Başarılı** olmalı; değilse eksik bileşeni kurun.
+4. **Özellik seçimi:** "NetOpenX Rest Yönetim Paneli" ve "NetOpenX Rest" seçili olmalı. Değilse sağ tık → "Diske Yükle".
+5. **Netsis Merkezi Kimlik Denetimi Servis Konfigürasyonu:**
+   - *SSO Service Adresi*: "Bul" ile ağdaki SSO servisleri listelenir. Elle: `sunucu-adı:2023/NetsisSsoService`.
+   - *SSO STS URL*: `http://SunucuAdı/NetsisSTS`. "Dene" ile test edilir.
+6. **Sanal dizin:** varsayılan `C:\Netsis\Enterprise8\Nox\`. Altında `WS` ve `WSManager` klasörleri oluşur.
+7. Windows servisi: **Netsis NetOpenX Rest Service** (`services.msc`).
+
+## Kurulum sonrası kontrol
+
+1. **Servis yöneticisi:** `...\Nox\WSManager\NetOpenX.Rest.Service.WSManager.exe` servis durumunu, ayarlarını ve logları gösterir.
+   - "Servis Yöntemi" bölümünde *Servis* dizini kurulumun `WS` klasörünü göstermeli (ör. `C:\Program Files (x86)\Netsis\Nox\WS`). Yanlış ya da boş dizin servisin başlamamasına yol açar.
+   - Sol alttaki kimlik yönetimi simgesiyle SSO değerleri yeniden okunur, "Kaydet" yapılır.
+   - Servis "Stopped" ise "Başlat". Hata ayrıntısı için sağ alttaki **Log** düğmesi `...\Nox\WS\log` klasörünü açar.
+2. **Yardım sayfası:** `http://localhost:7070/api/v2/help`. Tüm uçlar, parametreler ve model tipleri burada listelenir. Tek uç için: `http://localhost:7070/api/v2/helpinfo?apiId=<METHOD>-api-v2-<yol>` (ör. `POST-api-v2-ItemSlips-Calculate`). Yardım sayfaları token istemez.
+3. **Test uygulaması:** `NetOpenX.Rest.TestApp.exe`. "Operation" sekmesindeki "Path" alanına yardım sayfasındaki yol yazılarak çağrı denenir.
+4. **Anonim sağlık kontrolü:**
+
+   ```bash
+   curl http://localhost:7070/api/v2/public/Ping
+   # "02.11.2026 02:01 > OK"
+   curl http://localhost:7070/api/v2/public/Version
+   # "9.0.68.0"
+   curl http://localhost:7070/api/v2/HealthCheck
+   # {"IsSuccessful":true,"Description":"NetOpenX Kernel oluşturuldu. Versiyon: 9.0.68.0 ..."}
+   ```
+
+## Port
+
+Dokümantasyon ve örnekler `7070` kullanır; bazı eğitim örnekleri `9090` kullanır. Gerçek kurulumlarda farklı portlar da kullanılır. Kullanılan portu servis yöneticisinden kontrol edin.
+
+## Token süresi
+
+- Varsayılan **20 dakika**.
+- "NetOpenX Rest Manager" ekranında *Access token geçerlilik süresi* alanından değiştirilir.
+- Süresi dolmuş ya da hiç olmayan token ile gelen istekler `401` ile reddedilir; yeni token alınmalıdır.
+
+## Sürümle gelen uç sayısı
+
+9.0.68 sürümlü bir sunucunun yardım sayfasında **379 uç** listelenmiştir. Kaynak başına en çok uç: `ItemSlips` 23, `Company` 18, `Mrp` 11, `DocumentLocking` 10, `PlanningRecord` 9, `EDocument` 8, `MaintenanceOrders` 8, `Print` 8, `StatementsHeader` 8, `ARPs` 7, `ExRates` 7, `QualityControls` 7; ayrıca `definitions` 47 ve `services` 49 şema ucu. Sürümünüzdeki tam listeyi her zaman `api/v2/help`'ten alın.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/rest/kimlik-dogrulama/ -->
+# Kimlik doğrulama
+
+NetOpenX REST, OAuth2 "resource owner password" akışına benzer bir token kullanır. Token şirkete ve şubeye bağlıdır: hangi şirketle işlem yapılacağı token alınırken belirlenir.
+
+## Ham HTTP
+
+```http
+POST /api/v2/token HTTP/1.1
+Host: netsis-sunucu:7070
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&branchcode=0&username=NETSIS&password=SIFRE&dbname=ACME2024&dbuser=TEMELSET&dbpassword=&dbtype=0
+```
+
+| Alan | Anlamı |
+|------|--------|
+| `grant_type` | Her zaman `password` |
+| `branchcode` | Şube kodu |
+| `username`, `password` | **Netsis** kullanıcı adı ve şifresi |
+| `dbname` | Şirket (veritabanı) adı |
+| `dbuser`, `dbpassword` | Veritabanı kullanıcısı (çoğunlukla `TEMELSET`) ve şifresi |
+| `dbtype` | Veritabanı tipi; `0` = MSSQL (örneklerde böyle kullanılır, doğrulanmadı) |
+
+Başarılı yanıt JSON'dur ve `access_token` içerir (standart OAuth2 alanları beklenir: `access_token`, `token_type`, `expires_in`; tam alan listesi doğrulanmadı). Sonraki her istekte:
+
+```http
+GET /api/v2/ARPs?limit=5 HTTP/1.1
+Authorization: Bearer <access_token>
+```
+
+Hatalı girişte standart OAuth2 hata gövdesi döner:
+
+```json
+{"error":"invalid_grant","error_description":"Hata Kodu : 401\r\nDetay : Login Failed ..."}
+```
+
+`GET` ile token istenirse `unsupported_grant_type` döner.
+
+### curl
+
+```bash
+TOKEN=$(curl -s -X POST http://localhost:7070/api/v2/token \
+  -d grant_type=password -d branchcode=0 -d username=NETSIS -d password=SIFRE \
+  -d dbname=ACME2024 -d dbuser=TEMELSET -d dbpassword= -d dbtype=0 | jq -r .access_token)
+
+curl -H "Authorization: Bearer $TOKEN" "http://localhost:7070/api/v2/ARPs?limit=5"
+```
+
+### Python
+
+```python
+import requests
+
+BASE = "http://localhost:7070/api/v2"
+r = requests.post(f"{BASE}/token", data={
+    "grant_type": "password", "branchcode": 0,
+    "username": "NETSIS", "password": "SIFRE",
+    "dbname": "ACME2024", "dbuser": "TEMELSET", "dbpassword": "", "dbtype": 0,
+}, timeout=30)
+r.raise_for_status()
+token = r.json()["access_token"]
+
+s = requests.Session()
+s.headers["Authorization"] = f"Bearer {token}"
+cariler = s.get(f"{BASE}/ARPs", params={"limit": 5}).json()
+```
+
+## Token gerektirmeyen uçlar
+
+| Uç | Döner |
+|----|-------|
+| `GET api/v2/public/Ping` | `"<tarih saat> > OK"` |
+| `GET api/v2/public/Version` | NetOpenX sürümü |
+| `GET api/v2/public/AuthorizedBranches?company={company}&username={username}` | Kullanıcının yetkili şubeleri |
+| `GET api/v2/HealthCheck` | Kernel oluşturma testi |
+| `GET api/v2/help`, `api/v2/helpinfo?apiId=...` | Yardım sayfaları |
+
+Token isteyen hafif kontrol ucu: `GET api/v2/ping` (token yoksa `401`). Bağlantı testi için idealdir.
+
+## Oturumu kapatma
+
+`GET api/v2/revoke` (token ile). Kapatılmazsa token süresi dolunca kendiliğinden geçersiz olur.
+
+## C#: NetOpenX.Rest.Client
+
+Logo'nun .NET istemci kütüphanesi `NetOpenX.Rest.Client.dll` token işini sarmalar.
+
+```csharp
+using NetOpenX.Rest.Client;
+using NetOpenX.Rest.Client.BLL;
+using NetOpenX.Rest.Client.Model;
+using NetOpenX.Rest.Client.Model.Enums;
+using NetOpenX.Rest.Client.Model.NetOpenX;
+
+var oAuth2 = new oAuth2("http://localhost:7070");
+oAuth2.Login(new JLogin
+{
+    BranchCode     = 0,
+    NetsisUser     = "NETSIS",
+    NetsisPassword = "SIFRE",
+    DbType         = JNVTTipi.vtMSSQL,
+    DbName         = "ACME2024",
+    DbUser         = "TEMELSET",
+    DbPassword     = ""
+});
+string token = oAuth2.AccessToken;
+
+var arps = new ARPsManager(oAuth2);
+var sonuc = arps.GetInternal(new SelectFilter { Limit = 5 });
+```
+
+`JLogin` alanları: `BranchCode`, `NetsisUser`, `NetsisPassword`, `DbType`, `DbName`, `DbUser`, `DbPassword`, `HashCode` (anlamı belgelenmemiş). `oAuth2` üyeleri: `Login(JLogin)`, `LogOut()`, `AccessToken`, `TimeOut`, `AllowCompress`, `ChangeHeader` olayı.
+
+### TokenSafeOperation
+
+Token süresi dolduğunda yeniden giriş yapıp işlemi tekrarlayan yardımcı:
+
+```csharp
+TokenRestSettings.Init("http://localhost:7070", 120, true);   // 2. ve 3. parametre belgelenmemiş
+
+var safeOp = new TokenSafeOperation(new JLogin { /* ... */ });
+var result = safeOp.Exec<List<CasaBit>>(token =>
+{
+    var q = token.CreateManager<QueryManager>();
+    return q.GetInternal("select top 2 * from TBLCASABIT");
+});
+```
+
+Aynı blok içinde birden fazla yönetici (`CreateManager<T>()`) kullanılabilir. Yeniden deneme davranışı kaynak koddan çıkarılmıştır; Logo dokümanında açıkça yazılmaz.
+
+### Ham çağrı (RequestManager)
+
+```csharp
+var req = new RequestManager(oAuth2) { Method = "GET", Path = "api/v2/ARPs?limit=5" };
+string json = req.GetResult();
+```
+
+## Pratik öneriler
+
+- Tokenı **önbelleğe alın** ve süresi dolmadan yenileyin. Örnek projelerdeki "her işlemde yeniden login" deseni yavaştır ve lisans/oturum tüketir.
+- 401 aldığınızda bir kez yeniden login olup isteği tekrarlayın; yazma isteklerinde tekrar etmeden önce kaydın oluşmadığını kontrol edin ([idempotency](/rest/transaction-ve-hatalar/#cift-kayit-riski)).
+- Kimlik bilgilerini koda ve depoya koymayın.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/rest/sorgulama/ -->
+# Sorgulama parametreleri
+
+Liste döndüren `GET` uçları ortak sorgu parametrelerini kabul eder. Değerler **URL-encode** edilmelidir.
+
+| Parametre | Anlam | Varsayılan |
+|-----------|-------|------------|
+| `limit` | Sayfadaki kayıt sayısı | Kütüphane sayfasında 20, Başlangıç sayfasında 10 yazıyor (doğrulanmadı). Her zaman açıkça verin. |
+| `offset` | Kaçıncı kayıttan başlanacağı | `0` |
+| `sort` | `KOLON ASC` / `KOLON DESC`; birden çok kolon virgülle | yok |
+| `fields` | Yalnızca bu kolonlar, virgülle | tüm kolonlar |
+| `first` | `true`: ilk sayfa | |
+| `last` | `true`: son sayfa | |
+| `q` | SQL `WHERE` koşulu, ör. `CARI_KOD like 'C%'` | |
+| `expandLevel` | `full`: alt koleksiyonları ve model tanımlarını da getir | |
+
+Örnek:
+
+```http
+GET api/v2/ARPs?limit=20&offset=40&sort=CARI_KOD%20ASC&fields=CARI_KOD,CARI_ISIM&q=CARI_KOD%20like%20'120%25'
+```
+
+Kolon adları **veritabanı kolon adlarıdır** (`CARI_KOD`, `STOK_KODU`, `SUBE_KODU`…). Hangi tablonun sorgulandığını bilmek için [veritabanı şemasına](/veritabani/temel-tablolar/) bakın: `ARPs` → `TBLCASABIT`, `ARPTransactions` → `TBLCAHAR`, `Items` → `TBLSTSABIT`, `GLAccounts` → `TBLMUPLAN`…
+
+## Sayfalama döngüsü
+
+```python
+def tum_cariler(s, base):
+    offset, limit = 0, 200
+    while True:
+        r = s.get(f"{base}/ARPs", params={"limit": limit, "offset": offset, "sort": "CARI_KOD ASC"}).json()
+        veri = r.get("Data") or []
+        yield from veri
+        if len(veri) < limit:
+            break
+        offset += limit
+```
+
+## C#: SelectFilter
+
+```csharp
+var sonuc = new ARPsManager(oAuth2).GetInternal(new SelectFilter
+{
+    Limit  = 20,
+    Offset = 0,
+    Filter = "CARI_KOD like '%120%'",                        // q
+    Fields = new List<string> { "CARI_KOD", "CARI_ISIM", "Plasiyer_Kodu" },
+    Sort   = new List<SortParam> { new SortParam { Column = "CARI_KOD", SortType = SortParamType.ASC } },
+    ExpandLevel = "Full"
+});
+```
+
+## Şema uçları
+
+Her kaynak için model ve denetleyici şeması alınabilir:
+
+| Uç | Döner |
+|----|-------|
+| `GET api/v2/definitions/<Kaynak>` | Model şeması (JSON string) |
+| `GET api/v2/services/<Kaynak>` | Denetleyici şeması; `expandLevel=full` ile model tanımlarıyla |
+| `GET api/v2/services` | Tüm API şeması |
+| `GET api/v2/services/describe` | Model tanımları olmadan tüm denetleyiciler |
+
+Bir uca hangi alanları gönderebileceğinizi öğrenmenin en güvenilir yolu `definitions/<Kaynak>` ve `helpinfo` sayfalarıdır.
+
+## Güvenlik notu
+
+`q` ve `Filter` **doğrudan SQL `WHERE` parçası** olarak işlenir. Kullanıcı girdisini ham hâlde bu alanlara koymayın:
+
+- Kolon adlarını bir izin listesinden (allowlist) seçin.
+- Değerlerde tek tırnağı kaçırın (`'` → `''`) ve tipini doğrulayın (sayı, tarih).
+- Mümkünse son kullanıcıya serbest filtre vermeyin; sabit filtre şablonları kullanın.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/rest/uclar/ -->
+# Uç kataloğu
+
+Tüm yollar `http://<sunucu>:<port>/` köküne görelidir ve `Authorization: Bearer <token>` ister (aksi belirtilmedikçe). Liste uçları [sorgu parametrelerini](/rest/sorgulama/) kabul eder. Her kaynak için ayrıca `GET api/v2/definitions/<Kaynak>` ve `GET api/v2/services/<Kaynak>` şema uçları vardır.
+
+İstek gövdeleri: [JSON örnekleri](/rest/json-ornekleri/). Bileşik `{id}` biçimleri: [Kimlikler ve enum'lar](/rest/kimlikler-ve-enumlar/).
+
+## Cari (ARPs) ve cari hareket (ARPTransactions)
+
+Tablolar: `TBLCASABIT`, `TBLCASABITEK`, `TBLCAHAR`.
+
+| Yöntem | Yol | Açıklama |
+|--------|-----|----------|
+| GET | `api/v2/ARPs` | Cari listesi |
+| GET | `api/v2/ARPs/{id}` | Tek cari (`id` = `CARI_KOD`) |
+| POST | `api/v2/ARPs` | Yeni cari |
+| PUT | `api/v2/ARPs/{id}` | Cari güncelle |
+| DELETE | `api/v2/ARPs/{id}` | Cari sil |
+| GET | `api/v2/ARPs/PrimInfo` | Tüm cari temel bilgileri (`ARPsPrimInfo`) |
+| POST | `api/v2/ARPs/Risk` | Cari risk bilgisi (NetOpenX `RiskBul`) |
+| GET | `api/v2/ARPTransactions` | Cari hareketler |
+| GET | `api/v2/ARPTransactions/{id}` | Tek hareket (`id` = `INC_KEY_NUMBER`) |
+| POST | `api/v2/ARPTransactions` | Yeni hareket |
+| PUT | `api/v2/ARPTransactions/{id}` | Hareket güncelle |
+| DELETE | `api/v2/ARPTransactions/{id}` | Hareket sil |
+
+Cari gövdesi iki parçalıdır: `CariTemelBilgi` (`ARPsPrimInfo` → `TBLCASABIT`) ve `CariEkBilgi` (`ARPsSuppInfo` → `TBLCASABITEK`), ayrıca `SubelerdeOrtak`, `IsletmelerdeOrtak` bayrakları. [Örnek](/rest/json-ornekleri/#cari-karti).
+
+```csharp
+var m = new ARPsManager(oAuth2);
+var yeni = m.PostInternal(new ARPs
+{
+    CariTemelBilgi = new ARPsPrimInfo { CARI_KOD = "J0001", CARI_ISIM = "Rest Cari", CARI_TIP = "S", Sube_Kodu = 0,
+                                        CARI_ADRES = "İzmir", CARI_IL = "İzmir", CARI_ILCE = "Konak", CARI_TEL = "2320000000" },
+    CariEkBilgi    = new ARPsSuppInfo { CARI_KOD = "J0001", TcKimlikNo = "11111111111" }
+});
+if (!yeni.IsSuccessful) throw new Exception(yeni.ErrorDesc);
+
+// Güncelleme: yalnızca değişen alanlar
+m.PutInternal("J0001", new ARPs { CariTemelBilgi = new ARPsPrimInfo { CARI_KOD = "J0001", CARI_ILCE = "Karşıyaka" } });
+
+// Cari hareket
+new ARPTransactionsManager(oAuth2).PostInternal(new ARPTransactions
+{
+    CARI_KOD = "J0001", Tarih = DateTime.Today, Hka = "A", Aciklama = "rest", SonKayitNoAl = true
+});
+```
+
+## Stok (Items) ve stok hareketi (ItemTransactions)
+
+Tablolar: `TBLSTSABIT`, `TBLSTSABITEK`, `TBLSTHAR`.
+
+| Yöntem | Yol | Açıklama |
+|--------|-----|----------|
+| GET | `api/v2/Items` | Stok kartları (sıralama örneği: `ISLETME_KODU ASC, STOK_KODU ASC`) |
+| GET | `api/v2/Items/{id}` | Tek stok (`id` = `STOK_KODU`) |
+| POST | `api/v2/Items` | Yeni stok |
+| PUT | `api/v2/Items/{id}` | Güncelle |
+| DELETE | `api/v2/Items/{id}` | Sil |
+| GET | `api/v2/Items/PrimInfo` | Stok temel bilgileri (`ItemPrimInfos`) |
+| GET/POST/PUT/DELETE | `api/v2/ItemTransactions[/{id}]` | Stok hareketi CRUD |
+
+Stok gövdesi: `StokTemelBilgi` (`ItemsPrimInfo`) + `StokEkBilgi` (`ItemsSuppInfo`). En küçük geçerli gövde stok kodu ve adıdır. [Örnek](/rest/json-ornekleri/#stok-karti).
+
+## Fatura, irsaliye ve sipariş (ItemSlips)
+
+Tablolar: `TBLFATUIRS`, `TBLFATUEK`, `TBLSTHAR`, `TBLSIPAMAS`, `TBLSIPATRA`. COM karşılığı: [Fatura ve irsaliye](/netopenx/fatura-ve-irsaliye/).
+
+| Yöntem | Yol | Açıklama (NetOpenX karşılığı) |
+|--------|-----|-------------------------------|
+| GET | `api/v2/ItemSlips/{id}` | Tek belge. `id` = `FaturaTip;FATIRS_NO;CARI_KOD`, ör. `ftSSip;000000000000123;120-01-001` |
+| GET | `api/v2/ItemSlips?docType={docType}` | Belge tipine göre liste |
+| POST | `api/v2/ItemSlips` | Yeni belge (`kayitYeni`) |
+| DELETE | `api/v2/ItemSlips/{id}` | Sil |
+| POST | `api/v2/ItemSlips/Details` | `ItemSlipsParam` ile tek belge oku |
+| POST | `api/v2/ItemSlips/Delete` | Parametreyle sil |
+| POST | `api/v2/ItemSlips/Calculate` | Kaydetmeden hesapla (`HesaplamalariYap`) |
+| POST | `api/v2/ItemSlips/Html` | Belge HTML'i (`GetFaturaHTML`) |
+| POST | `api/v2/ItemSlips/NewNumber` | Yeni belge numarası (`YeniNumara`) |
+| POST | `api/v2/ItemSlips/NewEItemSlipsNumber` | Yeni e-fatura numarası (`YeniEfaturaNumara`) |
+| POST | `api/v2/ItemSlips/NewEWaybillNumber` | Yeni e-irsaliye numarası |
+| GET | `api/v2/ItemSlips/NewEArchiveNumber/{serialNo}` | Yeni e-arşiv numarası |
+| POST | `api/v2/ItemSlips/IncrementNumber` | Numarayı 1 artır (`NoArtiBir`) |
+| POST | `api/v2/ItemSlips/IrsToFat` | İrsaliyeden fatura (`Irsaliye2Fatura`) |
+| POST | `api/v2/ItemSlips/SiparisToIrsFat` | Siparişten irsaliye/fatura (`Siparis2IrsFat`) |
+| POST | `api/v2/ItemSlips/TopluSiparisToIrsFat` | Toplu siparişten irsaliye/fatura |
+| POST | `api/v2/ItemSlips/ChangeNumber` | Belge no ve cari kodu değiştir (`NumaraDegistir`) |
+| POST | `api/v2/ItemSlips/ChangeCode` | Cari kodu değiştir (`KodDegistir`) |
+| POST | `api/v2/ItemSlips/CopyItemSlip` | Belge kopyala |
+| POST | `api/v2/ItemSlips/OrderRevision` | Sipariş revizyonu |
+| POST | `api/v2/ItemSlips/ReadAndSave` | Oku ve yeniden kaydet |
+| POST | `api/v2/ItemSlips/SendEMailDesign` | Dizaynla e-posta gönder (`DizaynEpostaGonder`) |
+| POST | `api/v2/ItemSlips/DeleteItemSlipLinkedWaybill` | Faturaya bağlı irsaliyeyi sil |
+| GET | `api/v2/ItemSlips/ContractsOpenPrice?restRecord={restRecord}` | Belgelenmemiş |
+
+> **`ItemSlips` için `PUT` yoktur.** Belge değiştirmek için silip yeniden oluşturun ya da `ReadAndSave` / `ChangeNumber` gibi işlem uçlarını kullanın.
+
+Gövde yapısı: üst düzeyde `FaturaTip`, `Seri`, hesaplama bayrakları, `FatUst` (başlık), `Kalems` (satırlar). Alan listesi ve örnek: [JSON örnekleri](/rest/json-ornekleri/#fatura). Dönüşüm uçlarının gövdesi `{ ItemSlip, DocumentType, DocumentNumber, CustomerCode }` biçimindedir; `ItemSlip` hedef belgenin başlığını ve bayraklarını taşır.
+
+```csharp
+var m = new ItemSlipsManager(oAuth2);
+var fatura = new ItemSlips
+{
+    FaturaTip = JTFaturaTip.ftSFat,
+    KayitliNumaraOtomatikGuncellensin = true,
+    FatUst = new ItemSlipsHeader { Tip = JTFaturaTip.ftSFat, CariKod = "120-01-001", Tarih = DateTime.Today,
+                                   TIPI = JTFaturaTipi.ft_Acik, KDV_DAHILMI = false },
+    Kalems = new List<ItemSlipLines> {
+        new ItemSlipLines { StokKodu = "STK001", STra_GCMIK = 3, STra_BF = 100, STra_NF = 100, DEPO_KODU = 1, STra_KDV = 20 }
+    }
+};
+var hesap = m.Calculate(fatura);        // önce kontrol (kayıt yok)
+var kayit = m.PostInternal(fatura);     // kaydet
+string no = kayit.Data.FatUst.FATIRS_NO;
+```
+
+## Toplu faturalama (BatchInvoicing)
+
+| Yöntem | Yol | Açıklama |
+|--------|-----|----------|
+| POST | `api/v2/BatchInvoicing` | İrsaliyeleri toplu faturalar: satış irsaliyesi → satış faturası, alış irsaliyesi → alış faturası |
+
+[Örnek gövde](/rest/json-ornekleri/#toplu-faturalama).
+
+## Muhasebe fişi (GLSlips) ve hesap planı (GLAccounts)
+
+Tablolar: `TBLMUHFIS`, `TBLMUPLAN`.
+
+| Yöntem | Yol | Açıklama |
+|--------|-----|----------|
+| GET | `api/v2/GLSlips` | Fişler; `expandLevel=full` ile `GLSlipLines` ve `GLSlipLines2` dahil |
+| GET | `api/v2/GLSlips/{id}` | Tek fiş |
+| POST | `api/v2/GLSlips` | Yeni fiş |
+| DELETE | `api/v2/GLSlps/{id}` | Sil. Logo sayfasında yol `GLSlps` yazılı; `GLSlips` olması beklenir (doğrulanmadı) |
+| POST | `api/v2/GLSlips/Details` | `GLSlipsParam` ile oku |
+| POST | `api/v2/GLSlips/Delete` | `GLSlipsParam` ile sil |
+| GET | `api/v2/GLAccounts` | Hesap planı (`sort=HESAP_KODU ASC`, `q=SUBE_KODU='1'`) |
+| GET/POST/PUT/DELETE | `api/v2/GLAccounts[/{id}]` | Hesap CRUD (`id` = hesap kodu) |
+
+## Çek ve senet (CheckAndPNotesMain)
+
+Tablolar: `TBLMCEK`, `TBLMSEN`, `TBLBCEK`, `TBLBSEN`.
+
+| Yöntem | Yol | Açıklama |
+|--------|-----|----------|
+| GET | `api/v2/CheckAndPNotesMain/{id}` | Tek bordro. `id` = `JTCekSenType;SC_ALB_NO`, ör. `csMCEK;A00000000000001` |
+| GET | `api/v2/CheckAndPNotesMain?docType={docType}` | Tipe göre liste |
+| POST | `api/v2/CheckAndPNotesMain` | Yeni bordro |
+| DELETE | `api/v2/CheckAndPNotesMain/{id}` | Sil |
+| POST | `api/v2/CheckAndPNotesMain/Details` | `CheckAndPNotesMainParam` ile oku |
+| POST | `api/v2/CheckAndPNotesMain/Delete` | Parametreyle sil |
+
+```csharp
+var bordro = new CheckAndPNotesMain
+{
+    Tip = JTCekSenType.csMCEK,
+    CekSenEvrakKaydetmeTip = JTCekSenetEvrakKaydetmeTipi.ektCekSenAlma,
+    OtoNumaraGetir = true,
+    Evraklar = new List<CheckAndPNotes> {
+        new CheckAndPNotes { CEKSERI = "H", SC_GIRTRH = DateTime.Today, SC_VERENK = "120-01-001",
+                             AS_C = "A", SC_YERI = "P", VADETRH = DateTime.Today.AddMonths(1),
+                             SC_ODETRH = DateTime.Today.AddMonths(1), Tutar = 500 }
+    }
+};
+var r = new CheckAndPNotesMainManager(oAuth2).PostInternal(bordro);
+var bordroNo = r.Data.BordroNo;
+```
+
+`AS_C` = `A` (alacak), `SC_YERI` = `P` (portföy) örneklerden alınmıştır; diğer değerler belgelenmemiştir.
+
+## Kasa (SafeDeposits)
+
+Tablo: `TBLKASA`.
+
+| Yöntem | Yol | Açıklama |
+|--------|-----|----------|
+| GET | `api/v2/SafeDeposits` | Kasa hareketleri |
+| GET | `api/v2/SafeDeposits/{id}` | Tek kayıt |
+| POST | `api/v2/SafeDeposits` | Yeni kayıt |
+| DELETE | `api/v2/SafeDeposits/{id}` | Sil |
+| GET | `api/v2/SafeDeposits/LastBalance?id={id}` | Kasa son bakiyesi (`KasaSonBakiye`) |
+
+Alan değerleri `TBLKASA` açıklamasından: `IO` = `G` gelir / `C` gider; `Tip` = `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhtelif, `S` senet, `T` transfer; `Cari_Muh` = `C` cari / `M` muhasebe / `B` banka. [Örnek](/rest/json-ornekleri/#kasa).
+
+## Hızlı tahsilat (MixedReceiptsMain)
+
+| Yöntem | Yol | Açıklama |
+|--------|-----|----------|
+| GET | `api/v2/MixedReceiptsMain/{id}` | Tek tahsilat. `id` = `KasaKod;BelgeNo;CariKod;yyyy-MM-dd` |
+| POST | `api/v2/MixedReceiptsMain` | Yeni |
+| DELETE | `api/v2/MixedReceiptsMain/{id}` | Sil |
+| POST | `api/v2/MixedReceiptsMain/Details` | Parametreyle oku |
+| POST | `api/v2/MixedReceiptsMain/Delete` | Parametreyle sil |
+
+```csharp
+var mr = new MixedReceiptsMain
+{
+    IslemTarihi = DateTime.Today, KasaKod = "01", BelgeNo = "56565656", CariKod = "120-01-001", DOVTIP = 0,
+    Tahsilats = new List<MixedReceipts> {
+        new MixedReceipts { Aciklama = "nakit", SozKodu = "NAKIT", Tutar = 150, TaksitSay = 0 }
+    }
+};
+new MixedReceiptsMainManager(oAuth2).PostInternal(mr);
+```
+
+## Döviz ve kur (ForExs, ExRates)
+
+| Yöntem | Yol | Açıklama |
+|--------|-----|----------|
+| GET/POST | `api/v2/ForExs` | Döviz tanımları (`BIRIM`, `ISIM`, `NETSISSIRA`) |
+| GET/PUT/DELETE | `api/v2/ForExs/{id}` | Tek döviz. Başka yerde kullanılan döviz silinmez |
+| GET | `api/v2/ForExs/RefreshExRates?date={date}` | Verilen tarihin kurlarını güncelle (`DovizKurGuncelle`) |
+| GET/POST | `api/v2/ExRates` | Kur listesi / yeni kur. `SIRA` döviz tanımına referanstır |
+| GET/PUT/DELETE | `api/v2/ExRates/{id}` | Tek kur |
+| POST | `api/v2/ExRates/Details`, `api/v2/ExRates/Delete` | `ExRatesParam` ile oku/sil |
+
+## Basım (Print)
+
+Basım uçları **PDF'i bayt dizisi** olarak döndürür (JSON'da base64 metin; C#'ta `result.Data` → `byte[]`). `DesignNumber`, Netsis'te tanımlı dizayn numarasıdır (`TBLDIZAYNSABIT.DIZAYNNO`).
+
+| Yol (POST) | Parametre | Alanlar | NetOpenX karşılığı |
+|------------|-----------|---------|-------------------|
+| `api/v2/Print/ItemSlipsPrinting` | `ItemSlipsPrintParam` | `DesignNumber`, `DocumentType`, `DocumentNumber`, `CustomerCode`, `StreamSupport` | `FaturaBasimDizaynNo` |
+| `api/v2/Print/GLSlipsPrinting` | `GLSlipsPrintParam` | `DesignNumber`, `GLSlipsId`, `Month` | `YevmiyeFisBasimDizaynNo` |
+| `api/v2/Print/CheckAndPNotesMainPrinting` | `CheckAndPNotesMainPrintParam` | `BordroNo`, `Tip`, `DesignNumber` | `CekSenetBasimDizaynNo` |
+| `api/v2/Print/SafeDepositsPrinting` | `SafeDepositPrintParam` | `DesignNumber`, `PrintingType`, `Sira` | `KasaBasim` |
+| `api/v2/Print/StatementsHeaderPrinting` | `StatementsHeaderPrintParam` | | `DekontBasimDizaynNo` |
+
+```csharp
+var pdf = new PrintManager(oAuth2).ItemSlipsPrinting(new ItemSlipsPrintParam
+{
+    CustomerCode = "120-01-001", DesignNumber = 1005,
+    DocumentNumber = "ABC2024000000123", DocumentType = JTFaturaTip.ftSFat
+});
+File.WriteAllBytes(@"C:\Temp\fatura.pdf", pdf.Data);
+```
+
+Barkod basımı için `PrintManager.ItemSlipsItemsBatchBarcodePrinting` ve `ItemSlipsItemBarcodePrinting` vardır ([istemci kütüphanesi](/rest/istemci-kutuphanesi/)).
+
+## E-belge (EDocument)
+
+| Yöntem | Yol | Açıklama |
+|--------|-----|----------|
+| POST | `api/v2/EDocument` | E-belge taslağı. `Tip`: 0 e-arşiv, 1 e-fatura, 2 e-irsaliye |
+| POST | `api/v2/EDocument/SendEDocument` | Entegratöre/GİB'e gönder. **Geri alınamaz** |
+| POST | `api/v2/EDocument/ShowEDocument` | HTML görüntüle. `HtmlPath` boşsa HTML yanıtta döner |
+
+Diğer e-belge yöntemleri (yanıt, kalem yanıtı, e-arşiv iptali, cari güncelleme) [istemci kütüphanesinde](/rest/istemci-kutuphanesi/#edocumentmanager) listelenmiştir. [JSON örnekleri](/rest/json-ornekleri/#e-belge).
+
+## Dinamik depo (DynamicWarehsSlips)
+
+| Yöntem | Yol | Açıklama |
+|--------|-----|----------|
+| POST | `api/v2/DynamicWarehsSlips` | Yeni dinamik depo (hücre) fişi |
+
+```csharp
+var dyn = new DynamicWarehsSlips
+{
+    HareketTipi = JTDepoIslemTipi.ditYerlestirme,
+    BelgeTipi = JTDepoBelgeTipi.dbtAlisFaturasi,
+    BelgeNumarasi = "A00000000000001", CariKodu = "320-01-001",
+    Harekets = new List<DynWarehsSlipLines> {
+        new DynWarehsSlipLines { HucreHareketKalems = new List<DynWarehsSlipCellLines> {
+            new DynWarehsSlipCellLines { HucreKodu = "H1", NetMiktar = 5, HareketTipi = JTDepoHareketTipi.dhtNormal, StokKodu = "001" } } }
+    }
+};
+new DynamicWarehsSlipsManager(oAuth2).PostInternal(dyn);
+```
+
+## Üretim
+
+### Serbest üretim / SUSK (FinishedGoodsReceiptWChanges)
+
+| Yöntem | Yol | Açıklama |
+|--------|-----|----------|
+| GET | `api/v2/FinishedGoodsReceiptWChanges` | Kayıtlar (sıralama `UretSon_FisNo`, `UretSon_Tarih`) |
+| GET | `api/v2/FinishedGoodsReceiptWChanges/{id}` | Tek fiş (`id` = `UretSon_FisNo`; `FisYukle`) |
+| DELETE | `api/v2/FinishedGoodsReceiptWChanges/{id}` | Sil |
+| POST | `api/v2/FinishedGoodsReceiptWChanges/ReceiptProduce` | Fişi üret ve kaydet (`FisUret` + `Kaydet`) |
+| POST | `api/v2/FinishedGoodsReceiptWChanges/Save` | Son üretilen fişi sakla |
+| GET | `api/v2/FinishedGoodsReceiptWChanges/GetFromProductionOrder/{id}` | İş emrinden getir (`IsEmrindenGetir`) |
+
+`UretSon_Depo` giriş deposu, `I_Yedek1` çıkış deposu, `BAKIYE_DEPO` = `0` verilen depo / `1` tüm depolar. [Örnek](/rest/json-ornekleri/#serbest-uretim).
+
+### İş emri, reçete, MRP
+
+| Yol | Açıklama |
+|-----|----------|
+| `POST api/v2/ProductionOrder` | İş emri kaydı (`JIsEmri`). [Örnek](/rest/json-ornekleri/#is-emri) |
+| `Mrp`, `PlanningRecord`, `BOM`, `ProcessControl`, `ProductMaterialCost`, `QualityControls`, `MaintenanceOrders` | Uç yolları sürüme göre `api/v2/help`'ten alınmalı; yönetici metotları [istemci kütüphanesinde](/rest/istemci-kutuphanesi/) |
+
+## Sipariş, makbuz ve diğer belgeler
+
+| Kaynak | Uçlar | Not |
+|--------|-------|-----|
+| `ProducerReceipt` (müstahsil) | `GET/POST api/v2/ProducerReceipt`, `GET .../ReadLastNumber?customerCode=` | Son numara (`SonNumaraOku`) |
+| `StatementsHeader` (dekont) | `GET api/v2/StatementsHeader`, `GET/POST/PUT/DELETE .../{id}`, `POST .../Details`, `POST .../Delete` | Kalemlerle birlikte okur |
+| `WorkFlow` (iş akışı) | `GET/POST api/v2/WorkFlow` | `POST` kaydın akış durumunu değiştirir; sıralama `PATHKODU` |
+| `ContractsMain` (bağlantı) | `GET api/v2/ContractsMain/{id}` | Yalnızca tek kayıt okuma |
+| `CompaniesInfo` | `GET api/v2/CompaniesInfo[/{id}]` | Şirket isim bilgileri |
+| `Project` | `GET/POST api/v2/Project`, `GET/PUT/DELETE .../{id}` | `PROJE_KODU`, `PROJE_ACIKLAMA` (`TBLPROJE`) |
+| `DocumentLocking` | çeşitli | Belge kilitleme (9.0.6x'te görüldü) |
+| `Company` | çeşitli | Şirket düzeyi işlemler: bakiye devri, kod değiştirme, rapor çalıştırma… ([CompanyManager](/rest/istemci-kutuphanesi/#companymanager)) |
+
+## Sorgu (Queries)
+
+| Yol | Açıklama | Veritabanı |
+|-----|----------|------------|
+| `GET/POST api/v2/Queries` | Verilen SQL'i çalıştırır. **Select, insert, update, delete** | Yalnızca MSSQL |
+| `GET/POST api/v2/Queries/NetRS` | NetRS ile SQL çalıştırır | MSSQL ve Oracle |
+
+> **Ham SQL çalıştırır ve yazma yapabilir.** Uygulamalarınızda okuma için bile tercih etmeyin; doğrudan SQL bağlantısı ya da tipli uçlar daha güvenlidir. Sunucuda bu uçlara erişimi kısıtlayın ([Güvenlik](/rest/guvenlik/)).
+
+## Sistem uçları
+
+| Yöntem | Yol | Token | Açıklama |
+|--------|-----|-------|----------|
+| POST | `api/v2/token` | — | Token al ([Kimlik doğrulama](/rest/kimlik-dogrulama/)) |
+| GET | `api/v2/revoke` | evet | Oturumu kapat |
+| GET | `api/v2/ping` | evet | Token geçerli mi |
+| GET | `api/v2/public/Ping` | hayır | Servis ayakta mı |
+| GET | `api/v2/public/Version` | hayır | NetOpenX sürümü |
+| GET | `api/v2/public/NetsisMasterVersion` | hayır | Ana veritabanı sürümü |
+| GET | `api/v2/public/AuthorizedBranches?company=&username=` | hayır | Kullanıcının yetkili şubeleri |
+| GET | `api/v2/public/CompanyList` | hayır | Şirket listesi. Bazı kurulumlarda `Invalid object name 'DBMONITOR..TBLSUBELER'` hatası verir; şirketler için `NETSIS..SIRKETLER30` okunabilir |
+| GET | `api/v2/public/GetLicInfo/KeyInfo` | hayır | Lisans bilgisi |
+| GET | `api/v2/HealthCheck` | hayır | Kernel oluşturma testi |
+| GET | `api/v2/OpenTransaction` | evet | Transaction aç ([Transaction](/rest/transaction-ve-hatalar/)) |
+| GET | `api/v2/CommitTransaction?transId=` | evet | Onayla |
+| GET | `api/v2/RollBackTransaction?transId=` | evet | Geri al |
+| GET | `api/v2/services`, `api/v2/services/describe` | | API şeması |
+| GET | `api/v2/help`, `api/v2/helpinfo?apiId=` | hayır | Yardım sayfaları |
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/rest/istemci-kutuphanesi/ -->
+# İstemci kütüphanesi (NetOpenX.Rest.Client)
+
+Logo'nun .NET istemcisi `NetOpenX.Rest.Client.dll`, her kaynak için bir **yönetici** (`...Manager`) sınıfı sunar. Yöneticiler `oAuth2` nesnesiyle oluşturulur ve `TResult<T>` döndürür. Her yöntemin bir `Async` karşılığı da vardır.
+
+```csharp
+var m = new ItemSlipsManager(oAuth2);          // ya da token.CreateManager<ItemSlipsManager>()
+TResult<ItemSlips> r = m.GetInternalById("ftSFat;ABC2024000000123;120-01-001");
+if (r.IsSuccessful) Kullan(r.Data); else Log(r.ErrorDesc + " " + r.ErrorCode);
+```
+
+## TResult&lt;T&gt;
+
+| Alan | Anlam |
+|------|-------|
+| `IsSuccessful` | İşlem başarılı mı |
+| `Data` | Dönen veri |
+| `ErrorDesc` | Hata açıklaması |
+| `ErrorCode` | Hata kodu |
+| `Serialize()` | JSON'a çevir |
+
+Kütüphane: .NET Framework 4.x, bağımlılıklar `Newtonsoft.Json`, `System.Net.Http.Formatting`. XML belgesindeki açıklamalar çoğunlukla boştur; aşağıdaki liste imzalardan ve Logo'nun örnek projelerinden derlenmiştir.
+
+## Ortak CRUD yöntemleri
+
+| Yöntem | HTTP |
+|--------|------|
+| `GetInternal(SelectFilter)` | `GET api/v2/<Kaynak>?...` |
+| `GetInternalById(id)` | `GET api/v2/<Kaynak>/{id}` |
+| `GetInternalByParam(param)` | `POST api/v2/<Kaynak>/Details` |
+| `PostInternal(model)` | `POST api/v2/<Kaynak>` |
+| `PutInternal(id, model)` | `PUT api/v2/<Kaynak>/{id}` |
+| `DeleteInternalById(id)` | `DELETE api/v2/<Kaynak>/{id}` |
+| `DeleteInternalByParam(param)` | `POST api/v2/<Kaynak>/Delete` |
+
+## Yöneticiler
+
+### Kartlar ve hareketler
+
+| Yönetici | Yöntemler | Amaç |
+|----------|-----------|------|
+| `ARPsManager` | CRUD, `CustomerRisk(ARPsRiskParam)`, `CustomCustomerMainInfo(SelectFilter)` | Cari kartı |
+| `ARPTransactionsManager` | CRUD (`id` int) | Cari hareket |
+| `ARPsAgingManager` | `SettlementByAging(ARPsAging { CariKod })` | Yaşlandırmalı hesap kapatma |
+| `ItemsManager` | `PostInternal`, `PutInternal`, `CustomStockMainInfo(SelectFilter)` | Stok kartı (`PutInternal` ile fiyat güncelleme) |
+| `ItemTransactionsManager` | `PostInternal` | Stok hareketi |
+| `GLAccountsManager` | CRUD | Hesap planı |
+| `ForExsManager` | CRUD (`id` int), `RefreshExRatesInternal(string date)` | Döviz |
+| `ExRatesManager` | `PostInternal` | Kur |
+| `ProjectManager`, `CompaniesManager` | `GetInternal`, `GetInternalById` | Proje, şirket |
+
+### Belgeler
+
+| Yönetici | Yöntemler | Amaç |
+|----------|-----------|------|
+| `ItemSlipsManager` | `PostInternal`, `GetInternalById`, `GetInternal(JTFaturaTip)`, `DeleteInternalById`, `Calculate`, `GetHtmlItemSlips(ItemSlipsCodeParam)`, `NewNumber`, `NewEItemSlipsNumber`, `NewEArchiveNumber`, `NewEWaybillNumber`, `IncrementNumber`, `IrsToFat(ItemSlipsDetailParam)`, `SiparisToIrsFat(ItemSlipsDetailParam)`, `ChangeNumber(ItemSlipsChangeNumberParam)`, `ChangeCode(ItemSlipsChangeCodeParam)`, `SendEMailDesign`, `CopyItemSlip`, `OrderRevision`, `ContractsOpenPrice(int)` | Fatura, irsaliye, sipariş, teklif, ambar fişi |
+| `BatchInvoicingManager` | `PostInternal(BatchInvoicing)` | Toplu faturalama |
+| `DemandOfferManager` | `NewNumber`, `ConvertToOffer`, `ConvertToOrder` | Talep → teklif → sipariş |
+| `EDocumentManager` | bkz. aşağı | E-fatura, e-arşiv, e-irsaliye |
+| `CheckAndPNotesMainManager` | `GetInternal(JTCekSenType, SelectFilter)`, `PostInternal`, `GetInternalById(string)`, `GetInternalByParam`, `DeleteInternalById`, `DeleteInternalByParam` | Çek/senet bordrosu |
+| `CheckAndPNoteStatementsManager` | `DebitCheckPNotesStatementPayment`, `CheckPNotesStatementPayment` | Çek/senet ödeme ve tahsilat |
+| `BankRemittanceTransferManager` | `PostInternal`, `PutInternal`, `DeleteInternalById` | Banka havale/EFT/virman |
+| `SafeDepositsManager` | `PostInternal`, `GetInternal`, `DeleteInternalById`, `LastBalance(string)` | Kasa |
+| `MixedReceiptsMainManager` | `PostInternal`, `GetInternalById`, `GetInternalByParam`, `DeleteInternalById`, `DeleteInternalByParam` | Hızlı tahsilat |
+| `StatementsHeaderManager` | `PostInternal`, `GetInternal`, `PutInternal`, `DeleteInternalById` | Dekont |
+| `GLSlipsManager` | CRUD | Muhasebe fişi |
+| `ProducerReceiptManager` | `ReadLastNumber(string)` | Müstahsil |
+| `ContractsMainManager` | `GetInternalById(string)` | Bağlantı/sözleşme |
+| `DynamicWarehsSlipsManager` | `PostInternal` | Dinamik depo |
+
+### Üretim ve planlama
+
+| Yönetici | Yöntemler | Amaç |
+|----------|-----------|------|
+| `ProductionOrderManager` | `PostInternal(JIsEmri)` | İş emri |
+| `ProductionOrderFromBOMManager` | `PrepareProductionOrderItemList`, `GenerateProductionOrderItems` | Reçeteden iş emri |
+| `BOMManager` | `PostInternal(BOM)` | Reçete |
+| `FinishedGoodsReceiptWChangesManager` | `ReceiptProduce`, `Save`, `GetInternal`, `GetInternalById`, `DeleteInternalById` | Serbest üretim (SUSK) |
+| `MrpManager` | `GenerateRequirementPlan`, `MaterialRequirementsPlanning`, `PrepareRequisitionBalancing`, `SaveRequisitionBalancing` | MRP, talep dengeleme |
+| `PlanningRecordManager` | `PostInternal`, `PutInternal`, `GetItemPlanningRecord`, `GetCustomerSupplierItemPlanningRecord`, `GetCurAccPlanningRecord`, `Delete…PlanningRecord` | Stok planlama parametreleri |
+| `ProcessControlManager` | `PostInternal`, `GetInternal`, `GetInternalById`, `PutInternal` | Proses kontrol |
+| `ProductMaterialCostManager` | `GenerateProductMaterialCosts` | Ürün malzeme maliyeti |
+
+### Şirket ve sistem
+
+| Yönetici | Yöntemler | Amaç |
+|----------|-----------|------|
+| `CompanyManager` | `ArpsBalanceExchangeDiff`, `MontlyVoucherTransfer`, `AccountTransfer`, `ExecuteOpenRecipeAnalysis`, `BringBalance`, `ArpsMovementControl`, `ChangeArpsCode`, `SendEmail`, `ChangeItemSlipNumber`, `ExecuteVisualReportDraft`, `RecipeStockLinkCreate`, `StockMotionCheck`, `StockCodeChange`, `JournalCheck`, `ExecuteReport`, `SetModuleProcessType` | Muhasebe/cari toplu işlemler, kontroller, raporlar |
+| `PrintManager` | `ItemSlipsPrinting`, `GLSlipsPrinting`, `CheckAndPNotesMainPrinting`, `StatementsHeaderPrinting`, `SafeDepositsPrinting`, `ItemSlipsItemsBatchBarcodePrinting`, `ItemSlipsItemBarcodePrinting` | PDF basım, barkod |
+| `QueryManager` | `GetInternal(string sql)`, `PostInternal(QueryParam, bool)` | Ham SQL ([dikkat](/rest/guvenlik/)) |
+| `OperationsManager` | `Ping` | Sağlık |
+| `RequestManager` | `Method`, `Path`, `GetResult()` | Ham HTTP |
+| `WorkFlowManager`, `PublicManager`, `LoginManager` | | İş akışı, anonim uçlar, giriş |
+
+## Parametre modelleri
+
+### CompanyManager
+
+| Yöntem | Parametre | Alanlar |
+|--------|-----------|---------|
+| `ArpsBalanceExchangeDiff` | `ARPsExRatesInfo` | `CariKodu1`, `CariKodu2`, `HareketTipbas`, `HareketTipson`, `TarihAraligi`, `KurTarihi`, `DovTipBas`, `DovTipSon`, `ReferansKodu`, `BorcAlacak`, `DovizCevrimTipi`, `SifirBakiyeDahilMi`, `SubeKirilimli`, `SadeceDovizliCariler`, `DovizBakiyesiSifirOlanlarDahil`, `ProjeKoduKirilimli`, `BasTarih`, `BitTarih` |
+| `MontlyVoucherTransfer` | `MontlyVoucherTransferParam` | `KaynakFisNo`, `KaynakAy`, `HedefAy`, `HedefFisNo`, `AktEskiFisSilinsin` (**kaynak fişi siler**), `AktYeniAcik`, `DegisecekAcik`, `EvrakTarHedefTarOlsun` |
+| `AccountTransfer` | `AccountTransferParam` | `AktarimTuru` (`JTMuhAktTuru`), `AktBasTarih`, `AktBitTarih`, `AktIlkFisNo`, `AktSonFisNo`, `AktSubeDahil`, `EskiMuavin`, `YeniMuavin` |
+| `ChangeArpsCode` | `ChangeArpsCodeParam` | `EskiKod`, `YeniKod`, `VirmanYapilsin`, `VirmanSonrasiEskiKodSilinsin` |
+| `StockCodeChange` | `StockCodeChangeParam` | `EskiKod`, `YeniKod`, `VirmanYapilsin`, `YapKodGuncelle`, `VirmanSonrasiEskiKodSilinsin` |
+| `ChangeItemSlipNumber` | `ChangeItemSlipNumberParam` | `AyKodu`, `FisNumara`, `YeniFisNumara` (yevmiye no) |
+| `ExecuteReport` | `ExecuteReportParam` | `ModuleNo`, `ProgramNo`, `DesignNo`, `ReportResultFileType` (`rsctExcel`) |
+| `ExecuteVisualReportDraft` | | `TaslakId`, `DosyaYolu` |
+| `SendEmail` | `SendEmailParam` | `EMailTO`, `EMailBody`, `EMailKonu` (gerçek e-posta gönderir) |
+| `SetModuleProcessType` | | Modül işlem tipi (9.0.40 ile geldi). Belgede `OtomatikIslemTipiGetir = false` ile birlikte kullanılır |
+
+### EDocumentManager
+
+| Yöntem | Parametre | Alanlar |
+|--------|-----------|---------|
+| `PostInternal` | `EDocument` | `Tip`, `BelgeNo`, `DizaynKontrol`, `DovizliOlustur` (taslak) |
+| `SendEDocument` | `EDocumentSendParam` | `EDocumentType`, `DocumentNumber`, `CustomerCode`, `DocumentType` |
+| `ShowEDocument` | `EDocumentShowParam` | `EDocumentType`, `GIBDocumentNumber`, `DocumentBoxType`, `HtmlPath`, `EnvelopeId` |
+| `EDocumentResponse` | `EDocumentResponseParam` | `GIBDocumentNumber`, `EDocumentType`, `ResponseType` (`ytKabul`…) |
+| `EDocumentItemResponse` | `EDocumentItemResponseParam` | `GIBDocumentNumber`, `EDocumentType`, `ItemResponses` (`YanitKalemSiraNo`, `YanitRetMiktar`, `YanitRetOlcuBr`, `YanitTeslimMiktar`, `YanitTeslimOlcuBr`, `YanitKalemAciklama`) |
+| `EArchiveCancellationInvoice` | `EArchiveCancelInvoiceParam` | `DocumentNumber` |
+| `EDocCurrentUpdate` | — | E-belge cari bilgilerini güncelle |
+
+### ItemSlips ek modelleri
+
+- **E-irsaliye taşıma bilgisi** `ItemSlips.EIrsEkBilgi` (`EWaybillInfo`): `PLAKA`, `TASIYICIVKN`, `TASIYICIADI`, `TASIYICIILCE`, `TASIYICIIL`, `TASIYICIULKE`, `TASIYICIPOSTAKODU`, `SOFOR1ADI`, `SOFOR1SOYADI`, `SOFOR1ACIKLAMA`, `SOFOR1TCKN`, `SEVKTAR`, `DORSEPLAKA1`, `DORSEPLAKA2`. Numara: `NewEWaybillNumber(ItemSlipsCodeParam { DocumentType = ftSIrs, Code = "EIR" })`.
+- **Hal faturası:** `ItemSlipsHeader.HalFaturasi = JTHalFatTipi.hftHalKomisyon`; masraflar `ItemSlips.HalFaturaMasraflari` (`FruitVegMarketBillInfo`): komisyon, navlun, hammaliye, bağ-tevkifat, rüsum. Kalemde `KunyeNo` gerekir.
+- **Sipariş revizyonu:** `OrderRevisionParam { ItemSlip, RevisionOrderNumber, DeliverStartingDate }`.
+- **Kopyalama:** `CopyItemSlipParam { DocumentType, OldDocNumber, NewDocNumber, NewGIBDocNumber, DomesticTransaction }`.
+- **Barkod basımı:** `ItemSlipsItemsBatchBarcodePrintParam { DocumentNumber, DocumentType, DesignCode, PrintCount }`; tek kalem için `ItemSlipsItemBarcodePrintParam { …, ItemNumber }`. Görsel dizaynsa PDF, değilse metin döner.
+- **Kalem çeşitlendirme:** `ItemSlipLinesAssortment`.
+
+### Talep → teklif → sipariş
+
+```csharp
+var d = new DemandOfferManager(oAuth2);
+var no = d.NewNumber(new ItemSlipsCodeParam { DocumentType = JTFaturaTip.ftSatTeklif, Code = "T" });
+d.ConvertToOffer(new ConvertToOfferParam {
+    KaynakBelgeTipi = JTFaturaTip.ftSatTalep,
+    Parametreler = new DemandOffer { BelgeTipi = JTFaturaTip.ftSatTeklif, BelgeNo = no.Data },
+    Belgeler = new List<DemandOfferConversionDocument> {
+        new DemandOfferConversionDocument { DocumentNumber = "000000000000025", CurrentCode = "120-01-001", ItemOrderNo = 1 } }
+});
+```
+
+### Üretim
+
+- **Reçete** `BOM`: `PrmMamulKodu`, `ReceteToplami`, `BOMItemList` (`OpNo`, `Opr_Bil` = `B` bileşen / `O` operasyon, `Ham_Kodu`, `Miktar`, `SonOperasyon`).
+- **İş emri** `JIsEmri`: `IsEmriNo`, `Tarih`, `StokKodu`, `Miktar`, `SipKont`, `DepoKodu`, `CikisDepoKodu`, `TeslimTarihi`, `Kapali`.
+- **Reçeteden iş emri:** `ProductionOrderFromBOMParam { ProductionOrderNumber }` → `PrepareProductionOrderItemList` → satırlarda `Secim = true` → `GenerateProductionOrderItems`.
+- **MRP** `JMrp`: `BASTAR`, `BITTAR`, `Detayli`, `BakKont`, `GnlYapKodDestek`, `YapKodKontrol`, `IsEmrHaricNoBas/Bit`, `IsEmriKont`, `MamKont`, `MinStokBak`, `SipKont`.
+- **Gereksinim planı** `JMrpGereksinimPlanOlusturPrm`: `BaslangicTarihi`, `BitisTarihi`, `BazTarihi`, `PlanlamaTipi`, `UrunTipi`, `SadeceOnayliSiparisler`, `SiparisBazindaAyrim`, `FabrikaKodu`…
+- **Talep dengeleme** `RequisitionBalancingPrm` → `PrepareRequisitionBalancing` → sonuçlarda `Secim` → `SaveRequisitionBalancing` (sipariş üretir).
+- **Proses kontrol** `ProcessControl`: `TanimTipi` (`pkIstasyon`), `TanimKodu`, `GrupKodu`, `RevizyonNo`, `Tarih`, `PersonelId`, `ProcessControlMeasurementList` (`OlcumKodu`, `OlcumDegeri`, `OlcumSiraNo`).
+- **Stok planlama** `PlanningRecord`: `Stok_Kodu`, `SIPARISKARSILAMA`, `SIPARISTAKIP`, `PlanlamaTipi`, `TEDARIKCITERCIH`, `REZERV_BAK_TAKIP`, `ONEMSIZ_STOK`, `SIPARIS_ONAYLI`, `REC_ISEM_OLUS` (tek harfli kodlar).
+- **Malzeme maliyeti** `GenerateProductMaterialCostsParam`: `StartDate`, `EndDate`, `PhaseCount`, `ItemCode`, `Code1..5`, `GroupCode`, `IncludingBranches`, `SQLWhereClause`.
+
+### Banka ve çek/senet ödemesi
+
+- **Havale/EFT** `BankRemittanceTransfer`: `IslemTipi` (`tbBankaHvl`, `tbVirman`), `GelGidBA` (`A` gönderilen), `NetHesKodu`, `KarsiHesKod`, `Tutar`, `Sube_Kodu`, `PlasiyerKodu`, `Aciklama`.
+- **Borç çeki ödeme** `DebitCheckPNotesStatementPaymentParam`: `CheckPNoteType` (`csBCEK`), `CheckAndPNoteStatementData` (`SC_NO`, `Seri`, `C_M` = `B` borç, `Aciklama`, `Banka_Kodu`, `Dekont_Tarihi`, `Islem_Tarihi`, `DovizTipi`). Tahsilat için `CheckPNotesStatementPaymentParam` ve `VirmanHesapKodu`.
+
+## Yıkıcı yöntemler
+
+Aşağıdakiler veriyi siler, kodu değiştirir, toplu kayıt üretir ya da dış sisteme gönderir. Yalnızca test şirketinde deneyin:
+
+- Silme: tüm `DeleteInternal…` yöntemleri.
+- Muhasebe: `MontlyVoucherTransfer` (`AktEskiFisSilinsin`), `AccountTransfer`, `ChangeArpsCode`, `StockCodeChange`.
+- Toplu: `SettlementByAging`, `MaterialRequirementsPlanning`, `GenerateRequirementPlan`, `SaveRequisitionBalancing`, `BatchInvoicing`.
+- Dış etki: `SendEmail`, `SendEDocument`, `EDocumentResponse`, `EArchiveCancellationInvoice`.
+- Ham SQL: `QueryManager.PostInternal`.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/rest/json-ornekleri/ -->
+# JSON örnekleri
+
+Gövdeler Logo'nun Postman örneklerinden ve yardım sayfalarından derlenmiştir. Hepsi `POST` ile, `Content-Type: application/json` ve `Authorization: Bearer <token>` başlıklarıyla gönderilir. Tarih biçimi `yyyy-MM-dd HH:mm:ss` ya da ISO 8601'dir.
+
+Ortak üst düzey alanlar (birçok gövdede):
+
+| Alan | Anlam |
+|------|-------|
+| `TransactSupport` | Transaction desteği; `OpenTransaction` ile birlikte kullanılır |
+| `MuhasebelesmisBelge` | Muhasebeleşmiş belge işareti |
+| `OnayTipi`, `OnayNum` | Onay akışı alanları (`"A"`, `0`) |
+
+## Fatura
+
+`POST api/v2/ItemSlips`
+
+```json
+{
+  "FaturaTip": 0,
+  "Seri": "ABC",
+  "KayitliNumaraOtomatikGuncellensin": true,
+  "SeriliHesapla": true,
+  "EPostaGonderilsin": false,
+  "FatUst": {
+    "Sube_Kodu": 0,
+    "Tip": 0,
+    "TIPI": 2,
+    "CariKod": "120-01-014",
+    "Tarih": "2024-06-01 00:00:00",
+    "FIYATTARIHI": "2024-06-01 00:00:00",
+    "KDV_DAHILMI": false,
+    "PLA_KODU": "01",
+    "Proje_Kodu": "1",
+    "EKACK1": "Sipariş: 4711"
+  },
+  "Kalems": [
+    {
+      "StokKodu": "STK001",
+      "STra_GCMIK": 10.0,
+      "STra_BF": 10.0,
+      "STra_NF": 10.0,
+      "STra_KDV": 20,
+      "STra_ACIKLAMA": "açıklama",
+      "STra_DOVTIP": 2,
+      "STra_DOVFIAT": 1.5,
+      "DEPO_KODU": 1,
+      "ReferansKodu": "0342",
+      "ProjeKodu": "1"
+    }
+  ]
+}
+```
+
+Başarılı yanıtta `Data.FatUst.FATIRS_NO` kaydedilen belge numarasıdır.
+
+### ItemSlips alanları
+
+**Üst düzey:** `FaturaTip`, `Seri`, `FatUst`, `Kalems`, `Tahsilats`, `EIrsEkBilgi`, hesaplama bayrakları: `KosulluHesapla`, `FiyatSistemineGoreHesapla`, `StokKartinaGoreHesapla`, `SeriliHesapla`, `MaliyetTipineGoreHesapla`, `OtoIskontoGetir`, `OtoVadeGunGetir`, `OtomatikIslemTipiGetir`, `OtomatikOdemeKoduGetir`, `RiskKontrol`, `BaglantiKontrol`, `ProjeKodKontrol`, `SonNumaraYazilsin`, `KayitliNumaraOtomatikGuncellensin`, `EPostaGonderilsin`; ayrıca `TransactSupport`, `MuhasebelesmisBelge`, `Use64BitService`.
+
+**`FatUst`:** `Sube_Kodu`, `CariKod`, `CARI_KOD2`, `FATIRS_NO`, `GIB_FATIRS_NO`, `Tarih`, `ENTEGRE_TRH`, `FIYATTARIHI`, `KOSULTARIHI`, `DovBazTarihi`, `FiiliTarih`, `SIPARIS_TEST`, `Tip`, `TIPI`, `KOD1`, `KOD2`, `PLA_KODU`, `Proje_Kodu`, `KOSULKODU`, `ODEMEGUNU`, `KDV_DAHILMI`, `EKACK1`…`EKACK16`, `AMBHARTUR`, `GCKOD_GIRIS`, `GCKOD_CIKIS`, `TopDepo`, `TopGirDepo`, `OnayTipi`, `OnayNum`, `EFatOzelKod`, `EIrsaliye`, `EIrsEkBilgi`, `Faturalanmayacak`, toplam alanları.
+
+**`Kalems[]`:** `StokKodu`, `STra_GCMIK`, `STra_GCMIK2`, `STra_BF`, `STra_NF`, `STra_SatIsk`…`STra_SatIsk6`, `STra_KDV`, `STra_DOVTIP`, `STra_DOVFIAT`, `Olcubr`, `DEPO_KODU`, `Gir_Depo_Kodu`, `MuhasebeKodu`, `ReferansKodu`, `ProjeKodu`, `Plasiyer_Kodu`, `STra_SIPNUM`, `Stra_OnayTipi`, `IadeFaturaNo`, `IadeFaturaTarihi`, `KalemSeri[]`, `SatirBaziAciks`.
+
+Tam ve sürümünüze uygun liste: `GET api/v2/definitions/ItemSlips`.
+
+> **Enum'lar sayı ya da ad olarak.** Örneklerde `Tip: 0`, `TIPI: 2` gibi sayılar da, C# istemcisinde `ftSFat`, `ft_Acik` gibi adlar da kullanılır. Sayı–ad eşlemesi için [Kimlikler ve enum'lar](/rest/kimlikler-ve-enumlar/#sayisal-enum-degerleri).
+
+## Fatura hesaplama
+
+`POST api/v2/ItemSlips/Calculate`: gövde fatura ile aynıdır, kayıt yapmaz, toplamları döndürür.
+
+## Siparişten fatura
+
+`POST api/v2/ItemSlips/SiparisToIrsFat`
+
+```json
+{
+  "DocumentType": "ftSSip",
+  "DocumentNumber": "000000000000123",
+  "CustomerCode": "120-01-001",
+  "ItemSlip": {
+    "FaturaTip": "ftSFat",
+    "Seri": "ABC",
+    "FatUst": { "Tarih": "2024-06-01 00:00:00", "TIPI": "ft_Acik" }
+  }
+}
+```
+
+`ItemSlip`, hedef belgenin başlığını ve bayraklarını taşır. `IrsToFat` aynı yapıdadır (`DocumentType` irsaliye tipi). Alan adları yardım sayfasından alınmıştır; değerler örnektir ve bu gövde canlıda sınanmamıştır.
+
+## Cari kartı
+
+`POST api/v2/ARPs`
+
+```json
+{
+  "CariTemelBilgi": {
+    "Sube_Kodu": 0, "ISLETME_KODU": 1,
+    "CARI_KOD": "120-01-999", "CARI_ISIM": "Örnek Ticaret A.Ş.", "CARI_TIP": "A",
+    "M_KOD": "120-01-999",
+    "CARI_ADRES": "Atatürk Cad. No:1", "CARI_IL": "İzmir", "CARI_ILCE": "Konak", "CARI_TEL": "2320000000",
+    "VERGI_DAIRESI": "Konak", "VERGI_NUMARASI": "1234567890",
+    "RISK_SINIRI": 0.0, "VADE_GUNU": 0, "DOVIZ_TIPI": 0,
+    "HESAPTUTMASEKLI": "Y", "DOVIZLIMI": "H", "MUSTERIBAZIKDV": "H"
+  },
+  "CariEkBilgi": {
+    "CARI_KOD": "120-01-999",
+    "TcKimlikNo": "11111111111",
+    "Kull1S": "segment-A", "Kull1N": 0.0,
+    "CariRisk": "E"
+  },
+  "SubelerdeOrtak": false,
+  "IsletmelerdeOrtak": false
+}
+```
+
+Alanlar `TBLCASABIT` ve `TBLCASABITEK` kolonlarına karşılık gelir.
+
+## Cari hareket
+
+`POST api/v2/ARPTransactions`
+
+```json
+{
+  "TransactSupport": true,
+  "MuhasebelesmisBelge": false,
+  "SilmeIcinGerekliSahalar": "INC_KEY_NUMBER",
+  "SonKayitNoAl": false,
+  "Sube_Kodu": 0,
+  "CARI_KOD": "120-01-999",
+  "Tarih": "2024-06-01",
+  "Vade_Tarihi": "2024-07-01",
+  "Belge_No": "DKT000000000001",
+  "Aciklama": "Açılış",
+  "Hka": "A",
+  "Borc": 1.0,
+  "Alacak": 0.0,
+  "DOVIZ_TURU": 0,
+  "Doviz_Tutar": 0.0,
+  "Hareket_Turu": "A",
+  "Proje_Kodu": "1",
+  "OnayTipi": "A",
+  "OnayNum": 0
+}
+```
+
+`SilmeIcinGerekliSahalar` silmede kullanılacak anahtarı (`INC_KEY_NUMBER`) belirtir. `Hka` ve `Hareket_Turu` ayrı alanlardır; değer listeleri belgelenmemiştir (`TBLCAHAR.HKA` açıklamasına göre `K` "öncelikli kapatılmış").
+
+## Stok kartı
+
+`POST api/v2/Items` (en küçük gövde)
+
+```json
+{
+  "StokTemelBilgi": { "Stok_Kodu": "HAMMADDE-1", "Stok_Adi": "Deneme" },
+  "StokEkBilgi": { "Stok_Kodu": "HAMMADDE-1" }
+}
+```
+
+Diğer `StokTemelBilgi` alanları: `KDV_Orani`, `Alis_Kdv_Kodu`, `Satis_Fiat1..2`, `Alis_Fiat1..2`, `Giris_Seri`, `Cikis_Seri`, `Pay_1`, `Payda_1`, `Pay2`, `Payda2`. `StokEkBilgi`: `Ingisim`, `I_Yedek1`.
+
+## Stok hareketi
+
+`POST api/v2/ItemTransactions`
+
+```json
+{
+  "Stok_Kodu": "STK001",
+  "Sthar_Tarih": "2024-06-01",
+  "Sthar_Htur": "M",
+  "Sthar_Gckod": "G",
+  "Sthar_Gcmik": 5,
+  "Sthar_Bf": 10,
+  "DEPO_KODU": 1,
+  "Proje_Kodu": "1",
+  "Plasiyer_Kodu": "01"
+}
+```
+
+## Kasa
+
+`POST api/v2/SafeDeposits`
+
+```json
+{
+  "KsMas_Kod": "01",
+  "Tarih": "2024-06-01",
+  "Fisno": "KSA000000000001",
+  "IO": "G",
+  "Tip": "C",
+  "Cari_Muh": "C",
+  "Kod": "120-01-999",
+  "Aciklama": "Tahsilat",
+  "Tutar": 45.0,
+  "DovizTut": 0.0,
+  "Kur": 0.0,
+  "Sube_Kodu": 0,
+  "Proje_Kodu": "1",
+  "OnayTipi": "A",
+  "OnayNum": 0
+}
+```
+
+`IO`: `G` gelir / `C` gider. `Tip`: `C` cari, `F` fatura, `M` muhtelif… `Cari_Muh`: `Kod` alanı cari mi (`C`) muhasebe mi (`M`).
+
+## Çek / senet
+
+`POST api/v2/CheckAndPNotesMain`
+
+```json
+{
+  "Tip": 0,
+  "CekSenEvrakKaydetmeTip": 0,
+  "BordroNo": "A00000000000001",
+  "Evraklar": [{
+    "Sube_Kodu": 0,
+    "SC_NO": "CEK-0001",
+    "SC_GIRTRH": "2024-06-01", "VADETRH": "2024-07-01", "SC_ODETRH": "2024-07-01",
+    "SC_VERENK": "120-01-999",
+    "AS_C": "A", "SC_SONDUR": "B", "SC_YERI": "P",
+    "Tutar": 456.0,
+    "DOVTIP": 0, "DOVTUT": 0.0,
+    "GIRILDIGIYER": 2,
+    "Proje_Kodu": "1",
+    "OnayTipi": "A", "OnayNum": 0
+  }]
+}
+```
+
+## E-belge
+
+| Uç | Gövde |
+|----|-------|
+| `POST api/v2/EDocument` (taslak) | `{ "BelgeNo": "ABC2024000000123", "Tip": 1, "DizaynKontrol": false, "DovizliOlustur": false }` |
+| `POST api/v2/EDocument/SendEDocument` | `{ "DocumentNumber": "...", "CustomerCode": "...", "DocumentType": "ftSFat", "EDocumentType": 1 }` |
+| `POST api/v2/EDocument/ShowEDocument` | `{ "GIBDocumentNumber": "ABC2024000000123", "HtmlPath": "", "DocumentBoxType": 2, "EDocumentType": 1 }` |
+
+`Tip` ve `EDocumentType`: **0 e-arşiv, 1 e-fatura, 2 e-irsaliye**. `ShowEDocument`'ta `HtmlPath` boş bırakılırsa HTML yanıtta döner; dolu ise sunucudaki o klasöre yazılır.
+
+## Toplu faturalama
+
+`POST api/v2/BatchInvoicing`
+
+```json
+{
+  "FaturaTip": 2,
+  "AltCariKodu": "120-01-001", "UstCariKodu": "120-01-999",
+  "AltIrsaliyeNumarasi": "IRS000000000001", "UstIrsaliyeNumarasi": "IRS000000000999",
+  "FaturaNumarasi": "ABC2024000000200",
+  "IrsaliyelerBirlessin": true,
+  "KapaliIrsaliyeIcinKasa": "00",
+  "PlaKodFarkliIrsBirlessin": true,
+  "ProjeKodFarkliIrsBirlessin": true,
+  "EFaturaCarileriGetirilsin": true
+}
+```
+
+Alt/üst alanları bir aralık tanımlar (cari ve irsaliye numarası aralığı).
+
+## İş emri
+
+`POST api/v2/ProductionOrder`
+
+```json
+{
+  "TransactSupport": true,
+  "IsEmriNo": "000000000000033",
+  "Tarih": "2024-06-01 00:00:00",
+  "StokKodu": "A-MAMUL",
+  "Miktar": 1.0,
+  "Olcubr": 0,
+  "TeslimTarihi": "2024-06-02 00:00:00",
+  "Kapali": false,
+  "Oncelik": 0,
+  "SipKont": 0,
+  "SubeKodu": 0,
+  "DepoKodu": 1,
+  "CikisDepoKodu": 1,
+  "Rework": false,
+  "OnayTipi": "A", "OnayNum": 0
+}
+```
+
+## Serbest üretim
+
+`POST api/v2/FinishedGoodsReceiptWChanges/ReceiptProduce`
+
+```json
+{
+  "TransactSupport": true,
+  "UretSon_FisNo": "000000000000428",
+  "UretSon_Tarih": "2024-06-01 00:00:00",
+  "UretSon_Depo": 1,
+  "UretSon_Mamul": "MMLX1",
+  "UretSon_Miktar": 1.0,
+  "Sube_Kodu": 0,
+  "Proje_Kodu": "1",
+  "Recete_Tarih": "2024-06-01 00:00:00",
+  "BAKIYE_DEPO": 0,
+  "OTO_YMAM_GIRDI_CIKTI": true,
+  "KayitlaraGecilsin": true
+}
+```
+
+Seri takipli mamullerde `Seri: [{ "Seri1": "...", "Seri2": "...", "Miktar": 1 }]` eklenir.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/rest/kimlikler-ve-enumlar/ -->
+# Kimlikler ve enum'lar
+
+## {id} biçimleri
+
+Birçok kaynakta `{id}` tek bir kolon değil, `;` ile ayrılmış **bileşik anahtardır**. URL'de kullanırken encode edin (`;` → `%3B` gerekmez ama boşluk ve `/` içeren kodlar için gerekir).
+
+| Kaynak | Biçim | Örnek |
+|--------|-------|-------|
+| `ItemSlips` | `<JTFaturaTip>;<FATIRS_NO>;<CARI_KOD>` | `ftSSip;000000000000123;120-01-001` |
+| `ItemSlips` (yalnız tip ve no) | `<JTFaturaTip>;<FATIRS_NO>` | `ftASip;999999999999999` |
+| Talep | `ftSatTalep;<FATIRS_NO>` | `ftSatTalep;000000000000025` |
+| `CheckAndPNotesMain` | `<JTCekSenType>;<SC_ALB_NO>` | `csMCEK;A00000000000001` |
+| `BankRemittanceTransfer` | `<JTBankaHavaleEftTip>;<?>;;<belge no>` | `tbVirman;1;;000000000000032` |
+| `MixedReceiptsMain` | `<KasaKod>;<BelgeNo>;<CariKod>;<yyyy-MM-dd>` | `01;45454545;00001;2015-10-27` |
+| `ARPTransactions` | `INC_KEY_NUMBER` (tam sayı) | `178` |
+| `ARPs`, `Items`, `GLAccounts` | Kod | `120-01-001`, `STK001`, `120-01-013` |
+| `ForExs`, `ExRates` | Tam sayı (`NETSISSIRA` / sıra) | `1` |
+| `FinishedGoodsReceiptWChanges` | `UretSon_FisNo` | `000000000000428` |
+| Proses kontrol | `ProsesKontrolNo` | `000000000000001` |
+| Stok planlama | Stok kodu | `SER1X` |
+
+`SC_ALB_NO` değeri `TBLMCEK`, `TBLMSEN`, `TBLBCEK`, `TBLBSEN` tablolarından gelir. Belgelenmemiş parçalar için ilgili kaynağın `definitions` ve `helpinfo` sayfalarına bakın.
+
+## Enum değerleri
+
+C# istemcisinde `JT` önekli enum'lar kullanılır (COM'daki `T` önekli enum'ların karşılığı).
+
+| Enum | Değerler |
+|------|----------|
+| `JTFaturaTip` | `ftSFat` satış faturası, `ftAFat` alış faturası, `ftSSip` satış siparişi, `ftASip` alış siparişi, `ftSIrs` satış irsaliyesi, `ftAIrs` alış irsaliyesi, `ftSatTalep` satış talebi, `ftSatTeklif` satış teklifi, `ftDepo` depolar arası, `ftAmbarG` ambar giriş, `ftAmbarC` ambar çıkış |
+| `JTFaturaTipi` | `ft_YurtIci`, `ft_YurtDisi`, `ft_Acik`, `ft_Ihracat`, `ft_Bos` (COM'daki `ft_Kapali`, `ft_Iade`… da beklenir) |
+| `JNVTTipi` | `vtMSSQL` |
+| `JTCekSenType` | `csMCEK` müşteri çeki, `csMSEN` müşteri senedi, `csBCEK` borç çeki, `csBSEN` borç senedi |
+| `JTCekSenetEvrakKaydetmeTipi` | `ektCekSenAlma` |
+| `JTKasaBasimTipi` | `kbMSen` |
+| `JTBankaHavaleEftTip` | `tbBankaHvl` havale, `tbVirman` virman |
+| `JTEBelgeTip` | `ebtEFatura`, `ebtEIrs` |
+| `JTEBelgeYanitTipi` | `ytKabul` |
+| `JTEBelgeBoxType` | `ebAll` |
+| `JTDepoBelgeTipi` | `dbtAlisFaturasi`, `dbtDepolarArasiTransfer` |
+| `JTDepoIslemTipi` | `ditYerlestirme` |
+| `JTDepoHareketTipi` | `dhtNormal` |
+| `JTAmbarHarTur` | `htUretim`, `htDepolar` |
+| `JTCikisYeri` | `cyMasrafMer` |
+| `JTHalFatTipi` | `hftHalKomisyon` |
+| `JTBorcAlacak` | `cdHepsi` |
+| `JTDovCevrimTipi` | `DovizSatis` |
+| `JTHareketTipAraligi` | `Devir`, `Muhtelif` |
+| `JTTarihAraligi` | `TKayit` |
+| `JTMuhAktTuru` | `atAlacak` |
+| `JTAcikReceteBilesenSirasi` | `arbsGirisSirasi` |
+| `JTMrpUrunTipi` | `mutSiparisBakiye` |
+| `JTMrpSiparis` | `msHepsi` |
+| `JTSaticiKoduBosIhtiyaclar` | `biGetirilsin` |
+| `JTGruplamaSecenekTipi` | `gsHicbiri` |
+| `JTProsesKontrolTanimTipi` | `pkIstasyon` |
+| `JTRaporSonucuCiktiTipi` | `rsctExcel` |
+
+Liste örnek kodlarda geçen değerlerle sınırlıdır; tam liste için `GET api/v2/definitions/<Kaynak>` çıktısındaki enum tanımlarına bakın.
+
+## Sayısal enum değerleri
+
+JSON'da enum'lar ad (`"ftSFat"`) ya da sayı (`0`) olarak gönderilebilir. Gözlenen sayılar:
+
+| Alan | Sayı | Anlamı | Kaynak |
+|------|------|--------|--------|
+| `EDocument.Tip`, `EDocumentType` | `0` / `1` / `2` | e-arşiv / e-fatura / e-irsaliye | Postman örneği |
+| token `dbtype` | `0` | MSSQL (varsayım) | örnek kod |
+| `FatUst.Tip` | `0` | `ftSFat` ile birlikte kullanılmış (varsayım) | örnek kod |
+| `FatUst.TIPI` | `2` | açık fatura ile tutarlı (`TBLFATUIRS.TIPI = 2`) — doğrulanmadı | örnek kod |
+| `BatchInvoicing.FaturaTip` | `2` | belirsiz | Postman örneği |
+
+> Enum sırası sürümler arasında değişebilir. Sayı yerine **adı** göndermek daha güvenlidir; bir sayının anlamından emin değilseniz `definitions` çıktısından doğrulayın.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/rest/transaction-ve-hatalar/ -->
+# Transaction ve hatalar
+
+## Transaction
+
+Birden fazla yazma işlemini tek iş olarak yapmak için:
+
+1. `GET api/v2/OpenTransaction` → yanıtta `transId` döner.
+2. Yazma çağrılarını yap. Gövdelerdeki `TransactSupport: true` bayrağı transaction desteğini açar.
+3. Başarılıysa `GET api/v2/CommitTransaction?transId=<id>`, hata varsa `GET api/v2/RollBackTransaction?transId=<id>`.
+
+> Yazma çağrısının hangi transaction'a bağlandığı (başlık mı, parametre mi, token oturumu mu) Logo dokümanında yazmaz. Gözlem: `OpenTransaction` yalnızca `transId` döner ve gövdelerde yalnızca `TransactSupport` bayrağı vardır; bağın **token oturumu** üzerinden kurulduğu varsayılır (doğrulanmadı). Kritik akışlarda önce test şirketinde sınayın.
+
+## Yanıt zarfı
+
+İş sonucu döndüren uçlar şu biçimdedir (C# `TResult<T>`):
+
+```json
+{
+  "IsSuccessful": false,
+  "ErrorCode": 101,
+  "ErrorDesc": "Invalid object name 'DBMONITOR..TBLSUBELER'",
+  "Data": null
+}
+```
+
+| Alan | Anlam |
+|------|-------|
+| `IsSuccessful` | İş başarılı mı. **HTTP 200 dönse bile `false` olabilir** |
+| `ErrorCode` | Netsis/NetOpenX hata kodu |
+| `ErrorDesc` | Hata açıklaması (Netsis'in kendi mesajı) |
+| `Data` | Sonuç (tek nesne, liste ya da PDF için base64) |
+
+Bazı sistem uçları farklı alan adları kullanır (ör. `HealthCheck` → `IsSuccessful` + `Description`).
+
+## Hata durumları
+
+| Durum | Belirti | Yapılacak |
+|-------|---------|-----------|
+| Token yok / süresi dolmuş | HTTP `401` | Yeniden token al, isteği bir kez tekrarla |
+| Hatalı giriş | `400` + `{"error":"invalid_grant", ...}` | Kullanıcı, şifre, şirket, şube bilgilerini kontrol et |
+| İş kuralı hatası | `IsSuccessful: false`, `ErrorDesc` dolu | Mesajı kullanıcıya/loga aktar; tekrar deneme |
+| Servis kapalı | bağlantı reddi | `public/Ping`, Windows servisi, port |
+| Uzun süren işlem | zaman aşımı | İstemci zaman aşımını yükselt; işlemin sunucuda tamamlanıp tamamlanmadığını kontrol et |
+
+HTTP durum kodlarının tam eşlemesi Logo tarafından belgelenmemiştir; istemci kodunuz hem HTTP kodunu hem `IsSuccessful`'u kontrol etmelidir.
+
+## Çift kayıt riski
+
+Yazma çağrıları **idempotent değildir**. Ağ kopması ya da zaman aşımında istek sunucuda tamamlanmış olabilir; körü körüne tekrar etmek aynı faturayı iki kez yazar.
+
+- Yazmadan önce iş anahtarıyla (belge no, cari kod, harici referans) kaydın varlığını kontrol edin.
+- Faturada kendi referansınızı bir alana yazın (ör. `EKACK16` ya da `TBLFATUIRS.EXTERNALREFID` kolonuna karşılık gelen alan) ve tekrar denemeden önce bu referansla sorgulayın.
+- Zaman aşımı sonrası önce okuyun, sonra gerekiyorsa yazın.
+
+## Kaynak tüketimi
+
+- Her token sunucuda bir NetOpenX oturumu açar. Tokenı paylaşın ve önbelleğe alın; her istekte login olmayın.
+- Büyük listelerde `limit`/`offset` ile sayfalayın; `fields` ile yalnızca gereken kolonları isteyin.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/rest/guvenlik/ -->
+# Güvenlik
+
+NetOpenX REST servisi şirket verisine yazabilen, ham SQL çalıştırabilen bir servistir. **İnternete doğrudan açmayın.**
+
+## Ağ
+
+- Servisi yalnızca onu kullanan uygulama sunucularının erişebileceği bir ağ bölümünde tutun (güvenlik duvarı izin listesi).
+- Dışarıdan erişim gerekiyorsa önüne kimlik doğrulama ve TLS yapan bir ters vekil (reverse proxy) / API ağ geçidi koyun; yalnızca kullandığınız uçları yönlendirin.
+- Servis varsayılan olarak HTTP çalışır; ağ üzerinde parola ve token düz metin gider.
+
+## Anonim uçlar
+
+`public/*`, `HealthCheck`, `help` ve `helpinfo` token istemez. Bunlardan bazıları bilgi sızdırır:
+
+- `public/AuthorizedBranches` kullanıcıların şube yetkilerini,
+- `public/CompanyList` şirket listesini,
+- `public/GetLicInfo/KeyInfo` lisans bilgisini,
+- `help` tüm API yüzeyini gösterir.
+
+Ters vekilde bu uçları dış erişime kapatın.
+
+## Ham SQL uçları
+
+`api/v2/Queries` ve `api/v2/Queries/NetRS` gönderilen SQL'i çalıştırır; `insert`, `update`, `delete` de dahildir. Token'ı ele geçiren biri veritabanında her şeyi yapabilir.
+
+- Uygulamalarınızda kullanmayın.
+- Ters vekilde engelleyin.
+
+## Filtre enjeksiyonu
+
+`q` (ve C#'ta `SelectFilter.Filter`) SQL `WHERE` parçası olarak işlenir. Kullanıcı girdisini ham koymak SQL enjeksiyonuna açıktır. Kolon adlarını izin listesinden seçin, değerleri kaçırın ve tipini doğrulayın ([Sorgulama](/rest/sorgulama/#guvenlik-notu)).
+
+## Yama seviyesi
+
+Üçüncü taraf bir kaynak, NetOpenX REST token ucunda kimlik doğrulamasız SQL enjeksiyonu bildirmiştir. Bu bilgi Logo dokümanında yoktur; etkilenen sürümler ve yama **doğrulanmamıştır**. Sunucunuzun sürümünü (`public/Version`) Logo'dan güncel güvenlik duyurularıyla karşılaştırın ve servisi ağ düzeyinde koruyun.
+
+## Kimlik bilgileri
+
+- Örnek kodlardaki kullanıcılar (`sa`/`sapass`, `NETSIS`/`NET1`, `Admin`/`Admin`) **yalnızca örnektir**; üretimde kullanmayın.
+- REST için ayrı, yalnızca gereken modüllere yetkili bir Netsis kullanıcısı açın.
+- Veritabanı kullanıcısının (`TEMELSET`) şifresini boş bırakmayın.
+- Kimlik bilgilerini kaynak koda, depoya, CI değişkenlerine düz metin koymayın; örnek projelerdeki "Beni hatırla" ayarı bilgileri düz metin saklar.
+
+## Yıkıcı işlemler
+
+Silme, kod değiştirme, e-belge gönderme, toplu MRP gibi işlemleri ([liste](/rest/istemci-kutuphanesi/#yikici-yontemler)) yalnızca açıkça tanımlı ve yetkilendirilmiş akışlardan çağırın; her biri için kayıt (audit log) tutun.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/rest/bilinen-sorunlar/ -->
+# Bilinen sorunlar ve açık sorular
+
+Logo'nun örnek kodları çalışma garantisi vermez. Kopyalamadan önce derleyin ve test şirketinde sınayın.
+
+## Dokümantasyon ve örneklerdeki tutarsızlıklar
+
+- **POST/PUT açıklaması ters.** "Temel" sayfası PUT'u oluşturma, POST'u güncelleme olarak anlatır; uç kataloğu ve davranış standarttır (POST oluşturur).
+- **`GLSlps` yazımı.** Muhasebe fişi silme yolu sayfada `api/v2/GLSlps/{id}` yazılı; `GLSlips` olması beklenir.
+- **Varsayılan `limit`.** Bir sayfada 20, diğerinde 10. Her zaman açıkça verin.
+- **`ContractsMain` şeması.** Açıklama alanında yanlışlıkla "BatchInvoicing" yazılı.
+- **Değişken adları.** Örneklerde `_ArpsManager`, `_ARPsManager` ve tanımsız `_CustomersManager` karışık kullanılmış.
+- **"Cari Ekle" örneği önce siler.** `DeleteInternalById` ardından `PostInternal` çağrılıyor; var olan kaydı siler.
+- **Tip uyumsuzlukları.** `CheckAndPNotesMainParam.BordroNo` bir yerde tam sayı, diğerinde metin; döviz örneğinde `string sira = 5;` derlenmez; fatura JSON'unda `"STra_DOVTIP": "2"` tırnaklı.
+- **`FaturaTip` iki yerde.** `ItemSlips.FaturaTip` ve `FatUst.Tip` birlikte veriliyor; hangisinin öncelikli olduğu yazmıyor. İkisini aynı değerle gönderin.
+- **Numara çakışması.** Bir örnekte `FATIRS_NO` elle verilmiş ve `KayitliNumaraOtomatikGuncellensin = true` aynı anda ayarlı; sunucunun hangisini kullanacağı belirsiz. Kayıt sonrası dönen numarayı okuyun.
+- **Müstahsil Postman örneği** çek/senet gövdesinin kopyası; müstahsil için doğru gövde değil.
+- **Serbest üretim alan adları:** `UretSon_MalY1` / `UretSon_Maly2` yazımı tutarsız; `definitions` çıktısından doğrulayın.
+- **Örnek projelerde her işlemde yeniden login** yapılıyor; token yeniden kullanılmıyor.
+- **Postman token gövdesinde** `dbpassword={{}}` değişken adı eksik.
+- **Tarih biçimi.** Bir örnekte tarih `DateTime.Now.ToString()` ile gönderiliyor; bölgesel ayara bağlıdır. ISO 8601 kullanın.
+- **Token yanıtı** bir örnekte elle virgül/iki nokta ile ayrıştırılıyor; gerçek bir JSON ayrıştırıcı kullanın.
+
+## Açık sorular (doğrulanmadı)
+
+1. Token yanıtının tam alan listesi (`access_token`, `expires_in`, `token_type`…).
+2. `dbtype` sayısal değerleri (`0` = MSSQL varsayımı).
+3. `TokenRestSettings.Init`'in ikinci ve üçüncü parametreleri.
+4. Yazma çağrılarının transaction'a nasıl bağlandığı.
+5. HTTP hata kodlarının tam eşlemesi.
+6. `SonKayitNoAl`, `Hka`, `Hareket_Turu`, `AS_C`, `SC_YERI`, `SC_SONDUR`, `IO`, `Tip`, `Kdv_Dahil` alanlarının tam değer listeleri.
+7. Sayısal enum değerlerinin (`TIPI: 2`, `BatchInvoicing.FaturaTip: 2`) karşılıkları.
+8. `api/v2/public/CompanyList`'in hangi kurulumlarda çalıştığı (bazılarında `DBMONITOR..TBLSUBELER` hatası).
+
+Bu soruların yanıtını biliyorsanız [GitHub'da](https://github.com/bahadirdogru/netsis-documentation-examples) katkıda bulunun.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/kaynaklar/ -->
+# Kaynaklar
+
+## Birincil kaynaklar
+
+- **Logo DYS / Polaris — Netsis Uyarlama Araçları.** NetOpenX, NetOpenX Rest (Temel, Başlangıç, Kütüphane, Örnek Kaynak Kodlar), Netsis Data Inspector, sürüm duyuruları, Postman örnekleri.
+  - [Polaris: Netsis Uyarlama Araçları](https://polaris.logo.cloud/docs/netsis-uyarlama-araclari)
+  - Logo DYS NetOpenX Rest sayfaları (`dys.logo.cloud`)
+- **Logo örnek projeleri:** `DocProje` (NetOpenX ve Rest Client C# örnek projesi, WinForms, .NET 4.7.2), `EGTM24-25` (eğitim örnekleri), `NoxRestNativeFaturaOrnek` (ham HTTP ile fatura).
+
+## Depodaki Logo DYS kopyası
+
+| Klasör | İçerik |
+|--------|--------|
+| `sayfalar/netopenx/` | NetOpenX temelleri, başlangıç ve 50 nesne için C#, VB ve Delphi örnekleri |
+| `sayfalar/netopenx-rest/` | NetOpenX Rest temelleri, kurulum, kütüphane (uç kataloğu), GET/POST/PUT, RestClient örnek kodları, Test App |
+| `sayfalar/netsis-data-inspector-ndi/` | NDI temelleri, kurulum, dinamik kodlama kütüphanesi, dizayn, örnekler, webinar listesi |
+| `ekler/` | `Netsis Uyarlama Araclari.pdf`, `NetOpenXRest.pdf`, `NDI.pdf`, örnek projeler (`DocProje.zip`, `EGTM24-25.rar`, `NoxRestNativeFaturaOrnek.rar`, `NetOpenX Ebelge.rar`, `NetopenXStokKartıOku.rar`, `NetopenxNetRSKullanımı.rar`, `NetopenxReferansEkleme.rar`, `NdiDemirbasPrj.zip`), NDI tasarım XML'leri, kurulum ekran görüntüleri |
+
+Yeniden üretmek için: `node tools/import-dys.js <döküm.json>` (döküm, sayfalar Vaadin ile yüklendiğinden tarayıcıda alınır).
+- **NetsisQuick** (Bahadır Doğru). NetOpenX COM ile Excel'den sipariş, irsaliye, fatura, depolar arası transfer, ambar fişi, e-belge oluşturan WinForms uygulaması (.NET 4.8). [NetOpenX](/netopenx/) bölümündeki kod örneklerinin çoğu bu projedeki üretim kodundan sadeleştirilmiştir.
+
+## bahadirdogru.com yazıları
+
+- [NetOpenX temel bilgiler](https://bahadirdogru.com/netopenx-temel-bilgiler/): kurulum, register, ilk fatura, kaynak temizliği.
+- [NetOpenX ve Rest Client C# örnek proje](https://bahadirdogru.com/netopenx-ve-rest-client-c-rnek-proje/)
+- [NetOpenX: tevkifatlı fatura](https://bahadirdogru.com/c-tevkifatl%C4%B1-fatura/)
+- [NetOpenX: TCMB banka kayıtları online güncelleme](https://bahadirdogru.com/c-tcmb-banka-kay%C4%B1tlar%C4%B1-online-gncelleme/)
+- [NetOpenX: talep - teklif okuma](https://bahadirdogru.com/c-talep-teklif-okuma/)
+
+## Sürüm takvimi (örnek)
+
+| Sürüm | Tarih |
+|-------|-------|
+| 9.0.39-2022.R1 | 2022-01-24 |
+| 9.0.40-2022.R2 | 2022-03-21 |
+| 9.0.41-2022.R3 | 2022-05-23 |
+| 9.0.42-2022.R4 | 2022-07-25 |
+| 9.0.43-2022.R5 | 2022-10-03 |
+| 9.0.44-2022.R6 | 2022-11-28 |
+| 9.0.45-2023.R1 | 2023-01-23 |
+| 9.0.46-2023.R2 | 2023-03-06 |
+| 9.0.47-2023.R3 | 2023-04-10 |
+| 9.0.48-2023.R4 | 2023-05-29 |
+| 9.0.49-2023.R5 | 2023-07-17 |
+| 9.0.50-2023.R6 | 2023-09-18 |
+| 9.0.51-2023.R7 | 2023-10-23 |
+| 9.0.52-2023.R8 | 2023-12-04 |
+| 9.0.53-2024.R1 | 2024-01-15 |
+
+Sonraki sürümler ve her sürümün yenilikleri için Logo'nun sürüm duyurularına bakın.
+
+## Diğer araçlar
+
+- **Netsis Data Inspector (NDI):** Netsis veritabanını incelemek ve ekran tasarlamak için uyarlama aracı; kütüphanesi VB Script'tir.
+- **NetBasimX:** Netsis dizaynlarıyla basım için COM kütüphanesi.
+- Üçüncü taraf `mcp-netsis-rest-api` (MCP sunucusu): doğrudan SQL erişimi ve sabit sunucu adresi içerir; üretimde kullanmadan önce inceleyin.
+
+## Lisans
+
+Bu sitenin içeriği ve kodu MIT lisanslıdır. Netsis, NetOpenX ve Logo, Logo Yazılım'ın ticari markalarıdır; bu site Logo ile bağlantılı değildir.

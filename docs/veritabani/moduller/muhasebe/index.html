@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MUHASEBE modülü · Netsis Dokümantasyonu</title>
+<meta name="description" content="MUHASEBE modülündeki 45 tablo">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/moduller/muhasebe/">
+<link rel="alternate" type="text/markdown" href="/veritabani/moduller/muhasebe.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="MUHASEBE modülü">
+<meta property="og:description" content="MUHASEBE modülündeki 45 tablo">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/moduller/muhasebe/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/" aria-current="page">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a></nav>
+<article>
+<h1 id="muhasebe-modulu-tablolari"><a class="anchor" href="#muhasebe-modulu-tablolari" aria-hidden="true">#</a>MUHASEBE modülü tabloları</h1>
+<p>Bu modülde şema dokümanında ayrıntısı bulunan <strong>45</strong> tablo var.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th align="right">Kolon</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/veritabani/tablolar/tblbeyanbasim/"><a class="tbl" href="/veritabani/tablolar/tblbeyanbasim/"><code>TBLBEYANBASIM</code></a></a></td>
+<td align="right">19</td>
+<td>MUHTASAR ,KDV BEYANNAME, GECICI VERGI BEYANNAMESI, DAMGA VERGI BEYANNAMESI PARAMETRE KAYITLARI VE BASIM KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbeyanrehber/"><a class="tbl" href="/veritabani/tablolar/tblbeyanrehber/"><code>TBLBEYANREHBER</code></a></a></td>
+<td align="right">6</td>
+<td>Beyanname il ilçe kodları yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbformmas/"><a class="tbl" href="/veritabani/tablolar/tblbformmas/"><code>TBLBFORMMAS</code></a></a></td>
+<td align="right">110</td>
+<td>B FORMU PARAMETRE KAYITLARINI VE MÜKELLEF VE DÜZENLEYEN BİLGİLERİ KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbformmasek/"><a class="tbl" href="/veritabani/tablolar/tblbformmasek/"><code>TBLBFORMMASEK</code></a></a></td>
+<td align="right">34</td>
+<td>Mükellef ve düzenleyen bilgileri ekranındaki -Tam tasdik düzenleyen bilgileri yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbformu/"><a class="tbl" href="/veritabani/tablolar/tblbformu/"><code>TBLBFORMU</code></a></a></td>
+<td align="right">14</td>
+<td>B FORMU KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbynvergidaire/"><a class="tbl" href="/veritabani/tablolar/tblbynvergidaire/"><code>TBLBYNVERGIDAIRE</code></a></a></td>
+<td align="right">3</td>
+<td>beyanname vergi daireleri listesi yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbledefter/"><a class="tbl" href="/veritabani/tablolar/tbledefter/"><code>TBLEDEFTER</code></a></a></td>
+<td align="right">34</td>
+<td>EDEFTERE AİT BİLGİLER YER ALIR. NETSIS VERİTABANI ALTINDA TUTULMAKTADIR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblindkdvlog/"><a class="tbl" href="/veritabani/tablolar/tblindkdvlog/"><code>TBLINDKDVLOG</code></a></a></td>
+<td align="right">18</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblindkdvprm/"><a class="tbl" href="/veritabani/tablolar/tblindkdvprm/"><code>TBLINDKDVPRM</code></a></a></td>
+<td align="right">25</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkdv1islemtur/"><a class="tbl" href="/veritabani/tablolar/tblkdv1islemtur/"><code>TBLKDV1ISLEMTUR</code></a></a></td>
+<td align="right">3</td>
+<td>KDV BEYANNAMESİ KISMİ TEVKİFAT UYGULANAN İŞLEMLER İŞLEM TÜRÜ BİLGİLERİ TUTULUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkdvbeyan/"><a class="tbl" href="/veritabani/tablolar/tblkdvbeyan/"><code>TBLKDVBEYAN</code></a></a></td>
+<td align="right">118</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkdvicmalprm/"><a class="tbl" href="/veritabani/tablolar/tblkdvicmalprm/"><code>TBLKDVICMALPRM</code></a></a></td>
+<td align="right">23</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkdvodemetur/"><a class="tbl" href="/veritabani/tablolar/tblkdvodemetur/"><code>TBLKDVODEMETUR</code></a></a></td>
+<td align="right">2</td>
+<td>KDV BEYANNAMESİ ÖDEME TÜRÜ BİLGİLERİ TUTULUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkdvtevkifattur/"><a class="tbl" href="/veritabani/tablolar/tblkdvtevkifattur/"><code>TBLKDVTEVKIFATTUR</code></a></a></td>
+<td align="right">2</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmugrup/"><a class="tbl" href="/veritabani/tablolar/tblmugrup/"><code>TBLMUGRUP</code></a></a></td>
+<td align="right">4</td>
+<td>MUHASEBE&gt;KAYIT&gt;GRUP KODU KAYITLARI EKRANINDA GİRİLEN KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmuhacik/"><a class="tbl" href="/veritabani/tablolar/tblmuhacik/"><code>TBLMUHACIK</code></a></a></td>
+<td align="right">3</td>
+<td>MUHASEBE/KAYIT/FİŞ AÇIKLAMA KAYITLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmuhaprm/"><a class="tbl" href="/veritabani/tablolar/tblmuhaprm/"><code>TBLMUHAPRM</code></a></a></td>
+<td align="right">71</td>
+<td>MUHASEBE PARAMETRELERİNİ TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmuharef/"><a class="tbl" href="/veritabani/tablolar/tblmuharef/"><code>TBLMUHAREF</code></a></a></td>
+<td align="right">8</td>
+<td>REFERAND KODU KAYITLARINDA TANIMLANAN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmuhares/"><a class="tbl" href="/veritabani/tablolar/tblmuhares/"><code>TBLMUHARES</code></a></a></td>
+<td align="right">97</td>
+<td>YEVMİYE DEFTERİNDE RESMİ BASIM İŞARETLENİP BASIM ALINDIĞINDAKİ KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmuhfis/"><a class="tbl" href="/veritabani/tablolar/tblmuhfis/"><code>TBLMUHFIS</code></a></a></td>
+<td align="right">48</td>
+<td>YEVMİYE FİŞ GİRİŞİNDE FİŞ DETAY SEKMESİNDE GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmuhfisek/"><a class="tbl" href="/veritabani/tablolar/tblmuhfisek/"><code>TBLMUHFISEK</code></a></a></td>
+<td align="right">35</td>
+<td>MUHASEBE FİŞLERİNE AİT KAYNAK BİLGİLERİN TUTULDUĞU TABLODUR. EDEFTER HAZIRLIK İLE DE BU TABLODA KAYITLAR OLUŞTURULABİLİR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmuhmas/"><a class="tbl" href="/veritabani/tablolar/tblmuhmas/"><code>TBLMUHMAS</code></a></a></td>
+<td align="right">23</td>
+<td>YEVMİYE FİŞ GİRİŞİNDE FİŞ GENEL BİLGİSİ SEKMESİNDE GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmuhtasarbelgetur/"><a class="tbl" href="/veritabani/tablolar/tblmuhtasarbelgetur/"><code>TBLMUHTASARBELGETUR</code></a></a></td>
+<td align="right">2</td>
+<td>MUHTASAR BASIMI ÖDEME BELGE TÜRÜ BİLGİLER TUTULUR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmuplan/"><a class="tbl" href="/veritabani/tablolar/tblmuplan/"><code>TBLMUPLAN</code></a></a></td>
+<td align="right">33</td>
+<td>MUHASEBE HESAP PLANI EKRANINDA TANIMLANAN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmuplanek/"><a class="tbl" href="/veritabani/tablolar/tblmuplanek/"><code>TBLMUPLANEK</code></a></a></td>
+<td align="right">30</td>
+<td>MUHASEBE HESAP PLANI EKRANINDA EK BİLGİLER SEKMESİNDE TANIMLANAN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmuplansube/"><a class="tbl" href="/veritabani/tablolar/tblmuplansube/"><code>TBLMUPLANSUBE</code></a></a></td>
+<td align="right">63</td>
+<td>AYLIK ALINAN MİZAN KAYITLARINI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmustahsiltur/"><a class="tbl" href="/veritabani/tablolar/tblmustahsiltur/"><code>TBLMUSTAHSILTUR</code></a></a></td>
+<td align="right">3</td>
+<td>MUHTASAR BASIM MÜSTAHSİL HARİÇ ÖDEME TÜR KODLARI TUTULUR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblnetbil/"><a class="tbl" href="/veritabani/tablolar/tblnetbil/"><code>TBLNETBIL</code></a></a></td>
+<td align="right">6</td>
+<td>İŞLETME BİLANÇOSU EKRANINDA GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblnetgel/"><a class="tbl" href="/veritabani/tablolar/tblnetgel/"><code>TBLNETGEL</code></a></a></td>
+<td align="right">7</td>
+<td>İŞLETME GELİR TABLOSU EKRANINDA GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblprjdetaysablon/"><a class="tbl" href="/veritabani/tablolar/tblprjdetaysablon/"><code>TBLPRJDETAYSABLON</code></a></a></td>
+<td align="right">18</td>
+<td>PROJE KODU GİRİŞİ&gt;DETAY RAPOR ŞABLON HAZIRLAMA MENÜSÜNDE TANIMLANAN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblprjkumulemas/"><a class="tbl" href="/veritabani/tablolar/tblprjkumulemas/"><code>TBLPRJKUMULEMAS</code></a></a></td>
+<td align="right">24</td>
+<td>PROJE KODU GİRİŞİ&gt;KÜMÜLE RAPOR ŞABLON TANIMLAMA MENÜSÜNDE GENEL TANIMLAR SEKMESİNDE TANIMLANAN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblprjkumuletra/"><a class="tbl" href="/veritabani/tablolar/tblprjkumuletra/"><code>TBLPRJKUMULETRA</code></a></a></td>
+<td align="right">29</td>
+<td>PROJE KODU GİRİŞİ&gt;KÜMÜLE RAPOR ŞABLON TANIMLAMA MENÜSÜNDE DETAY TANIMLARI SEKMESİNDE TANIMLANAN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblproje/"><a class="tbl" href="/veritabani/tablolar/tblproje/"><code>TBLPROJE</code></a></a></td>
+<td align="right">22</td>
+<td>PROJE KODU GİRİŞİ&gt;PROJE SABİT TANIMLARI EKRANINDA TANIMLANAN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblprojek/"><a class="tbl" href="/veritabani/tablolar/tblprojek/"><code>TBLPROJEK</code></a></a></td>
+<td align="right">2</td>
+<td>İŞLETME KODU VE PROJE KODLARINI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblprojesirket/"><a class="tbl" href="/veritabani/tablolar/tblprojesirket/"><code>TBLPROJESIRKET</code></a></a></td>
+<td align="right">18</td>
+<td>PROJE KODU GİRİŞİ&gt;PROJE SABİT TANIMLARI&gt;VERİTABANI BİLGİLERİ SEKMESİNDE TANIMLANAN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblprojeyenialan/"><a class="tbl" href="/veritabani/tablolar/tblprojeyenialan/"><code>TBLPROJEYENIALAN</code></a></a></td>
+<td align="right">21</td>
+<td>PROJE KODU GİRİŞİ&gt;KULLANICI TANIMLI SAHALAR&gt;SAHA TANIMLARI MENÜSÜNDE TANIMLANAN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblprojeyenialandeger/"><a class="tbl" href="/veritabani/tablolar/tblprojeyenialandeger/"><code>TBLPROJEYENIALANDEGER</code></a></a></td>
+<td align="right">17</td>
+<td>PROJE KODU GİRİŞİ&gt;KULLANICI TANIMLI SAHALAR&gt;SAHA TABLO EŞLEŞTİRME MENÜSÜNDE TANIMLANAN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblprojeyenialantablo/"><a class="tbl" href="/veritabani/tablolar/tblprojeyenialantablo/"><code>TBLPROJEYENIALANTABLO</code></a></a></td>
+<td align="right">20</td>
+<td>PROJE KODU GİRİŞİ&gt;KULLANICI TANIMLI SAHALAR&gt;SAHA TABLO EŞLEŞTİRME MENÜSÜNDE TANIMLANAN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstokhesdeg/"><a class="tbl" href="/veritabani/tablolar/tblstokhesdeg/"><code>TBLSTOKHESDEG</code></a></a></td>
+<td align="right">25</td>
+<td>KAYIT&gt;DÜZELTİLECEK STOK HESAPLARI TANIMLARI EKRANINDA TANIMLANAN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbltmpdagit/"><a class="tbl" href="/veritabani/tablolar/tbltmpdagit/"><code>TBLTMPDAGIT</code></a></a></td>
+<td align="right">14</td>
+<td>İŞLEMLER&gt;YARDIMCI SERVİS DAĞITIM İŞLEMLERİ&gt; DAĞITIM FİŞİ OLUŞTURMA EKRANINDA GİRİLEN KAYITLAR İÇİN GEÇİCİ OLARAK BU TABLODA TUTULUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbltmpprjkumule/"><a class="tbl" href="/veritabani/tablolar/tbltmpprjkumule/"><code>TBLTMPPRJKUMULE</code></a></a></td>
+<td align="right">28</td>
+<td>KAYITLAR&gt;PROJE KODU GİRİŞİ&gt;KÜMÜLE RAPOR ŞABLON TANIMLAMA EKRANINA GİRİLEN KAYITLARDAN SONRA HAZIRLIK ÇALIŞTIR BUTONUNA BASILDIKTAN SONRA TABLOYA KAYIT ATAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblvergidairesi/"><a class="tbl" href="/veritabani/tablolar/tblvergidairesi/"><code>TBLVERGIDAIRESI</code></a></a></td>
+<td align="right">2</td>
+<td>SİSTEMDE TANIMLI OLAN VERGİ DAİRESİ İSİMLERİ YER ALMAKTADIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblvuk431prm/"><a class="tbl" href="/veritabani/tablolar/tblvuk431prm/"><code>TBLVUK431PRM</code></a></a></td>
+<td align="right">23</td>
+<td>MUHASEBE-KAYIT-431 VUK PARAMETRELERİ YER ALIR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblyans600/"><a class="tbl" href="/veritabani/tablolar/tblyans600/"><code>TBLYANS600</code></a></a></td>
+<td align="right">4</td>
+<td>DÖNEM SONU İŞLEMLERİ&gt;YANSITMA GİRİŞİNDE TANIMLANAN YANSITMA MUHASEBE HESAPLARINI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblyans700/"><a class="tbl" href="/veritabani/tablolar/tblyans700/"><code>TBLYANS700</code></a></a></td>
+<td align="right">4</td>
+<td>DÖNEM SONU İŞLEMLER&gt;GELİR HESAPLARI YANSITMA GİRİŞİNDE TANIMLANAN YANSITMA MUHASEBE HESAPLARINI TUTAR</td>
+</tr>
+</tbody></table></div>
+<h2 id="ayrintisi-olmayan-tablolar"><a class="anchor" href="#ayrintisi-olmayan-tablolar" aria-hidden="true">#</a>Ayrıntısı olmayan tablolar</h2>
+<p>Aşağıdaki tablolar tablo listesinde bu modülle anılıyor ama kolon ayrıntısı şema dokümanında yok.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TBLPROJEEK</code></td>
+<td>İŞLETME KODU VE PROJE KODLARINI TUTAR</td>
+</tr>
+</tbody></table></div>
+
+</article>
+<footer class="page-foot"><a href="/veritabani/moduller/muhasebe.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

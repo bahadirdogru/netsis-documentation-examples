@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TBLPROFORMAMAS · Netsis Dokümantasyonu</title>
+<meta name="description" content="PROFORMA FATURAYA AİT BİLGİLER YER ALIR">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/tablolar/tblproformamas/">
+<link rel="alternate" type="text/markdown" href="/veritabani/tablolar/tblproformamas.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="TBLPROFORMAMAS">
+<meta property="og:description" content="PROFORMA FATURAYA AİT BİLGİLER YER ALIR">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/tablolar/tblproformamas/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/" aria-current="page">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a> <span>/</span> <a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></nav>
+<article>
+<h1 id="tblproformamas"><a class="anchor" href="#tblproformamas" aria-hidden="true">#</a>TBLPROFORMAMAS</h1>
+<blockquote>
+<p>PROFORMA FATURAYA AİT BİLGİLER YER ALIR</p>
+</blockquote>
+<ul>
+<li><strong>Modül:</strong> <a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET</a></li>
+<li><strong>Kolon sayısı:</strong> 93</li>
+</ul>
+<h2 id="kolonlar"><a class="anchor" href="#kolonlar" aria-hidden="true">#</a>Kolonlar</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Kolon</th>
+<th>Tip</th>
+<th>Null</th>
+<th>Varsayılan</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>SUBE_KODU</code></td>
+<td>TDBSMALLINT</td>
+<td>hayır</td>
+<td></td>
+<td>Şube kodu bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>FTIRSIP</code></td>
+<td>char(1)</td>
+<td>hayır</td>
+<td></td>
+<td>P-Proforma, R-irsaliyesi oluşmamış ithalat,Q-irsaliyesi oluşmuş ithalat diğerleri TBLFATUIRS-FTIRSIP ile aynı</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>FATIRS_NO</code></td>
+<td>TDBBELGENO</td>
+<td>hayır</td>
+<td></td>
+<td>Fatura numarası bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>CARI_KODU</code></td>
+<td>TDBCARIKOD</td>
+<td>hayır</td>
+<td></td>
+<td>Cari Kodu bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>TARIH</code></td>
+<td>TDBDATETIME</td>
+<td>hayır</td>
+<td></td>
+<td>Tarih bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>TIPI</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>6-proforma(taslak fatura),1-kesin fatura</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>BRUTTUTAR</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Brüt tutar bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>SAT_ISKT</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Satır iskontosu tutarı yer alır.</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>MFAZ_ISKT</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Mal fazlası iskontosu bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>GEN_ISK1T</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Genel iskonto 1 tutarı yer alır.</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>GEN_ISK2T</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Genel iskonto 2 tutarı yer alır.</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>GEN_ISK3T</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Genel iskonto 3 tutarı yer alır.</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>GEN_ISK1O</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Genel iskonto 1 oranı yer alır.</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>GEN_ISK2O</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Genel iskonto 2 oranı yer alır.</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>GEN_ISK3O</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Genel iskonto 3 oranı yer alır.</td>
+</tr>
+<tr>
+<td>16</td>
+<td><code>KDV</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>KDV tutarı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>17</td>
+<td><code>FAT_ALTM1</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Fatura alt maliyet 1 tutarı yer alır.</td>
+</tr>
+<tr>
+<td>18</td>
+<td><code>FAT_ALTM2</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Fatura alt maliyet 2 tutarı yer alır.</td>
+</tr>
+<tr>
+<td>19</td>
+<td><code>ACIKLAMA</code></td>
+<td>varchar(20)</td>
+<td>evet</td>
+<td></td>
+<td>Açıklama bligisi yer alır.</td>
+</tr>
+<tr>
+<td>20</td>
+<td><code>KOD1</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel Kod 1 bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>21</td>
+<td><code>KOD2</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Özel Kod 2 bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>22</td>
+<td><code>ODEMEGUNU</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Ödeme günü bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>23</td>
+<td><code>ODEMETARIHI</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Ödeme tarihi bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>24</td>
+<td><code>KDV_DAHILMI</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>KDvV dahil ise E değerini değil ise H değerini alır.</td>
+</tr>
+<tr>
+<td>25</td>
+<td><code>FATKALEM_ADEDI</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Fatura kalem adedi bilgis yer alır.</td>
+</tr>
+<tr>
+<td>26</td>
+<td><code>SIPARIS_TEST</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Sipariş teslim tarihi bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>27</td>
+<td><code>TOPLAM_MIK</code></td>
+<td>decimal(15,5)</td>
+<td>evet</td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>28</td>
+<td><code>TOPDEPO</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>29</td>
+<td><code>YEDEK22</code></td>
+<td>varchar(2)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>30</td>
+<td><code>CARI_KOD2</code></td>
+<td>TDBCARIKOD</td>
+<td>evet</td>
+<td></td>
+<td>cari kod 2 bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>31</td>
+<td><code>YEDEK</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>32</td>
+<td><code>UPDATE_KODU</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>33</td>
+<td><code>SIRANO</code></td>
+<td>TDBINTEGER</td>
+<td>hayır</td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>34</td>
+<td><code>KDV_DAHIL_BRUT_TOP</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>KDV dahil brüt tutar bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>35</td>
+<td><code>KDV_TENZIL</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>KDV tenzil tutarı yer alır.</td>
+</tr>
+<tr>
+<td>36</td>
+<td><code>MALFAZLASIKDVSI</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Mal fazlası Kdv si tutarı yer alır.</td>
+</tr>
+<tr>
+<td>37</td>
+<td><code>GENELTOPLAM</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Genel toplam bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>38</td>
+<td><code>YUVARLAMA</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Yuvarlama tutarı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>39</td>
+<td><code>SATIS_KOND</code></td>
+<td>varchar(4)</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>40</td>
+<td><code>PLA_KODU</code></td>
+<td>varchar(8)</td>
+<td>evet</td>
+<td></td>
+<td>Plasiyer kodu bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>41</td>
+<td><code>DOVIZTIP</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>Döviz tipi bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>42</td>
+<td><code>DOVIZTUT</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Döviz tutarı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>43</td>
+<td><code>KS_KODU</code></td>
+<td>varchar(8)</td>
+<td>evet</td>
+<td></td>
+<td>Kasa kodu bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>44</td>
+<td><code>BAG_TUTAR</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>45</td>
+<td><code>YEDEK2</code></td>
+<td>varchar(7)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>46</td>
+<td><code>HIZMET_FAT</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>47</td>
+<td><code>VADEBAZT</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>48</td>
+<td><code>KAPATILMIS</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>Kapatılmış ise S değerini alır.</td>
+</tr>
+<tr>
+<td>49</td>
+<td><code>S_YEDEK1</code></td>
+<td>TDBBELGENO</td>
+<td>evet</td>
+<td></td>
+<td>Sipariş revizyon takibi için kullanılmaktadır.</td>
+</tr>
+<tr>
+<td>50</td>
+<td><code>S_YEDEK2</code></td>
+<td>varchar(8)</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>51</td>
+<td><code>F_YEDEK3</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>52</td>
+<td><code>F_YEDEK4</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>53</td>
+<td><code>F_YEDEK5</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>Daha sonra kullanılmak için bırakılan yedek saha</td>
+</tr>
+<tr>
+<td>54</td>
+<td><code>C_YEDEK6</code></td>
+<td>char(1)</td>
+<td>evet</td>
+<td></td>
+<td>E-yurtdışı yani ihracat faturası</td>
+</tr>
+<tr>
+<td>55</td>
+<td><code>B_YEDEK7</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>1- fason sipariş, default 0</td>
+</tr>
+<tr>
+<td>56</td>
+<td><code>I_YEDEK8</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>MRP sipariş oluşturma için kullanılan sahadır.</td>
+</tr>
+<tr>
+<td>57</td>
+<td><code>L_YEDEK9</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Ambar kabul numarası olarak kullanılmaktadır.</td>
+</tr>
+<tr>
+<td>58</td>
+<td><code>AMBAR_KBLNO</code></td>
+<td>varchar(15)</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>59</td>
+<td><code>D_YEDEK10</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>fiili tarih bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>60</td>
+<td><code>PROJE_KODU</code></td>
+<td>TDBPROJEKOD</td>
+<td>evet</td>
+<td></td>
+<td>Proje kodu bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>61</td>
+<td><code>KOSULKODU</code></td>
+<td>varchar(8)</td>
+<td>evet</td>
+<td></td>
+<td>Koşul kodu bilgisi yer alır</td>
+</tr>
+<tr>
+<td>62</td>
+<td><code>FIYATTARIHI</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Fiyat tarihi bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>63</td>
+<td><code>KOSULTARIHI</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Koşul tarihi bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>64</td>
+<td><code>GENISK1TIP</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Genel iskonto 1 tip bilgisi yer alır</td>
+</tr>
+<tr>
+<td>65</td>
+<td><code>GENISK2TIP</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Genel iskonto 2 tip bilgisi yer alır</td>
+</tr>
+<tr>
+<td>66</td>
+<td><code>GENISK3TIP</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Genel iskonto 3 tip bilgisi yer alır</td>
+</tr>
+<tr>
+<td>67</td>
+<td><code>EXPORTTYPE</code></td>
+<td>TDBBYTE</td>
+<td>evet</td>
+<td></td>
+<td>İthalat ihracat tipi bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>68</td>
+<td><code>EXGUMRUKNO</code></td>
+<td>varchar(20)</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>69</td>
+<td><code>EXGUMTARIH</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>70</td>
+<td><code>EXFIILITARIH</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>71</td>
+<td><code>EXPORTREFNO</code></td>
+<td>varchar(20)</td>
+<td>evet</td>
+<td></td>
+<td>Export referans numarası bilgisi tutulur</td>
+</tr>
+<tr>
+<td>72</td>
+<td><code>KAYITYAPANKUL</code></td>
+<td>TDBNETSISKUL</td>
+<td>evet</td>
+<td></td>
+<td>Kayıt yapan kullanıcı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>73</td>
+<td><code>KAYITTARIHI</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Kayıt tarihi bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>74</td>
+<td><code>DUZELTMEYAPANKUL</code></td>
+<td>TDBNETSISKUL</td>
+<td>evet</td>
+<td></td>
+<td>Düzeltme yapan kullanıcı bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>75</td>
+<td><code>DUZELTMETARIHI</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Düzeltme tarihi bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>76</td>
+<td><code>GELSUBE_KODU</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>77</td>
+<td><code>GITSUBE_KODU</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>78</td>
+<td><code>ONAYTIPI</code></td>
+<td>char(1)</td>
+<td>hayır</td>
+<td></td>
+<td>Onay tipi bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>79</td>
+<td><code>ONAYNUM</code></td>
+<td>TDBINTEGER</td>
+<td>hayır</td>
+<td></td>
+<td>Onay numarası bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>80</td>
+<td><code>ISLETME_KODU</code></td>
+<td>TDBSMALLINT</td>
+<td>hayır</td>
+<td></td>
+<td>İşletme kodu bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>81</td>
+<td><code>ODEKOD</code></td>
+<td>TDBGRUPKOD</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>82</td>
+<td><code>BRMALIYET</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>83</td>
+<td><code>KOSVADEGUNU</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>84</td>
+<td><code>YAPKOD</code></td>
+<td>varchar(15)</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>85</td>
+<td><code>GIB_FATIRS_NO</code></td>
+<td>varchar(16)</td>
+<td>evet</td>
+<td></td>
+<td>Gib fatura numarası bilgisi yer alır.</td>
+</tr>
+<tr>
+<td>86</td>
+<td><code>EBELGE</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>Ebelge numarasını gösterir.</td>
+</tr>
+<tr>
+<td>87</td>
+<td><code>EXTERNALAPPID</code></td>
+<td>VarChar(50)</td>
+<td>evet</td>
+<td></td>
+<td>Proforma faturadaki nakliye döviz tutarı ek maliyet olarak eklendiyse burada tutar.</td>
+</tr>
+<tr>
+<td>88</td>
+<td><code>EXTERNALREFID</code></td>
+<td>VarChar(50)</td>
+<td>evet</td>
+<td></td>
+<td>Proforma faturadaki sigorta döviz tutarı ek maliyet olarak eklendiyse burada tutar.</td>
+</tr>
+<tr>
+<td>89</td>
+<td><code>HALFAT</code></td>
+<td>TDBINTEGER</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>90</td>
+<td><code>FAT_ALTM3</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>91</td>
+<td><code>DOVBAZTAR</code></td>
+<td>TDBDATETIME</td>
+<td>evet</td>
+<td></td>
+<td>Döviz baz tarihinin veritabanında saklanması desteklenmiştir.</td>
+</tr>
+<tr>
+<td>92</td>
+<td><code>OTVTEVTUTAR</code></td>
+<td>TDBFLOAT</td>
+<td>evet</td>
+<td></td>
+<td>ÖTV tevfikat tutarı için eklenen saha</td>
+</tr>
+<tr>
+<td>93</td>
+<td><code>TOPGIRDEPO</code></td>
+<td>TDBSMALLINT</td>
+<td>evet</td>
+<td></td>
+<td>Toplu giriş depo için eklenen saha</td>
+</tr>
+</tbody></table></div>
+<h2 id="ornek-sorgu"><a class="anchor" href="#ornek-sorgu" aria-hidden="true">#</a>Örnek sorgu</h2>
+<pre><code class="language-sql">SELECT TOP 100 SUBE_KODU, FTIRSIP, FATIRS_NO, CARI_KODU, TARIH, TIPI
+FROM dbo.TBLPROFORMAMAS WITH (NOLOCK);
+</code></pre>
+
+</article>
+<footer class="page-foot"><a href="/veritabani/tablolar/tblproformamas.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

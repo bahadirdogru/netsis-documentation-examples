@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FATURA modülü · Netsis Dokümantasyonu</title>
+<meta name="description" content="FATURA modülündeki 55 tablo">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/moduller/fatura/">
+<link rel="alternate" type="text/markdown" href="/veritabani/moduller/fatura.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="FATURA modülü">
+<meta property="og:description" content="FATURA modülündeki 55 tablo">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/moduller/fatura/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/" aria-current="page">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a></nav>
+<article>
+<h1 id="fatura-modulu-tablolari"><a class="anchor" href="#fatura-modulu-tablolari" aria-hidden="true">#</a>FATURA modülü tabloları</h1>
+<p>Bu modülde şema dokümanında ayrıntısı bulunan <strong>55</strong> tablo var.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th align="right">Kolon</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/veritabani/tablolar/tblafatuprm/"><a class="tbl" href="/veritabani/tablolar/tblafatuprm/"><code>TBLAFATUPRM</code></a></a></td>
+<td align="right">254</td>
+<td>ALIS FATURA PARAMETRELERINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblaractip/"><a class="tbl" href="/veritabani/tablolar/tblaractip/"><code>TBLARACTIP</code></a></a></td>
+<td align="right">14</td>
+<td>FATURA MODULU NAKLIYE ISLEMLERINDEN GIRILEN KAYITLARIN TUTULDUGU TABLO.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblearsiv/"><a class="tbl" href="/veritabani/tablolar/tblearsiv/"><code>TBLEARSIV</code></a></a></td>
+<td align="right">31</td>
+<td>E-Arşiv faturasına ait bilgiler yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblearsivlog/"><a class="tbl" href="/veritabani/tablolar/tblearsivlog/"><code>TBLEARSIVLOG</code></a></a></td>
+<td align="right">17</td>
+<td>E-Arşiv gönderim servisi işaretli iken tutulan log kayıtları yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblearsivprm/"><a class="tbl" href="/veritabani/tablolar/tblearsivprm/"><code>TBLEARSIVPRM</code></a></a></td>
+<td align="right">9</td>
+<td>E-Arşiv parametreleri yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbleatik/"><a class="tbl" href="/veritabani/tablolar/tbleatik/"><code>TBLEATIK</code></a></a></td>
+<td align="right">30</td>
+<td>e-Atık bilgilerinin tutulduğu tablodur</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatkalem/"><a class="tbl" href="/veritabani/tablolar/tblefatkalem/"><code>TBLEFATKALEM</code></a></a></td>
+<td align="right">42</td>
+<td>E-Fatura kalem bilgileri yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatkalemdelivery/"><a class="tbl" href="/veritabani/tablolar/tblefatkalemdelivery/"><code>TBLEFATKALEMDELIVERY</code></a></a></td>
+<td align="right">5</td>
+<td>İhracatı gerçekleşecek olan mal bilgilerinin detayları yer alır</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatkalemnotes/"><a class="tbl" href="/veritabani/tablolar/tblefatkalemnotes/"><code>TBLEFATKALEMNOTES</code></a></a></td>
+<td align="right">7</td>
+<td>E-Fatura kalem bilgilerine ait satır açıklama bilgileri yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatkalemtax/"><a class="tbl" href="/veritabani/tablolar/tblefatkalemtax/"><code>TBLEFATKALEMTAX</code></a></a></td>
+<td align="right">13</td>
+<td>E-Fatura kalem bilgilerine ait vergi bilgileri yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatkisit/"><a class="tbl" href="/veritabani/tablolar/tblefatkisit/"><code>TBLEFATKISIT</code></a></a></td>
+<td align="right">19</td>
+<td>EFATURA GELEN KUTUSUNA AİT KISIT BİLGİSİNİN TUTULDUĞU TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatmas/"><a class="tbl" href="/veritabani/tablolar/tblefatmas/"><code>TBLEFATMAS</code></a></a></td>
+<td align="right">65</td>
+<td>E-Faturanın üst bilgi kayıtlarını tutar.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatmastax/"><a class="tbl" href="/veritabani/tablolar/tblefatmastax/"><code>TBLEFATMASTAX</code></a></a></td>
+<td align="right">12</td>
+<td>EFATURANIN ÜST BİLGİLERİNE AİT VERGİLERİN TUTULDUĞU TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatnotes/"><a class="tbl" href="/veritabani/tablolar/tblefatnotes/"><code>TBLEFATNOTES</code></a></a></td>
+<td align="right">6</td>
+<td>EFATURA AİT NOT BİLGİLERİNİN TUTULDUĞU TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatozelkod/"><a class="tbl" href="/veritabani/tablolar/tblefatozelkod/"><code>TBLEFATOZELKOD</code></a></a></td>
+<td align="right">5</td>
+<td>E-DEVLET ÖZEL KOD TANIMLAMA BİLGİLERİNİN TUTULDUĞU TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatprm/"><a class="tbl" href="/veritabani/tablolar/tblefatprm/"><code>TBLEFATPRM</code></a></a></td>
+<td align="right">20</td>
+<td>E-fatura parametreleri yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatseri/"><a class="tbl" href="/veritabani/tablolar/tblefatseri/"><code>TBLEFATSERI</code></a></a></td>
+<td align="right">13</td>
+<td>E-DEVLET BELGE BİRİM KODLARININ TUTULDUĞU TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatuno/"><a class="tbl" href="/veritabani/tablolar/tblefatuno/"><code>TBLEFATUNO</code></a></a></td>
+<td align="right">4</td>
+<td>E-DEVLET FATURALARININ SON KALINAN NUMARASININ TUTULDUĞU TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatura/"><a class="tbl" href="/veritabani/tablolar/tblefatura/"><code>TBLEFATURA</code></a></a></td>
+<td align="right">32</td>
+<td>E-FATURA KAYITLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatyanit/"><a class="tbl" href="/veritabani/tablolar/tblefatyanit/"><code>TBLEFATYANIT</code></a></a></td>
+<td align="right">21</td>
+<td>Uygulama ve sistem yanıt bilgilerinin tutulduğu tablodur.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblefatzarf/"><a class="tbl" href="/veritabani/tablolar/tblefatzarf/"><code>TBLEFATZARF</code></a></a></td>
+<td align="right">28</td>
+<td>Fatura ve yanıt zarflarının bilgilerinin tutulduğu tablodur.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbleirsablon/"><a class="tbl" href="/veritabani/tablolar/tbleirsablon/"><code>TBLEIRSABLON</code></a></a></td>
+<td align="right">40</td>
+<td>e-irsaliye ek bilgiler şablon oluşturma ekranındaki veriler yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbleirsek/"><a class="tbl" href="/veritabani/tablolar/tbleirsek/"><code>TBLEIRSEK</code></a></a></td>
+<td align="right">27</td>
+<td>E-irsaliye ek bilgi girişi ekranındaki bilgiler yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbleirskalem/"><a class="tbl" href="/veritabani/tablolar/tbleirskalem/"><code>TBLEIRSKALEM</code></a></a></td>
+<td align="right">9</td>
+<td>E-irsaliye kalem bilgileri yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbleirsmas/"><a class="tbl" href="/veritabani/tablolar/tbleirsmas/"><code>TBLEIRSMAS</code></a></a></td>
+<td align="right">55</td>
+<td>E-irsaliye gönderici alıcıya ait bilgiler yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbleirsnotes/"><a class="tbl" href="/veritabani/tablolar/tbleirsnotes/"><code>TBLEIRSNOTES</code></a></a></td>
+<td align="right">6</td>
+<td>E-irsaliyeye ait not bilgilerinin tutulduğu tablodur</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbleirsseri/"><a class="tbl" href="/veritabani/tablolar/tbleirsseri/"><code>TBLEIRSSERI</code></a></a></td>
+<td align="right">13</td>
+<td>E-irsaliye çoklu seri bilgileri yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbleirsyanitno/"><a class="tbl" href="/veritabani/tablolar/tbleirsyanitno/"><code>TBLEIRSYANITNO</code></a></a></td>
+<td align="right">4</td>
+<td>E-irsaliyeye ait yanıt bilgilerinin tutulduğu tablodur</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfarkliteslim/"><a class="tbl" href="/veritabani/tablolar/tblfarkliteslim/"><code>TBLFARKLITESLIM</code></a></a></td>
+<td align="right">16</td>
+<td>KANTAR MODÜLÜNDE FARKLI TESLİM PARAMETRESİ KULLANILARAK OLUŞTURULAN FATURA VEYA İRSALİYELERE AİT FARKLI TESLİM BİLGİLERİ TABLOSUDUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfastreportdata/"><a class="tbl" href="/veritabani/tablolar/tblfastreportdata/"><code>TBLFASTREPORTDATA</code></a></a></td>
+<td align="right">18</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfastreportdizayn/"><a class="tbl" href="/veritabani/tablolar/tblfastreportdizayn/"><code>TBLFASTREPORTDIZAYN</code></a></a></td>
+<td align="right">21</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfatkalemiliski/"><a class="tbl" href="/veritabani/tablolar/tblfatkalemiliski/"><code>TBLFATKALEMILISKI</code></a></a></td>
+<td align="right">8</td>
+<td>GRUP KOŞUL TANIMLAMASI KULLANILDIĞINDA BAĞLANTILAR BU TABLODA TUTULUR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfatuek/"><a class="tbl" href="/veritabani/tablolar/tblfatuek/"><code>TBLFATUEK</code></a></a></td>
+<td align="right">37</td>
+<td>FATURA-İRSALİYE EK KAYITLARINI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfatuirs/"><a class="tbl" href="/veritabani/tablolar/tblfatuirs/"><code>TBLFATUIRS</code></a></a></td>
+<td align="right">93</td>
+<td>FATURA İRSALİYE BİLGİLERİ TABLOSUDUR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfatuirsek/"><a class="tbl" href="/veritabani/tablolar/tblfatuirsek/"><code>TBLFATUIRSEK</code></a></a></td>
+<td align="right">30</td>
+<td>İNDİRİLECEK KDV EKRANINDAKİ BİLGİLER YER ALIR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfatuno/"><a class="tbl" href="/veritabani/tablolar/tblfatuno/"><code>TBLFATUNO</code></a></a></td>
+<td align="right">4</td>
+<td>FATURA IRSALIYE SIPARIS AMBAR FISLERI NUMARALARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfatuseri/"><a class="tbl" href="/veritabani/tablolar/tblfatuseri/"><code>TBLFATUSERI</code></a></a></td>
+<td align="right">3</td>
+<td>FATURA SERI BİLGİLERİNİ TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfatuvade/"><a class="tbl" href="/veritabani/tablolar/tblfatuvade/"><code>TBLFATUVADE</code></a></a></td>
+<td align="right">15</td>
+<td>C/H VADELERE BÖLÜNEREK GEÇSİN PARAMETRESİ İŞARETLİYSE GİRİLEN VADE BİLGİLERİNİ TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblgecersizbelge/"><a class="tbl" href="/veritabani/tablolar/tblgecersizbelge/"><code>TBLGECERSIZBELGE</code></a></a></td>
+<td align="right">5</td>
+<td>Geçersiz veya eksik belgelerin tutulduğu tablodur.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblhalmasrafek/"><a class="tbl" href="/veritabani/tablolar/tblhalmasrafek/"><code>TBLHALMASRAFEK</code></a></a></td>
+<td align="right">44</td>
+<td>Hal faturasında girilen masraf bilgileri yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkalemdetay/"><a class="tbl" href="/veritabani/tablolar/tblkalemdetay/"><code>TBLKALEMDETAY</code></a></a></td>
+<td align="right">52</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkamyonsb/"><a class="tbl" href="/veritabani/tablolar/tblkamyonsb/"><code>TBLKAMYONSB</code></a></a></td>
+<td align="right">22</td>
+<td>İŞLEMLER&gt;NAKLİYE İŞLEMLERİ&gt;ARAÇ TANIMLARI EKRANINDAKİ KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkamyonsofor/"><a class="tbl" href="/veritabani/tablolar/tblkamyonsofor/"><code>TBLKAMYONSOFOR</code></a></a></td>
+<td align="right">15</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkumgenel/"><a class="tbl" href="/veritabani/tablolar/tblkumgenel/"><code>TBLKUMGENEL</code></a></a></td>
+<td align="right">8</td>
+<td>SEVK EMRI OLUSTURULAN SIPARIS KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmasraf/"><a class="tbl" href="/veritabani/tablolar/tblmasraf/"><code>TBLMASRAF</code></a></a></td>
+<td align="right">11</td>
+<td>MASRAF MERKEZI TANIMLAMA KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblnakliye/"><a class="tbl" href="/veritabani/tablolar/tblnakliye/"><code>TBLNAKLIYE</code></a></a></td>
+<td align="right">35</td>
+<td>KAYIT&gt;NAKLİYE İŞLEMLERİ&gt;NAKLİYE BİLGİ GİRİŞİ EKRANINDA GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblnakliyebelgelink/"><a class="tbl" href="/veritabani/tablolar/tblnakliyebelgelink/"><code>TBLNAKLIYEBELGELINK</code></a></a></td>
+<td align="right">14</td>
+<td>KAYIT&gt;NAKLİYE İŞLEMLERİ&gt;NAKLİYE BİLGİ GİRİŞİ&gt;BELGE SEÇİMİ SEKMESİ EKRANINDA GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsevkmas/"><a class="tbl" href="/veritabani/tablolar/tblsevkmas/"><code>TBLSEVKMAS</code></a></a></td>
+<td align="right">28</td>
+<td>SEVK VE YÜKLEME EMRİ İÇİN SABİT BİLGİ GİRİŞİ EKRANINDAKİ KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsevktra/"><a class="tbl" href="/veritabani/tablolar/tblsevktra/"><code>TBLSEVKTRA</code></a></a></td>
+<td align="right">32</td>
+<td>SEVK EMRİ İÇİN YENİ SEVK+YÜKLEME EMRİ YENİ YÜKLEME EMRİ BUTONLARINA BASILDIKTAN SONRA KALEM BİLGİLERİ SEKMESİNDE GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsfatuprm/"><a class="tbl" href="/veritabani/tablolar/tblsfatuprm/"><code>TBLSFATUPRM</code></a></a></td>
+<td align="right">254</td>
+<td>SATIŞ FATURASI PARAMETRELE KAYITLARINI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsipamas/"><a class="tbl" href="/veritabani/tablolar/tblsipamas/"><code>TBLSIPAMAS</code></a></a></td>
+<td align="right">93</td>
+<td>SİPARİŞ SABİT BİLGİLENİRİN TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsipatra/"><a class="tbl" href="/veritabani/tablolar/tblsipatra/"><code>TBLSIPATRA</code></a></a></td>
+<td align="right">85</td>
+<td>SİPARİŞ HAREKET KAYITLARINI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblssatirac/"><a class="tbl" href="/veritabani/tablolar/tblssatirac/"><code>TBLSSATIRAC</code></a></a></td>
+<td align="right">29</td>
+<td>ALIŞ/SATIŞ FATURA PARAMETRELERİNDE SATIR AÇIKLAMASI PARAMETRESİ İŞARETLENDİĞİNDE+FATURA/SİPARİŞ/İRSALİYE SATIR AÇIKLAMALARINI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbltahsilat/"><a class="tbl" href="/veritabani/tablolar/tbltahsilat/"><code>TBLTAHSILAT</code></a></a></td>
+<td align="right">16</td>
+<td>HIZLI TAHSİLAT KAYITLARI EKRANINDA GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbltevkifatkod/"><a class="tbl" href="/veritabani/tablolar/tbltevkifatkod/"><code>TBLTEVKIFATKOD</code></a></a></td>
+<td align="right">22</td>
+<td>ÇOKLU TEVKİFAT ORAN TANIMLAMA BİLGİLERİ YER ALIR.</td>
+</tr>
+</tbody></table></div>
+<h2 id="ayrintisi-olmayan-tablolar"><a class="anchor" href="#ayrintisi-olmayan-tablolar" aria-hidden="true">#</a>Ayrıntısı olmayan tablolar</h2>
+<p>Aşağıdaki tablolar tablo listesinde bu modülle anılıyor ama kolon ayrıntısı şema dokümanında yok.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TBLEFATOLCUBIRIM</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>TBLEFATURALOG</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>TBLEFATTMPZARF</code></td>
+<td>GEÇİCİ TABLODUR.</td>
+</tr>
+</tbody></table></div>
+
+</article>
+<footer class="page-foot"><a href="/veritabani/moduller/fatura.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

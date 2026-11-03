@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YARDIMCI PROGRAMLAR modülü · Netsis Dokümantasyonu</title>
+<meta name="description" content="YARDIMCI PROGRAMLAR modülündeki 28 tablo">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/moduller/yardimci-programlar/">
+<link rel="alternate" type="text/markdown" href="/veritabani/moduller/yardimci-programlar.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="YARDIMCI PROGRAMLAR modülü">
+<meta property="og:description" content="YARDIMCI PROGRAMLAR modülündeki 28 tablo">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/moduller/yardimci-programlar/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/" aria-current="page">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a></nav>
+<article>
+<h1 id="yardimci-programlar-modulu-tablolari"><a class="anchor" href="#yardimci-programlar-modulu-tablolari" aria-hidden="true">#</a>YARDIMCI PROGRAMLAR modülü tabloları</h1>
+<p>Bu modülde şema dokümanında ayrıntısı bulunan <strong>28</strong> tablo var.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th align="right">Kolon</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/veritabani/tablolar/tblcarisahatabloesleme/"><a class="tbl" href="/veritabani/tablolar/tblcarisahatabloesleme/"><code>TBLCARISAHATABLOESLEME</code></a></a></td>
+<td align="right">2</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblcaristokek/"><a class="tbl" href="/veritabani/tablolar/tblcaristokek/"><code>TBLCARISTOKEK</code></a></a></td>
+<td align="right">2</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblenetkulrap/"><a class="tbl" href="/veritabani/tablolar/tblenetkulrap/"><code>TBLENETKULRAP</code></a></a></td>
+<td align="right">8</td>
+<td>E-NETSIS SERBEST RAPORLARDA HAZIRLANAN RAPORLARIN KULLANICI BAZINDA ULAŞIM YETKİ TANIMLAMALARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblenetozeldurum/"><a class="tbl" href="/veritabani/tablolar/tblenetozeldurum/"><code>TBLENETOZELDURUM</code></a></a></td>
+<td align="right">20</td>
+<td>E-NETSIS ÖZEL DURUM TANIMLAMALARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblenetportletmas/"><a class="tbl" href="/veritabani/tablolar/tblenetportletmas/"><code>TBLENETPORTLETMAS</code></a></a></td>
+<td align="right">18</td>
+<td>E-NETSİS-NET PORTAL TANIMLARI MENÜSÜNDEKİ KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblenetportlettra/"><a class="tbl" href="/veritabani/tablolar/tblenetportlettra/"><code>TBLENETPORTLETTRA</code></a></a></td>
+<td align="right">29</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblenetsipsablon/"><a class="tbl" href="/veritabani/tablolar/tblenetsipsablon/"><code>TBLENETSIPSABLON</code></a></a></td>
+<td align="right">18</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblepostakuyruk/"><a class="tbl" href="/veritabani/tablolar/tblepostakuyruk/"><code>TBLEPOSTAKUYRUK</code></a></a></td>
+<td align="right">12</td>
+<td>KUYRUKTAKİ E-POSTA BİLGİLERİNİ TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbliletisimizinkayitlari/"><a class="tbl" href="/veritabani/tablolar/tbliletisimizinkayitlari/"><code>TBLILETISIMIZINKAYITLARI</code></a></a></td>
+<td align="right">19</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbliletisimizinkod/"><a class="tbl" href="/veritabani/tablolar/tbliletisimizinkod/"><code>TBLILETISIMIZINKOD</code></a></a></td>
+<td align="right">6</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblisletmeler/"><a class="tbl" href="/veritabani/tablolar/tblisletmeler/"><code>TBLISLETMELER</code></a></a></td>
+<td align="right">8</td>
+<td>YARDIMCI PROGRAMLAR&gt;KAYIT&gt;ŞİRKET/ŞUBE/PARAMETRE TANIMLARI EKRANINDA İŞLETMELER SEKMESİNDE TANIMLANAN KAYITLARI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkvkk/"><a class="tbl" href="/veritabani/tablolar/tblkvkk/"><code>TBLKVKK</code></a></a></td>
+<td align="right">33</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkvkkparam/"><a class="tbl" href="/veritabani/tablolar/tblkvkkparam/"><code>TBLKVKKPARAM</code></a></a></td>
+<td align="right">29</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblndibaglanti/"><a class="tbl" href="/veritabani/tablolar/tblndibaglanti/"><code>TBLNDIBAGLANTI</code></a></a></td>
+<td align="right">16</td>
+<td>YARDIMCI PROGRAMLAR&gt;KAYIT&gt;NDI&gt;NID BAĞLANTI TANIMLAMALARI EKRANINDA GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblnds/"><a class="tbl" href="/veritabani/tablolar/tblnds/"><code>TBLNDS</code></a></a></td>
+<td align="right">32</td>
+<td>YARDIMCI PROGRAMLARDA NETSİS ONDALIK SİSTEMİ EKRANINDA TANIMLANAN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblpaketdbparam/"><a class="tbl" href="/veritabani/tablolar/tblpaketdbparam/"><code>TBLPAKETDBPARAM</code></a></a></td>
+<td align="right">24</td>
+<td>YARDIMCI PROGRAMLAR&gt;KAYIT&gt;DİĞER PAKETLERLE BAĞLANTI EKRANINDAKİ KAYITLARINI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblpaketmas/"><a class="tbl" href="/veritabani/tablolar/tblpaketmas/"><code>TBLPAKETMAS</code></a></a></td>
+<td align="right">21</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblprgenetprm/"><a class="tbl" href="/veritabani/tablolar/tblprgenetprm/"><code>TBLPRGENETPRM</code></a></a></td>
+<td align="right">17</td>
+<td>YARDIMCI PROGRAMLAR&gt;KAYIT&gt;E-NETSİS NET&gt;E-NETSİS PARAMETRE EKRANINDA GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblprgprm/"><a class="tbl" href="/veritabani/tablolar/tblprgprm/"><code>TBLPRGPRM</code></a></a></td>
+<td align="right">18</td>
+<td>YARDIMCI PROGRAMLAR&gt;KAYIT&gt;NETSİS SMS SERVİSİ&gt;SMS PARAMETRELERİ EKRANINDA GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsablonmas/"><a class="tbl" href="/veritabani/tablolar/tblsablonmas/"><code>TBLSABLONMAS</code></a></a></td>
+<td align="right">27</td>
+<td>YARDIMCI PROGRAMLAR&gt;KAYIT&gt;NETSIS TRANSFER&gt;ŞABLON HAZIRLAMA&gt;ŞABLON SABİT SEKMESİNDE GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsablontra/"><a class="tbl" href="/veritabani/tablolar/tblsablontra/"><code>TBLSABLONTRA</code></a></a></td>
+<td align="right">12</td>
+<td>YARDIMCI PROGRAMLAR&gt;KAYIT&gt;NETSIS TRANSFER&gt;ŞABLON HAZIRLAMA&gt;SATIR BİLGİLERİ SEKMESİNDE GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsablontra-2/"><a class="tbl" href="/veritabani/tablolar/tblsablontra/"><code>TBLSABLONTRA</code></a></a></td>
+<td align="right">12</td>
+<td>YARDIMCI PROGRAMLAR&gt;KAYIT&gt;NETSIS TRANSFER&gt;ŞABLON HAZIRLAMA&gt;SATIR BİLGİLERİ SEKMESİNDE GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsahaaciklama/"><a class="tbl" href="/veritabani/tablolar/tblsahaaciklama/"><code>TBLSAHAACIKLAMA</code></a></a></td>
+<td align="right">18</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsmsmas/"><a class="tbl" href="/veritabani/tablolar/tblsmsmas/"><code>TBLSMSMAS</code></a></a></td>
+<td align="right">23</td>
+<td>YARDIMCI PROGRAMLAR&gt;KAYIT&gt;NETSIS SMS SERVİSİ&gt;SERBEST SMS GÖNDER EKRANINDA GİRİLEN KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsmsphonelist/"><a class="tbl" href="/veritabani/tablolar/tblsmsphonelist/"><code>TBLSMSPHONELIST</code></a></a></td>
+<td align="right">9</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsmstra/"><a class="tbl" href="/veritabani/tablolar/tblsmstra/"><code>TBLSMSTRA</code></a></a></td>
+<td align="right">25</td>
+<td>YARDIMCI PROGRAMLAR&gt;KAYIT&gt;NETSIS SMS SERVİSİ&gt;SMS SORGULA EKRANINDAKİ KAYITLARI TUTAR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblstsabitsahatabloesleme/"><a class="tbl" href="/veritabani/tablolar/tblstsabitsahatabloesleme/"><code>TBLSTSABITSAHATABLOESLEME</code></a></a></td>
+<td align="right">2</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsubeler/"><a class="tbl" href="/veritabani/tablolar/tblsubeler/"><code>TBLSUBELER</code></a></a></td>
+<td align="right">22</td>
+<td>YARDIMCI PROGRAMLARDA TANIMLANAN ŞUBE KAYITLARINI TUTAR</td>
+</tr>
+</tbody></table></div>
+
+</article>
+<footer class="page-foot"><a href="/veritabani/moduller/yardimci-programlar.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

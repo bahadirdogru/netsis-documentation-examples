@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JSON örnekleri · Netsis Dokümantasyonu</title>
+<meta name="description" content="NetOpenX REST istek gövdeleri; fatura, cari, stok, kasa, çek, e-belge, üretim.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/rest/json-ornekleri/">
+<link rel="alternate" type="text/markdown" href="/rest/json-ornekleri.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="JSON örnekleri">
+<meta property="og:description" content="NetOpenX REST istek gövdeleri; fatura, cari, stok, kasa, çek, e-belge, üretim.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/rest/json-ornekleri/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/" aria-current="page">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/rest/">NetOpenX REST</a></nav>
+<article>
+<h1 id="json-ornekleri"><a class="anchor" href="#json-ornekleri" aria-hidden="true">#</a>JSON örnekleri</h1>
+<p>Gövdeler Logo&#39;nun Postman örneklerinden ve yardım sayfalarından derlenmiştir. Hepsi <code>POST</code> ile, <code>Content-Type: application/json</code> ve <code>Authorization: Bearer &lt;token&gt;</code> başlıklarıyla gönderilir. Tarih biçimi <code>yyyy-MM-dd HH:mm:ss</code> ya da ISO 8601&#39;dir.</p>
+<p>Ortak üst düzey alanlar (birçok gövdede):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Alan</th>
+<th>Anlam</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TransactSupport</code></td>
+<td>Transaction desteği; <code>OpenTransaction</code> ile birlikte kullanılır</td>
+</tr>
+<tr>
+<td><code>MuhasebelesmisBelge</code></td>
+<td>Muhasebeleşmiş belge işareti</td>
+</tr>
+<tr>
+<td><code>OnayTipi</code>, <code>OnayNum</code></td>
+<td>Onay akışı alanları (<code>&quot;A&quot;</code>, <code>0</code>)</td>
+</tr>
+</tbody></table></div>
+<h2 id="fatura"><a class="anchor" href="#fatura" aria-hidden="true">#</a>Fatura</h2>
+<p><code>POST api/v2/ItemSlips</code></p>
+<pre><code class="language-json">{
+  &quot;FaturaTip&quot;: 0,
+  &quot;Seri&quot;: &quot;ABC&quot;,
+  &quot;KayitliNumaraOtomatikGuncellensin&quot;: true,
+  &quot;SeriliHesapla&quot;: true,
+  &quot;EPostaGonderilsin&quot;: false,
+  &quot;FatUst&quot;: {
+    &quot;Sube_Kodu&quot;: 0,
+    &quot;Tip&quot;: 0,
+    &quot;TIPI&quot;: 2,
+    &quot;CariKod&quot;: &quot;120-01-014&quot;,
+    &quot;Tarih&quot;: &quot;2024-06-01 00:00:00&quot;,
+    &quot;FIYATTARIHI&quot;: &quot;2024-06-01 00:00:00&quot;,
+    &quot;KDV_DAHILMI&quot;: false,
+    &quot;PLA_KODU&quot;: &quot;01&quot;,
+    &quot;Proje_Kodu&quot;: &quot;1&quot;,
+    &quot;EKACK1&quot;: &quot;Sipariş: 4711&quot;
+  },
+  &quot;Kalems&quot;: [
+    {
+      &quot;StokKodu&quot;: &quot;STK001&quot;,
+      &quot;STra_GCMIK&quot;: 10.0,
+      &quot;STra_BF&quot;: 10.0,
+      &quot;STra_NF&quot;: 10.0,
+      &quot;STra_KDV&quot;: 20,
+      &quot;STra_ACIKLAMA&quot;: &quot;açıklama&quot;,
+      &quot;STra_DOVTIP&quot;: 2,
+      &quot;STra_DOVFIAT&quot;: 1.5,
+      &quot;DEPO_KODU&quot;: 1,
+      &quot;ReferansKodu&quot;: &quot;0342&quot;,
+      &quot;ProjeKodu&quot;: &quot;1&quot;
+    }
+  ]
+}
+</code></pre>
+<p>Başarılı yanıtta <code>Data.FatUst.FATIRS_NO</code> kaydedilen belge numarasıdır.</p>
+<h3 id="itemslips-alanlari"><a class="anchor" href="#itemslips-alanlari" aria-hidden="true">#</a>ItemSlips alanları</h3>
+<p><strong>Üst düzey:</strong> <code>FaturaTip</code>, <code>Seri</code>, <code>FatUst</code>, <code>Kalems</code>, <code>Tahsilats</code>, <code>EIrsEkBilgi</code>, hesaplama bayrakları: <code>KosulluHesapla</code>, <code>FiyatSistemineGoreHesapla</code>, <code>StokKartinaGoreHesapla</code>, <code>SeriliHesapla</code>, <code>MaliyetTipineGoreHesapla</code>, <code>OtoIskontoGetir</code>, <code>OtoVadeGunGetir</code>, <code>OtomatikIslemTipiGetir</code>, <code>OtomatikOdemeKoduGetir</code>, <code>RiskKontrol</code>, <code>BaglantiKontrol</code>, <code>ProjeKodKontrol</code>, <code>SonNumaraYazilsin</code>, <code>KayitliNumaraOtomatikGuncellensin</code>, <code>EPostaGonderilsin</code>; ayrıca <code>TransactSupport</code>, <code>MuhasebelesmisBelge</code>, <code>Use64BitService</code>.</p>
+<p><strong><code>FatUst</code>:</strong> <code>Sube_Kodu</code>, <code>CariKod</code>, <code>CARI_KOD2</code>, <code>FATIRS_NO</code>, <code>GIB_FATIRS_NO</code>, <code>Tarih</code>, <code>ENTEGRE_TRH</code>, <code>FIYATTARIHI</code>, <code>KOSULTARIHI</code>, <code>DovBazTarihi</code>, <code>FiiliTarih</code>, <code>SIPARIS_TEST</code>, <code>Tip</code>, <code>TIPI</code>, <code>KOD1</code>, <code>KOD2</code>, <code>PLA_KODU</code>, <code>Proje_Kodu</code>, <code>KOSULKODU</code>, <code>ODEMEGUNU</code>, <code>KDV_DAHILMI</code>, <code>EKACK1</code>…<code>EKACK16</code>, <code>AMBHARTUR</code>, <code>GCKOD_GIRIS</code>, <code>GCKOD_CIKIS</code>, <code>TopDepo</code>, <code>TopGirDepo</code>, <code>OnayTipi</code>, <code>OnayNum</code>, <code>EFatOzelKod</code>, <code>EIrsaliye</code>, <code>EIrsEkBilgi</code>, <code>Faturalanmayacak</code>, toplam alanları.</p>
+<p><strong><code>Kalems[]</code>:</strong> <code>StokKodu</code>, <code>STra_GCMIK</code>, <code>STra_GCMIK2</code>, <code>STra_BF</code>, <code>STra_NF</code>, <code>STra_SatIsk</code>…<code>STra_SatIsk6</code>, <code>STra_KDV</code>, <code>STra_DOVTIP</code>, <code>STra_DOVFIAT</code>, <code>Olcubr</code>, <code>DEPO_KODU</code>, <code>Gir_Depo_Kodu</code>, <code>MuhasebeKodu</code>, <code>ReferansKodu</code>, <code>ProjeKodu</code>, <code>Plasiyer_Kodu</code>, <code>STra_SIPNUM</code>, <code>Stra_OnayTipi</code>, <code>IadeFaturaNo</code>, <code>IadeFaturaTarihi</code>, <code>KalemSeri[]</code>, <code>SatirBaziAciks</code>.</p>
+<p>Tam ve sürümünüze uygun liste: <code>GET api/v2/definitions/ItemSlips</code>.</p>
+<blockquote>
+<p><strong>Enum&#39;lar sayı ya da ad olarak.</strong> Örneklerde <code>Tip: 0</code>, <code>TIPI: 2</code> gibi sayılar da, C# istemcisinde <code>ftSFat</code>, <code>ft_Acik</code> gibi adlar da kullanılır. Sayı–ad eşlemesi için <a href="/rest/kimlikler-ve-enumlar/#sayisal-enum-degerleri">Kimlikler ve enum&#39;lar</a>.</p>
+</blockquote>
+<h2 id="fatura-hesaplama"><a class="anchor" href="#fatura-hesaplama" aria-hidden="true">#</a>Fatura hesaplama</h2>
+<p><code>POST api/v2/ItemSlips/Calculate</code>: gövde fatura ile aynıdır, kayıt yapmaz, toplamları döndürür.</p>
+<h2 id="siparisten-fatura"><a class="anchor" href="#siparisten-fatura" aria-hidden="true">#</a>Siparişten fatura</h2>
+<p><code>POST api/v2/ItemSlips/SiparisToIrsFat</code></p>
+<pre><code class="language-json">{
+  &quot;DocumentType&quot;: &quot;ftSSip&quot;,
+  &quot;DocumentNumber&quot;: &quot;000000000000123&quot;,
+  &quot;CustomerCode&quot;: &quot;120-01-001&quot;,
+  &quot;ItemSlip&quot;: {
+    &quot;FaturaTip&quot;: &quot;ftSFat&quot;,
+    &quot;Seri&quot;: &quot;ABC&quot;,
+    &quot;FatUst&quot;: { &quot;Tarih&quot;: &quot;2024-06-01 00:00:00&quot;, &quot;TIPI&quot;: &quot;ft_Acik&quot; }
+  }
+}
+</code></pre>
+<p><code>ItemSlip</code>, hedef belgenin başlığını ve bayraklarını taşır. <code>IrsToFat</code> aynı yapıdadır (<code>DocumentType</code> irsaliye tipi). Alan adları yardım sayfasından alınmıştır; değerler örnektir ve bu gövde canlıda sınanmamıştır.</p>
+<h2 id="cari-karti"><a class="anchor" href="#cari-karti" aria-hidden="true">#</a>Cari kartı</h2>
+<p><code>POST api/v2/ARPs</code></p>
+<pre><code class="language-json">{
+  &quot;CariTemelBilgi&quot;: {
+    &quot;Sube_Kodu&quot;: 0, &quot;ISLETME_KODU&quot;: 1,
+    &quot;CARI_KOD&quot;: &quot;120-01-999&quot;, &quot;CARI_ISIM&quot;: &quot;Örnek Ticaret A.Ş.&quot;, &quot;CARI_TIP&quot;: &quot;A&quot;,
+    &quot;M_KOD&quot;: &quot;120-01-999&quot;,
+    &quot;CARI_ADRES&quot;: &quot;Atatürk Cad. No:1&quot;, &quot;CARI_IL&quot;: &quot;İzmir&quot;, &quot;CARI_ILCE&quot;: &quot;Konak&quot;, &quot;CARI_TEL&quot;: &quot;2320000000&quot;,
+    &quot;VERGI_DAIRESI&quot;: &quot;Konak&quot;, &quot;VERGI_NUMARASI&quot;: &quot;1234567890&quot;,
+    &quot;RISK_SINIRI&quot;: 0.0, &quot;VADE_GUNU&quot;: 0, &quot;DOVIZ_TIPI&quot;: 0,
+    &quot;HESAPTUTMASEKLI&quot;: &quot;Y&quot;, &quot;DOVIZLIMI&quot;: &quot;H&quot;, &quot;MUSTERIBAZIKDV&quot;: &quot;H&quot;
+  },
+  &quot;CariEkBilgi&quot;: {
+    &quot;CARI_KOD&quot;: &quot;120-01-999&quot;,
+    &quot;TcKimlikNo&quot;: &quot;11111111111&quot;,
+    &quot;Kull1S&quot;: &quot;segment-A&quot;, &quot;Kull1N&quot;: 0.0,
+    &quot;CariRisk&quot;: &quot;E&quot;
+  },
+  &quot;SubelerdeOrtak&quot;: false,
+  &quot;IsletmelerdeOrtak&quot;: false
+}
+</code></pre>
+<p>Alanlar <a class="tbl" href="/veritabani/tablolar/tblcasabit/"><code>TBLCASABIT</code></a> ve <a class="tbl" href="/veritabani/tablolar/tblcasabitek/"><code>TBLCASABITEK</code></a> kolonlarına karşılık gelir.</p>
+<h2 id="cari-hareket"><a class="anchor" href="#cari-hareket" aria-hidden="true">#</a>Cari hareket</h2>
+<p><code>POST api/v2/ARPTransactions</code></p>
+<pre><code class="language-json">{
+  &quot;TransactSupport&quot;: true,
+  &quot;MuhasebelesmisBelge&quot;: false,
+  &quot;SilmeIcinGerekliSahalar&quot;: &quot;INC_KEY_NUMBER&quot;,
+  &quot;SonKayitNoAl&quot;: false,
+  &quot;Sube_Kodu&quot;: 0,
+  &quot;CARI_KOD&quot;: &quot;120-01-999&quot;,
+  &quot;Tarih&quot;: &quot;2024-06-01&quot;,
+  &quot;Vade_Tarihi&quot;: &quot;2024-07-01&quot;,
+  &quot;Belge_No&quot;: &quot;DKT000000000001&quot;,
+  &quot;Aciklama&quot;: &quot;Açılış&quot;,
+  &quot;Hka&quot;: &quot;A&quot;,
+  &quot;Borc&quot;: 1.0,
+  &quot;Alacak&quot;: 0.0,
+  &quot;DOVIZ_TURU&quot;: 0,
+  &quot;Doviz_Tutar&quot;: 0.0,
+  &quot;Hareket_Turu&quot;: &quot;A&quot;,
+  &quot;Proje_Kodu&quot;: &quot;1&quot;,
+  &quot;OnayTipi&quot;: &quot;A&quot;,
+  &quot;OnayNum&quot;: 0
+}
+</code></pre>
+<p><code>SilmeIcinGerekliSahalar</code> silmede kullanılacak anahtarı (<code>INC_KEY_NUMBER</code>) belirtir. <code>Hka</code> ve <code>Hareket_Turu</code> ayrı alanlardır; değer listeleri belgelenmemiştir (<code>TBLCAHAR.HKA</code> açıklamasına göre <code>K</code> &quot;öncelikli kapatılmış&quot;).</p>
+<h2 id="stok-karti"><a class="anchor" href="#stok-karti" aria-hidden="true">#</a>Stok kartı</h2>
+<p><code>POST api/v2/Items</code> (en küçük gövde)</p>
+<pre><code class="language-json">{
+  &quot;StokTemelBilgi&quot;: { &quot;Stok_Kodu&quot;: &quot;HAMMADDE-1&quot;, &quot;Stok_Adi&quot;: &quot;Deneme&quot; },
+  &quot;StokEkBilgi&quot;: { &quot;Stok_Kodu&quot;: &quot;HAMMADDE-1&quot; }
+}
+</code></pre>
+<p>Diğer <code>StokTemelBilgi</code> alanları: <code>KDV_Orani</code>, <code>Alis_Kdv_Kodu</code>, <code>Satis_Fiat1..2</code>, <code>Alis_Fiat1..2</code>, <code>Giris_Seri</code>, <code>Cikis_Seri</code>, <code>Pay_1</code>, <code>Payda_1</code>, <code>Pay2</code>, <code>Payda2</code>. <code>StokEkBilgi</code>: <code>Ingisim</code>, <code>I_Yedek1</code>.</p>
+<h2 id="stok-hareketi"><a class="anchor" href="#stok-hareketi" aria-hidden="true">#</a>Stok hareketi</h2>
+<p><code>POST api/v2/ItemTransactions</code></p>
+<pre><code class="language-json">{
+  &quot;Stok_Kodu&quot;: &quot;STK001&quot;,
+  &quot;Sthar_Tarih&quot;: &quot;2024-06-01&quot;,
+  &quot;Sthar_Htur&quot;: &quot;M&quot;,
+  &quot;Sthar_Gckod&quot;: &quot;G&quot;,
+  &quot;Sthar_Gcmik&quot;: 5,
+  &quot;Sthar_Bf&quot;: 10,
+  &quot;DEPO_KODU&quot;: 1,
+  &quot;Proje_Kodu&quot;: &quot;1&quot;,
+  &quot;Plasiyer_Kodu&quot;: &quot;01&quot;
+}
+</code></pre>
+<h2 id="kasa"><a class="anchor" href="#kasa" aria-hidden="true">#</a>Kasa</h2>
+<p><code>POST api/v2/SafeDeposits</code></p>
+<pre><code class="language-json">{
+  &quot;KsMas_Kod&quot;: &quot;01&quot;,
+  &quot;Tarih&quot;: &quot;2024-06-01&quot;,
+  &quot;Fisno&quot;: &quot;KSA000000000001&quot;,
+  &quot;IO&quot;: &quot;G&quot;,
+  &quot;Tip&quot;: &quot;C&quot;,
+  &quot;Cari_Muh&quot;: &quot;C&quot;,
+  &quot;Kod&quot;: &quot;120-01-999&quot;,
+  &quot;Aciklama&quot;: &quot;Tahsilat&quot;,
+  &quot;Tutar&quot;: 45.0,
+  &quot;DovizTut&quot;: 0.0,
+  &quot;Kur&quot;: 0.0,
+  &quot;Sube_Kodu&quot;: 0,
+  &quot;Proje_Kodu&quot;: &quot;1&quot;,
+  &quot;OnayTipi&quot;: &quot;A&quot;,
+  &quot;OnayNum&quot;: 0
+}
+</code></pre>
+<p><code>IO</code>: <code>G</code> gelir / <code>C</code> gider. <code>Tip</code>: <code>C</code> cari, <code>F</code> fatura, <code>M</code> muhtelif… <code>Cari_Muh</code>: <code>Kod</code> alanı cari mi (<code>C</code>) muhasebe mi (<code>M</code>).</p>
+<h2 id="cek-senet"><a class="anchor" href="#cek-senet" aria-hidden="true">#</a>Çek / senet</h2>
+<p><code>POST api/v2/CheckAndPNotesMain</code></p>
+<pre><code class="language-json">{
+  &quot;Tip&quot;: 0,
+  &quot;CekSenEvrakKaydetmeTip&quot;: 0,
+  &quot;BordroNo&quot;: &quot;A00000000000001&quot;,
+  &quot;Evraklar&quot;: [{
+    &quot;Sube_Kodu&quot;: 0,
+    &quot;SC_NO&quot;: &quot;CEK-0001&quot;,
+    &quot;SC_GIRTRH&quot;: &quot;2024-06-01&quot;, &quot;VADETRH&quot;: &quot;2024-07-01&quot;, &quot;SC_ODETRH&quot;: &quot;2024-07-01&quot;,
+    &quot;SC_VERENK&quot;: &quot;120-01-999&quot;,
+    &quot;AS_C&quot;: &quot;A&quot;, &quot;SC_SONDUR&quot;: &quot;B&quot;, &quot;SC_YERI&quot;: &quot;P&quot;,
+    &quot;Tutar&quot;: 456.0,
+    &quot;DOVTIP&quot;: 0, &quot;DOVTUT&quot;: 0.0,
+    &quot;GIRILDIGIYER&quot;: 2,
+    &quot;Proje_Kodu&quot;: &quot;1&quot;,
+    &quot;OnayTipi&quot;: &quot;A&quot;, &quot;OnayNum&quot;: 0
+  }]
+}
+</code></pre>
+<h2 id="e-belge"><a class="anchor" href="#e-belge" aria-hidden="true">#</a>E-belge</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Uç</th>
+<th>Gövde</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>POST api/v2/EDocument</code> (taslak)</td>
+<td><code>{ &quot;BelgeNo&quot;: &quot;ABC2024000000123&quot;, &quot;Tip&quot;: 1, &quot;DizaynKontrol&quot;: false, &quot;DovizliOlustur&quot;: false }</code></td>
+</tr>
+<tr>
+<td><code>POST api/v2/EDocument/SendEDocument</code></td>
+<td><code>{ &quot;DocumentNumber&quot;: &quot;...&quot;, &quot;CustomerCode&quot;: &quot;...&quot;, &quot;DocumentType&quot;: &quot;ftSFat&quot;, &quot;EDocumentType&quot;: 1 }</code></td>
+</tr>
+<tr>
+<td><code>POST api/v2/EDocument/ShowEDocument</code></td>
+<td><code>{ &quot;GIBDocumentNumber&quot;: &quot;ABC2024000000123&quot;, &quot;HtmlPath&quot;: &quot;&quot;, &quot;DocumentBoxType&quot;: 2, &quot;EDocumentType&quot;: 1 }</code></td>
+</tr>
+</tbody></table></div>
+<p><code>Tip</code> ve <code>EDocumentType</code>: <strong>0 e-arşiv, 1 e-fatura, 2 e-irsaliye</strong>. <code>ShowEDocument</code>&#39;ta <code>HtmlPath</code> boş bırakılırsa HTML yanıtta döner; dolu ise sunucudaki o klasöre yazılır.</p>
+<h2 id="toplu-faturalama"><a class="anchor" href="#toplu-faturalama" aria-hidden="true">#</a>Toplu faturalama</h2>
+<p><code>POST api/v2/BatchInvoicing</code></p>
+<pre><code class="language-json">{
+  &quot;FaturaTip&quot;: 2,
+  &quot;AltCariKodu&quot;: &quot;120-01-001&quot;, &quot;UstCariKodu&quot;: &quot;120-01-999&quot;,
+  &quot;AltIrsaliyeNumarasi&quot;: &quot;IRS000000000001&quot;, &quot;UstIrsaliyeNumarasi&quot;: &quot;IRS000000000999&quot;,
+  &quot;FaturaNumarasi&quot;: &quot;ABC2024000000200&quot;,
+  &quot;IrsaliyelerBirlessin&quot;: true,
+  &quot;KapaliIrsaliyeIcinKasa&quot;: &quot;00&quot;,
+  &quot;PlaKodFarkliIrsBirlessin&quot;: true,
+  &quot;ProjeKodFarkliIrsBirlessin&quot;: true,
+  &quot;EFaturaCarileriGetirilsin&quot;: true
+}
+</code></pre>
+<p>Alt/üst alanları bir aralık tanımlar (cari ve irsaliye numarası aralığı).</p>
+<h2 id="is-emri"><a class="anchor" href="#is-emri" aria-hidden="true">#</a>İş emri</h2>
+<p><code>POST api/v2/ProductionOrder</code></p>
+<pre><code class="language-json">{
+  &quot;TransactSupport&quot;: true,
+  &quot;IsEmriNo&quot;: &quot;000000000000033&quot;,
+  &quot;Tarih&quot;: &quot;2024-06-01 00:00:00&quot;,
+  &quot;StokKodu&quot;: &quot;A-MAMUL&quot;,
+  &quot;Miktar&quot;: 1.0,
+  &quot;Olcubr&quot;: 0,
+  &quot;TeslimTarihi&quot;: &quot;2024-06-02 00:00:00&quot;,
+  &quot;Kapali&quot;: false,
+  &quot;Oncelik&quot;: 0,
+  &quot;SipKont&quot;: 0,
+  &quot;SubeKodu&quot;: 0,
+  &quot;DepoKodu&quot;: 1,
+  &quot;CikisDepoKodu&quot;: 1,
+  &quot;Rework&quot;: false,
+  &quot;OnayTipi&quot;: &quot;A&quot;, &quot;OnayNum&quot;: 0
+}
+</code></pre>
+<h2 id="serbest-uretim"><a class="anchor" href="#serbest-uretim" aria-hidden="true">#</a>Serbest üretim</h2>
+<p><code>POST api/v2/FinishedGoodsReceiptWChanges/ReceiptProduce</code></p>
+<pre><code class="language-json">{
+  &quot;TransactSupport&quot;: true,
+  &quot;UretSon_FisNo&quot;: &quot;000000000000428&quot;,
+  &quot;UretSon_Tarih&quot;: &quot;2024-06-01 00:00:00&quot;,
+  &quot;UretSon_Depo&quot;: 1,
+  &quot;UretSon_Mamul&quot;: &quot;MMLX1&quot;,
+  &quot;UretSon_Miktar&quot;: 1.0,
+  &quot;Sube_Kodu&quot;: 0,
+  &quot;Proje_Kodu&quot;: &quot;1&quot;,
+  &quot;Recete_Tarih&quot;: &quot;2024-06-01 00:00:00&quot;,
+  &quot;BAKIYE_DEPO&quot;: 0,
+  &quot;OTO_YMAM_GIRDI_CIKTI&quot;: true,
+  &quot;KayitlaraGecilsin&quot;: true
+}
+</code></pre>
+<p>Seri takipli mamullerde <code>Seri: [{ &quot;Seri1&quot;: &quot;...&quot;, &quot;Seri2&quot;: &quot;...&quot;, &quot;Miktar&quot;: 1 }]</code> eklenir.</p>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/rest/json-ornekleri.md">GitHub'da düzenle</a> · <a href="/rest/json-ornekleri.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#fatura">Fatura</a></li><li class="l3"><a href="#itemslips-alanlari">ItemSlips alanları</a></li><li class="l2"><a href="#fatura-hesaplama">Fatura hesaplama</a></li><li class="l2"><a href="#siparisten-fatura">Siparişten fatura</a></li><li class="l2"><a href="#cari-karti">Cari kartı</a></li><li class="l2"><a href="#cari-hareket">Cari hareket</a></li><li class="l2"><a href="#stok-karti">Stok kartı</a></li><li class="l2"><a href="#stok-hareketi">Stok hareketi</a></li><li class="l2"><a href="#kasa">Kasa</a></li><li class="l2"><a href="#cek-senet">Çek / senet</a></li><li class="l2"><a href="#e-belge">E-belge</a></li><li class="l2"><a href="#toplu-faturalama">Toplu faturalama</a></li><li class="l2"><a href="#is-emri">İş emri</a></li><li class="l2"><a href="#serbest-uretim">Serbest üretim</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

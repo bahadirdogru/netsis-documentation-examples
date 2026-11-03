@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fatura ve irsaliye · Netsis Dokümantasyonu</title>
+<meta name="description" content="Fatura, FatUst ve FatKalem nesneleriyle fatura, irsaliye ve sipariş kaydetme, okuma ve silme.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/netopenx/fatura-ve-irsaliye/">
+<link rel="alternate" type="text/markdown" href="/netopenx/fatura-ve-irsaliye.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Fatura ve irsaliye">
+<meta property="og:description" content="Fatura, FatUst ve FatKalem nesneleriyle fatura, irsaliye ve sipariş kaydetme, okuma ve silme.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/netopenx/fatura-ve-irsaliye/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/" aria-current="page">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/netopenx/">NetOpenX (COM)</a></nav>
+<article>
+<h1 id="fatura-ve-irsaliye"><a class="anchor" href="#fatura-ve-irsaliye" aria-hidden="true">#</a>Fatura ve irsaliye</h1>
+<p>Netsis&#39;te fatura, irsaliye, sipariş, teklif, talep, depolar arası transfer ve ambar fişi <strong>aynı nesneyle</strong> yazılır: <code>Fatura</code>. Belgenin türünü <code>kernel.yeniFatura(sirket, TFaturaTip)</code> çağrısındaki enum belirler.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Belge</th>
+<th><code>TFaturaTip</code></th>
+<th>Tablo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Satış faturası</td>
+<td><code>ftSFat</code></td>
+<td><a class="tbl" href="/veritabani/tablolar/tblfatuirs/"><code>TBLFATUIRS</code></a> (FTIRSIP=1) + <a class="tbl" href="/veritabani/tablolar/tblsthar/"><code>TBLSTHAR</code></a></td>
+</tr>
+<tr>
+<td>Alış faturası</td>
+<td><code>ftAFat</code></td>
+<td><a class="tbl" href="/veritabani/tablolar/tblfatuirs/"><code>TBLFATUIRS</code></a> (2)</td>
+</tr>
+<tr>
+<td>Satış irsaliyesi</td>
+<td><code>ftSIrs</code></td>
+<td><a class="tbl" href="/veritabani/tablolar/tblfatuirs/"><code>TBLFATUIRS</code></a> (3)</td>
+</tr>
+<tr>
+<td>Alış irsaliyesi</td>
+<td><code>ftAIrs</code></td>
+<td><a class="tbl" href="/veritabani/tablolar/tblfatuirs/"><code>TBLFATUIRS</code></a> (4)</td>
+</tr>
+<tr>
+<td>Müşteri (satış) siparişi</td>
+<td><code>ftSSip</code></td>
+<td><a class="tbl" href="/veritabani/tablolar/tblsipamas/"><code>TBLSIPAMAS</code></a> (6) + <a class="tbl" href="/veritabani/tablolar/tblsipatra/"><code>TBLSIPATRA</code></a></td>
+</tr>
+<tr>
+<td>Satıcı (alış) siparişi</td>
+<td><code>ftASip</code></td>
+<td><a class="tbl" href="/veritabani/tablolar/tblsipamas/"><code>TBLSIPAMAS</code></a> (7)</td>
+</tr>
+<tr>
+<td>Satış teklifi</td>
+<td><code>ftSatTeklif</code></td>
+<td>teklif tabloları</td>
+</tr>
+<tr>
+<td>Lokal depolar arası transfer</td>
+<td><code>ftLokalDepo</code></td>
+<td><a class="tbl" href="/veritabani/tablolar/tblfatuirs/"><code>TBLFATUIRS</code></a> (8)</td>
+</tr>
+<tr>
+<td>Ambar giriş / çıkış fişi</td>
+<td><code>ftAmbarG</code> / <code>ftAmbarC</code></td>
+<td><a class="tbl" href="/veritabani/tablolar/tblfatuirs/"><code>TBLFATUIRS</code></a> (9 / 8)</td>
+</tr>
+</tbody></table></div>
+<p>Tam liste: <a href="/netopenx/enumlar/#tfaturatip">Enum&#39;lar</a>.</p>
+<h2 id="yeni-belge-adim-adim"><a class="anchor" href="#yeni-belge-adim-adim" aria-hidden="true">#</a>Yeni belge: adım adım</h2>
+<pre><code class="language-csharp">Fatura fatura = kernel.yeniFatura(sirket, TFaturaTip.ftSFat);
+
+// 1) Numara al. Parametre seri önekidir (&quot;A&quot;, &quot;ABC&quot; ...)
+string no = fatura.YeniNumara(&quot;ABC&quot;);
+
+// 2) Başlık
+FatUst ust = fatura.Ust();
+ust.FATIRS_NO   = no;
+ust.CariKod     = &quot;120-01-001&quot;;
+ust.Tarih       = DateTime.Today;
+ust.FiiliTarih  = DateTime.Today;
+ust.ENTEGRE_TRH = DateTime.Today;
+ust.TIPI        = TFaturaTipi.ft_Acik;     // açık fatura
+ust.KDV_DAHILMI = false;
+ust.PLA_KODU    = &quot;01&quot;;                     // plasiyer
+ust.Proje_Kodu  = &quot;1&quot;;
+ust.EKACK1      = &quot;Sipariş: 4711&quot;;          // ek açıklama 1..16
+
+// 3) Kalemler
+FatKalem kalem = fatura.kalemYeni(&quot;STK001&quot;);   // stok kodu
+kalem.DEPO_KODU  = 1;
+kalem.STra_GCMIK = 10;       // miktar
+kalem.STra_BF    = 125.50;   // brüt birim fiyat
+kalem.STra_NF    = 125.50;   // net birim fiyat
+kalem.STra_KDV   = 20;       // KDV oranı
+kalem.STra_SatIsk = 5;       // satır iskontosu 1 (%)
+
+// 4) Kaydet
+fatura.kayitYeni();
+string kaydedilenNo = ust.FATIRS_NO;   // Netsis numarayı değiştirmiş olabilir
+</code></pre>
+<blockquote>
+<p><strong>Numara değişebilir.</strong> <code>YeniNumara</code> ile alınan numara, kayıt anında başka bir kullanıcı aynı numarayı kullandıysa Netsis tarafından ilerletilir. Her zaman <code>kayitYeni()</code> sonrası <code>ust.FATIRS_NO</code>&#39;yu okuyun.</p>
+</blockquote>
+<h3 id="hesaplama-bayraklari"><a class="anchor" href="#hesaplama-bayraklari" aria-hidden="true">#</a>Hesaplama bayrakları</h3>
+<p><code>kayitYeni()</code> öncesi <code>Fatura</code> nesnesinde ayarlanır:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Özellik</th>
+<th>Etkisi</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>KosulluHesapla</code></td>
+<td>Koşul (kampanya, iskonto) tanımlarına göre hesapla</td>
+</tr>
+<tr>
+<td><code>FiyatSistemineGoreHesapla</code></td>
+<td>Fiyat listesinden fiyat getir</td>
+</tr>
+<tr>
+<td><code>StokKartinaGoreHesapla</code></td>
+<td>Stok kartındaki fiyat/KDV ile hesapla</td>
+</tr>
+<tr>
+<td><code>RiskKontrol</code></td>
+<td>Cari risk limitini kontrol et; aşılırsa kayıt hata verir</td>
+</tr>
+</tbody></table></div>
+<p>Toplamları kaydetmeden görmek için <code>fatura.HesaplamalariYap()</code> çağrılır; sonra <code>FatUst</code> üzerindeki toplam alanları okunabilir.</p>
+<h3 id="fatust-alanlari"><a class="anchor" href="#fatust-alanlari" aria-hidden="true">#</a>FatUst alanları</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Alan</th>
+<th>Tablo kolonu</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>FATIRS_NO</code></td>
+<td><code>FATIRS_NO</code></td>
+<td>Belge no (15 karakter)</td>
+</tr>
+<tr>
+<td><code>GIB_FATIRS_NO</code></td>
+<td><code>GIB_FATIRS_NO</code></td>
+<td>GİB (e-fatura/e-arşiv) numarası, 16 karakter</td>
+</tr>
+<tr>
+<td><code>CariKod</code></td>
+<td><code>CARI_KODU</code></td>
+<td>Cari. Ambar fişinde masraf merkezi kodu yazılır</td>
+</tr>
+<tr>
+<td><code>CARI_KOD2</code></td>
+<td><code>CARI_KOD2</code></td>
+<td>Farklı teslim (teslim carisi)</td>
+</tr>
+<tr>
+<td><code>Tarih</code></td>
+<td><code>TARIH</code></td>
+<td>Belge tarihi</td>
+</tr>
+<tr>
+<td><code>FiiliTarih</code></td>
+<td></td>
+<td>Fiili sevk/teslim tarihi</td>
+</tr>
+<tr>
+<td><code>ENTEGRE_TRH</code></td>
+<td></td>
+<td>Muhasebe entegrasyon tarihi</td>
+</tr>
+<tr>
+<td><code>SIPARIS_TEST</code></td>
+<td><code>SIPARIS_TEST</code></td>
+<td>Sipariş teslim tarihi</td>
+</tr>
+<tr>
+<td><code>FIYATTARIHI</code>, <code>KOSULTARIHI</code>, <code>DovBazTarihi</code></td>
+<td></td>
+<td>Fiyat, koşul ve döviz baz tarihleri</td>
+</tr>
+<tr>
+<td><code>TIPI</code></td>
+<td><code>TIPI</code></td>
+<td><code>TFaturaTipi</code>: açık, kapalı, iade, ihracat…</td>
+</tr>
+<tr>
+<td><code>KDV_DAHILMI</code></td>
+<td><code>KDV_DAHILMI</code></td>
+<td>Fiyatlar KDV dahil mi</td>
+</tr>
+<tr>
+<td><code>PLA_KODU</code></td>
+<td><code>PLA_KODU</code></td>
+<td>Plasiyer</td>
+</tr>
+<tr>
+<td><code>Proje_Kodu</code></td>
+<td><code>PROJE_KODU</code></td>
+<td>Proje</td>
+</tr>
+<tr>
+<td><code>KOD1</code>, <code>KOD2</code></td>
+<td><code>KOD1</code>, <code>KOD2</code></td>
+<td>Özel kodlar</td>
+</tr>
+<tr>
+<td><code>KOSVADEGUNU</code></td>
+<td><code>KOSVADEGUNU</code></td>
+<td>Vade günü</td>
+</tr>
+<tr>
+<td><code>EKACK1</code> … <code>EKACK16</code></td>
+<td><code>TBLFATUEK.ACIK1..16</code></td>
+<td>Ek açıklamalar</td>
+</tr>
+<tr>
+<td><code>EIrsaliye</code></td>
+<td></td>
+<td><code>true</code>: e-irsaliye olarak işaretle</td>
+</tr>
+<tr>
+<td><code>EfaturaCarisiMi</code></td>
+<td></td>
+<td>Salt okunur; cari e-fatura mükellefi mi</td>
+</tr>
+<tr>
+<td><code>EFatOzelKod</code></td>
+<td></td>
+<td>E-fatura istisna/özel kodu (ör. KDV istisna kodu)</td>
+</tr>
+<tr>
+<td><code>AMBHARTUR</code></td>
+<td></td>
+<td>Ambar hareket türü (<code>TAmbarHarTur</code>)</td>
+</tr>
+<tr>
+<td><code>CikisYeri</code></td>
+<td></td>
+<td>Ambar çıkış yeri (<code>TCikisYeri</code>)</td>
+</tr>
+<tr>
+<td><code>FAT_ALTM1</code>, <code>FAT_ALTM2</code></td>
+<td><code>FAT_ALTM1/2</code></td>
+<td>Fatura alt maliyet tutarları</td>
+</tr>
+</tbody></table></div>
+<h3 id="fatkalem-alanlari"><a class="anchor" href="#fatkalem-alanlari" aria-hidden="true">#</a>FatKalem alanları</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Alan</th>
+<th>Tablo kolonu</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(kurucu) <code>kalemYeni(stokKodu)</code></td>
+<td><code>STOK_KODU</code></td>
+<td>Stok kodu</td>
+</tr>
+<tr>
+<td><code>STra_GCMIK</code></td>
+<td><code>STHAR_GCMIK</code></td>
+<td>Miktar</td>
+</tr>
+<tr>
+<td><code>STra_BF</code></td>
+<td><code>STHAR_BF</code></td>
+<td>Brüt birim fiyat</td>
+</tr>
+<tr>
+<td><code>STra_NF</code></td>
+<td><code>STHAR_NF</code></td>
+<td>Net birim fiyat</td>
+</tr>
+<tr>
+<td><code>STra_KDV</code></td>
+<td><code>STHAR_KDV</code></td>
+<td>KDV oranı</td>
+</tr>
+<tr>
+<td><code>STra_SatIsk</code>, <code>STra_SatIsk2</code> … <code>STra_SatIsk6</code></td>
+<td><code>STHAR_SATISK…</code></td>
+<td>Satır iskontoları</td>
+</tr>
+<tr>
+<td><code>STra_DOVTIP</code>, <code>STra_DOVFIAT</code></td>
+<td><code>STHAR_DOVTIP</code>, <code>STHAR_DOVFIAT</code></td>
+<td>Döviz tipi ve dövizli fiyat</td>
+</tr>
+<tr>
+<td><code>Olcubr</code></td>
+<td><code>OLCUBR</code></td>
+<td>Ölçü birimi sırası (1, 2, 3)</td>
+</tr>
+<tr>
+<td><code>DEPO_KODU</code></td>
+<td><code>DEPO_KODU</code></td>
+<td>Depo (çıkış deposu)</td>
+</tr>
+<tr>
+<td><code>Gir_Depo_Kodu</code></td>
+<td></td>
+<td>Depolar arası transferde giriş deposu</td>
+</tr>
+<tr>
+<td><code>ProjeKodu</code></td>
+<td><code>PROJE_KODU</code></td>
+<td>Kalem proje kodu</td>
+</tr>
+<tr>
+<td><code>MuhasebeKodu</code></td>
+<td><code>MUH_KODU</code></td>
+<td>Kalem muhasebe kodu (ambar fişlerinde)</td>
+</tr>
+<tr>
+<td><code>Ekalan</code>, <code>Ekalanneden</code></td>
+<td><code>EKALAN</code>, <code>EKALAN_NEDEN</code></td>
+<td>Ek alan. <code>Ekalanneden = &quot;1&quot;</code> iken <code>Ekalan</code> kalem açıklaması (ör. hizmet kartında satır adı) olarak basılır</td>
+</tr>
+</tbody></table></div>
+<blockquote>
+<p><code>STra_SatIsk</code> ilk iskontodur. NetsisQuick&#39;in eski bir sürümünde üç iskonto da <code>STra_SatIsk</code>&#39;e yazılıp birbirini ezmişti; 2. ve 3. iskonto için <code>STra_SatIsk2</code>, <code>STra_SatIsk3</code> kullanın.</p>
+</blockquote>
+<h3 id="barkoddan-stok-kodu-bulmak"><a class="anchor" href="#barkoddan-stok-kodu-bulmak" aria-hidden="true">#</a>Barkoddan stok kodu bulmak</h3>
+<p><code>kalemYeni</code> stok kodu ister. Elinizde barkod varsa önce SQL ile çevirin:</p>
+<pre><code class="language-sql">SELECT STOK_KODU FROM TBLSTSABIT WHERE BARKOD1 = @barkod
+</code></pre>
+<h2 id="mevcut-belgeyi-okumak"><a class="anchor" href="#mevcut-belgeyi-okumak" aria-hidden="true">#</a>Mevcut belgeyi okumak</h2>
+<pre><code class="language-csharp">Fatura fatura = kernel.yeniFatura(sirket, TFaturaTip.ftSatTeklif);
+fatura.OkuUst(&quot;000000000088886&quot;, &quot;120-01-001&quot;);   // belge no, cari kod
+fatura.OkuKalem();
+
+FatUst ust = fatura.Ust();
+for (int i = 0; i &lt; fatura.KalemAdedi; i++)
+{
+    FatKalem k = fatura.get_Kalem(i);      // C#&#39;ta indeksli özellik; VB/Delphi&#39;de fatura.Kalem(i)
+    Console.WriteLine($&quot;{k.StokKodu} {k.STra_GCMIK} x {k.STra_BF}&quot;);
+}
+</code></pre>
+<p><code>OkuUst</code> belge numarası <strong>ve cari kodu</strong> ister, çünkü aynı numara farklı carilerde tekrar edebilir. Belge bulunamazsa hata fırlar ve <code>kernel.SonNetsisHata.Kod</code> <code>401</code> olur (<a href="/netopenx/hatalar/#netsis-hata-kodu">Hatalar</a>).</p>
+<p>Logo&#39;nun örneğinde bu okuma deseniyle bir faturayı başka bir şirkete kopyalama da gösterilir: kaynak kalemlerden <code>STra_GCMIK</code>, <code>STra_GCMIK2</code>, <code>CEVRIM</code>, <code>STra_TAR</code>, <code>STra_NF</code>, <code>STra_BF</code>, <code>STra_IAF</code>, <code>STra_KDV</code>, <code>DEPO_KODU</code> hedef faturanın <code>kalemYeni(stokKodu)</code> satırına aktarılır.</p>
+<h2 id="belgeyi-silmek"><a class="anchor" href="#belgeyi-silmek" aria-hidden="true">#</a>Belgeyi silmek</h2>
+<pre><code class="language-csharp">Fatura irsaliye = kernel.yeniFatura(sirket, TFaturaTip.ftSIrs);
+irsaliye.OkuUst(irsaliyeNo, cariKod);
+irsaliye.OkuKalem();
+irsaliye.kayitSil();
+</code></pre>
+<p>Silme, ekrandan silmede olduğu gibi belgeye bağlı stok ve cari hareketlerini de kaldırır. E-belgesi gönderilmiş ya da faturalanmış bir irsaliyeyi silmeyin; önce bağlı belgeyi ele alın.</p>
+<h2 id="belgeyi-duzeltmek"><a class="anchor" href="#belgeyi-duzeltmek" aria-hidden="true">#</a>Belgeyi düzeltmek</h2>
+<p>Okunan belgede alan değiştirip <code>kayitDuzelt()</code> çağrılır (metot NetsisQuick&#39;te yorum satırı olarak geçer; davranışı doğrulanmadı):</p>
+<pre><code class="language-csharp">fatura.OkuUst(no, cari);
+fatura.OkuKalem();
+fatura.Ust().Tarih = new DateTime(2024, 5, 1);
+fatura.kayitDuzelt();
+</code></pre>
+<h2 id="e-irsaliye-olarak-kaydetmek"><a class="anchor" href="#e-irsaliye-olarak-kaydetmek" aria-hidden="true">#</a>E-irsaliye olarak kaydetmek</h2>
+<p>E-irsaliye numarası farklı bir metotla alınır ve taşıma bilgisi eklenir:</p>
+<pre><code class="language-csharp">Fatura irs = kernel.yeniFatura(sirket, TFaturaTip.ftSIrs);
+FatUst ust = irs.Ust();
+ust.EIrsaliye = true;
+ust.FATIRS_NO = irs.YeniEIrsaliyeNumara(&quot;EIR&quot;);   // e-irsaliye serisi (TBLEIRSSERI)
+ust.CariKod = cariKod;
+ust.Tarih = DateTime.Today;
+
+IEIrsEkBilgi ek = irs.EIrsaliyeEkYeni();
+ek.PLAKA = &quot;34ABC123&quot;;
+ek.TASIYICIVKN = &quot;1234567890&quot;;
+ek.TASIYICIADI = &quot;Taşıyıcı A.Ş.&quot;;
+ek.TASIYICIIL = &quot;İstanbul&quot;;
+ek.TASIYICIILCE = &quot;Tuzla&quot;;
+ek.TASIYICIULKE = &quot;TR&quot;;
+ek.TASIYICIPOSTAKODU = &quot;34940&quot;;
+ek.SOFOR1ADI = &quot;Ad&quot;; ek.SOFOR1SOYADI = &quot;Soyad&quot;; ek.SOFOR1TCKN = &quot;11111111111&quot;;
+ek.SEVKTAR = DateTime.Now;
+ek.DORSEPLAKA1 = &quot;34XYZ99&quot;;
+
+FatKalem k = irs.kalemYeni(&quot;STK001&quot;);
+k.STra_GCMIK = 5; k.DEPO_KODU = 1;
+irs.kayitYeni();
+</code></pre>
+<p><code>IEIrsEkBilgi</code> ayrıca <code>SOFOR2…</code>, <code>SOFOR3…</code>, <code>SOFOR1ACIKLAMA</code>, <code>DORSEPLAKA2</code>, <code>DORSEPLAKA3</code> alanlarını taşır. Taslak oluşturma ve gönderim için <a href="/netopenx/e-belge/">E-belge</a>.</p>
+<h2 id="excel-den-toplu-belge-netsisquick-deseni"><a class="anchor" href="#excel-den-toplu-belge-netsisquick-deseni" aria-hidden="true">#</a>Excel&#39;den toplu belge (NetsisQuick deseni)</h2>
+<p>NetsisQuick, Excel satırlarını kalemlere çevirir. Satır başına beklenen kolonlar:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Excel kolonu</th>
+<th>Hedef</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>StokKodu</code> ya da <code>Barkod</code></td>
+<td><code>kalemYeni(...)</code></td>
+</tr>
+<tr>
+<td><code>Adet</code></td>
+<td><code>STra_GCMIK</code></td>
+</tr>
+<tr>
+<td><code>BrutFiyat</code>, <code>NetFiyat</code></td>
+<td><code>STra_BF</code>, <code>STra_NF</code></td>
+</tr>
+<tr>
+<td><code>Iskonto1..3</code></td>
+<td><code>STra_SatIsk</code>, <code>STra_SatIsk2</code>, <code>STra_SatIsk3</code></td>
+</tr>
+<tr>
+<td><code>StokAdi</code></td>
+<td><code>Ekalanneden = &quot;1&quot;</code>, <code>Ekalan = StokAdi</code></td>
+</tr>
+<tr>
+<td><code>EkAck1..16</code> (ilk satır)</td>
+<td><code>FatUst.EKACK1..16</code></td>
+</tr>
+<tr>
+<td><code>MuhasebeKodu</code></td>
+<td><code>MuhasebeKodu</code> (ambar fişi)</td>
+</tr>
+</tbody></table></div>
+<p>NetsisQuick yalnızca dolu hücreleri ilgili alana yazar. Boş fiyatı <code>0</code> olarak yazmak, Netsis&#39;in stok kartından ya da fiyat listesinden getireceği fiyatı ezebilir.</p>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/netopenx/fatura-ve-irsaliye.md">GitHub'da düzenle</a> · <a href="/netopenx/fatura-ve-irsaliye.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#yeni-belge-adim-adim">Yeni belge: adım adım</a></li><li class="l3"><a href="#hesaplama-bayraklari">Hesaplama bayrakları</a></li><li class="l3"><a href="#fatust-alanlari">FatUst alanları</a></li><li class="l3"><a href="#fatkalem-alanlari">FatKalem alanları</a></li><li class="l3"><a href="#barkoddan-stok-kodu-bulmak">Barkoddan stok kodu bulmak</a></li><li class="l2"><a href="#mevcut-belgeyi-okumak">Mevcut belgeyi okumak</a></li><li class="l2"><a href="#belgeyi-silmek">Belgeyi silmek</a></li><li class="l2"><a href="#belgeyi-duzeltmek">Belgeyi düzeltmek</a></li><li class="l2"><a href="#e-irsaliye-olarak-kaydetmek">E-irsaliye olarak kaydetmek</a></li><li class="l2"><a href="#excel-den-toplu-belge-netsisquick-deseni">Excel&#39;den toplu belge (NetsisQuick deseni)</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

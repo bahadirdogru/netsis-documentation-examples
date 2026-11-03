@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SENET-ÇEK modülü · Netsis Dokümantasyonu</title>
+<meta name="description" content="SENET-ÇEK modülündeki 27 tablo">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/moduller/senet-cek/">
+<link rel="alternate" type="text/markdown" href="/veritabani/moduller/senet-cek.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="SENET-ÇEK modülü">
+<meta property="og:description" content="SENET-ÇEK modülündeki 27 tablo">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/moduller/senet-cek/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/" aria-current="page">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a></nav>
+<article>
+<h1 id="senet-cek-modulu-tablolari"><a class="anchor" href="#senet-cek-modulu-tablolari" aria-hidden="true">#</a>SENET-ÇEK modülü tabloları</h1>
+<p>Bu modülde şema dokümanında ayrıntısı bulunan <strong>27</strong> tablo var.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th align="right">Kolon</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/veritabani/tablolar/tblbcek/"><a class="tbl" href="/veritabani/tablolar/tblbcek/"><code>TBLBCEK</code></a></a></td>
+<td align="right">63</td>
+<td>DEVIR CEK GIRISI VE CARI HESABA CEK CIROSUNDAN YAPILAN BORC CEKLERININ KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbcekno/"><a class="tbl" href="/veritabani/tablolar/tblbcekno/"><code>TBLBCEKNO</code></a></a></td>
+<td align="right">5</td>
+<td>CEK NUMARASI DEGISIKLIGINDEN GIRILEN KAYITLARI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbcekpar/"><a class="tbl" href="/veritabani/tablolar/tblbcekpar/"><code>TBLBCEKPAR</code></a></a></td>
+<td align="right">32</td>
+<td>BORC CEKLERI PARAMETRE KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbcekparca/"><a class="tbl" href="/veritabani/tablolar/tblbcekparca/"><code>TBLBCEKPARCA</code></a></a></td>
+<td align="right">37</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbordromas/"><a class="tbl" href="/veritabani/tablolar/tblbordromas/"><code>TBLBORDROMAS</code></a></a></td>
+<td align="right">21</td>
+<td>BORDRO SABIT BILGILERINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbsen/"><a class="tbl" href="/veritabani/tablolar/tblbsen/"><code>TBLBSEN</code></a></a></td>
+<td align="right">63</td>
+<td>DEVIR SENET GIRISI VE CARI HESABA SENET CIROSUNDAN YAPILAN KAYITLARI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbsenno/"><a class="tbl" href="/veritabani/tablolar/tblbsenno/"><code>TBLBSENNO</code></a></a></td>
+<td align="right">5</td>
+<td>SENET NUMARASI DEGISIKLIGINDEN GIRILEN KAYITLARI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbsenpar/"><a class="tbl" href="/veritabani/tablolar/tblbsenpar/"><code>TBLBSENPAR</code></a></a></td>
+<td align="right">32</td>
+<td>BORC SENETLERI PARAMETRE KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblbsenparca/"><a class="tbl" href="/veritabani/tablolar/tblbsenparca/"><code>TBLBSENPARCA</code></a></a></td>
+<td align="right">37</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblceksendek/"><a class="tbl" href="/veritabani/tablolar/tblceksendek/"><code>TBLCEKSENDEK</code></a></a></td>
+<td align="right">42</td>
+<td>DEKONT MODULUNDEN YAPILAN CEK/SENET ISLEMLERININ KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblceksenlog/"><a class="tbl" href="/veritabani/tablolar/tblceksenlog/"><code>TBLCEKSENLOG</code></a></a></td>
+<td align="right">16</td>
+<td>MUSTERI/BORC CEK/SENET HAREKETLERINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblcsislemtip/"><a class="tbl" href="/veritabani/tablolar/tblcsislemtip/"><code>TBLCSISLEMTIP</code></a></a></td>
+<td align="right">2</td>
+<td>CEKSENLOG İŞLEM TİPLERİNİN TUTULDUĞU TABLO</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfaizoran/"><a class="tbl" href="/veritabani/tablolar/tblfaizoran/"><code>TBLFAIZORAN</code></a></a></td>
+<td align="right">7</td>
+<td>SENET TANZİM FAİZ ORANLARI TUTULUR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkambbcek/"><a class="tbl" href="/veritabani/tablolar/tblkambbcek/"><code>TBLKAMBBCEK</code></a></a></td>
+<td align="right">4</td>
+<td>RAPORLAR&gt;KAMBİYO DEFTERİ EKRANINDA RAPOR BUTONUNA BASILDIĞINDAKİ KAYITLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkambbsen/"><a class="tbl" href="/veritabani/tablolar/tblkambbsen/"><code>TBLKAMBBSEN</code></a></a></td>
+<td align="right">4</td>
+<td>RAPORLAR&gt;KAMBİYO DEFTERİ EKRANINDA RAPOR BUTONUNA BASILDIĞINDAKİ KAYITLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkambmcek/"><a class="tbl" href="/veritabani/tablolar/tblkambmcek/"><code>TBLKAMBMCEK</code></a></a></td>
+<td align="right">4</td>
+<td>RAPORLAR&gt;KAMBİYO DEFTERİ EKRANINDA RAPOR BUTONUNA BASILDIĞINDAKİ KAYITLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkambmsen/"><a class="tbl" href="/veritabani/tablolar/tblkambmsen/"><code>TBLKAMBMSEN</code></a></a></td>
+<td align="right">4</td>
+<td>RAPORLAR&gt;KAMBİYO DEFTERİ EKRANINDA RAPOR BUTONUNA BASILDIĞINDAKİ KAYITLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblkaraliste/"><a class="tbl" href="/veritabani/tablolar/tblkaraliste/"><code>TBLKARALISTE</code></a></a></td>
+<td align="right">6</td>
+<td>MÜŞTERİ ÇEKLERİ&gt;KAYIT&gt;KARA LİSTE KAYDI KAYITLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmcek/"><a class="tbl" href="/veritabani/tablolar/tblmcek/"><code>TBLMCEK</code></a></a></td>
+<td align="right">63</td>
+<td>DEVIR CEK GIRISI VE CARI HESAP CEK ALINDI KAYDINDAN YAPILAN KAYITLARI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmcekno/"><a class="tbl" href="/veritabani/tablolar/tblmcekno/"><code>TBLMCEKNO</code></a></a></td>
+<td align="right">5</td>
+<td>CEK NUMARASI DEGISIKLIGINDEN GIRILEN KAYITLARI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmcekpar/"><a class="tbl" href="/veritabani/tablolar/tblmcekpar/"><code>TBLMCEKPAR</code></a></a></td>
+<td align="right">32</td>
+<td>MUSTERI CEKLERI PARAMETRE KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmcekparca/"><a class="tbl" href="/veritabani/tablolar/tblmcekparca/"><code>TBLMCEKPARCA</code></a></a></td>
+<td align="right">37</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmsen/"><a class="tbl" href="/veritabani/tablolar/tblmsen/"><code>TBLMSEN</code></a></a></td>
+<td align="right">63</td>
+<td>DEVIR SENET GIRISI VE CARI HESAP SENET ALINDI KAYDINDAN YAPILAN KAYITLARI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmsenno/"><a class="tbl" href="/veritabani/tablolar/tblmsenno/"><code>TBLMSENNO</code></a></a></td>
+<td align="right">5</td>
+<td>MÜŞTERİ SENETLERİ&gt;İŞLEMLER&gt;SENET NUMARASI DEĞİŞİKLİĞİ KAYITLARINI TUTAR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmsenpar/"><a class="tbl" href="/veritabani/tablolar/tblmsenpar/"><code>TBLMSENPAR</code></a></a></td>
+<td align="right">32</td>
+<td>MUSTERI SENETLERI PARAMETRE KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmsenparca/"><a class="tbl" href="/veritabani/tablolar/tblmsenparca/"><code>TBLMSENPARCA</code></a></a></td>
+<td align="right">37</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmsentakprm/"><a class="tbl" href="/veritabani/tablolar/tblmsentakprm/"><code>TBLMSENTAKPRM</code></a></a></td>
+<td align="right">36</td>
+<td>MÜŞTERİ SENETLERİ MODÜLÜNE BAĞLI TAKSİTLİ SATIŞ PARAMETRE KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+</tbody></table></div>
+
+</article>
+<footer class="page-foot"><a href="/veritabani/moduller/senet-cek.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

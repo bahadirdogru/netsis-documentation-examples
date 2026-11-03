@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diğer işlemler · Netsis Dokümantasyonu</title>
+<meta name="description" content="Hesaplama, tevkifatlı fatura, TCMB banka kodu güncelleme, talep/teklif okuma.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/netopenx/diger-islemler/">
+<link rel="alternate" type="text/markdown" href="/netopenx/diger-islemler.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Diğer işlemler">
+<meta property="og:description" content="Hesaplama, tevkifatlı fatura, TCMB banka kodu güncelleme, talep/teklif okuma.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/netopenx/diger-islemler/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/" aria-current="page">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/netopenx/">NetOpenX (COM)</a></nav>
+<article>
+<h1 id="diger-islemler"><a class="anchor" href="#diger-islemler" aria-hidden="true">#</a>Diğer işlemler</h1>
+<h2 id="kaydetmeden-hesaplama"><a class="anchor" href="#kaydetmeden-hesaplama" aria-hidden="true">#</a>Kaydetmeden hesaplama</h2>
+<pre><code class="language-csharp">Fatura f = kernel.yeniFatura(sirket, TFaturaTip.ftSFat);
+FatUst ust = f.Ust();
+ust.CariKod = &quot;00001&quot;; ust.Tarih = DateTime.Now; ust.TIPI = TFaturaTipi.ft_Acik;
+FatKalem k = f.kalemYeni(&quot;STK01&quot;);
+k.STra_GCMIK = 1; k.STra_NF = 100; k.STra_BF = 100; k.STra_KDV = 20; k.DEPO_KODU = 1;
+
+f.HesaplamalariYap();     // toplamlar, KDV, iskontolar hesaplanır
+// ust üzerindeki toplam alanlarını oku; istersen sonra f.kayitYeni()
+</code></pre>
+<h2 id="fatura-alt-maliyet-alani-tevkifatli-fatura-ornegi"><a class="anchor" href="#fatura-alt-maliyet-alani-tevkifatli-fatura-ornegi" aria-hidden="true">#</a>Fatura alt maliyet alanı (tevkifatlı fatura örneği)</h2>
+<p><a href="https://bahadirdogru.com/c-tevkifatl%C4%B1-fatura/" rel="noopener" target="_blank">bahadirdogru.com&#39;daki tevkifatlı fatura örneği</a> <code>HesaplamalariYap()</code> sonrasında başlıktaki <code>FAT_ALTM2</code> alanını <code>-1</code> yapıp kaydeder. Tevkifat oranı ve kodu bu örnekte gösterilmez; Netsis&#39;te tevkifat genellikle stok/cari kartındaki tevkifat tanımı ve e-fatura parametresi (<code>TBLEFATPRM.EFATTEVKOD</code>) üzerinden gelir. Kendi kurulumunuzda test şirketinde doğrulayın.</p>
+<pre><code class="language-csharp">f.HesaplamalariYap();
+f.Ust().FAT_ALTM2 = -1;
+f.kayitYeni();
+</code></pre>
+<h2 id="tcmb-banka-kodlarini-guncelleme"><a class="anchor" href="#tcmb-banka-kodlarini-guncelleme" aria-hidden="true">#</a>TCMB banka kodlarını güncelleme</h2>
+<p><code>Sirket</code> nesnesi üzerinde, TCMB&#39;nin yayımladığı banka/şube listesini çevrimiçi güncelleyen bir metot vardır:</p>
+<pre><code class="language-csharp">sirket.TCMBBankaKodlariOnlineGuncelleme(&quot;0001&quot;, &quot;&quot;);
+</code></pre>
+<p>Parametrelerin anlamı belgelenmemiştir (ilk parametre örnekte banka kodu biçiminde).</p>
+<h2 id="talep-teklif-okuma"><a class="anchor" href="#talep-teklif-okuma" aria-hidden="true">#</a>Talep / teklif okuma</h2>
+<pre><code class="language-csharp">Fatura teklif = kernel.yeniFatura(sirket, TFaturaTip.ftSatTeklif);
+teklif.OkuUst(teklifNo, cariKod);
+teklif.OkuKalem();
+for (int i = 0; i &lt; teklif.KalemAdedi; i++)
+{
+    FatKalem k = teklif.get_Kalem(i);
+    // k.StokKodu, k.STra_BF ...
+}
+</code></pre>
+<p>Talep ve teklifleri siparişe ya da teklife dönüştürmek için COM&#39;da <code>kernel.YeniTalepTeklifIslem(sirket)</code> nesnesi vardır: <code>BelgeTipi</code>, <code>BelgeNo</code>, <code>kalemYeni()</code>, <code>BelgelerKapatilsin</code> ayarlanır, sonra <code>Siparislestir()</code> ya da <code>Tekliflestir()</code> çağrılır. REST karşılığı <code>DemandOfferManager.ConvertToOrder</code> / <code>ConvertToOffer</code> (<a href="/rest/istemci-kutuphanesi/">istemci kütüphanesi</a>). Talep tipleri: <code>ftSatTalep</code>, <code>ftAlTalep</code>; teklif tipleri: <code>ftSatTeklif</code>, <code>ftAlTeklif</code>.</p>
+<h2 id="stok-bakiyesi"><a class="anchor" href="#stok-bakiyesi" aria-hidden="true">#</a>Stok bakiyesi</h2>
+<pre><code class="language-csharp">StokPH ph = new StokPH();        // VB: Dim StokPH As New NetOpenX.StokPH
+ph.Stok_Kodu = &quot;STK001&quot;;
+sirket.Bakiye_Getir(ph);
+double giris = ph.Top_Giris_Mik, cikis = ph.Top_Cikis_Mik;
+double sipBekleyen = ph.Mus_Top_Siparis, sipTeslim = ph.Mus_Top_Teslim;
+</code></pre>
+<p>Örnek Logo&#39;nun VB kodundan uyarlanmıştır; SQL&#39;de <a class="tbl" href="/veritabani/tablolar/tblstokph/"><code>TBLSTOKPH</code></a> tablosuna karşılık gelir.</p>
+<h2 id="diger-nesneler"><a class="anchor" href="#diger-nesneler" aria-hidden="true">#</a>Diğer nesneler</h2>
+<p>Kasa, dekont, çek/senet, banka hareketi, havale/EFT, yevmiye fişi, iş emri, üretim sonu, MRP, maliyet, basım, belge kilitleme, bildirim, iş akışı onayı gibi işlemlerin her biri ayrı bir <code>kernel.yeni…</code> nesnesiyle yapılır. Tam liste: <a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a>.</p>
+<h2 id="oracle-uzerinde-baglanti"><a class="anchor" href="#oracle-uzerinde-baglanti" aria-hidden="true">#</a>Oracle üzerinde bağlantı</h2>
+<pre><code class="language-csharp">sirket = kernel.yeniSirket(TVTTipi.vtOracle, &quot;ENTERPRISE8&quot;, &quot;TEMELSET&quot;, &quot;&quot;, &quot;NETSIS&quot;, &quot;sifre&quot;, 0);
+</code></pre>
+<p>Eski bir örnekte enum adları <code>NETSISVT.vtOracle</code> ve <code>FaturaTipi.ftSatTeklif</code> olarak geçer; bu, NetOpenX&#39;in eski tür kitaplığı adlarıdır. <code>NetOpenX50</code> ile <code>TVTTipi</code> ve <code>TFaturaTip</code> kullanılır.</p>
+<h2 id="basim-netbasimx"><a class="anchor" href="#basim-netbasimx" aria-hidden="true">#</a>Basım (NetBasimX)</h2>
+<p>Fatura ve diğer belgelerin Netsis dizaynıyla basımı için <code>NetBasimX</code> COM kütüphanesi vardır. NetsisQuick referans eder ama kullanım örneği bu sitede henüz yok. REST tarafında basım uçları PDF döndürür: <a href="/rest/uclar/#basim-print">Basım (Print)</a>.</p>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/netopenx/diger-islemler.md">GitHub'da düzenle</a> · <a href="/netopenx/diger-islemler.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#kaydetmeden-hesaplama">Kaydetmeden hesaplama</a></li><li class="l2"><a href="#fatura-alt-maliyet-alani-tevkifatli-fatura-ornegi">Fatura alt maliyet alanı (tevkifatlı fatura örneği)</a></li><li class="l2"><a href="#tcmb-banka-kodlarini-guncelleme">TCMB banka kodlarını güncelleme</a></li><li class="l2"><a href="#talep-teklif-okuma">Talep / teklif okuma</a></li><li class="l2"><a href="#stok-bakiyesi">Stok bakiyesi</a></li><li class="l2"><a href="#diger-nesneler">Diğer nesneler</a></li><li class="l2"><a href="#oracle-uzerinde-baglanti">Oracle üzerinde bağlantı</a></li><li class="l2"><a href="#basim-netbasimx">Basım (NetBasimX)</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

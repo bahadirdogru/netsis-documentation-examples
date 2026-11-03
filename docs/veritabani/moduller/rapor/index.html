@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAPOR modülü · Netsis Dokümantasyonu</title>
+<meta name="description" content="RAPOR modülündeki 30 tablo">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/moduller/rapor/">
+<link rel="alternate" type="text/markdown" href="/veritabani/moduller/rapor.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="RAPOR modülü">
+<meta property="og:description" content="RAPOR modülündeki 30 tablo">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/moduller/rapor/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/" aria-current="page">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a></nav>
+<article>
+<h1 id="rapor-modulu-tablolari"><a class="anchor" href="#rapor-modulu-tablolari" aria-hidden="true">#</a>RAPOR modülü tabloları</h1>
+<p>Bu modülde şema dokümanında ayrıntısı bulunan <strong>30</strong> tablo var.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th align="right">Kolon</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="/veritabani/tablolar/tblacikrec/"><a class="tbl" href="/veritabani/tablolar/tblacikrec/"><code>TBLACIKREC</code></a></a></td>
+<td align="right">14</td>
+<td>Rapor modulu Ek analizler içerisinde Açık Reçete Listesinin ek analiz hazırlığı çalıştırıldığında oluşan kayıtları tutan tablodur.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblal12/"><a class="tbl" href="/veritabani/tablolar/tblal12/"><code>TBLAL12</code></a></a></td>
+<td align="right">40</td>
+<td>EK ANALIZ HAZIRLIGI 12 AYLIK ALIM TABLOSU</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblal12dumy/"><a class="tbl" href="/veritabani/tablolar/tblal12dumy/"><code>TBLAL12DUMY</code></a></a></td>
+<td align="right">4</td>
+<td>AL12 TABLOSU ILE ILISKILI TOPLAMLAR TABLOSU)(DUMY ILE JOIN</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldetanal/"><a class="tbl" href="/veritabani/tablolar/tbldetanal/"><code>TBLDETANAL</code></a></a></td>
+<td align="right">31</td>
+<td>DETAYLI MAL/MÜŞTERİ İSKONTO ANALIZ TABLOSUDUR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbldetmal/"><a class="tbl" href="/veritabani/tablolar/tbldetmal/"><code>TBLDETMAL</code></a></a></td>
+<td align="right">107</td>
+<td>DETAYLI MALİYET ANALİZİ TABLOSUDUR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblfinanstemp/"><a class="tbl" href="/veritabani/tablolar/tblfinanstemp/"><code>TBLFINANSTEMP</code></a></a></td>
+<td align="right">17</td>
+<td>FİNANSMAN RAPORU BİLGİLERİ BU TABLODA TUTULUR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblimalat/"><a class="tbl" href="/veritabani/tablolar/tblimalat/"><code>TBLIMALAT</code></a></a></td>
+<td align="right">23</td>
+<td>HAMMMADDE İMALAT DEFTERİ RAPORU TABLOSUDUR.HAMMMADDELERİN SARFLARI YANISIRA HANGİ FATURALAR İLE ALINDIĞI BİLGİSİ TUTULMAKTADIR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmal12/"><a class="tbl" href="/veritabani/tablolar/tblmal12/"><code>TBLMAL12</code></a></a></td>
+<td align="right">65</td>
+<td>EK ANALIZLER/ MAL 12 AYLIK EK ANALIZ TABLOSUDUR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmal12dumy/"><a class="tbl" href="/veritabani/tablolar/tblmal12dumy/"><code>TBLMAL12DUMY</code></a></a></td>
+<td align="right">14</td>
+<td>MALI12 DOSYASI ILE ILISKILI GENEL TOPLAMLAR TABLOSUDUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmalciro/"><a class="tbl" href="/veritabani/tablolar/tblmalciro/"><code>TBLMALCIRO</code></a></a></td>
+<td align="right">15</td>
+<td>EK ANALIZLER / MAL CIRO VE SATIS ANALIZI KAYITLARINI TUTAN TABLODUR.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmaldumy/"><a class="tbl" href="/veritabani/tablolar/tblmaldumy/"><code>TBLMALDUMY</code></a></a></td>
+<td align="right">8</td>
+<td>MALCIRO DOSYASININ TOPLAMLARI ILE ILISKILI TABLODUR</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmusciro-musteri-ciro-analizi/"><code>TBLMUSCIRO (Müşteri Ciro Analizi)</code></a></td>
+<td align="right">27</td>
+<td>EK ANALİZ HAZIRLIĞI MÜŞTERİ CİRO ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmusdumy/"><a class="tbl" href="/veritabani/tablolar/tblmusdumy/"><code>TBLMUSDUMY</code></a></a></td>
+<td align="right">11</td>
+<td>MUSCIRO İLE TOPLAMLARIN TUTULDUĞU TABLODUR. Dumy kolonuyla MUSCIRO tablosuna join olur.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblmusmal-musteri-mal-analizi/"><code>TBLMUSMAL (Müşteri Mal Analizi)</code></a></td>
+<td align="right">18</td>
+<td>EK ANALİZ HAZIRLIĞI MÜŞTERİ BAZINDA MAL ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblplanlama-raporu-detay/"><a class="tbl" href="/veritabani/tablolar/tblplanlama-raporu-detay/"><code>TBLPLANLAMA_RAPORU_DETAY</code></a></a></td>
+<td align="right">20</td>
+<td>EK ANALİZ HAZIRLIĞI SEVKİYAT PLANLAMA DETAY LİSTE ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblplanlama-raporu-icmal/"><a class="tbl" href="/veritabani/tablolar/tblplanlama-raporu-icmal/"><code>TBLPLANLAMA_RAPORU_ICMAL</code></a></a></td>
+<td align="right">22</td>
+<td>EK ANALİZ HAZIRLIĞI SEVKİYAT PLANLAMA İCMAL LİSTE ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblraportaslak/"><a class="tbl" href="/veritabani/tablolar/tblraportaslak/"><code>TBLRAPORTASLAK</code></a></a></td>
+<td align="right">28</td>
+<td>Raporların taslak hallerinin (sakla oku ) ilgili veritabanında tutulma desteği sağlanmıştır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblraportaslakvarsayilan/"><a class="tbl" href="/veritabani/tablolar/tblraportaslakvarsayilan/"><code>TBLRAPORTASLAKVARSAYILAN</code></a></a></td>
+<td align="right">20</td>
+<td>Saklanan raporların varsayılan olarak seçilen bilgileri yer alır.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblraportaslakyetkililer/"><a class="tbl" href="/veritabani/tablolar/tblraportaslakyetkililer/"><code>TBLRAPORTASLAKYETKILILER</code></a></a></td>
+<td align="right">19</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsat12-satici-12-aylik-alis/"><code>TBLSAT12 (Satıcı 12 Aylık Alış)</code></a></td>
+<td align="right">40</td>
+<td>EK ANALİZ HAZIRLIĞI SATICI 12 AYLIK ALIŞ ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsat12dumy/"><a class="tbl" href="/veritabani/tablolar/tblsat12dumy/"><code>TBLSAT12DUMY</code></a></a></td>
+<td align="right">4</td>
+<td>SAT12 İLE TOPLAMLARIN TUTULDUĞU TABLODUR. Dumy kolonuyla SAT12&#39; ye join olur</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsatciro-satici-ciro-analizi/"><code>TBLSATCIRO (Satıcı Ciro Analizi)</code></a></td>
+<td align="right">25</td>
+<td>EK ANALİZ HAZIRLIĞI SATICI CİRO ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsatdumy/"><a class="tbl" href="/veritabani/tablolar/tblsatdumy/"><code>TBLSATDUMY</code></a></a></td>
+<td align="right">11</td>
+<td>SATCIRO İLE TOPLAMLARIN TUTULDUĞU TABLODUR. Dumy kolonuyla SATCIRO tablosuna join olur.</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsatmal-satici-mal-analizi/"><code>TBLSATMAL (Satıcı Mal Analizi)</code></a></td>
+<td align="right">18</td>
+<td>EK ANALİZ HAZIRLIĞI SATICI BAZINDA MAL ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsip12top/"><a class="tbl" href="/veritabani/tablolar/tblsip12top/"><code>TBLSIP12TOP</code></a></a></td>
+<td align="right">15</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsipdetay-detayli-siparis-analizi/"><code>TBLSIPDETAY (Detaylı Sipariş Analizi)</code></a></td>
+<td align="right">31</td>
+<td>EK ANALİZ HAZIRLIĞI MÜŞTERİ/SATICI BAZINDA DETAYLI SİPARİŞ ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsipmalmus/"><a class="tbl" href="/veritabani/tablolar/tblsipmalmus/"><code>TBLSIPMALMUS</code></a></a></td>
+<td align="right">26</td>
+<td>EK ANALİZ HAZIRLIĞI MÜŞTERİ MAL BAZINDA SİPARİŞ ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tblsipttop/"><a class="tbl" href="/veritabani/tablolar/tblsipttop/"><code>TBLSIPTTOP</code></a></a></td>
+<td align="right">12</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbltipdetay-hareket-tip-detay-analizi/"><code>TBLTIPDETAY (Hareket Tip Detay Analizi)</code></a></td>
+<td align="right">90</td>
+<td>EK ANALİZ HAZIRLIĞI STOK HAREKET TİPLERİ BAZINDA GİRİŞ/ÇIKIŞ TOPLAMLARI TABLOSU</td>
+</tr>
+<tr>
+<td><a href="/veritabani/tablolar/tbluretseri/"><a class="tbl" href="/veritabani/tablolar/tbluretseri/"><code>TBLURETSERI</code></a></a></td>
+<td align="right">5</td>
+<td>SERİLİ ÜRETÜM YAPILDIĞINDA TBLSERITRA TABLOSUNA ATILDIKTAN SONRA, RAPOR&gt;EK ANALİZLER&gt;SERİ BAZINDA ÜRETİM LİSTESİ İÇİN EK ANALİZ ÇALIŞTIRILSIN PARAMERTESİ İŞARETLENİP RAPOR ALINDIĞINDA BU TABLOYA KAYITLAR GİDER.</td>
+</tr>
+</tbody></table></div>
+<h2 id="ayrintisi-olmayan-tablolar"><a class="anchor" href="#ayrintisi-olmayan-tablolar" aria-hidden="true">#</a>Ayrıntısı olmayan tablolar</h2>
+<p>Aşağıdaki tablolar tablo listesinde bu modülle anılıyor ama kolon ayrıntısı şema dokümanında yok.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tablo</th>
+<th>Açıklama</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TBLMUSCIRO</code></td>
+<td>EK ANALİZ HAZIRLIĞI MÜŞTERİ CİRO ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><code>TBLMUSMAL</code></td>
+<td>EK ANALİZ HAZIRLIĞI MÜŞTERİ BAZINDA MAL ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><code>TBLSAT12</code></td>
+<td>EK ANALİZ HAZIRLIĞI SATICI 12 AYLIK ALIŞ ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><code>TBLSATCIRO</code></td>
+<td>EK ANALİZ HAZIRLIĞI SATICI CİRO ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><code>TBLSATMAL</code></td>
+<td>EK ANALİZ HAZIRLIĞI SATICI BAZINDA MAL ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><code>TBLSIPDETAY</code></td>
+<td>EK ANALİZ HAZIRLIĞI MÜŞTERİ/SATICI BAZINDA DETAYLI SİPARİŞ ANALİZ TABLOSU</td>
+</tr>
+<tr>
+<td><code>TBLTIPDETAY</code></td>
+<td>EK ANALİZ HAZIRLIĞI STOK HAREKET TİPLERİ BAZINDA GİRİŞ/ÇIKIŞ TOPLAMLARI TABLOSU</td>
+</tr>
+</tbody></table></div>
+
+</article>
+<footer class="page-foot"><a href="/veritabani/moduller/rapor.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>
