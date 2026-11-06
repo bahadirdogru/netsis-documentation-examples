@@ -109,4 +109,6 @@ Değişikliği doğrulamak için belgeyi yeni numarayla tekrar okuyun (`OkuUst(y
 
 Sipariş onay durumu `TBLSIPAMAS.TIPI` alanındadır (`2` onaylı yurt içi, `3` onaylanmamış). NetOpenX'te ayrı bir metot gözlenmedi; NetsisQuick bunu SQL ile yapar, bkz. [Dikkatli güncellemeler](/veritabani/sql-ornekleri/#dikkatli-guncellemeler).
 
+Onaysız sipariş dönüştürülemez: `Sipariş onaysız işlem yapılamaz`. REST ile yazılan sipariş `TIPI = 3` kalır, gövdedeki `TIPI` bunu değiştirmedi ([Canlı denemeler](/rest/canli-denemeler/#siparis-onayi)).
+
 REST karşılıkları: `POST api/v2/ItemSlips/SiparisToIrsFat`, `POST api/v2/ItemSlips/IrsToFat`, `POST api/v2/ItemSlips/ChangeNumber` ([REST uçları](/rest/uclar/#fatura-irsaliye-ve-siparis-itemslips)).

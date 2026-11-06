@@ -58,6 +58,8 @@ Ortak üst düzey alanlar (birçok gövdede):
 
 Başarılı yanıtta `Data.FatUst.FATIRS_NO` kaydedilen belge numarasıdır.
 
+> Bu gövde Logo örneğidir. Satış faturasında `Seri` e-belge birim kodu olmalıdır (`TBLEFATPRM.BIRIMKOD` ya da `TBLEARSIVPRM.BIRIMKOD`). Toplamların gövdeden gelmesi için `KosulluHesapla: false` gönderin; `RiskKontrol` gönderilmezse açık sayılır. Sınanmış gövdeler ve alış faturasının gereksinimleri: [Canlı denemeler](/rest/canli-denemeler/#fatura).
+
 ### ItemSlips alanları
 
 **Üst düzey:** `FaturaTip`, `Seri`, `FatUst`, `Kalems`, `Tahsilats`, `EIrsEkBilgi`, hesaplama bayrakları: `KosulluHesapla`, `FiyatSistemineGoreHesapla`, `StokKartinaGoreHesapla`, `SeriliHesapla`, `MaliyetTipineGoreHesapla`, `OtoIskontoGetir`, `OtoVadeGunGetir`, `OtomatikIslemTipiGetir`, `OtomatikOdemeKoduGetir`, `RiskKontrol`, `BaglantiKontrol`, `ProjeKodKontrol`, `SonNumaraYazilsin`, `KayitliNumaraOtomatikGuncellensin`, `EPostaGonderilsin`; ayrıca `TransactSupport`, `MuhasebelesmisBelge`, `Use64BitService`.
@@ -72,7 +74,7 @@ Tam ve sürümünüze uygun liste: `GET api/v2/definitions/ItemSlips`.
 
 ## Fatura hesaplama
 
-`POST api/v2/ItemSlips/Calculate`: gövde fatura ile aynıdır, kayıt yapmaz, toplamları döndürür.
+`POST api/v2/ItemSlips/Calculate`: gövde fatura ile aynıdır, kayıt yapmaz, toplamları döndürür. Hesaplanmış net fiyat `YedekKalems` içindedir; yanıttaki `FATIRS_NO` kullanılmamalıdır.
 
 ## Siparişten fatura
 
@@ -86,12 +88,23 @@ Tam ve sürümünüze uygun liste: `GET api/v2/definitions/ItemSlips`.
   "ItemSlip": {
     "FaturaTip": "ftSFat",
     "Seri": "ABC",
-    "FatUst": { "Tarih": "2024-06-01 00:00:00", "TIPI": "ft_Acik" }
+    "KayitliNumaraOtomatikGuncellensin": true,
+    "EPostaGonderilsin": false,
+    "RiskKontrol": false,
+    "KosulluHesapla": false,
+    "FatUst": {
+      "FATIRS_NO": "ABC024000000123",
+      "GIB_FATIRS_NO": "ABC2024000000123",
+      "CariKod": "120-01-001",
+      "Tarih": "2024-06-01 00:00:00",
+      "TIPI": 2,
+      "KDV_DAHILMI": false
+    }
   }
 }
 ```
 
-`ItemSlip`, hedef belgenin başlığını ve bayraklarını taşır. `IrsToFat` aynı yapıdadır (`DocumentType` irsaliye tipi). Alan adları yardım sayfasından alınmıştır; değerler örnektir ve bu gövde canlıda sınanmamıştır.
+`ItemSlip`, hedef belgenin başlığını ve bayraklarını taşır. `IrsToFat` aynı yapıdadır (`DocumentType` irsaliye tipi). `ItemSlip.FatUst.FATIRS_NO` zorunludur. Sipariş onaylı olmalıdır, yoksa `Sipariş onaysız işlem yapılamaz` döner. Bu yapı test şirketinde sınandı ([Belge dönüşümleri](/rest/canli-denemeler/#belge-donusumleri)); denemede `DocumentType` ve `FaturaTip` sayıyla da adla da kabul edildi.
 
 ## Cari kartı
 
@@ -149,7 +162,7 @@ Alanlar `TBLCASABIT` ve `TBLCASABITEK` kolonlarına karşılık gelir.
 }
 ```
 
-`SilmeIcinGerekliSahalar` silmede kullanılacak anahtarı (`INC_KEY_NUMBER`) belirtir. `Hka` ve `Hareket_Turu` ayrı alanlardır; değer listeleri belgelenmemiştir (`TBLCAHAR.HKA` açıklamasına göre `K` "öncelikli kapatılmış").
+`SilmeIcinGerekliSahalar` silmede kullanılacak anahtarı (`INC_KEY_NUMBER`) belirtir. Kaydın kimliğini almak için `SonKayitNoAl: true` gönderin; `false` ise `Inc_Key_Number` 0 döner. `Hka` zorunludur, denemede `A` çalıştı. `Hka` ve `Hareket_Turu` ayrı alanlardır; değer listeleri belgelenmemiştir (`TBLCAHAR.HKA` açıklamasına göre `K` "öncelikli kapatılmış").
 
 ## Stok kartı
 
@@ -157,12 +170,12 @@ Alanlar `TBLCASABIT` ve `TBLCASABITEK` kolonlarına karşılık gelir.
 
 ```json
 {
-  "StokTemelBilgi": { "Stok_Kodu": "HAMMADDE-1", "Stok_Adi": "Deneme" },
+  "StokTemelBilgi": { "Stok_Kodu": "HAMMADDE-1", "Stok_Adi": "Deneme", "Payda_1": 1, "Payda2": 1 },
   "StokEkBilgi": { "Stok_Kodu": "HAMMADDE-1" }
 }
 ```
 
-Diğer `StokTemelBilgi` alanları: `KDV_Orani`, `Alis_Kdv_Kodu`, `Satis_Fiat1..2`, `Alis_Fiat1..2`, `Giris_Seri`, `Cikis_Seri`, `Pay_1`, `Payda_1`, `Pay2`, `Payda2`. `StokEkBilgi`: `Ingisim`, `I_Yedek1`.
+`Payda_1` ve `Payda2` verilmezse kayıt `CC_PAYDA_1` kısıtına takılır. Bu kartın faturada kullanılması için `MUH_DETAYKODU` da tanımlı olmalıdır. Diğer `StokTemelBilgi` alanları: `KDV_Orani`, `Alis_Kdv_Kodu`, `Satis_Fiat1..2`, `Alis_Fiat1..2`, `Giris_Seri`, `Cikis_Seri`, `Pay_1`, `Payda_1`, `Pay2`, `Payda2`. `StokEkBilgi`: `Ingisim`, `I_Yedek1`.
 
 ## Stok hareketi
 
@@ -206,7 +219,7 @@ Diğer `StokTemelBilgi` alanları: `KDV_Orani`, `Alis_Kdv_Kodu`, `Satis_Fiat1..2
 }
 ```
 
-`IO`: `G` gelir / `C` gider. `Tip`: `C` cari, `F` fatura, `M` muhtelif… `Cari_Muh`: `Kod` alanı cari mi (`C`) muhasebe mi (`M`).
+`IO`: `G` gelir / `C` gider. `Tip`: `C` cari, `F` fatura, `M` muhtelif… `Cari_Muh`: `Kod` alanı cari mi (`C`) muhasebe mi (`M`). Denemede `Proje_Kodu` ve `Plasiyer_Kodu` zorunluydu (`Hata Kodu 203`).
 
 ## Çek / senet
 
@@ -231,6 +244,8 @@ Diğer `StokTemelBilgi` alanları: `KDV_Orani`, `Alis_Kdv_Kodu`, `Satis_Fiat1..2
   }]
 }
 ```
+
+Denemede `Tip` ve `CekSenEvrakKaydetmeTip` sayıyla çalıştı. Gövdedeki `BordroNo` ve `SC_NO` yok sayıldı, numarayı sunucu verdi; yanıttaki numarayı kullanın.
 
 ## E-belge
 

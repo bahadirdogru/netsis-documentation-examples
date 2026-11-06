@@ -45,6 +45,7 @@
       "/rest/uclar/",
       "/rest/istemci-kutuphanesi/",
       "/rest/json-ornekleri/",
+      "/rest/canli-denemeler/",
       "/rest/kimlikler-ve-enumlar/",
       "/rest/transaction-ve-hatalar/",
       "/rest/guvenlik/",

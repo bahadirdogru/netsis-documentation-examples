@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Canlı denemeler · Netsis Dokümantasyonu</title>
+<meta name="description" content="REST uçlarının test şirketinde sınanması; hangi uç çalıştı, hangi alan gerekti, nerede sorun çıktı.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/rest/canli-denemeler/">
+<link rel="alternate" type="text/markdown" href="/rest/canli-denemeler.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Canlı denemeler">
+<meta property="og:description" content="REST uçlarının test şirketinde sınanması; hangi uç çalıştı, hangi alan gerekti, nerede sorun çıktı.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/rest/canli-denemeler/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/canli-denemeler/" aria-current="page">Canlı denemeler</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Sürümler</summary><ul><li><a href="/surumler/">Sürümler ve indirme</a></li><li><a href="/surumler/tum-surumler/">Tüm sürümler</a></li><li><a href="/surumler/yama-icerikleri/">Yama içerikleri</a></li></ul></details><details class="nav-sec" open><summary>Logo araçları</summary><ul><li><a href="/logo-araclari/">Logo e-devlet araçları</a></li><li><a href="/logo-araclari/e-belge-kodlari/">E-belge kod listeleri</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/rest/">NetOpenX REST</a></nav>
+<article>
+<h1 id="canli-denemeler"><a class="anchor" href="#canli-denemeler" aria-hidden="true">#</a>Canlı denemeler</h1>
+<p>Bu sayfa NetOpenX REST uçlarının bir test şirketinde (canlı şirketin yedekten geri yüklenmiş kopyası) denenmesiyle öğrenilenleri toplar. Denemeler 2026-11&#39;de yapıldı. Sonuçlar bir kuruluma aittir; şirket parametreleri farklıysa davranış da farklı olabilir. Kendi test şirketinizde yeniden sınayın.</p>
+<p>Sürümler: denemelerin çoğu 9.0.71 ile yapıldı. <code>NetOpenX50.dll</code> güncellenince servis 9.0.72.5 oldu ve cari kartı ile sipariş yazma bu sürümde yeniden denendi. Aşağıda başka sürüm yazmayan satırlar 9.0.71 sonucudur.</p>
+<h2 id="ozet"><a class="anchor" href="#ozet" aria-hidden="true">#</a>Özet</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kaynak</th>
+<th>Sonuç</th>
+<th>Bilinmesi gereken</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sipariş (<code>ftSSip</code>, <code>ftASip</code>)</td>
+<td>Yazma ve silme çalışıyor</td>
+<td><code>KosulluHesapla: false</code>, <code>STra_BF</code> ve <code>STra_KDV</code> açıkça verilmeli</td>
+</tr>
+<tr>
+<td>Satış ve alış irsaliyesi</td>
+<td>Yazma ve silme çalışıyor</td>
+<td><a class="tbl" href="/veritabani/tablolar/tblfatuirs/"><code>TBLFATUIRS</code></a>, <a class="tbl" href="/veritabani/tablolar/tblsthar/"><code>TBLSTHAR</code></a>, <a class="tbl" href="/veritabani/tablolar/tblfatuek/"><code>TBLFATUEK</code></a> yazılıyor</td>
+</tr>
+<tr>
+<td>Satış faturası</td>
+<td>Yazma ve silme çalışıyor</td>
+<td><code>Seri</code> e-belge birim kodu olmalı, stok kartında muhasebe detay kodu gerekli</td>
+</tr>
+<tr>
+<td>Alış faturası</td>
+<td>Yazma ve silme çalışıyor</td>
+<td>Elle <code>FATIRS_NO</code>, <code>GIB_FATIRS_NO</code> ve kalemde <code>MuhasebeKodu</code></td>
+</tr>
+<tr>
+<td><code>SiparisToIrsFat</code>, <code>IrsToFat</code></td>
+<td>Onaylı siparişte çalışıyor</td>
+<td>Hedef <code>FATIRS_NO</code> zorunlu</td>
+</tr>
+<tr>
+<td>Sipariş onayı</td>
+<td>REST ile yapılamadı</td>
+<td>Yeni sipariş <code>TIPI = 3</code> kalıyor</td>
+</tr>
+<tr>
+<td>Ambar fişleri, <code>ftLokalDepo</code></td>
+<td>Yazma ve silme çalışıyor</td>
+<td>Ambarda <code>CariKod</code> çıkış yeridir</td>
+</tr>
+<tr>
+<td>Stok kartı</td>
+<td><code>POST</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td><code>Payda_1</code>, <code>Payda2</code> zorunlu; kısmi <code>PUT</code> diğer alanları koruyor</td>
+</tr>
+<tr>
+<td>Stok hareketi</td>
+<td><code>POST</code>, <code>DELETE</code></td>
+<td><code>SonKayitNoAl: true</code> ile kimlik döner</td>
+</tr>
+<tr>
+<td>Cari kartı (9.0.72.5)</td>
+<td><code>POST</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td>DLL veritabanıyla uyumlu olmalı</td>
+</tr>
+<tr>
+<td>Cari hareket</td>
+<td><code>POST</code>, <code>GET</code>, <code>DELETE</code></td>
+<td><code>Hka</code> zorunlu</td>
+</tr>
+<tr>
+<td>Kasa</td>
+<td><code>POST</code>, <code>GET</code>, <code>DELETE</code></td>
+<td>Proje ve plasiyer kodu zorunluydu; bir kayıt üç tabloya işliyor</td>
+</tr>
+<tr>
+<td>Çek/senet</td>
+<td>Yazılıyor, silinemedi</td>
+<td><code>DELETE</code> hata verdi</td>
+</tr>
+<tr>
+<td>Hızlı tahsilat</td>
+<td>Kaydedilemedi</td>
+<td><code>SozKodu</code> tanımı gerekli</td>
+</tr>
+<tr>
+<td><code>Print/*</code></td>
+<td>Çalışmadı</td>
+<td>Sunucuda varsayılan yazıcı yok</td>
+</tr>
+</tbody></table></div>
+<p>Denenmedi: <code>CopyItemSlip</code>, <code>OrderRevision</code>, <code>ChangeNumber</code>, <code>ChangeCode</code>, <code>GLSlips</code> yazma, <code>StatementsHeader</code>, üretim uçları ve e-belge uçları. <code>ReadAndSave</code> denendi ama zaman aşımına düştü; <a href="#servis-kesintisi">Servis kesintisi</a>.</p>
+<h2 id="siparis"><a class="anchor" href="#siparis" aria-hidden="true">#</a>Sipariş</h2>
+<p>Çalışan en küçük gövde:</p>
+<pre><code class="language-json">{
+  &quot;FaturaTip&quot;: 7,
+  &quot;Seri&quot;: &quot;S&quot;,
+  &quot;KayitliNumaraOtomatikGuncellensin&quot;: true,
+  &quot;EPostaGonderilsin&quot;: false,
+  &quot;RiskKontrol&quot;: false,
+  &quot;KosulluHesapla&quot;: false,
+  &quot;FatUst&quot;: { &quot;CariKod&quot;: &quot;120-01-001&quot;, &quot;Tarih&quot;: &quot;2026-11-06&quot;, &quot;TIPI&quot;: 2, &quot;KDV_DAHILMI&quot;: false, &quot;EKACK1&quot;: &quot;Referans&quot; },
+  &quot;Kalems&quot;: [ { &quot;StokKodu&quot;: &quot;STK001&quot;, &quot;DEPO_KODU&quot;: 1, &quot;STra_GCMIK&quot;: 3, &quot;STra_BF&quot;: 100, &quot;STra_KDV&quot;: 20, &quot;STra_SatIsk&quot;: 10 } ]
+}
+</code></pre>
+<ul>
+<li><strong>Toplam 0 yazılması.</strong> <code>KosulluHesapla</code> verilmezse varsayılanı <code>true</code>. Fiyatı olmayan stok kartında <code>STra_BF</code> sıfırlandı, satır ve başlık 0 yazıldı. <code>false</code> ile gövdedeki fiyat kullanıldı. Fiyatlı kartta davranış doğrulanmadı.</li>
+<li><strong>Fiyat.</strong> Yalnız <code>STra_NF</code> vermek yetmedi; <code>STra_BF</code> gerekli. Net fiyat sunucuda brüt ve iskontodan hesaplanıyor.</li>
+<li><strong>KDV.</strong> <code>STra_KDV</code> verilmezse stok kartındaki oran kullanılıyor; oran 0 olan kartta KDV 0 geldi.</li>
+<li><strong><code>Calculate</code> ile kayıt</strong> aynı toplamı verdi. <code>Calculate</code> yanıtında hesaplanmış net fiyat <code>Kalems</code> içinde değil, <code>YedekKalems</code> içinde.</li>
+<li><strong><code>Calculate</code> yanıtındaki <code>FATIRS_NO</code></strong> kullanılmamalı. Boş serili bir <a class="tbl" href="/veritabani/tablolar/tblfatuno/"><code>TBLFATUNO</code></a> satırından üretilen, belgeyle ilgisiz bir değer döndü.</li>
+</ul>
+<h3 id="siparis-onayi"><a class="anchor" href="#siparis-onayi" aria-hidden="true">#</a>Sipariş onayı</h3>
+<p>Yeni sipariş <code>TBLSIPAMAS.TIPI = 3</code> (onaysız) kaydedildi. Gövdede <code>TIPI</code> için <code>2</code>, <code>1</code> ve <code>ft_YurtIci</code>, ayrıca <code>OnayTipi: &quot;A&quot;</code> denendi, sonuç değişmedi. <code>POST</code> yanıtı, <code>GET</code> ve <code>Details</code> yine <code>2</code> gösterdi; onay durumu tablodan okunmalı. REST&#39;te onay ucu bulunamadı. COM tarafında da ayrı metot gözlenmedi; bkz. <a href="/netopenx/belge-donusumleri/#siparis-onayi">Sipariş onayı</a>.</p>
+<h2 id="fatura"><a class="anchor" href="#fatura" aria-hidden="true">#</a>Fatura</h2>
+<p><strong>Satış faturası.</strong> <code>Seri</code> yanlışsa kayıt e-belge numarası alma adımında düşer: <code>Seri 3 karakter olmalıdır. EFatura Numara Alma işleminde hata oluştu</code>. <code>FatUst.EfaturaCarisiMi</code> <code>true</code> ise <code>TBLEFATPRM.BIRIMKOD</code>, değilse <code>TBLEARSIVPRM.BIRIMKOD</code> verilir; e-arşiv yolu denenmedi. Doğru seriyle <code>GIB_FATIRS_NO</code> kendiliğinden doldu. Kayıt e-belge oluşturmadı: <a class="tbl" href="/veritabani/tablolar/tblefatmas/"><code>TBLEFATMAS</code></a> ve <a class="tbl" href="/veritabani/tablolar/tblearsiv/"><code>TBLEARSIV</code></a> değişmedi.</p>
+<p>Stok kartında muhasebe detay kodu yoksa kayıt muhasebeleştirmede düşer: <code>Stok detay kodu bulunamadı … Muhasebeleştirmede hata var … Operation aborted</code>.</p>
+<p><strong>Alış faturası.</strong> <code>Seri</code> ile numara üretimi <code>Bu yöntem sadece satış faturası belgelerinde çalıştırılmalıdır</code> hatası verdi. Elle numara verince kayıt ilerledi:</p>
+<ul>
+<li>Kalemde <code>MuhasebeKodu</code> gerekti (<code>TBLSTMUHDETAY.ALIS_HESABI</code>), yoksa: <code>Stok kodu için muhasebe kodu veya referans kodu tanımlanmamış</code>.</li>
+<li><code>GIB_FATIRS_NO</code> gerekti, yoksa: <code>Resmi Evrak Numarası Girilmelidir!</code>.</li>
+</ul>
+<h2 id="belge-donusumleri"><a class="anchor" href="#belge-donusumleri" aria-hidden="true">#</a>Belge dönüşümleri</h2>
+<p><code>SiparisToIrsFat</code> ve <code>IrsToFat</code> onaylı siparişle çalıştı: siparişten irsaliye, irsaliyeden fatura ve siparişten fatura. Gövde: <a href="/rest/json-ornekleri/#siparisten-fatura">Siparişten fatura</a>.</p>
+<ul>
+<li><code>ItemSlip.FatUst.FATIRS_NO</code> zorunlu, yoksa <code>Hedef nesne için belge numarası tanımlanmalı</code>. Fatura hedefinde <code>GIB_FATIRS_NO</code> da verildi.</li>
+<li>Onaysız siparişte <code>Sipariş onaysız işlem yapılamaz</code> döner. Kalemde <code>STra_SIPNUM</code> ile doğrudan irsaliye yazmak da aynı hatayı verir.</li>
+<li><code>ItemSlip.FatUst.EKACK1</code> yeni belgeye yazılmadı.</li>
+<li>Fatura kesilen irsaliyenin <code>FTIRSIP</code> değeri <code>3</code>&#39;ten <code>A</code>&#39;ya döner; fatura silinince <code>3</code>&#39;e geri döner.</li>
+<li>Fatura ve irsaliye silmek stok ve cari hareketlerini geri aldı.</li>
+</ul>
+<h2 id="numara"><a class="anchor" href="#numara" aria-hidden="true">#</a>Numara</h2>
+<ul>
+<li><code>POST</code> yanıtındaki <code>FATIRS_NO</code> esas alınmalı; <code>Seri</code> her belge tipinde uygulanmadı.</li>
+<li><code>KayitliNumaraOtomatikGuncellensin: true</code> iken kayıtlı numara verilirse sonraki boş numaraya geçer. <code>false</code> iken <code>Hata Kodu : 402 … Daha önceden kaydedilmiş</code> döner.</li>
+<li><code>NewNumber</code> sayacı artırmıyor, <code>TBLFATUNO + 1</code> döndürüyor.</li>
+<li>Risk hatasıyla düşen <code>POST</code> numara yaktı. Silinen belgeler sayaçları geri almıyor.</li>
+<li><code>RiskKontrol</code> gönderilmezse risk kontrolü açık sayılıyor. <code>RISK_SINIRI</code> 0 olan caride <code>MÜŞTERİ RİSKLİ</code> hatası verir.</li>
+</ul>
+<h2 id="stok-ve-ambar"><a class="anchor" href="#stok-ve-ambar" aria-hidden="true">#</a>Stok ve ambar</h2>
+<ul>
+<li>Ambar fişinde <code>FatUst.CariKod</code> çıkış yeridir, <code>AMBHARTUR</code> ve <code>CikisYeri</code> verilir.</li>
+<li><code>ftAmbarG</code> (8) <code>FTIRSIP = 9</code>, <code>ftAmbarC</code> (9) <code>FTIRSIP = 8</code> yazar. <code>ftLokalDepo</code> (5) de <code>8</code> ve <code>9</code> kullanır. Ambar ile depolar arası <code>STHAR_HTUR</code> ile ayrılır (<code>D</code> ambar, <code>B</code> depolar arası).</li>
+<li><code>ftLokalDepo</code> tek kalemde iki <a class="tbl" href="/veritabani/tablolar/tblsthar/"><code>TBLSTHAR</code></a> satırı üretir; cari hareketi oluşmaz.</li>
+<li><code>ftDepo</code> (4) ile kayıt zaman aşımına düştü, kullanmayın.</li>
+<li><a class="tbl" href="/veritabani/tablolar/tblstokph/"><code>TBLSTOKPH</code></a> stok hareketi eklenince güncelleniyor. Silmenin toplamları geri alıp almadığı doğrulanmadı.</li>
+</ul>
+<h2 id="cari"><a class="anchor" href="#cari" aria-hidden="true">#</a>Cari</h2>
+<p><strong>DLL uyumsuzluğu.</strong> 9.0.71 ile <code>POST ARPs</code> şu hatayı verdi: <code>Kolon uyuşmazlığı: Tabloda tanımlı olan EBELUNVAN sahası, NetOpenX arabiriminde tanımlı değil</code>. Çözüm servisin kullandığı <code>NetOpenX50.dll</code> dosyasını veritabanıyla uyumlu sürüme getirmek oldu. Bu uyumsuzlukta kayıt yarım kalır: <a class="tbl" href="/veritabani/tablolar/tblcasabit/"><code>TBLCASABIT</code></a> yazılır, <a class="tbl" href="/veritabani/tablolar/tblcasabitek/"><code>TBLCASABITEK</code></a> yazılmaz. Yarım satır <code>GET ARPs</code> listesinde görünür, ama <code>GET {id}</code> ve <code>DELETE</code> onu bulamaz; DLL güncellendikten sonra da REST ile silinemedi.</p>
+<ul>
+<li><code>GET ARPs</code> listesi <code>fields</code> verilse de <code>CariEkBilgi</code>&#39;yi döndürür; içinde <code>TcKimlikNo</code> olabilir. Liste için <code>ARPs/PrimInfo</code> kullanın.</li>
+<li><code>ARPTransactions</code> eklerken <code>SonKayitNoAl: true</code> verin; <code>false</code> ise <code>Inc_Key_Number</code> 0 döner ve kaydı silemezsiniz.</li>
+<li>Cari hareket silmek <code>CM_BORCT</code> ve <code>CM_ALACT</code> özetini düşürdü, eklemek artırmadı. Bakiyeyi <a class="tbl" href="/veritabani/tablolar/tblcahar/"><code>TBLCAHAR</code></a> toplamından hesaplayın.</li>
+</ul>
+<h2 id="kasa-cek-tahsilat"><a class="anchor" href="#kasa-cek-tahsilat" aria-hidden="true">#</a>Kasa, çek, tahsilat</h2>
+<ul>
+<li><strong>Kasa.</strong> Bir <code>POST</code> kasa satırı, cari hareket ve iki satırlık muhasebe fişi üretti; <code>DELETE</code> üçünü de geri aldı. <code>Proje_Kodu</code> ve <code>Plasiyer_Kodu</code> bu şirkette zorunluydu. <code>SafeDeposits/LastBalance?id=</code> istenen kasanın değil başka bir kasanın toplamlarını döndürdü (tek örnek).</li>
+<li><strong>Çek.</strong> <code>Tip</code> ve <code>CekSenEvrakKaydetmeTip</code> sayıyla çalıştı. Gövdedeki <code>BordroNo</code> ve <code>SC_NO</code> yok sayıldı, numarayı sunucu verdi. <code>DELETE</code> ve <code>POST .../Delete</code> <code>Nesne başvurusu bir nesnenin örneğine ayarlanmadı</code> döndü, kayıt silinemedi. <code>?docType=</code> listesi <code>Data: [null]</code> döndü. Aynı hata 9.0.72.5&#39;te de sürdü.</li>
+<li><strong>Hızlı tahsilat.</strong> <code>SozKodu</code> <a class="tbl" href="/veritabani/tablolar/tblkrtsozmas/"><code>TBLKRTSOZMAS</code></a>&#39;taki bir tanıma bağlı görünüyor; tablo boş olduğu için kayıt yapılamadı.</li>
+</ul>
+<h2 id="yanit-alanlari"><a class="anchor" href="#yanit-alanlari" aria-hidden="true">#</a>Yanıt alanları</h2>
+<p><code>POST</code>, <code>GET</code> ve <code>Details</code> yanıtındaki <code>EPostaGonderilsin</code>, <code>RiskKontrol</code>, <code>KosulluHesapla</code> bayrakları gönderilen değeri yansıtmıyor, kernel varsayılanını gösteriyor. <code>TIPI</code> ve <code>ISLETME_KODU</code> da tablodan farklı dönebiliyor. Kayıttan sonra doğrulama tablodan yapılmalı.</p>
+<h2 id="servis-kesintisi"><a class="anchor" href="#servis-kesintisi" aria-hidden="true">#</a>Servis kesintisi</h2>
+<p>Denemelerde servis iki kez kesildi:</p>
+<ul>
+<li><code>FaturaTip: 4</code> gövdesi dakikalarca asılı kaldı, aynı sırada <code>ReadAndSave</code> zaman aşımına düştü. Servis <code>HealthCheck</code>&#39;e yanıt vermedi, sonra bağlantı reddetti ve kendiliğinden geri geldi. Bu sırada <code>public/Ping</code> yanıt veriyordu.</li>
+<li>Muhasebeleştirmesi düşen bir faturadan sonra servis kısa süre bağlantı reddetti.</li>
+</ul>
+<p>Nedeni doğrulanmadı. İlk kesintide birkaç istemci aynı anda çalışıyordu. Sonuçlar:</p>
+<ul>
+<li>Sağlık kontrolünü <code>HealthCheck</code> ile yapın, <code>public/Ping</code> yeterli değil.</li>
+<li>Yazma çağrılarını sıraya alın, aynı anda göndermeyin.</li>
+<li>Zaman aşımından sonra önce okuyun; <a href="/rest/transaction-ve-hatalar/#cift-kayit-riski">Çift kayıt riski</a>.</li>
+</ul>
+<h2 id="test-sirketi"><a class="anchor" href="#test-sirketi" aria-hidden="true">#</a>Test şirketi</h2>
+<ul>
+<li>Test şirketini yedekten geri yükleyin. Tablo kopyalama yöntemleri varsayılanları, yabancı anahtarları ve tetikleyicileri düşürebilir; böyle bir kopyada <code>Cannot insert the value NULL into column</code> hataları çıkar.</li>
+<li>Kopya gerçek e-belge ve e-posta ayarlarını taşır. Denemede e-belge gönderme uçlarını çağırmayın, <code>EPostaGonderilsin: false</code> gönderin.</li>
+<li>Kopyadaki tetikleyiciler başka veritabanlarına yazıyor olabilir. Yazmadan önce <code>sys.sql_modules</code> içinde canlı veritabanı adını arayın.</li>
+<li>Her deneme kaydını tanınır bir etiketle işaretleyin (<code>EKACK1</code>), silin ve canlıda iz kalmadığını kontrol edin.</li>
+</ul>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/rest/canli-denemeler.md">GitHub'da düzenle</a> · <a href="/rest/canli-denemeler.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#ozet">Özet</a></li><li class="l2"><a href="#siparis">Sipariş</a></li><li class="l3"><a href="#siparis-onayi">Sipariş onayı</a></li><li class="l2"><a href="#fatura">Fatura</a></li><li class="l2"><a href="#belge-donusumleri">Belge dönüşümleri</a></li><li class="l2"><a href="#numara">Numara</a></li><li class="l2"><a href="#stok-ve-ambar">Stok ve ambar</a></li><li class="l2"><a href="#cari">Cari</a></li><li class="l2"><a href="#kasa-cek-tahsilat">Kasa, çek, tahsilat</a></li><li class="l2"><a href="#yanit-alanlari">Yanıt alanları</a></li><li class="l2"><a href="#servis-kesintisi">Servis kesintisi</a></li><li class="l2"><a href="#test-sirketi">Test şirketi</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>
