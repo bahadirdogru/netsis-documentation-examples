@@ -75,6 +75,11 @@ catch (Exception ex)
 | `NullReferenceException` stok kartında | `TemelBilgi()` / `EkBilgi()` çağrılmadı | [Cari ve stok](/netopenx/cari-ve-stok/#stok-karti-olusturma) |
 | Uzun çalışan serviste bellek artışı, rastgele hatalar | COM nesneleri bırakılmıyor | `finally` içinde `Marshal.ReleaseComObject` ve `FreeNetsisLibrary` |
 | Sürüm güncellemesi sonrası alan hataları | DLL ile veritabanı sürümü farklı | DLL'i aynı setten yeniden register edin, projeyi yeniden derleyin |
+| `Kolon uyuşmazlığı: Tabloda tanımlı olan … sahası, NetOpenX arabiriminde tanımlı değil` | DLL veritabanından eski. Kayıt yarım kalabilir: REST'te `TBLCASABIT` yazılıp `TBLCASABITEK` yazılmadı | DLL'i veritabanıyla uyumlu sürüme getirin; REST servisi de `NetOpenX50.dll` kullanır |
+| `Seri 3 karakter olmalıdır. EFatura Numara Alma işleminde hata oluştu` | E-fatura carisine e-belge birim kodu dışında seri verildi | `TBLEFATPRM.BIRIMKOD` ya da `TBLEARSIVPRM.BIRIMKOD` kullanın |
+| `Sipariş onaysız işlem yapılamaz` | Sipariş `TIPI = 3` | Siparişi önce onaylayın ([Sipariş onayı](/netopenx/belge-donusumleri/#siparis-onayi)) |
+| `Resmi Evrak Numarası Girilmelidir!` | Alış faturasında `GIB_FATIRS_NO` boş | Resmi evrak numarasını verin |
+| `Stok kodu için muhasebe kodu veya referans kodu tanımlanmamış` | Muhasebeleştirme stok hesabını bulamadı | Kalemde muhasebe kodu verin ya da stok detay kodunu tanımlayın |
 
 ## Hata ayıklama ipuçları
 

@@ -66,5 +66,6 @@ Logo, REST'i üç ayrı üründe sunar. Bu site **NetOpenX REST**'i belgeler.
 - [JSON örnekleri](/rest/json-ornekleri/): istek gövdeleri.
 - [Kimlikler ve enum'lar](/rest/kimlikler-ve-enumlar/): `{id}` biçimleri, enum değerleri.
 - [Transaction ve hatalar](/rest/transaction-ve-hatalar/).
+- [Canlı denemeler](/rest/canli-denemeler/): uçların test şirketinde sınanması.
 - [Güvenlik](/rest/guvenlik/).
 - [Bilinen sorunlar ve açık sorular](/rest/bilinen-sorunlar/).

@@ -30,6 +30,8 @@ Tablolar: `TBLCASABIT`, `TBLCASABITEK`, `TBLCAHAR`.
 
 Cari gövdesi iki parçalıdır: `CariTemelBilgi` (`ARPsPrimInfo` → `TBLCASABIT`) ve `CariEkBilgi` (`ARPsSuppInfo` → `TBLCASABITEK`), ayrıca `SubelerdeOrtak`, `IsletmelerdeOrtak` bayrakları. [Örnek](/rest/json-ornekleri/#cari-karti).
 
+> `Kolon uyuşmazlığı … NetOpenX arabiriminde tanımlı değil` hatası servisin `NetOpenX50.dll` dosyasının veritabanından eski olduğunu gösterir ve yarım cari kaydı bırakır ([Canlı denemeler](/rest/canli-denemeler/#cari)). Liste için `ARPs/PrimInfo` kullanın: `GET ARPs`, `fields` verilse de `CariEkBilgi`'yi döndürür.
+
 ```csharp
 var m = new ARPsManager(oAuth2);
 var yeni = m.PostInternal(new ARPs
@@ -64,7 +66,7 @@ Tablolar: `TBLSTSABIT`, `TBLSTSABITEK`, `TBLSTHAR`.
 | GET | `api/v2/Items/PrimInfo` | Stok temel bilgileri (`ItemPrimInfos`) |
 | GET/POST/PUT/DELETE | `api/v2/ItemTransactions[/{id}]` | Stok hareketi CRUD |
 
-Stok gövdesi: `StokTemelBilgi` (`ItemsPrimInfo`) + `StokEkBilgi` (`ItemsSuppInfo`). En küçük geçerli gövde stok kodu ve adıdır. [Örnek](/rest/json-ornekleri/#stok-karti).
+Stok gövdesi: `StokTemelBilgi` (`ItemsPrimInfo`) + `StokEkBilgi` (`ItemsSuppInfo`). En küçük gövde stok kodu, adı, `Payda_1` ve `Payda2` alanlarıdır; paydalar verilmezse `CC_PAYDA_1` kısıtına takılır. [Örnek](/rest/json-ornekleri/#stok-karti).
 
 ## Fatura, irsaliye ve sipariş (ItemSlips)
 
@@ -98,6 +100,8 @@ Tablolar: `TBLFATUIRS`, `TBLFATUEK`, `TBLSTHAR`, `TBLSIPAMAS`, `TBLSIPATRA`. COM
 | GET | `api/v2/ItemSlips/ContractsOpenPrice?restRecord={restRecord}` | Belgelenmemiş |
 
 > **`ItemSlips` için `PUT` yoktur.** Belge değiştirmek için silip yeniden oluşturun ya da `ReadAndSave` / `ChangeNumber` gibi işlem uçlarını kullanın.
+
+> Sipariş, fatura ve dönüşümlerde gereken alanlar: [Canlı denemeler](/rest/canli-denemeler/). `KosulluHesapla` varsayılanı `true`, `RiskKontrol` varsayılanı açıktır; açıkça gönderin. `ReadAndSave` ve `FaturaTip: 4` denemede zaman aşımına düştü.
 
 Gövde yapısı: üst düzeyde `FaturaTip`, `Seri`, hesaplama bayrakları, `FatUst` (başlık), `Kalems` (satırlar). Alan listesi ve örnek: [JSON örnekleri](/rest/json-ornekleri/#fatura). Dönüşüm uçlarının gövdesi `{ ItemSlip, DocumentType, DocumentNumber, CustomerCode }` biçimindedir; `ItemSlip` hedef belgenin başlığını ve bayraklarını taşır.
 
@@ -135,7 +139,7 @@ Tablolar: `TBLMUHFIS`, `TBLMUPLAN`.
 | GET | `api/v2/GLSlips` | Fişler; `expandLevel=full` ile `GLSlipLines` ve `GLSlipLines2` dahil |
 | GET | `api/v2/GLSlips/{id}` | Tek fiş |
 | POST | `api/v2/GLSlips` | Yeni fiş |
-| DELETE | `api/v2/GLSlps/{id}` | Sil. Logo sayfasında yol `GLSlps` yazılı; `GLSlips` olması beklenir (doğrulanmadı) |
+| DELETE | `api/v2/GLSlips/{id}` | Sil. Logo sayfasında yol `GLSlps` yazılı; servis şeması (`services/GLSlips`) `GLSlips` gösteriyor, çağrılarak denenmedi |
 | POST | `api/v2/GLSlips/Details` | `GLSlipsParam` ile oku |
 | POST | `api/v2/GLSlips/Delete` | `GLSlipsParam` ile sil |
 | GET | `api/v2/GLAccounts` | Hesap planı (`sort=HESAP_KODU ASC`, `q=SUBE_KODU='1'`) |
@@ -172,6 +176,8 @@ var bordroNo = r.Data.BordroNo;
 
 `AS_C` = `A` (alacak), `SC_YERI` = `P` (portföy) örneklerden alınmıştır; diğer değerler belgelenmemiştir.
 
+> Denemede `Tip` ve `CekSenEvrakKaydetmeTip` sayıyla çalıştı, bordro silinemedi, `?docType=` listesi `Data: [null]` döndü ([Canlı denemeler](/rest/canli-denemeler/#kasa-cek-tahsilat)).
+
 ## Kasa (SafeDeposits)
 
 Tablo: `TBLKASA`.
@@ -185,6 +191,8 @@ Tablo: `TBLKASA`.
 | GET | `api/v2/SafeDeposits/LastBalance?id={id}` | Kasa son bakiyesi (`KasaSonBakiye`) |
 
 Alan değerleri `TBLKASA` açıklamasından: `IO` = `G` gelir / `C` gider; `Tip` = `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhtelif, `S` senet, `T` transfer; `Cari_Muh` = `C` cari / `M` muhasebe / `B` banka. [Örnek](/rest/json-ornekleri/#kasa).
+
+Bir kasa kaydı cari hareket ve muhasebe fişi de üretir, silmek üçünü geri alır. `LastBalance` bir denemede istenen kasanın değil başka bir kasanın toplamını döndürdü; bakiyeyi tablodan doğrulayın.
 
 ## Hızlı tahsilat (MixedReceiptsMain)
 
@@ -206,6 +214,8 @@ var mr = new MixedReceiptsMain
 };
 new MixedReceiptsMainManager(oAuth2).PostInternal(mr);
 ```
+
+`SozKodu` hazır bir değer değildir, `TBLKRTSOZMAS`'taki tanıma bağlı görünür; tablo boşken `Sözleşme kodu bulunamadı` döner.
 
 ## Döviz ve kur (ForExs, ExRates)
 
@@ -238,6 +248,8 @@ var pdf = new PrintManager(oAuth2).ItemSlipsPrinting(new ItemSlipsPrintParam
 });
 File.WriteAllBytes(@"C:\Temp\fatura.pdf", pdf.Data);
 ```
+
+Sunucuda varsayılan yazıcı yoksa basım uçları `There is no default printer currently selected` döner; servis hesabına yazıcı tanımlamanın çözüp çözmediği doğrulanmadı. HTML için `ItemSlips/Html` çalışır.
 
 Barkod basımı için `PrintManager.ItemSlipsItemsBatchBarcodePrinting` ve `ItemSlipsItemBarcodePrinting` vardır ([istemci kütüphanesi](/rest/istemci-kutuphanesi/)).
 
@@ -334,3 +346,5 @@ new DynamicWarehsSlipsManager(oAuth2).PostInternal(dyn);
 | GET | `api/v2/RollBackTransaction?transId=` | evet | Geri al |
 | GET | `api/v2/services`, `api/v2/services/describe` | | API şeması |
 | GET | `api/v2/help`, `api/v2/helpinfo?apiId=` | hayır | Yardım sayfaları |
+
+`services/describe` tüm uçları listelemez; `services/<Kaynak>` ve `helpinfo?apiId=POST-api-v2-ItemSlips-ReadAndSave` biçimi daha güvenilirdir. Servis sağlığı için `HealthCheck` kullanın: kernel takıldığında `public/Ping` yanıt vermeye devam edebilir.

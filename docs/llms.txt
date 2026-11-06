@@ -46,6 +46,7 @@
 - [Uçlar](https://netsis.bahadirdogru.com/rest/uclar.md): NetOpenX REST api/v2 uç kataloğu; modül bazında yollar, parametreler ve örnekler.
 - [İstemci kütüphanesi](https://netsis.bahadirdogru.com/rest/istemci-kutuphanesi.md): NetOpenX.Rest.Client.dll yönetici sınıfları, yöntemleri ve parametre modelleri.
 - [JSON örnekleri](https://netsis.bahadirdogru.com/rest/json-ornekleri.md): NetOpenX REST istek gövdeleri; fatura, cari, stok, kasa, çek, e-belge, üretim.
+- [Canlı denemeler](https://netsis.bahadirdogru.com/rest/canli-denemeler.md): REST uçlarının test şirketinde sınanması; hangi uç çalıştı, hangi alan gerekti, nerede sorun çıktı.
 - [Kimlikler ve enum'lar](https://netsis.bahadirdogru.com/rest/kimlikler-ve-enumlar.md): REST uçlarında {id} biçimleri ve enum değerleri.
 - [Transaction ve hatalar](https://netsis.bahadirdogru.com/rest/transaction-ve-hatalar.md): OpenTransaction/Commit/RollBack, yanıt zarfı, hata durumları ve çift kayıt riski.
 - [Güvenlik](https://netsis.bahadirdogru.com/rest/guvenlik.md): NetOpenX REST servisini güvenli yayına alma; ağ, yetki, ham SQL ve anonim uçlar.

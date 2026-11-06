@@ -15,6 +15,8 @@ Birden fazla yazma işlemini tek iş olarak yapmak için:
 
 > Yazma çağrısının hangi transaction'a bağlandığı (başlık mı, parametre mi, token oturumu mu) Logo dokümanında yazmaz. Gözlem: `OpenTransaction` yalnızca `transId` döner ve gövdelerde yalnızca `TransactSupport` bayrağı vardır; bağın **token oturumu** üzerinden kurulduğu varsayılır (doğrulanmadı). Kritik akışlarda önce test şirketinde sınayın.
 
+> Gözlem: `TransactSupport: true` ile hata veren bir `POST ARPs`, ardından `RollBackTransaction` başarılı dönmesine rağmen yazdığı yarım satırı geri almadı. Başarılı bir belgenin geri alınması denenmedi. Transaction'a güvenmeden önce test edin.
+
 ## Yanıt zarfı
 
 İş sonucu döndüren uçlar şu biçimdedir (C# `TResult<T>`):
@@ -46,6 +48,8 @@ Bazı sistem uçları farklı alan adları kullanır (ör. `HealthCheck` → `Is
 | İş kuralı hatası | `IsSuccessful: false`, `ErrorDesc` dolu | Mesajı kullanıcıya/loga aktar; tekrar deneme |
 | Servis kapalı | bağlantı reddi | `public/Ping`, Windows servisi, port |
 | Uzun süren işlem | zaman aşımı | İstemci zaman aşımını yükselt; işlemin sunucuda tamamlanıp tamamlanmadığını kontrol et |
+| Kernel takıldı | `public/Ping` yanıt verir, `HealthCheck` vermez | Yazmayı durdur, servisin dönmesini bekle ([Servis kesintisi](/rest/canli-denemeler/#servis-kesintisi)) |
+| DLL ile veritabanı uyumsuz | `Kolon uyuşmazlığı … NetOpenX arabiriminde tanımlı değil` | Servisin `NetOpenX50.dll` dosyasını veritabanıyla uyumlu sürüme getir |
 
 HTTP durum kodlarının tam eşlemesi Logo tarafından belgelenmemiştir; istemci kodunuz hem HTTP kodunu hem `IsSuccessful`'u kontrol etmelidir.
 
@@ -56,6 +60,7 @@ Yazma çağrıları **idempotent değildir**. Ağ kopması ya da zaman aşımın
 - Yazmadan önce iş anahtarıyla (belge no, cari kod, harici referans) kaydın varlığını kontrol edin.
 - Faturada kendi referansınızı bir alana yazın (ör. `EKACK16` ya da `TBLFATUIRS.EXTERNALREFID` kolonuna karşılık gelen alan) ve tekrar denemeden önce bu referansla sorgulayın.
 - Zaman aşımı sonrası önce okuyun, sonra gerekiyorsa yazın.
+- Yazma çağrılarını sıraya alın. Hatalı yazmalar da numara yakabilir ya da yarım kayıt bırakabilir.
 
 ## Kaynak tüketimi
 

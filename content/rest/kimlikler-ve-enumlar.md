@@ -70,9 +70,11 @@ JSON'da enum'lar ad (`"ftSFat"`) ya da sayı (`0`) olarak gönderilebilir. Gözl
 | Alan | Sayı | Anlamı | Kaynak |
 |------|------|--------|--------|
 | `EDocument.Tip`, `EDocumentType` | `0` / `1` / `2` | e-arşiv / e-fatura / e-irsaliye | Postman örneği |
-| token `dbtype` | `0` | MSSQL (varsayım) | örnek kod |
-| `FatUst.Tip` | `0` | `ftSFat` ile birlikte kullanılmış (varsayım) | örnek kod |
-| `FatUst.TIPI` | `2` | açık fatura ile tutarlı (`TBLFATUIRS.TIPI = 2`) — doğrulanmadı | örnek kod |
+| token `dbtype` | `0` | MSSQL | canlı deneme |
+| `FaturaTip` | `0`–`9` | `ftSFat`, `ftAFat`, `ftSIrs`, `ftAIrs`, `ftDepo`, `ftLokalDepo`, `ftASip`, `ftSSip`, `ftAmbarG`, `ftAmbarC` | canlı deneme |
+| `FatUst.TIPI` | `2` | Fatura ve irsaliyede `TIPI = 2` yazıldı. Siparişte tablo `3` (onaysız) kaldı, yanıt yine `2` gösterdi | canlı deneme |
 | `BatchInvoicing.FaturaTip` | `2` | belirsiz | Postman örneği |
+
+`FaturaTip` ile `FTIRSIP` eşlemesi (canlı deneme): `ftSFat` → `1`, `ftAFat` → `2`, `ftSIrs` → `3`, `ftAIrs` → `4`, `ftSSip` → `6`, `ftASip` → `7`, `ftAmbarC` → `8`, `ftAmbarG` → `9`. `ftLokalDepo` çıkışı `8`, girişi `9` yazar. Fatura kesilmiş satış irsaliyesi `A` olur.
 
 > Enum sırası sürümler arasında değişebilir. Sayı yerine **adı** göndermek daha güvenlidir; bir sayının anlamından emin değilseniz `definitions` çıktısından doğrulayın.

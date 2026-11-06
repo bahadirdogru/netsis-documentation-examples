@@ -1331,6 +1331,8 @@ Değişikliği doğrulamak için belgeyi yeni numarayla tekrar okuyun (`OkuUst(y
 
 Sipariş onay durumu `TBLSIPAMAS.TIPI` alanındadır (`2` onaylı yurt içi, `3` onaylanmamış). NetOpenX'te ayrı bir metot gözlenmedi; NetsisQuick bunu SQL ile yapar, bkz. [Dikkatli güncellemeler](/veritabani/sql-ornekleri/#dikkatli-guncellemeler).
 
+Onaysız sipariş dönüştürülemez: `Sipariş onaysız işlem yapılamaz`. REST ile yazılan sipariş `TIPI = 3` kalır, gövdedeki `TIPI` bunu değiştirmedi ([Canlı denemeler](/rest/canli-denemeler/#siparis-onayi)).
+
 REST karşılıkları: `POST api/v2/ItemSlips/SiparisToIrsFat`, `POST api/v2/ItemSlips/IrsToFat`, `POST api/v2/ItemSlips/ChangeNumber` ([REST uçları](/rest/uclar/#fatura-irsaliye-ve-siparis-itemslips)).
 
 
@@ -1948,6 +1950,11 @@ catch (Exception ex)
 | `NullReferenceException` stok kartında | `TemelBilgi()` / `EkBilgi()` çağrılmadı | [Cari ve stok](/netopenx/cari-ve-stok/#stok-karti-olusturma) |
 | Uzun çalışan serviste bellek artışı, rastgele hatalar | COM nesneleri bırakılmıyor | `finally` içinde `Marshal.ReleaseComObject` ve `FreeNetsisLibrary` |
 | Sürüm güncellemesi sonrası alan hataları | DLL ile veritabanı sürümü farklı | DLL'i aynı setten yeniden register edin, projeyi yeniden derleyin |
+| `Kolon uyuşmazlığı: Tabloda tanımlı olan … sahası, NetOpenX arabiriminde tanımlı değil` | DLL veritabanından eski. Kayıt yarım kalabilir: REST'te `TBLCASABIT` yazılıp `TBLCASABITEK` yazılmadı | DLL'i veritabanıyla uyumlu sürüme getirin; REST servisi de `NetOpenX50.dll` kullanır |
+| `Seri 3 karakter olmalıdır. EFatura Numara Alma işleminde hata oluştu` | E-fatura carisine e-belge birim kodu dışında seri verildi | `TBLEFATPRM.BIRIMKOD` ya da `TBLEARSIVPRM.BIRIMKOD` kullanın |
+| `Sipariş onaysız işlem yapılamaz` | Sipariş `TIPI = 3` | Siparişi önce onaylayın ([Sipariş onayı](/netopenx/belge-donusumleri/#siparis-onayi)) |
+| `Resmi Evrak Numarası Girilmelidir!` | Alış faturasında `GIB_FATIRS_NO` boş | Resmi evrak numarasını verin |
+| `Stok kodu için muhasebe kodu veya referans kodu tanımlanmamış` | Muhasebeleştirme stok hesabını bulamadı | Kalemde muhasebe kodu verin ya da stok detay kodunu tanımlayın |
 
 ## Hata ayıklama ipuçları
 
@@ -2023,6 +2030,7 @@ Logo, REST'i üç ayrı üründe sunar. Bu site **NetOpenX REST**'i belgeler.
 - [JSON örnekleri](/rest/json-ornekleri/): istek gövdeleri.
 - [Kimlikler ve enum'lar](/rest/kimlikler-ve-enumlar/): `{id}` biçimleri, enum değerleri.
 - [Transaction ve hatalar](/rest/transaction-ve-hatalar/).
+- [Canlı denemeler](/rest/canli-denemeler/): uçların test şirketinde sınanması.
 - [Güvenlik](/rest/guvenlik/).
 - [Bilinen sorunlar ve açık sorular](/rest/bilinen-sorunlar/).
 
@@ -2338,6 +2346,8 @@ Tablolar: `TBLCASABIT`, `TBLCASABITEK`, `TBLCAHAR`.
 
 Cari gövdesi iki parçalıdır: `CariTemelBilgi` (`ARPsPrimInfo` → `TBLCASABIT`) ve `CariEkBilgi` (`ARPsSuppInfo` → `TBLCASABITEK`), ayrıca `SubelerdeOrtak`, `IsletmelerdeOrtak` bayrakları. [Örnek](/rest/json-ornekleri/#cari-karti).
 
+> `Kolon uyuşmazlığı … NetOpenX arabiriminde tanımlı değil` hatası servisin `NetOpenX50.dll` dosyasının veritabanından eski olduğunu gösterir ve yarım cari kaydı bırakır ([Canlı denemeler](/rest/canli-denemeler/#cari)). Liste için `ARPs/PrimInfo` kullanın: `GET ARPs`, `fields` verilse de `CariEkBilgi`'yi döndürür.
+
 ```csharp
 var m = new ARPsManager(oAuth2);
 var yeni = m.PostInternal(new ARPs
@@ -2372,7 +2382,7 @@ Tablolar: `TBLSTSABIT`, `TBLSTSABITEK`, `TBLSTHAR`.
 | GET | `api/v2/Items/PrimInfo` | Stok temel bilgileri (`ItemPrimInfos`) |
 | GET/POST/PUT/DELETE | `api/v2/ItemTransactions[/{id}]` | Stok hareketi CRUD |
 
-Stok gövdesi: `StokTemelBilgi` (`ItemsPrimInfo`) + `StokEkBilgi` (`ItemsSuppInfo`). En küçük geçerli gövde stok kodu ve adıdır. [Örnek](/rest/json-ornekleri/#stok-karti).
+Stok gövdesi: `StokTemelBilgi` (`ItemsPrimInfo`) + `StokEkBilgi` (`ItemsSuppInfo`). En küçük gövde stok kodu, adı, `Payda_1` ve `Payda2` alanlarıdır; paydalar verilmezse `CC_PAYDA_1` kısıtına takılır. [Örnek](/rest/json-ornekleri/#stok-karti).
 
 ## Fatura, irsaliye ve sipariş (ItemSlips)
 
@@ -2406,6 +2416,8 @@ Tablolar: `TBLFATUIRS`, `TBLFATUEK`, `TBLSTHAR`, `TBLSIPAMAS`, `TBLSIPATRA`. COM
 | GET | `api/v2/ItemSlips/ContractsOpenPrice?restRecord={restRecord}` | Belgelenmemiş |
 
 > **`ItemSlips` için `PUT` yoktur.** Belge değiştirmek için silip yeniden oluşturun ya da `ReadAndSave` / `ChangeNumber` gibi işlem uçlarını kullanın.
+
+> Sipariş, fatura ve dönüşümlerde gereken alanlar: [Canlı denemeler](/rest/canli-denemeler/). `KosulluHesapla` varsayılanı `true`, `RiskKontrol` varsayılanı açıktır; açıkça gönderin. `ReadAndSave` ve `FaturaTip: 4` denemede zaman aşımına düştü.
 
 Gövde yapısı: üst düzeyde `FaturaTip`, `Seri`, hesaplama bayrakları, `FatUst` (başlık), `Kalems` (satırlar). Alan listesi ve örnek: [JSON örnekleri](/rest/json-ornekleri/#fatura). Dönüşüm uçlarının gövdesi `{ ItemSlip, DocumentType, DocumentNumber, CustomerCode }` biçimindedir; `ItemSlip` hedef belgenin başlığını ve bayraklarını taşır.
 
@@ -2443,7 +2455,7 @@ Tablolar: `TBLMUHFIS`, `TBLMUPLAN`.
 | GET | `api/v2/GLSlips` | Fişler; `expandLevel=full` ile `GLSlipLines` ve `GLSlipLines2` dahil |
 | GET | `api/v2/GLSlips/{id}` | Tek fiş |
 | POST | `api/v2/GLSlips` | Yeni fiş |
-| DELETE | `api/v2/GLSlps/{id}` | Sil. Logo sayfasında yol `GLSlps` yazılı; `GLSlips` olması beklenir (doğrulanmadı) |
+| DELETE | `api/v2/GLSlips/{id}` | Sil. Logo sayfasında yol `GLSlps` yazılı; servis şeması (`services/GLSlips`) `GLSlips` gösteriyor, çağrılarak denenmedi |
 | POST | `api/v2/GLSlips/Details` | `GLSlipsParam` ile oku |
 | POST | `api/v2/GLSlips/Delete` | `GLSlipsParam` ile sil |
 | GET | `api/v2/GLAccounts` | Hesap planı (`sort=HESAP_KODU ASC`, `q=SUBE_KODU='1'`) |
@@ -2480,6 +2492,8 @@ var bordroNo = r.Data.BordroNo;
 
 `AS_C` = `A` (alacak), `SC_YERI` = `P` (portföy) örneklerden alınmıştır; diğer değerler belgelenmemiştir.
 
+> Denemede `Tip` ve `CekSenEvrakKaydetmeTip` sayıyla çalıştı, bordro silinemedi, `?docType=` listesi `Data: [null]` döndü ([Canlı denemeler](/rest/canli-denemeler/#kasa-cek-tahsilat)).
+
 ## Kasa (SafeDeposits)
 
 Tablo: `TBLKASA`.
@@ -2493,6 +2507,8 @@ Tablo: `TBLKASA`.
 | GET | `api/v2/SafeDeposits/LastBalance?id={id}` | Kasa son bakiyesi (`KasaSonBakiye`) |
 
 Alan değerleri `TBLKASA` açıklamasından: `IO` = `G` gelir / `C` gider; `Tip` = `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhtelif, `S` senet, `T` transfer; `Cari_Muh` = `C` cari / `M` muhasebe / `B` banka. [Örnek](/rest/json-ornekleri/#kasa).
+
+Bir kasa kaydı cari hareket ve muhasebe fişi de üretir, silmek üçünü geri alır. `LastBalance` bir denemede istenen kasanın değil başka bir kasanın toplamını döndürdü; bakiyeyi tablodan doğrulayın.
 
 ## Hızlı tahsilat (MixedReceiptsMain)
 
@@ -2514,6 +2530,8 @@ var mr = new MixedReceiptsMain
 };
 new MixedReceiptsMainManager(oAuth2).PostInternal(mr);
 ```
+
+`SozKodu` hazır bir değer değildir, `TBLKRTSOZMAS`'taki tanıma bağlı görünür; tablo boşken `Sözleşme kodu bulunamadı` döner.
 
 ## Döviz ve kur (ForExs, ExRates)
 
@@ -2546,6 +2564,8 @@ var pdf = new PrintManager(oAuth2).ItemSlipsPrinting(new ItemSlipsPrintParam
 });
 File.WriteAllBytes(@"C:\Temp\fatura.pdf", pdf.Data);
 ```
+
+Sunucuda varsayılan yazıcı yoksa basım uçları `There is no default printer currently selected` döner; servis hesabına yazıcı tanımlamanın çözüp çözmediği doğrulanmadı. HTML için `ItemSlips/Html` çalışır.
 
 Barkod basımı için `PrintManager.ItemSlipsItemsBatchBarcodePrinting` ve `ItemSlipsItemBarcodePrinting` vardır ([istemci kütüphanesi](/rest/istemci-kutuphanesi/)).
 
@@ -2642,6 +2662,8 @@ new DynamicWarehsSlipsManager(oAuth2).PostInternal(dyn);
 | GET | `api/v2/RollBackTransaction?transId=` | evet | Geri al |
 | GET | `api/v2/services`, `api/v2/services/describe` | | API şeması |
 | GET | `api/v2/help`, `api/v2/helpinfo?apiId=` | hayır | Yardım sayfaları |
+
+`services/describe` tüm uçları listelemez; `services/<Kaynak>` ve `helpinfo?apiId=POST-api-v2-ItemSlips-ReadAndSave` biçimi daha güvenilirdir. Servis sağlığı için `HealthCheck` kullanın: kernel takıldığında `public/Ping` yanıt vermeye devam edebilir.
 
 
 ---
@@ -2877,6 +2899,8 @@ Ortak üst düzey alanlar (birçok gövdede):
 
 Başarılı yanıtta `Data.FatUst.FATIRS_NO` kaydedilen belge numarasıdır.
 
+> Bu gövde Logo örneğidir. Satış faturasında `Seri` e-belge birim kodu olmalıdır (`TBLEFATPRM.BIRIMKOD` ya da `TBLEARSIVPRM.BIRIMKOD`). Toplamların gövdeden gelmesi için `KosulluHesapla: false` gönderin; `RiskKontrol` gönderilmezse açık sayılır. Sınanmış gövdeler ve alış faturasının gereksinimleri: [Canlı denemeler](/rest/canli-denemeler/#fatura).
+
 ### ItemSlips alanları
 
 **Üst düzey:** `FaturaTip`, `Seri`, `FatUst`, `Kalems`, `Tahsilats`, `EIrsEkBilgi`, hesaplama bayrakları: `KosulluHesapla`, `FiyatSistemineGoreHesapla`, `StokKartinaGoreHesapla`, `SeriliHesapla`, `MaliyetTipineGoreHesapla`, `OtoIskontoGetir`, `OtoVadeGunGetir`, `OtomatikIslemTipiGetir`, `OtomatikOdemeKoduGetir`, `RiskKontrol`, `BaglantiKontrol`, `ProjeKodKontrol`, `SonNumaraYazilsin`, `KayitliNumaraOtomatikGuncellensin`, `EPostaGonderilsin`; ayrıca `TransactSupport`, `MuhasebelesmisBelge`, `Use64BitService`.
@@ -2891,7 +2915,7 @@ Tam ve sürümünüze uygun liste: `GET api/v2/definitions/ItemSlips`.
 
 ## Fatura hesaplama
 
-`POST api/v2/ItemSlips/Calculate`: gövde fatura ile aynıdır, kayıt yapmaz, toplamları döndürür.
+`POST api/v2/ItemSlips/Calculate`: gövde fatura ile aynıdır, kayıt yapmaz, toplamları döndürür. Hesaplanmış net fiyat `YedekKalems` içindedir; yanıttaki `FATIRS_NO` kullanılmamalıdır.
 
 ## Siparişten fatura
 
@@ -2905,12 +2929,23 @@ Tam ve sürümünüze uygun liste: `GET api/v2/definitions/ItemSlips`.
   "ItemSlip": {
     "FaturaTip": "ftSFat",
     "Seri": "ABC",
-    "FatUst": { "Tarih": "2024-06-01 00:00:00", "TIPI": "ft_Acik" }
+    "KayitliNumaraOtomatikGuncellensin": true,
+    "EPostaGonderilsin": false,
+    "RiskKontrol": false,
+    "KosulluHesapla": false,
+    "FatUst": {
+      "FATIRS_NO": "ABC024000000123",
+      "GIB_FATIRS_NO": "ABC2024000000123",
+      "CariKod": "120-01-001",
+      "Tarih": "2024-06-01 00:00:00",
+      "TIPI": 2,
+      "KDV_DAHILMI": false
+    }
   }
 }
 ```
 
-`ItemSlip`, hedef belgenin başlığını ve bayraklarını taşır. `IrsToFat` aynı yapıdadır (`DocumentType` irsaliye tipi). Alan adları yardım sayfasından alınmıştır; değerler örnektir ve bu gövde canlıda sınanmamıştır.
+`ItemSlip`, hedef belgenin başlığını ve bayraklarını taşır. `IrsToFat` aynı yapıdadır (`DocumentType` irsaliye tipi). `ItemSlip.FatUst.FATIRS_NO` zorunludur. Sipariş onaylı olmalıdır, yoksa `Sipariş onaysız işlem yapılamaz` döner. Bu yapı test şirketinde sınandı ([Belge dönüşümleri](/rest/canli-denemeler/#belge-donusumleri)); denemede `DocumentType` ve `FaturaTip` sayıyla da adla da kabul edildi.
 
 ## Cari kartı
 
@@ -2968,7 +3003,7 @@ Alanlar `TBLCASABIT` ve `TBLCASABITEK` kolonlarına karşılık gelir.
 }
 ```
 
-`SilmeIcinGerekliSahalar` silmede kullanılacak anahtarı (`INC_KEY_NUMBER`) belirtir. `Hka` ve `Hareket_Turu` ayrı alanlardır; değer listeleri belgelenmemiştir (`TBLCAHAR.HKA` açıklamasına göre `K` "öncelikli kapatılmış").
+`SilmeIcinGerekliSahalar` silmede kullanılacak anahtarı (`INC_KEY_NUMBER`) belirtir. Kaydın kimliğini almak için `SonKayitNoAl: true` gönderin; `false` ise `Inc_Key_Number` 0 döner. `Hka` zorunludur, denemede `A` çalıştı. `Hka` ve `Hareket_Turu` ayrı alanlardır; değer listeleri belgelenmemiştir (`TBLCAHAR.HKA` açıklamasına göre `K` "öncelikli kapatılmış").
 
 ## Stok kartı
 
@@ -2976,12 +3011,12 @@ Alanlar `TBLCASABIT` ve `TBLCASABITEK` kolonlarına karşılık gelir.
 
 ```json
 {
-  "StokTemelBilgi": { "Stok_Kodu": "HAMMADDE-1", "Stok_Adi": "Deneme" },
+  "StokTemelBilgi": { "Stok_Kodu": "HAMMADDE-1", "Stok_Adi": "Deneme", "Payda_1": 1, "Payda2": 1 },
   "StokEkBilgi": { "Stok_Kodu": "HAMMADDE-1" }
 }
 ```
 
-Diğer `StokTemelBilgi` alanları: `KDV_Orani`, `Alis_Kdv_Kodu`, `Satis_Fiat1..2`, `Alis_Fiat1..2`, `Giris_Seri`, `Cikis_Seri`, `Pay_1`, `Payda_1`, `Pay2`, `Payda2`. `StokEkBilgi`: `Ingisim`, `I_Yedek1`.
+`Payda_1` ve `Payda2` verilmezse kayıt `CC_PAYDA_1` kısıtına takılır. Bu kartın faturada kullanılması için `MUH_DETAYKODU` da tanımlı olmalıdır. Diğer `StokTemelBilgi` alanları: `KDV_Orani`, `Alis_Kdv_Kodu`, `Satis_Fiat1..2`, `Alis_Fiat1..2`, `Giris_Seri`, `Cikis_Seri`, `Pay_1`, `Payda_1`, `Pay2`, `Payda2`. `StokEkBilgi`: `Ingisim`, `I_Yedek1`.
 
 ## Stok hareketi
 
@@ -3025,7 +3060,7 @@ Diğer `StokTemelBilgi` alanları: `KDV_Orani`, `Alis_Kdv_Kodu`, `Satis_Fiat1..2
 }
 ```
 
-`IO`: `G` gelir / `C` gider. `Tip`: `C` cari, `F` fatura, `M` muhtelif… `Cari_Muh`: `Kod` alanı cari mi (`C`) muhasebe mi (`M`).
+`IO`: `G` gelir / `C` gider. `Tip`: `C` cari, `F` fatura, `M` muhtelif… `Cari_Muh`: `Kod` alanı cari mi (`C`) muhasebe mi (`M`). Denemede `Proje_Kodu` ve `Plasiyer_Kodu` zorunluydu (`Hata Kodu 203`).
 
 ## Çek / senet
 
@@ -3050,6 +3085,8 @@ Diğer `StokTemelBilgi` alanları: `KDV_Orani`, `Alis_Kdv_Kodu`, `Satis_Fiat1..2
   }]
 }
 ```
+
+Denemede `Tip` ve `CekSenEvrakKaydetmeTip` sayıyla çalıştı. Gövdedeki `BordroNo` ve `SC_NO` yok sayıldı, numarayı sunucu verdi; yanıttaki numarayı kullanın.
 
 ## E-belge
 
@@ -3131,6 +3168,140 @@ Seri takipli mamullerde `Seri: [{ "Seri1": "...", "Seri2": "...", "Miktar": 1 }]
 
 ---
 
+<!-- https://netsis.bahadirdogru.com/rest/canli-denemeler/ -->
+# Canlı denemeler
+
+Bu sayfa NetOpenX REST uçlarının bir test şirketinde (canlı şirketin yedekten geri yüklenmiş kopyası) denenmesiyle öğrenilenleri toplar. Denemeler 2026-11'de yapıldı. Sonuçlar bir kuruluma aittir; şirket parametreleri farklıysa davranış da farklı olabilir. Kendi test şirketinizde yeniden sınayın.
+
+Sürümler: denemelerin çoğu 9.0.71 ile yapıldı. `NetOpenX50.dll` güncellenince servis 9.0.72.5 oldu ve cari kartı ile sipariş yazma bu sürümde yeniden denendi. Aşağıda başka sürüm yazmayan satırlar 9.0.71 sonucudur.
+
+## Özet
+
+| Kaynak | Sonuç | Bilinmesi gereken |
+|--------|-------|-------------------|
+| Sipariş (`ftSSip`, `ftASip`) | Yazma ve silme çalışıyor | `KosulluHesapla: false`, `STra_BF` ve `STra_KDV` açıkça verilmeli |
+| Satış ve alış irsaliyesi | Yazma ve silme çalışıyor | `TBLFATUIRS`, `TBLSTHAR`, `TBLFATUEK` yazılıyor |
+| Satış faturası | Yazma ve silme çalışıyor | `Seri` e-belge birim kodu olmalı, stok kartında muhasebe detay kodu gerekli |
+| Alış faturası | Yazma ve silme çalışıyor | Elle `FATIRS_NO`, `GIB_FATIRS_NO` ve kalemde `MuhasebeKodu` |
+| `SiparisToIrsFat`, `IrsToFat` | Onaylı siparişte çalışıyor | Hedef `FATIRS_NO` zorunlu |
+| Sipariş onayı | REST ile yapılamadı | Yeni sipariş `TIPI = 3` kalıyor |
+| Ambar fişleri, `ftLokalDepo` | Yazma ve silme çalışıyor | Ambarda `CariKod` çıkış yeridir |
+| Stok kartı | `POST`, `GET`, `PUT`, `DELETE` | `Payda_1`, `Payda2` zorunlu; kısmi `PUT` diğer alanları koruyor |
+| Stok hareketi | `POST`, `DELETE` | `SonKayitNoAl: true` ile kimlik döner |
+| Cari kartı (9.0.72.5) | `POST`, `GET`, `PUT`, `DELETE` | DLL veritabanıyla uyumlu olmalı |
+| Cari hareket | `POST`, `GET`, `DELETE` | `Hka` zorunlu |
+| Kasa | `POST`, `GET`, `DELETE` | Proje ve plasiyer kodu zorunluydu; bir kayıt üç tabloya işliyor |
+| Çek/senet | Yazılıyor, silinemedi | `DELETE` hata verdi |
+| Hızlı tahsilat | Kaydedilemedi | `SozKodu` tanımı gerekli |
+| `Print/*` | Çalışmadı | Sunucuda varsayılan yazıcı yok |
+
+Denenmedi: `CopyItemSlip`, `OrderRevision`, `ChangeNumber`, `ChangeCode`, `GLSlips` yazma, `StatementsHeader`, üretim uçları ve e-belge uçları. `ReadAndSave` denendi ama zaman aşımına düştü; [Servis kesintisi](#servis-kesintisi).
+
+## Sipariş
+
+Çalışan en küçük gövde:
+
+```json
+{
+  "FaturaTip": 7,
+  "Seri": "S",
+  "KayitliNumaraOtomatikGuncellensin": true,
+  "EPostaGonderilsin": false,
+  "RiskKontrol": false,
+  "KosulluHesapla": false,
+  "FatUst": { "CariKod": "120-01-001", "Tarih": "2026-11-06", "TIPI": 2, "KDV_DAHILMI": false, "EKACK1": "Referans" },
+  "Kalems": [ { "StokKodu": "STK001", "DEPO_KODU": 1, "STra_GCMIK": 3, "STra_BF": 100, "STra_KDV": 20, "STra_SatIsk": 10 } ]
+}
+```
+
+- **Toplam 0 yazılması.** `KosulluHesapla` verilmezse varsayılanı `true`. Fiyatı olmayan stok kartında `STra_BF` sıfırlandı, satır ve başlık 0 yazıldı. `false` ile gövdedeki fiyat kullanıldı. Fiyatlı kartta davranış doğrulanmadı.
+- **Fiyat.** Yalnız `STra_NF` vermek yetmedi; `STra_BF` gerekli. Net fiyat sunucuda brüt ve iskontodan hesaplanıyor.
+- **KDV.** `STra_KDV` verilmezse stok kartındaki oran kullanılıyor; oran 0 olan kartta KDV 0 geldi.
+- **`Calculate` ile kayıt** aynı toplamı verdi. `Calculate` yanıtında hesaplanmış net fiyat `Kalems` içinde değil, `YedekKalems` içinde.
+- **`Calculate` yanıtındaki `FATIRS_NO`** kullanılmamalı. Boş serili bir `TBLFATUNO` satırından üretilen, belgeyle ilgisiz bir değer döndü.
+
+### Sipariş onayı
+
+Yeni sipariş `TBLSIPAMAS.TIPI = 3` (onaysız) kaydedildi. Gövdede `TIPI` için `2`, `1` ve `ft_YurtIci`, ayrıca `OnayTipi: "A"` denendi, sonuç değişmedi. `POST` yanıtı, `GET` ve `Details` yine `2` gösterdi; onay durumu tablodan okunmalı. REST'te onay ucu bulunamadı. COM tarafında da ayrı metot gözlenmedi; bkz. [Sipariş onayı](/netopenx/belge-donusumleri/#siparis-onayi).
+
+## Fatura
+
+**Satış faturası.** `Seri` yanlışsa kayıt e-belge numarası alma adımında düşer: `Seri 3 karakter olmalıdır. EFatura Numara Alma işleminde hata oluştu`. `FatUst.EfaturaCarisiMi` `true` ise `TBLEFATPRM.BIRIMKOD`, değilse `TBLEARSIVPRM.BIRIMKOD` verilir; e-arşiv yolu denenmedi. Doğru seriyle `GIB_FATIRS_NO` kendiliğinden doldu. Kayıt e-belge oluşturmadı: `TBLEFATMAS` ve `TBLEARSIV` değişmedi.
+
+Stok kartında muhasebe detay kodu yoksa kayıt muhasebeleştirmede düşer: `Stok detay kodu bulunamadı … Muhasebeleştirmede hata var … Operation aborted`.
+
+**Alış faturası.** `Seri` ile numara üretimi `Bu yöntem sadece satış faturası belgelerinde çalıştırılmalıdır` hatası verdi. Elle numara verince kayıt ilerledi:
+
+- Kalemde `MuhasebeKodu` gerekti (`TBLSTMUHDETAY.ALIS_HESABI`), yoksa: `Stok kodu için muhasebe kodu veya referans kodu tanımlanmamış`.
+- `GIB_FATIRS_NO` gerekti, yoksa: `Resmi Evrak Numarası Girilmelidir!`.
+
+## Belge dönüşümleri
+
+`SiparisToIrsFat` ve `IrsToFat` onaylı siparişle çalıştı: siparişten irsaliye, irsaliyeden fatura ve siparişten fatura. Gövde: [Siparişten fatura](/rest/json-ornekleri/#siparisten-fatura).
+
+- `ItemSlip.FatUst.FATIRS_NO` zorunlu, yoksa `Hedef nesne için belge numarası tanımlanmalı`. Fatura hedefinde `GIB_FATIRS_NO` da verildi.
+- Onaysız siparişte `Sipariş onaysız işlem yapılamaz` döner. Kalemde `STra_SIPNUM` ile doğrudan irsaliye yazmak da aynı hatayı verir.
+- `ItemSlip.FatUst.EKACK1` yeni belgeye yazılmadı.
+- Fatura kesilen irsaliyenin `FTIRSIP` değeri `3`'ten `A`'ya döner; fatura silinince `3`'e geri döner.
+- Fatura ve irsaliye silmek stok ve cari hareketlerini geri aldı.
+
+## Numara
+
+- `POST` yanıtındaki `FATIRS_NO` esas alınmalı; `Seri` her belge tipinde uygulanmadı.
+- `KayitliNumaraOtomatikGuncellensin: true` iken kayıtlı numara verilirse sonraki boş numaraya geçer. `false` iken `Hata Kodu : 402 … Daha önceden kaydedilmiş` döner.
+- `NewNumber` sayacı artırmıyor, `TBLFATUNO + 1` döndürüyor.
+- Risk hatasıyla düşen `POST` numara yaktı. Silinen belgeler sayaçları geri almıyor.
+- `RiskKontrol` gönderilmezse risk kontrolü açık sayılıyor. `RISK_SINIRI` 0 olan caride `MÜŞTERİ RİSKLİ` hatası verir.
+
+## Stok ve ambar
+
+- Ambar fişinde `FatUst.CariKod` çıkış yeridir, `AMBHARTUR` ve `CikisYeri` verilir.
+- `ftAmbarG` (8) `FTIRSIP = 9`, `ftAmbarC` (9) `FTIRSIP = 8` yazar. `ftLokalDepo` (5) de `8` ve `9` kullanır. Ambar ile depolar arası `STHAR_HTUR` ile ayrılır (`D` ambar, `B` depolar arası).
+- `ftLokalDepo` tek kalemde iki `TBLSTHAR` satırı üretir; cari hareketi oluşmaz.
+- `ftDepo` (4) ile kayıt zaman aşımına düştü, kullanmayın.
+- `TBLSTOKPH` stok hareketi eklenince güncelleniyor. Silmenin toplamları geri alıp almadığı doğrulanmadı.
+
+## Cari
+
+**DLL uyumsuzluğu.** 9.0.71 ile `POST ARPs` şu hatayı verdi: `Kolon uyuşmazlığı: Tabloda tanımlı olan EBELUNVAN sahası, NetOpenX arabiriminde tanımlı değil`. Çözüm servisin kullandığı `NetOpenX50.dll` dosyasını veritabanıyla uyumlu sürüme getirmek oldu. Bu uyumsuzlukta kayıt yarım kalır: `TBLCASABIT` yazılır, `TBLCASABITEK` yazılmaz. Yarım satır `GET ARPs` listesinde görünür, ama `GET {id}` ve `DELETE` onu bulamaz; DLL güncellendikten sonra da REST ile silinemedi.
+
+- `GET ARPs` listesi `fields` verilse de `CariEkBilgi`'yi döndürür; içinde `TcKimlikNo` olabilir. Liste için `ARPs/PrimInfo` kullanın.
+- `ARPTransactions` eklerken `SonKayitNoAl: true` verin; `false` ise `Inc_Key_Number` 0 döner ve kaydı silemezsiniz.
+- Cari hareket silmek `CM_BORCT` ve `CM_ALACT` özetini düşürdü, eklemek artırmadı. Bakiyeyi `TBLCAHAR` toplamından hesaplayın.
+
+## Kasa, çek, tahsilat
+
+- **Kasa.** Bir `POST` kasa satırı, cari hareket ve iki satırlık muhasebe fişi üretti; `DELETE` üçünü de geri aldı. `Proje_Kodu` ve `Plasiyer_Kodu` bu şirkette zorunluydu. `SafeDeposits/LastBalance?id=` istenen kasanın değil başka bir kasanın toplamlarını döndürdü (tek örnek).
+- **Çek.** `Tip` ve `CekSenEvrakKaydetmeTip` sayıyla çalıştı. Gövdedeki `BordroNo` ve `SC_NO` yok sayıldı, numarayı sunucu verdi. `DELETE` ve `POST .../Delete` `Nesne başvurusu bir nesnenin örneğine ayarlanmadı` döndü, kayıt silinemedi. `?docType=` listesi `Data: [null]` döndü. Aynı hata 9.0.72.5'te de sürdü.
+- **Hızlı tahsilat.** `SozKodu` `TBLKRTSOZMAS`'taki bir tanıma bağlı görünüyor; tablo boş olduğu için kayıt yapılamadı.
+
+## Yanıt alanları
+
+`POST`, `GET` ve `Details` yanıtındaki `EPostaGonderilsin`, `RiskKontrol`, `KosulluHesapla` bayrakları gönderilen değeri yansıtmıyor, kernel varsayılanını gösteriyor. `TIPI` ve `ISLETME_KODU` da tablodan farklı dönebiliyor. Kayıttan sonra doğrulama tablodan yapılmalı.
+
+## Servis kesintisi
+
+Denemelerde servis iki kez kesildi:
+
+- `FaturaTip: 4` gövdesi dakikalarca asılı kaldı, aynı sırada `ReadAndSave` zaman aşımına düştü. Servis `HealthCheck`'e yanıt vermedi, sonra bağlantı reddetti ve kendiliğinden geri geldi. Bu sırada `public/Ping` yanıt veriyordu.
+- Muhasebeleştirmesi düşen bir faturadan sonra servis kısa süre bağlantı reddetti.
+
+Nedeni doğrulanmadı. İlk kesintide birkaç istemci aynı anda çalışıyordu. Sonuçlar:
+
+- Sağlık kontrolünü `HealthCheck` ile yapın, `public/Ping` yeterli değil.
+- Yazma çağrılarını sıraya alın, aynı anda göndermeyin.
+- Zaman aşımından sonra önce okuyun; [Çift kayıt riski](/rest/transaction-ve-hatalar/#cift-kayit-riski).
+
+## Test şirketi
+
+- Test şirketini yedekten geri yükleyin. Tablo kopyalama yöntemleri varsayılanları, yabancı anahtarları ve tetikleyicileri düşürebilir; böyle bir kopyada `Cannot insert the value NULL into column` hataları çıkar.
+- Kopya gerçek e-belge ve e-posta ayarlarını taşır. Denemede e-belge gönderme uçlarını çağırmayın, `EPostaGonderilsin: false` gönderin.
+- Kopyadaki tetikleyiciler başka veritabanlarına yazıyor olabilir. Yazmadan önce `sys.sql_modules` içinde canlı veritabanı adını arayın.
+- Her deneme kaydını tanınır bir etiketle işaretleyin (`EKACK1`), silin ve canlıda iz kalmadığını kontrol edin.
+
+
+---
+
 <!-- https://netsis.bahadirdogru.com/rest/kimlikler-ve-enumlar/ -->
 # Kimlikler ve enum'lar
 
@@ -3199,10 +3370,12 @@ JSON'da enum'lar ad (`"ftSFat"`) ya da sayı (`0`) olarak gönderilebilir. Gözl
 | Alan | Sayı | Anlamı | Kaynak |
 |------|------|--------|--------|
 | `EDocument.Tip`, `EDocumentType` | `0` / `1` / `2` | e-arşiv / e-fatura / e-irsaliye | Postman örneği |
-| token `dbtype` | `0` | MSSQL (varsayım) | örnek kod |
-| `FatUst.Tip` | `0` | `ftSFat` ile birlikte kullanılmış (varsayım) | örnek kod |
-| `FatUst.TIPI` | `2` | açık fatura ile tutarlı (`TBLFATUIRS.TIPI = 2`) — doğrulanmadı | örnek kod |
+| token `dbtype` | `0` | MSSQL | canlı deneme |
+| `FaturaTip` | `0`–`9` | `ftSFat`, `ftAFat`, `ftSIrs`, `ftAIrs`, `ftDepo`, `ftLokalDepo`, `ftASip`, `ftSSip`, `ftAmbarG`, `ftAmbarC` | canlı deneme |
+| `FatUst.TIPI` | `2` | Fatura ve irsaliyede `TIPI = 2` yazıldı. Siparişte tablo `3` (onaysız) kaldı, yanıt yine `2` gösterdi | canlı deneme |
 | `BatchInvoicing.FaturaTip` | `2` | belirsiz | Postman örneği |
+
+`FaturaTip` ile `FTIRSIP` eşlemesi (canlı deneme): `ftSFat` → `1`, `ftAFat` → `2`, `ftSIrs` → `3`, `ftAIrs` → `4`, `ftSSip` → `6`, `ftASip` → `7`, `ftAmbarC` → `8`, `ftAmbarG` → `9`. `ftLokalDepo` çıkışı `8`, girişi `9` yazar. Fatura kesilmiş satış irsaliyesi `A` olur.
 
 > Enum sırası sürümler arasında değişebilir. Sayı yerine **adı** göndermek daha güvenlidir; bir sayının anlamından emin değilseniz `definitions` çıktısından doğrulayın.
 
@@ -3221,6 +3394,8 @@ Birden fazla yazma işlemini tek iş olarak yapmak için:
 3. Başarılıysa `GET api/v2/CommitTransaction?transId=<id>`, hata varsa `GET api/v2/RollBackTransaction?transId=<id>`.
 
 > Yazma çağrısının hangi transaction'a bağlandığı (başlık mı, parametre mi, token oturumu mu) Logo dokümanında yazmaz. Gözlem: `OpenTransaction` yalnızca `transId` döner ve gövdelerde yalnızca `TransactSupport` bayrağı vardır; bağın **token oturumu** üzerinden kurulduğu varsayılır (doğrulanmadı). Kritik akışlarda önce test şirketinde sınayın.
+
+> Gözlem: `TransactSupport: true` ile hata veren bir `POST ARPs`, ardından `RollBackTransaction` başarılı dönmesine rağmen yazdığı yarım satırı geri almadı. Başarılı bir belgenin geri alınması denenmedi. Transaction'a güvenmeden önce test edin.
 
 ## Yanıt zarfı
 
@@ -3253,6 +3428,8 @@ Bazı sistem uçları farklı alan adları kullanır (ör. `HealthCheck` → `Is
 | İş kuralı hatası | `IsSuccessful: false`, `ErrorDesc` dolu | Mesajı kullanıcıya/loga aktar; tekrar deneme |
 | Servis kapalı | bağlantı reddi | `public/Ping`, Windows servisi, port |
 | Uzun süren işlem | zaman aşımı | İstemci zaman aşımını yükselt; işlemin sunucuda tamamlanıp tamamlanmadığını kontrol et |
+| Kernel takıldı | `public/Ping` yanıt verir, `HealthCheck` vermez | Yazmayı durdur, servisin dönmesini bekle ([Servis kesintisi](/rest/canli-denemeler/#servis-kesintisi)) |
+| DLL ile veritabanı uyumsuz | `Kolon uyuşmazlığı … NetOpenX arabiriminde tanımlı değil` | Servisin `NetOpenX50.dll` dosyasını veritabanıyla uyumlu sürüme getir |
 
 HTTP durum kodlarının tam eşlemesi Logo tarafından belgelenmemiştir; istemci kodunuz hem HTTP kodunu hem `IsSuccessful`'u kontrol etmelidir.
 
@@ -3263,6 +3440,7 @@ Yazma çağrıları **idempotent değildir**. Ağ kopması ya da zaman aşımın
 - Yazmadan önce iş anahtarıyla (belge no, cari kod, harici referans) kaydın varlığını kontrol edin.
 - Faturada kendi referansınızı bir alana yazın (ör. `EKACK16` ya da `TBLFATUIRS.EXTERNALREFID` kolonuna karşılık gelen alan) ve tekrar denemeden önce bu referansla sorgulayın.
 - Zaman aşımı sonrası önce okuyun, sonra gerekiyorsa yazın.
+- Yazma çağrılarını sıraya alın. Hatalı yazmalar da numara yakabilir ya da yarım kayıt bırakabilir.
 
 ## Kaynak tüketimi
 
@@ -3331,13 +3509,13 @@ Logo'nun örnek kodları çalışma garantisi vermez. Kopyalamadan önce derleyi
 ## Dokümantasyon ve örneklerdeki tutarsızlıklar
 
 - **POST/PUT açıklaması ters.** "Temel" sayfası PUT'u oluşturma, POST'u güncelleme olarak anlatır; uç kataloğu ve davranış standarttır (POST oluşturur).
-- **`GLSlps` yazımı.** Muhasebe fişi silme yolu sayfada `api/v2/GLSlps/{id}` yazılı; `GLSlips` olması beklenir.
+- **`GLSlps` yazımı.** Muhasebe fişi silme yolu sayfada `api/v2/GLSlps/{id}` yazılı; servis şeması `GLSlips` gösteriyor.
 - **Varsayılan `limit`.** Bir sayfada 20, diğerinde 10. Her zaman açıkça verin.
 - **`ContractsMain` şeması.** Açıklama alanında yanlışlıkla "BatchInvoicing" yazılı.
 - **Değişken adları.** Örneklerde `_ArpsManager`, `_ARPsManager` ve tanımsız `_CustomersManager` karışık kullanılmış.
 - **"Cari Ekle" örneği önce siler.** `DeleteInternalById` ardından `PostInternal` çağrılıyor; var olan kaydı siler.
 - **Tip uyumsuzlukları.** `CheckAndPNotesMainParam.BordroNo` bir yerde tam sayı, diğerinde metin; döviz örneğinde `string sira = 5;` derlenmez; fatura JSON'unda `"STra_DOVTIP": "2"` tırnaklı.
-- **`FaturaTip` iki yerde.** `ItemSlips.FaturaTip` ve `FatUst.Tip` birlikte veriliyor; hangisinin öncelikli olduğu yazmıyor. İkisini aynı değerle gönderin.
+- **`FaturaTip` iki yerde.** `ItemSlips.FaturaTip` ve `FatUst.Tip` birlikte veriliyor; hangisinin öncelikli olduğu yazmıyor. Denemede yalnız üst düzey `FaturaTip` yeterli oldu.
 - **Numara çakışması.** Bir örnekte `FATIRS_NO` elle verilmiş ve `KayitliNumaraOtomatikGuncellensin = true` aynı anda ayarlı; sunucunun hangisini kullanacağı belirsiz. Kayıt sonrası dönen numarayı okuyun.
 - **Müstahsil Postman örneği** çek/senet gövdesinin kopyası; müstahsil için doğru gövde değil.
 - **Serbest üretim alan adları:** `UretSon_MalY1` / `UretSon_Maly2` yazımı tutarsız; `definitions` çıktısından doğrulayın.
@@ -3349,13 +3527,15 @@ Logo'nun örnek kodları çalışma garantisi vermez. Kopyalamadan önce derleyi
 ## Açık sorular (doğrulanmadı)
 
 1. Token yanıtının tam alan listesi (`access_token`, `expires_in`, `token_type`…).
-2. `dbtype` sayısal değerleri (`0` = MSSQL varsayımı).
+2. `dbtype` için `0` MSSQL'de çalıştı; diğer değerler bilinmiyor.
 3. `TokenRestSettings.Init`'in ikinci ve üçüncü parametreleri.
-4. Yazma çağrılarının transaction'a nasıl bağlandığı.
+4. Yazma çağrılarının transaction'a nasıl bağlandığı. Bir denemede `RollBackTransaction` hatalı `POST`'un yarım satırını geri almadı.
 5. HTTP hata kodlarının tam eşlemesi.
-6. `SonKayitNoAl`, `Hka`, `Hareket_Turu`, `AS_C`, `SC_YERI`, `SC_SONDUR`, `IO`, `Tip`, `Kdv_Dahil` alanlarının tam değer listeleri.
-7. Sayısal enum değerlerinin (`TIPI: 2`, `BatchInvoicing.FaturaTip: 2`) karşılıkları.
+6. `Hka`, `Hareket_Turu`, `AS_C`, `SC_YERI`, `SC_SONDUR`, `IO`, `Tip`, `Kdv_Dahil` alanlarının tam değer listeleri. `SonKayitNoAl: true` kayıt kimliğini döndürür.
+7. `BatchInvoicing.FaturaTip: 2` değerinin karşılığı. `TIPI: 2` için bkz. [Kimlikler ve enum'lar](/rest/kimlikler-ve-enumlar/#sayisal-enum-degerleri).
 8. `api/v2/public/CompanyList`'in hangi kurulumlarda çalıştığı (bazılarında `DBMONITOR..TBLSUBELER` hatası).
+9. Sipariş onayının (`TBLSIPAMAS.TIPI` 3 → 2) REST ile yapılıp yapılamayacağı. Denemede bir yol bulunamadı.
+10. Servisin [denemelerde kesilme](/rest/canli-denemeler/#servis-kesintisi) nedeni.
 
 Bu soruların yanıtını biliyorsanız [GitHub'da](https://github.com/bahadirdogru/netsis-documentation-examples) katkıda bulunun.
 
