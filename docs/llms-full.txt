@@ -138,6 +138,120 @@ FROM TBLCASABIT WITH (NOLOCK);
 
 ---
 
+<!-- https://netsis.bahadirdogru.com/entegrasyon-deseni/ -->
+# Okuma SQL, yazma REST
+
+[Genel bakış](/genel-bakis/#yazma-kurali) okuma için SQL'i, yazma için NetOpenX'i önerir. Bu sayfa o kuralı bir uygulamada nasıl kurduğumuzu anlatır: liste, detay ve analiz ekranları veritabanından **salt okunur** okur; kayıt oluşturma, değiştirme ve silme yalnızca **NetOpenX REST** üzerinden gider. Desen 2026-11'de bir test şirketinde (canlının yedekten kopyası) 19 okuma ekranı ve 20'den fazla yazma işlemiyle sınandı; sonuçlar [Canlı denemeler](/rest/canli-denemeler/) sayfasındadır.
+
+## Katmanlar
+
+```text
+  Kullanıcı ekranı
+      │ liste · süzgeç · sayfa · Excel · detay            │ form · toplu Excel
+      ▼                                                    ▼
+  Okuma kataloğu  ── SELECT ──▶  SQL Server          Yazma işlemleri ── HTTP ──▶ NetOpenX REST
+  (varlık tanımı)   salt okunur    (şirket vt)        (doğrula → önizle → onayla → yaz)
+      ▲                                                    │
+      └──────────── süreç bağları (satırdan işleme) ───────┘
+```
+
+| Katman | Ne yapar | Netsis tarafı |
+|--------|----------|---------------|
+| Okuma | Her ekran bir **varlık**tır: SQL, kolonlar, anahtar, varsayılan sıralama, arama kolonları, detay bölümleri | `TBLCASABIT`, `TBLCAHAR`, `TBLSTSABIT`, `TBLSTHAR`, `TBLSTOKPH`, `TBLSIPAMAS`, `TBLFATUIRS`, `TBLKASA`, `TBLBNKHESTRA`, `TBLMCEK`…, `TBLDEKOMAS` |
+| Yazma | Her işlem bir Excel şablonu ve tek kayıt formu alır, satırları doğrular, REST gövdesini kurar, onaydan sonra sırayla gönderir | `ItemSlips`, `ARPs`, `ARPTransactions`, `Items`, `SafeDeposits`, `CheckAndPNotesMain` |
+| Süreç | Okuma satırından yazma formuna ön doldurulmuş geçiş | sipariş → irsaliye/fatura, cari → tahsilat/ödeme/cari hareket |
+
+## Okuma tarafı
+
+### Salt okunur kullanıcı
+
+Okuma bağlantısı için SQL Server'da yalnızca `db_datareader` yetkili bir giriş açın. Uygulama, bağlantıyı kullanmadan önce yönetici olmadığını denetlesin:
+
+```sql
+SELECT IS_SRVROLEMEMBER('sysadmin');   -- 1 dönerse bağlantıyı reddet
+```
+
+Böylece bir yönetici bağlantısı yanlışlıkla okuma bağlantısı olarak seçilirse ekranlar açılmaz; `sa` ile çalışan bir ekran, bir gün birinin SQL ile yazmasına kapı açar.
+
+### Üç parçalı ad
+
+REST bağlantısı hangi şirkete yazıyorsa okuma da o şirketten yapılmalıdır. Sorgular tabloyu `[ŞİRKET].dbo.[TBLCASABIT]` biçiminde açar; şirket adı REST ayarındaki veritabanı adından gelir ve `^[A-Za-z0-9_]{1,64}$` desenine uymuyorsa sorgu çalışmaz. Okuma ve yazma hiçbir zaman farklı şirkete bakmaz.
+
+### Parametre ve sayfalama
+
+- Süzgeç değerleri her zaman parametredir; kolon adları varlık tanımındaki izin listesinden seçilir.
+- `WITH (NOLOCK)` raporlarda kirli okuma riskini bilerek kullanılır.
+- Netsis kurulumları eski SQL Server sürümlerinde çalışabilir (2008 R2 görülür). `OFFSET … FETCH` ve `SUM() OVER (ORDER BY …)` yoktur; sayfalama `ROW_NUMBER()` ile, yürüyen bakiye ilişkili alt sorguyla yazılır. Örnekler: [SQL örnekleri](/veritabani/sql-ornekleri/#sayfalama-ve-eski-surumler).
+- `SUBE_KODU` ve `ISLETME_KODU` süzgeci koymayın; veride `-1` ve `0` karışık görülür.
+- Hareket listeleri (`TBLCAHAR`, `TBLSTHAR`, `TBLBNKHESTRA`) ana anahtar süzgeci olmadan açılmaz; yoksa milyonlarca satır sayılır.
+
+### Anahtarlar
+
+Detay sayfasına gidebilmek için her varlığın tekil anahtarı bilinmeli. Netsis'te bunlar her zaman tek kolon değildir:
+
+| Varlık | Anahtar | Not |
+|--------|---------|-----|
+| Cari kartı | `CARI_KOD` | |
+| Cari hareket | `CARI_KOD` + `INC_KEY_NUMBER` | REST'in `Inc_Key_Number` değeriyle aynı |
+| Stok hareketi | `STOK_KODU` + `FISNO` + `INCKEYNO` | tekillik canlıda sınanmadı |
+| Sipariş, irsaliye, fatura | `FTIRSIP` + `FATIRS_NO` + `CARI_KODU` | [Belge tipi alanı](/genel-bakis/#belge-tipi-alani-ftirsip) |
+| Kasa hareketi | `SIRA` | REST `SafeDeposits/{id}` de bunu ister; `FISNO` kimlik değildir |
+| Banka hareketi | `NETHESKODU` + `INCKEYNO` | |
+| Çek / senet | tablo (`TBLMCEK`…) + `SC_NO` | dört tablo birleştirilirken tür sütunu eklenir |
+| Dekont | `SERI_NO` + `DEKONT_NO` | `INCKEYNO` başlık ve satır tablolarında ayrı sayaçtır, bağ değildir |
+
+Ayrıntı: [Finans tabloları](/veritabani/finans-tablolari/).
+
+## Yazma tarafı
+
+### Akış
+
+1. **Doğrula.** Cari, stok, depo, kasa, plasiyer gibi referanslar okuma bağlantısından çekilir; satırdaki kod yoksa belge geçersiz işaretlenir. Netsis'in zorunlu tuttuğu ama belgelenmemiş alanlar burada yakalanır: plasiyersiz carinin kasa ve çek kaydı yazılamaz (`Hata 203 Plasiyer Kodu boş geçilemez`).
+2. **Önizle.** Kurulan REST gövdesi ve hesaplanan toplamlar kullanıcıya gösterilir; `ItemSlips/Calculate` kayıt yapmadan Netsis'in toplamını verir.
+3. **Onayla.** Geri alınamayan işlemler (çek bordrosu) ayrı uyarıyla onay ister.
+4. **Yaz.** Belgeler **sırayla** gönderilir, aynı anda değil ([servis kesintisi](/rest/canli-denemeler/#servis-kesintisi)). Her belgenin sonucu (`FATIRS_NO`, `Inc_Key_Number`, `Sira`) saklanır.
+5. **Doğrula.** Kayıt sonrası kontrol tablodan yapılır; REST yanıtındaki bazı bayraklar gönderileni yansıtmaz ([Yanıt alanları](/rest/canli-denemeler/#yanit-alanlari)).
+
+### Netsis'in verdiği kimlikleri saklayın
+
+Silme ve güncelleme, uygulamanın ürettiği değil Netsis'in verdiği kimlikle yapılır:
+
+| Kaynak | Yanıttaki kimlik | Silme |
+|--------|------------------|-------|
+| `ItemSlips` | `Data.FatUst.FATIRS_NO` | `DELETE ItemSlips/{FaturaTip;FATIRS_NO;CARI_KOD}` |
+| `ARPTransactions` | `Inc_Key_Number` (`SonKayitNoAl: true` ile) | `DELETE ARPTransactions/{Inc_Key_Number}` |
+| `SafeDeposits` | `Sira` | `DELETE SafeDeposits/{Sira}`; kasa kaydıyla birlikte ürettiği cari hareketi de siler |
+| `CheckAndPNotesMain` | yanıttaki `SC_NO` ve bordro no (gövdedekiler yok sayılır) | REST ile silinemedi; Netsis içinden |
+
+### Yan etkileri bilin
+
+Bir REST çağrısı tek tabloya yazmaz. Kasa tahsilatı `TBLKASA` satırının yanında `TBLCAHAR`'a cari hareket (`HAREKET_TURU = 'D'`) ve muhasebe fişi yazar; müşteri çeki `TBLMCEK` yanında `TBLCAHAR`'a `HAREKET_TURU = 'G'` hareket yazar. Okuma ekranları bu satırları göstereceği için kullanıcı "ben cari hareket girmedim" diyebilir; ekranlarda hareket türünü gösterin. Ayrıntı: [Finans tabloları](/veritabani/finans-tablolari/#kasa-ve-cek-kaydinin-yan-etkileri).
+
+### Kısmi güncelleme
+
+`PUT ARPs/{kod}` ve `PUT Items/{kod}` yalnızca gönderilen alanları değiştirir, diğerleri korunur (canlı deneme). Güncelleme formu bu yüzden yalnız dolu alanları gönderebilir.
+
+## Süreç bağları
+
+Okuma satırından yazma formuna geçerken formun alanları satırdan doldurulur, kullanıcı tamamlar ve aynı önizle → onayla → yaz akışına girer:
+
+| Satır | İşlem | Ön doldurma |
+|-------|-------|-------------|
+| Sipariş | İrsaliye / fatura (`SiparisToIrsFat`) | `DocumentNumber`, `CustomerCode`; sipariş onaylı değilse Netsis reddeder |
+| Cari kartı | Kasa tahsilat / ödeme (`SafeDeposits`) | cari kodu, plasiyer |
+| Cari kartı | Cari hareket (`ARPTransactions`) | cari kodu |
+| Cari kartı | Düzenle (`PUT ARPs`) | kartın tüm alanları |
+
+## Test şirketi kuralları
+
+- Yazma denemeleri yalnızca test şirketine; uygulamada izinli veritabanı adlarını bir listeyle kısıtlayın.
+- E-belge gönderen uçları ve `EPostaGonderilsin: true` değerini test şirketinde de çağırmayın; kopya gerçek ayarları taşır.
+- Her deneme kaydını silin, silinemeyenleri (çek bordrosu) not edin.
+- Yönetici SQL kullanıcısı yalnızca geliştirme sırasında şema okumak için gerekir; iş bitince kaldırın.
+
+
+---
+
 <!-- https://netsis.bahadirdogru.com/llm/ -->
 # LLM'ler için
 
@@ -357,12 +471,14 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH'a 
 
 | Tablo | İçerik |
 |-------|--------|
-| `TBLKASA` | Kasa hareketleri. `IO`: `G` gelir, `C` gider. `TIP`: `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhtelif, `S` senet, `T` transfer. `CARI_MUH`: `C`/`M`/`B` |
+| `TBLKASAMAS`, `TBLKASA` | Kasa tanımı (`KSMAS_KOD`) ve kasa hareketleri (anahtar `SIRA`). `IO`: `G` gelir, `C` gider. `TIP`: `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhtelif, `S` senet, `T` transfer. `CARI_MUH`: `C`/`M`/`B`. Ayrıntı: [Finans tabloları](/veritabani/finans-tablolari/) |
+| `TBLBNKSABIT`, `TBLBNKHESSABIT`, `TBLBNKHESTRA` | Banka, banka hesabı (`NETHESKODU`) ve hesap hareketleri (`NETHESKODU` + `INCKEYNO`) |
+| `TBLDEKOMAS`, `TBLDEKOTRA` | Dekont başlığı ve satırları; bağ `SERI_NO` + `DEKONT_NO` (`INCKEYNO` değil) |
 | `TBLMUPLAN` | Muhasebe hesap planı (`HESAP_KODU`) |
 | `TBLMUHFIS` | Yevmiye fiş satırları (`AY_KODU`, `FISNO`, `HES_KOD`, `BA`) |
 | `TBLMUHAGEC` | Muhasebe entegrasyonuna bekleyen kayıtlar |
-| `TBLMCEK`, `TBLMSEN` | Müşteri çekleri / senetleri (portföy) |
-| `TBLBCEK`, `TBLBSEN` | Borç çekleri / senetleri |
+| `TBLMCEK`, `TBLMSEN` | Müşteri çekleri / senetleri; cari `SC_VERENK` |
+| `TBLBCEK`, `TBLBSEN` | Borç çekleri / senetleri; cari `SC_VERILENK` |
 | `TBLPROJE` | Proje kodları |
 | `TBLMASRAF` | Masraf merkezleri (`MKOD`) |
 | `TBLISLETMELER`, `TBLSUBELER` | İşletme ve şube tanımları |
@@ -385,6 +501,8 @@ FROM NETSIS.dbo.SIRKETLER30;
 Aşağıdaki sorgular **salt okunur** raporlama içindir. Hepsi bir şirket veritabanında çalışır (ör. `USE ACME2024;`). Şube ve işletme kodlarını kendi kurulumunuza göre değiştirin.
 
 > Uygulama kodunda değerleri metin birleştirerek sorguya koymayın; parametre kullanın (`@CariKod`). Aşağıdaki örneklerde okunabilirlik için sabit değer yazıldı.
+
+> Netsis kurulumları eski SQL Server sürümlerinde çalışabilir (2008 R2 sahada görülür). `OFFSET … FETCH`, `SUM() OVER (ORDER BY …)` gibi 2012 ile gelen yapılar orada çalışmaz; eski sürüm uyumlu karşılıkları [Sayfalama ve eski sürümler](#sayfalama-ve-eski-surumler) bölümünde. Sürümü öğrenmek için `SELECT SERVERPROPERTY('ProductVersion');`.
 
 ## Cari
 
@@ -421,6 +539,52 @@ WHERE CARI_KOD = '120-01-001'
 ORDER BY TARIH, INC_KEY_NUMBER;
 ```
 
+`SUM() OVER (ORDER BY …)` SQL Server 2012 ve sonrasında çalışır; eski sürüm için ilişkili alt sorgu:
+
+```sql
+SELECT TOP 100 h.TARIH, h.BELGE_NO, h.BORC, h.ALACAK,
+       (SELECT SUM(ISNULL(x.BORC, 0) - ISNULL(x.ALACAK, 0))
+        FROM TBLCAHAR x WITH (NOLOCK)
+        WHERE x.CARI_KOD = h.CARI_KOD
+          AND (x.TARIH < h.TARIH OR (x.TARIH = h.TARIH AND x.INC_KEY_NUMBER <= h.INC_KEY_NUMBER))) AS YURUYEN_BAKIYE
+FROM TBLCAHAR h WITH (NOLOCK)
+WHERE h.CARI_KOD = '120-01-001'
+ORDER BY h.TARIH DESC, h.INC_KEY_NUMBER DESC;
+```
+
+### Cari yaşlandırma
+
+Vade tarihine göre 30 günlük dilimler; vade boşsa belge tarihi alınır. Net = borç − alacak; bakiyesi sıfır olan cariler elenir.
+
+```sql
+SELECT x.CARI_KOD,
+       SUM(CASE WHEN x.GUN <= 30 THEN x.NET ELSE 0 END)             AS VADE_0_30,
+       SUM(CASE WHEN x.GUN BETWEEN 31 AND 60 THEN x.NET ELSE 0 END) AS VADE_31_60,
+       SUM(CASE WHEN x.GUN BETWEEN 61 AND 90 THEN x.NET ELSE 0 END) AS VADE_61_90,
+       SUM(CASE WHEN x.GUN > 90 THEN x.NET ELSE 0 END)              AS VADE_90_USTU,
+       SUM(x.NET) AS TOPLAM
+FROM (SELECT CARI_KOD, ISNULL(BORC, 0) - ISNULL(ALACAK, 0) AS NET,
+             DATEDIFF(day, ISNULL(VADE_TARIHI, TARIH), GETDATE()) AS GUN
+      FROM TBLCAHAR WITH (NOLOCK)) x
+GROUP BY x.CARI_KOD
+HAVING SUM(x.NET) <> 0
+ORDER BY TOPLAM DESC;
+```
+
+> `TBLCASABIT.CM_BORCT` ve `CM_ALACT` özet alanlarına güvenmeyin: REST ile eklenen cari hareket bunları artırmadı, silmek düşürdü. Bakiyeyi her zaman `TBLCAHAR` toplamından alın.
+
+### Carinin açık siparişleri
+
+```sql
+SELECT TOP 100 FATIRS_NO, TARIH, SIPARIS_TEST AS TESLIM, TIPI, GENELTOPLAM
+FROM TBLSIPAMAS WITH (NOLOCK)
+WHERE CARI_KODU = '120-01-001'
+  AND FTIRSIP IN ('6', '7')
+  AND TIPI <> 1                                    -- kapalı değil
+  AND (KAPATILMIS IS NULL OR KAPATILMIS <> 'K')
+ORDER BY TARIH DESC;
+```
+
 ### Carinin plasiyeri
 
 ```sql
@@ -448,6 +612,44 @@ HAVING SUM(CASE WHEN h.STHAR_GCKOD = 'G' THEN h.STHAR_GCMIK ELSE -h.STHAR_GCMIK 
 ```
 
 > Siparişler `TBLSIPATRA`'dadır, `TBLSTHAR`'a girmez; bu yüzden yukarıdaki sorgu fiili stoğu verir. Faturalanmış irsaliyelerin hem irsaliye hem fatura satırı oluşup oluşmadığı kurulum parametrelerine bağlıdır; kendi verinizde `STHAR_HTUR` dağılımını kontrol edin.
+
+### Depo bazında bakiye (özet tablodan)
+
+`TBLSTOKPH` Netsis'in tetikleyiciyle güncellediği depo bazında toplamları tutar; büyük `TBLSTHAR` taramasından çok daha hızlıdır. Promosyon ve yapılandırma kodu satırları ayrı olduğu için stok + depo bazında toplanır.
+
+```sql
+SELECT p.STOK_KODU, MAX(s.STOK_ADI) AS STOK_ADI, p.DEPO_KODU, MAX(d.DEPO_ISMI) AS DEPO_ISMI,
+       SUM(ISNULL(p.TOP_GIRIS_MIK, 0)) AS GIRIS,
+       SUM(ISNULL(p.TOP_CIKIS_MIK, 0)) AS CIKIS,
+       SUM(ISNULL(p.TOP_GIRIS_MIK, 0) - ISNULL(p.TOP_CIKIS_MIK, 0)) AS BAKIYE
+FROM TBLSTOKPH p WITH (NOLOCK)
+LEFT JOIN TBLSTSABIT s WITH (NOLOCK) ON s.STOK_KODU = p.STOK_KODU
+LEFT JOIN TBLSTOKDP  d WITH (NOLOCK) ON d.DEPO_KODU = p.DEPO_KODU
+GROUP BY p.STOK_KODU, p.DEPO_KODU
+ORDER BY p.STOK_KODU, p.DEPO_KODU;
+```
+
+Hareketten hesaplanan miktarla (üstteki sorgu) karşılaştırıp kendi verinizde tutarlı olduğunu bir kez doğrulayın.
+
+### Devir hızı (son 90 gün)
+
+Satış kaynaklı çıkışlar (`STHAR_HTUR` `J` fatura, `N` irsaliye, `H` ambar çıkışı) bakiyeye oranlanır.
+
+```sql
+SELECT t.STOK_KODU, s.STOK_ADI, t.CIKIS_90, ISNULL(b.BAKIYE, 0) AS BAKIYE,
+       CASE WHEN ISNULL(b.BAKIYE, 0) > 0 THEN t.CIKIS_90 / b.BAKIYE END AS DEVIR_ORANI
+FROM (SELECT STOK_KODU, SUM(STHAR_GCMIK) AS CIKIS_90
+      FROM TBLSTHAR WITH (NOLOCK)
+      WHERE STHAR_GCKOD = 'C' AND STHAR_HTUR IN ('J', 'N', 'H')
+        AND STHAR_TARIH >= DATEADD(day, -90, GETDATE())
+      GROUP BY STOK_KODU) t
+LEFT JOIN (SELECT STOK_KODU, SUM(ISNULL(TOP_GIRIS_MIK, 0) - ISNULL(TOP_CIKIS_MIK, 0)) AS BAKIYE
+           FROM TBLSTOKPH WITH (NOLOCK) GROUP BY STOK_KODU) b ON b.STOK_KODU = t.STOK_KODU
+LEFT JOIN TBLSTSABIT s WITH (NOLOCK) ON s.STOK_KODU = t.STOK_KODU
+ORDER BY t.CIKIS_90 DESC;
+```
+
+`STHAR_HTUR` değerleri kurulumdan kuruluma değişebilir; kendi verinizde dağılımına bakın: `SELECT STHAR_HTUR, STHAR_GCKOD, COUNT(*) FROM TBLSTHAR GROUP BY STHAR_HTUR, STHAR_GCKOD`.
 
 ### Depo listesi
 
@@ -512,6 +714,125 @@ WHERE m.FTIRSIP = '6'          -- müşteri siparişi
   AND m.TIPI <> 1;             -- kapalı olmayanlar
 ```
 
+## Finans
+
+Tablolar ve anahtarlar: [Finans tabloları](/veritabani/finans-tablolari/).
+
+### Kasa hareketleri
+
+```sql
+SELECT SIRA, KSMAS_KOD, TARIH, FISNO, IO, TIP, CARI_MUH, KOD, ACIKLAMA, TUTAR, PLASIYER_KODU, PROJE_KODU
+FROM TBLKASA WITH (NOLOCK)
+WHERE KSMAS_KOD = '01'
+ORDER BY TARIH DESC, SIRA DESC;
+```
+
+`SIRA` kaydın kimliğidir; REST `DELETE SafeDeposits/{SIRA}` de bunu ister. Kasa bakiyesi:
+
+```sql
+SELECT KSMAS_KOD,
+       SUM(CASE WHEN IO = 'G' THEN TUTAR ELSE 0 END) AS GELIR,
+       SUM(CASE WHEN IO = 'C' THEN TUTAR ELSE 0 END) AS GIDER,
+       SUM(CASE WHEN IO = 'G' THEN TUTAR ELSE -TUTAR END) AS BAKIYE
+FROM TBLKASA WITH (NOLOCK)
+GROUP BY KSMAS_KOD;
+```
+
+### Banka hesapları ve hareketleri
+
+```sql
+SELECT h.NETHESKODU, h.ACIKLAMA, b.BANKAADI, h.BANKAHESNO, h.IBANNO, h.DOVIZTIPI
+FROM TBLBNKHESSABIT h WITH (NOLOCK)
+LEFT JOIN TBLBNKSABIT b WITH (NOLOCK) ON b.NETBANKAKODU = h.NETBANKAKODU
+ORDER BY h.NETHESKODU;
+
+SELECT TOP 100 TARIH, VADETARIH, BA, TUTAR, ACIKLAMA, BELGENO, PROJEKODU
+FROM TBLBNKHESTRA WITH (NOLOCK)
+WHERE NETHESKODU = 'BNK-001'
+ORDER BY TARIH DESC, INCKEYNO DESC;
+```
+
+### Çek ve senet listesi
+
+Dört tablo aynı yapıdadır; müşteri evrakında cari `SC_VERENK`, borç evrakında `SC_VERILENK` kolonundadır.
+
+```sql
+SELECT TUR, SC_NO, CARI_KOD, SC_GIRTRH, VADETRH, TUTAR, SC_SONDUR, SC_BANKNO
+FROM (
+  SELECT 'Musteri ceki'   AS TUR, SC_NO, SC_GIRTRH, VADETRH, TUTAR, SC_SONDUR, SC_BANKNO, SC_VERENK   AS CARI_KOD FROM TBLMCEK WITH (NOLOCK)
+  UNION ALL
+  SELECT 'Musteri senedi',        SC_NO, SC_GIRTRH, VADETRH, TUTAR, SC_SONDUR, SC_BANKNO, SC_VERENK              FROM TBLMSEN WITH (NOLOCK)
+  UNION ALL
+  SELECT 'Borc ceki',             SC_NO, SC_GIRTRH, VADETRH, TUTAR, SC_SONDUR, SC_BANKNO, SC_VERILENK            FROM TBLBCEK WITH (NOLOCK)
+  UNION ALL
+  SELECT 'Borc senedi',           SC_NO, SC_GIRTRH, VADETRH, TUTAR, SC_SONDUR, SC_BANKNO, SC_VERILENK            FROM TBLBSEN WITH (NOLOCK)
+) u
+ORDER BY VADETRH DESC;
+```
+
+Tür etiketleri bilerek ASCII yazıldı; bağlantının kod sayfasına bağlı kalmaz. `SC_SONDUR`: `P` portföy, `B` banka, `O` ödendi, `I` iade (gözlem).
+
+### Vadesi yaklaşan çek ve senetler
+
+Aynı birleşim üzerinde; 30 gün içinde vadesi gelen, henüz ödenmemiş evraklar:
+
+```sql
+SELECT TUR, SC_NO, CARI_KOD, VADETRH, TUTAR, SC_SONDUR,
+       DATEDIFF(day, GETDATE(), VADETRH) AS KALAN_GUN
+FROM ( /* üstteki UNION ALL */ ) u
+WHERE SC_SONDUR IN ('P', 'B')
+  AND VADETRH <= DATEADD(day, 30, GETDATE())
+ORDER BY VADETRH;
+```
+
+### Dekont başlığı ve satır toplamları
+
+Başlık ve satırlar `SERI_NO + DEKONT_NO` ile bağlanır; iki tablodaki `INCKEYNO` ayrı sayaçlardır, bağ **değildir**.
+
+```sql
+SELECT m.SERI_NO, m.DEKONT_NO, t.TARIH, t.SATIR, t.BORC, t.ALACAK
+FROM TBLDEKOMAS m WITH (NOLOCK)
+LEFT JOIN (SELECT SERI_NO, DEKONT_NO, MIN(TARIH) AS TARIH, COUNT(*) AS SATIR,
+                  SUM(CASE WHEN B_A = 'B' THEN ISNULL(TUTAR, 0) ELSE 0 END) AS BORC,
+                  SUM(CASE WHEN B_A = 'A' THEN ISNULL(TUTAR, 0) ELSE 0 END) AS ALACAK
+           FROM TBLDEKOTRA WITH (NOLOCK)
+           GROUP BY SERI_NO, DEKONT_NO) t
+  ON t.SERI_NO = m.SERI_NO AND t.DEKONT_NO = m.DEKONT_NO
+ORDER BY t.TARIH DESC;
+
+-- Bir dekontun satırları
+SELECT SIRA_NO, TARIH, FISNO, C_M, KOD, B_A, TUTAR, ACIKLAMA1
+FROM TBLDEKOTRA WITH (NOLOCK)
+WHERE SERI_NO = 'A' AND DEKONT_NO = 12
+ORDER BY SIRA_NO;
+```
+
+## Sayfalama ve eski sürümler
+
+SQL Server 2008 R2'de `OFFSET … FETCH` yoktur. Sayfalama `ROW_NUMBER()` ile yazılır; sıralama anahtarı tekil olmalıdır, yoksa sayfalar arasında satır kayar (tarihe eşitlik bozucu olarak kimlik ekleyin):
+
+```sql
+SELECT CARI_KOD, CARI_ISIM, CARI_IL
+FROM (
+  SELECT c.*, ROW_NUMBER() OVER (ORDER BY CARI_KOD ASC) AS RN
+  FROM TBLCASABIT c WITH (NOLOCK)
+  WHERE CARI_TIP = 'A'
+) x
+WHERE RN BETWEEN 201 AND 250      -- 5. sayfa, sayfa boyu 50
+ORDER BY RN;
+
+-- Toplam satır sayısı ayrı sorguyla
+SELECT COUNT(*) FROM TBLCASABIT WITH (NOLOCK) WHERE CARI_TIP = 'A';
+```
+
+Diğer 2008 uyumlu karşılıklar:
+
+| 2012+ | 2008 R2 |
+|-------|---------|
+| `SUM(x) OVER (ORDER BY …)` | ilişkili alt sorgu ([yürüyen bakiye](#cari-ekstresi)) |
+| `FORMAT()` | `CONVERT(varchar, TARIH, 104)`; gün başı için `DATEADD(day, DATEDIFF(day, 0, TARIH), 0)` (`CAST(… AS date)` 2008'de de çalışır) |
+| `IIF`, `CONCAT`, `TRY_CONVERT` | `CASE`, `+` ile birleştirme, `CONVERT` |
+
 ## E-belge ve dizayn
 
 ```sql
@@ -556,6 +877,110 @@ COMMIT;
 ```
 
 Belge, kart ve hareket **oluşturma, silme ve tutar değiştirme** işleri için [NetOpenX](/netopenx/) kullanın.
+
+
+---
+
+<!-- https://netsis.bahadirdogru.com/veritabani/finans-tablolari/ -->
+# Finans tabloları
+
+Kasa, banka, çek/senet ve dekont modüllerinin tabloları ve bunları okurken bilinmesi gerekenler. Değer listeleri ve anahtar tespitleri 2026-11'de bir test şirketinin verisinden ve REST ile yazılan kayıtlardan çıkarıldı; şema dokümanının vermediği bilgiler "gözlem" diye işaretlidir.
+
+## Haritası
+
+```text
+TBLKASAMAS (kasa tanımı)       KSMAS_KOD ──< TBLKASA (kasa hareketi)   anahtar: SIRA
+TBLKASA.KOD ─────────────────▶ TBLCASABIT.CARI_KOD (CARI_MUH = 'C') ya da TBLMUPLAN.HESAP_KODU (CARI_MUH = 'M')
+
+TBLBNKSABIT (banka)            NETBANKAKODU ──< TBLBNKHESSABIT (banka hesabı)   NETHESKODU
+TBLBNKHESSABIT                 NETHESKODU ──< TBLBNKHESTRA (banka hareketi)      anahtar: NETHESKODU + INCKEYNO
+
+TBLMCEK / TBLMSEN (müşteri çeki / senedi)   SC_VERENK  ──▶ TBLCASABIT.CARI_KOD
+TBLBCEK / TBLBSEN (borç çeki / senedi)      SC_VERILENK ─▶ TBLCASABIT.CARI_KOD
+TBLBORDROMAS (bordro başlığı)  BORDROTIP + BORDRONO ──< SC_ALB_NO / SC_VERB_NO
+TBLCEKSENDEK (çek/senet dekontu)
+
+TBLDEKOMAS (dekont başlığı)    SERI_NO + DEKONT_NO ──< TBLDEKOTRA (dekont satırı)
+```
+
+## Kasa
+
+| Tablo | İçerik | Anahtar |
+|-------|--------|---------|
+| `TBLKASAMAS` | Kasa tanımı: `KSMAS_NAME`, `DOVIZLI` (`E`/`H`), `MUH_KOD`, `DOVIZTIPI`, devir alanları | `KSMAS_KOD` |
+| `TBLKASA` | Kasa hareketi | `SIRA` (gözlem: tekil; REST `SafeDeposits/{id}` de bunu ister). `FISNO` kimlik değildir |
+
+`TBLKASA` kolonları:
+
+| Kolon | Değerler (gözlem) |
+|-------|-------------------|
+| `IO` | `G` gelir (tahsilat), `C` gider (ödeme) |
+| `TIP` | `C` cari, `F` fatura, `T` transfer, `M` muhasebe/muhtelif, `B` banka, `S` senet; şema `E` çek de sayar |
+| `CARI_MUH` | `KOD` alanının anlamı: `C` cari kodu, `M` muhasebe hesabı, `B` banka; `TIP = 'F'` satırlarında boş |
+| `KOD` | `CARI_MUH`'a göre cari kodu ya da hesap kodu |
+| `PLASIYER_KODU`, `PROJE_KODU` | REST ile yazarken ikisi de zorunlu çıktı |
+
+Kasa bakiyesi `TBLKASAMAS` üzerindeki devir alanlarından değil, `TBLKASA` toplamından hesaplanmalıdır; REST `SafeDeposits/LastBalance` bir denemede yanlış kasanın toplamını döndürdü.
+
+## Banka
+
+| Tablo | İçerik | Anahtar |
+|-------|--------|---------|
+| `TBLBNKSABIT` | Banka tanımı: `BANKAADI`, `TCMBBANKAKODU` | `NETBANKAKODU` |
+| `TBLBNKHESSABIT` | Banka hesabı: `ACIKLAMA`, `BANKAHESNO`, `IBANNO`, `DOVIZTIPI`, `NETMUHKODU`, toplam alanları `HESBORCTOP`/`HESALACTOP` | `NETHESKODU` |
+| `TBLBNKHESTRA` | Banka hesap hareketi: `TARIH`, `VADETARIH`, `BA` (`B` borç / `A` alacak), `TUTAR`, `BELGENO`, `ACIKLAMA`, `PROJEKODU`, `PLASIYERKODU` | `NETHESKODU` + `INCKEYNO` |
+
+`TBLBNKHESTRA`'da `HAREKET_TURU` kolonu yoktur; hareket türü `HARTIPI` ve `HARTURU` tam sayı kolonlarındadır (değer listesi doğrulanmadı). Hesap toplamlarını `TBLBNKHESSABIT.HESBORCTOP` yerine hareketten hesaplamak daha güvenlidir (cari için aynı gözlem: [Cari](/rest/canli-denemeler/#cari)).
+
+## Çek ve senet
+
+Dört tablo aynı kolon yapısına sahiptir; hangi tabloda olduğu evrakın türünü söyler:
+
+| Tablo | Evrak | Cari kolonu |
+|-------|-------|-------------|
+| `TBLMCEK` | Müşteri çeki | `SC_VERENK` (veren cari; doğrulandı) |
+| `TBLMSEN` | Müşteri senedi | `SC_VERENK` |
+| `TBLBCEK` | Borç çeki (firmanın verdiği) | `SC_VERILENK` (verilen cari; canlı doğrulanmadı) |
+| `TBLBSEN` | Borç senedi | `SC_VERILENK` |
+
+Ortak kolonlar: `SC_NO` (evrak no), `SC_GIRTRH` (giriş), `VADETRH` (vade), `SC_ODETRH` (ödeme), `TUTAR`, `SC_BANKNO` (banka), `CEK_SUBE`, `C_NUMARA` (hesap no), `SC_ABORCLU` (asıl borçlu), `SC_ALB_NO` (alındı bordrosu), `SC_VERB_NO` (verildi bordrosu), `PLASIYER_KODU`, `PROJE_KODU`.
+
+| Kolon | Değerler (gözlem) |
+|-------|-------------------|
+| `SC_SONDUR` (son durum) | `P` portföyde, `B` bankada/tahsilde, `O` ödendi, `I` iade. REST ile girilen müşteri çeki doğrudan `B` yazıldı |
+| `AS_C` | `A` asıl borçlu, `C` ciranta |
+| `SC_YERI` | `P` portföy (örneklerden); diğer değerler belgelenmemiş |
+
+Dört tabloyu tek listede göstermek için `UNION ALL` ile birleştirip tür sütunu ekleyin: [Çek ve senet listesi](/veritabani/sql-ornekleri/#cek-ve-senet-listesi). Birleşik listenin anahtarı tür + `SC_NO`'dur.
+
+Çek/senet bordrosu `TBLBORDROMAS`'ta (`BORDROTIP` + `BORDRONO`), çek/senet dekontları (tahsil, ödeme, iade) `TBLCEKSENDEK`'tedir.
+
+## Dekont
+
+| Tablo | İçerik | Anahtar |
+|-------|--------|---------|
+| `TBLDEKOMAS` | Dekont başlığı: `SERI_NO`, `DEKONT_NO`, `MUH` (muhasebeleşti mi), `DEGISTI` | `SERI_NO` + `DEKONT_NO` |
+| `TBLDEKOTRA` | Dekont satırı: `SIRA_NO`, `TARIH`, `FISNO`, `C_M` (cari/muhasebe), `KOD`, `B_A` (`B`/`A`), `TUTAR`, `ACIKLAMA1..4`, `PLASIYER`, `PROJE_KODU` | `SERI_NO` + `DEKONT_NO` + `SIRA_NO` |
+
+> **`INCKEYNO` bağ değildir.** İki tablonun da `INCKEYNO` kolonu vardır ama her tablo kendi sayacını kullanır; başlığı satırlara `INCKEYNO` ile bağlarsanız satır bulamazsınız. Bağ `SERI_NO + DEKONT_NO` çiftidir (gözlem: başlık sayısı kadar farklı çift). Sorgu: [Dekont başlığı ve satır toplamları](/veritabani/sql-ornekleri/#dekont-basligi-ve-satir-toplamlari).
+
+## Kasa ve çek kaydının yan etkileri
+
+Netsis finans belgelerini kaydederken cari hareketi de yazar. REST ile test şirketinde gözlenenler:
+
+| Kaydedilen | Yazılan tablolar | `TBLCAHAR` satırı |
+|------------|------------------|-------------------|
+| Kasa tahsilatı (`SafeDeposits`, `IO = 'G'`) | `TBLKASA`, `TBLCAHAR`, muhasebe fişi | `HAREKET_TURU = 'D'`, `ALACAK` = tutar, `ACIKLAMA` "NAKİT TAHSİLAT(00)" |
+| Kasa ödemesi (`IO = 'C'`) | aynı | `BORC` = tutar |
+| Müşteri çeki (`CheckAndPNotesMain`, `csMCEK`) | `TBLMCEK`, `TBLCAHAR`, bordro | `HAREKET_TURU = 'G'`, `ALACAK` = tutar, `BELGE_NO` = çek no |
+
+`DELETE SafeDeposits/{SIRA}` kasa satırıyla cari hareketi birlikte siler. Çek bordrosu REST ile silinemediği için cari hareketi de kalır.
+
+`TBLCAHAR.HAREKET_TURU` için test şirketinde görülen değerler: `A`, `B`, `C`, `D`, `E`, `G`, `H`, `I`, `J`, `K`. Şema dokümanı listeyi vermez; gözlemle eşleşenler `D` kasa, `G` çek. Fatura ve dekont kaynaklı hareketlerin kodları doğrulanmadı.
+
+## Şube ve işletme süzgeci
+
+Finans tablolarında `SUBE_KODU` çoğunlukla `0`'dır ama cari kartlarında `-1` de görülür. Raporlarda şube süzgeci koymadan okuyun, gerekirse sonra ayırın.
 
 
 ---
@@ -2334,7 +2759,7 @@ Tablolar: `TBLCASABIT`, `TBLCASABITEK`, `TBLCAHAR`.
 | GET | `api/v2/ARPs` | Cari listesi |
 | GET | `api/v2/ARPs/{id}` | Tek cari (`id` = `CARI_KOD`) |
 | POST | `api/v2/ARPs` | Yeni cari |
-| PUT | `api/v2/ARPs/{id}` | Cari güncelle |
+| PUT | `api/v2/ARPs/{id}` | Cari güncelle; kısmi gövde kabul eder, gönderilmeyen alanlar korunur (canlı deneme) |
 | DELETE | `api/v2/ARPs/{id}` | Cari sil |
 | GET | `api/v2/ARPs/PrimInfo` | Tüm cari temel bilgileri (`ARPsPrimInfo`) |
 | POST | `api/v2/ARPs/Risk` | Cari risk bilgisi (NetOpenX `RiskBul`) |
@@ -2490,9 +2915,9 @@ var r = new CheckAndPNotesMainManager(oAuth2).PostInternal(bordro);
 var bordroNo = r.Data.BordroNo;
 ```
 
-`AS_C` = `A` (alacak), `SC_YERI` = `P` (portföy) örneklerden alınmıştır; diğer değerler belgelenmemiştir.
+`AS_C` = `A` (asıl borçlu; tabloda `C` ciranta da görülür), `SC_YERI` = `P` (portföy) örneklerden alınmıştır; diğer değerler belgelenmemiştir. `Plasiyer_Kodu` zorunludur (`Hata 203 Plasiyer Kodu boş geçilemez`).
 
-> Denemede `Tip` ve `CekSenEvrakKaydetmeTip` sayıyla çalıştı, bordro silinemedi, `?docType=` listesi `Data: [null]` döndü ([Canlı denemeler](/rest/canli-denemeler/#kasa-cek-tahsilat)).
+> Denemede `Tip` ve `CekSenEvrakKaydetmeTip` hem sayıyla hem adla (`csMCEK`, `ektCekSenAlma`) çalıştı. Gövdedeki `SC_NO` ve `BordroNo` yok sayılıp numarayı sunucu verdi; `SC_SONDUR` tabloya `B` yazıldı; `TBLCAHAR`'a `HAREKET_TURU = 'G'` cari hareket oluştu. Bordro REST ile silinemedi; `?docType=` listesi `Data: [null]` döndü, listeyi tablodan okuyun ([Canlı denemeler](/rest/canli-denemeler/#cek)).
 
 ## Kasa (SafeDeposits)
 
@@ -2500,15 +2925,15 @@ Tablo: `TBLKASA`.
 
 | Yöntem | Yol | Açıklama |
 |--------|-----|----------|
-| GET | `api/v2/SafeDeposits` | Kasa hareketleri |
-| GET | `api/v2/SafeDeposits/{id}` | Tek kayıt |
-| POST | `api/v2/SafeDeposits` | Yeni kayıt |
-| DELETE | `api/v2/SafeDeposits/{id}` | Sil |
+| GET | `api/v2/SafeDeposits` | Kasa hareketleri; `?q=KsMas_Kod='01'&sort=Tarih desc` çalışır |
+| GET | `api/v2/SafeDeposits/{id}` | Tek kayıt (`id` = `TBLKASA.SIRA`; fiş no değil) |
+| POST | `api/v2/SafeDeposits` | Yeni kayıt; yanıttaki `Sira` kimliktir |
+| DELETE | `api/v2/SafeDeposits/{id}` | Sil (`id` = `SIRA`) |
 | GET | `api/v2/SafeDeposits/LastBalance?id={id}` | Kasa son bakiyesi (`KasaSonBakiye`) |
 
-Alan değerleri `TBLKASA` açıklamasından: `IO` = `G` gelir / `C` gider; `Tip` = `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhtelif, `S` senet, `T` transfer; `Cari_Muh` = `C` cari / `M` muhasebe / `B` banka. [Örnek](/rest/json-ornekleri/#kasa).
+Alan değerleri `TBLKASA` açıklamasından: `IO` = `G` gelir / `C` gider; `Tip` = `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhtelif, `S` senet, `T` transfer; `Cari_Muh` = `C` cari / `M` muhasebe / `B` banka. `Proje_Kodu` ve `Plasiyer_Kodu` zorunludur (`Hata 203`). [Örnek](/rest/json-ornekleri/#kasa).
 
-Bir kasa kaydı cari hareket ve muhasebe fişi de üretir, silmek üçünü geri alır. `LastBalance` bir denemede istenen kasanın değil başka bir kasanın toplamını döndürdü; bakiyeyi tablodan doğrulayın.
+Bir kasa kaydı `TBLCAHAR`'a cari hareket (`HAREKET_TURU = 'D'`) ve muhasebe fişi de üretir; `DELETE` üçünü geri alır. `LastBalance` bir denemede istenen kasanın değil başka bir kasanın toplamını döndürdü; bakiyeyi tablodan doğrulayın ([Kasa hareketleri](/veritabani/sql-ornekleri/#kasa-hareketleri)).
 
 ## Hızlı tahsilat (MixedReceiptsMain)
 
@@ -3003,7 +3428,9 @@ Alanlar `TBLCASABIT` ve `TBLCASABITEK` kolonlarına karşılık gelir.
 }
 ```
 
-`SilmeIcinGerekliSahalar` silmede kullanılacak anahtarı (`INC_KEY_NUMBER`) belirtir. Kaydın kimliğini almak için `SonKayitNoAl: true` gönderin; `false` ise `Inc_Key_Number` 0 döner. `Hka` zorunludur, denemede `A` çalıştı. `Hka` ve `Hareket_Turu` ayrı alanlardır; değer listeleri belgelenmemiştir (`TBLCAHAR.HKA` açıklamasına göre `K` "öncelikli kapatılmış").
+`SilmeIcinGerekliSahalar` silmede kullanılacak anahtarı (`INC_KEY_NUMBER`) belirtir. Kaydın kimliğini almak için `SonKayitNoAl: true` gönderin; `false` ise `Inc_Key_Number` 0 döner ve kaydı silemezsiniz. `Hka` zorunludur, denemede `A` çalıştı. `Hka` ve `Hareket_Turu` ayrı alanlardır; `Hareket_Turu` için `A` ve `D` denendi, tabloda `A`, `B`, `C`, `D`, `E`, `G`, `H`, `I`, `J`, `K` görülür (Netsis kasa kaydı için `D`, çek için `G` yazar). Tam liste belgelenmemiştir (`TBLCAHAR.HKA` açıklamasına göre `K` "öncelikli kapatılmış").
+
+Cari kartı güncellemede `PUT api/v2/ARPs/{CARI_KOD}` kısmi gövde kabul eder: yalnız gönderilen `CariTemelBilgi` alanları değişir.
 
 ## Stok kartı
 
@@ -3054,13 +3481,14 @@ Alanlar `TBLCASABIT` ve `TBLCASABITEK` kolonlarına karşılık gelir.
   "DovizTut": 0.0,
   "Kur": 0.0,
   "Sube_Kodu": 0,
+  "Plasiyer_Kodu": "01",
   "Proje_Kodu": "1",
   "OnayTipi": "A",
   "OnayNum": 0
 }
 ```
 
-`IO`: `G` gelir / `C` gider. `Tip`: `C` cari, `F` fatura, `M` muhtelif… `Cari_Muh`: `Kod` alanı cari mi (`C`) muhasebe mi (`M`). Denemede `Proje_Kodu` ve `Plasiyer_Kodu` zorunluydu (`Hata Kodu 203`).
+`IO`: `G` gelir (tahsilat) / `C` gider (ödeme). `Tip`: `C` cari, `F` fatura, `M` muhtelif… `Cari_Muh`: `Kod` alanı cari mi (`C`) muhasebe mi (`M`). `Proje_Kodu` ve `Plasiyer_Kodu` zorunludur (`Hata Kodu 203`); plasiyer için carinin `PLASIYER_KODU` değeri kullanılabilir. Yanıttaki `Sira` kaydın kimliğidir (`TBLKASA.SIRA`): `DELETE api/v2/SafeDeposits/{Sira}` kasa kaydını ve Netsis'in onunla birlikte yazdığı cari hareketi siler. Denemede `Fisno` gönderilmedi; numaranın nasıl üretildiği doğrulanmadı.
 
 ## Çek / senet
 
@@ -3068,25 +3496,27 @@ Alanlar `TBLCASABIT` ve `TBLCASABITEK` kolonlarına karşılık gelir.
 
 ```json
 {
-  "Tip": 0,
-  "CekSenEvrakKaydetmeTip": 0,
-  "BordroNo": "A00000000000001",
+  "Tip": "csMCEK",
+  "CekSenEvrakKaydetmeTip": "ektCekSenAlma",
+  "Plasiyer_Kodu": "01",
   "Evraklar": [{
     "Sube_Kodu": 0,
     "SC_NO": "CEK-0001",
     "SC_GIRTRH": "2024-06-01", "VADETRH": "2024-07-01", "SC_ODETRH": "2024-07-01",
     "SC_VERENK": "120-01-999",
-    "AS_C": "A", "SC_SONDUR": "B", "SC_YERI": "P",
+    "SC_ABORCLU": "Veren kişi", "SC_BANKNO": "0001", "CEK_SUBE": "Merkez", "C_NUMARA": "12345678",
+    "AS_C": "A", "SC_SONDUR": "P", "SC_YERI": "P",
     "Tutar": 456.0,
     "DOVTIP": 0, "DOVTUT": 0.0,
     "GIRILDIGIYER": 2,
+    "Plasiyer_Kodu": "01",
     "Proje_Kodu": "1",
     "OnayTipi": "A", "OnayNum": 0
   }]
 }
 ```
 
-Denemede `Tip` ve `CekSenEvrakKaydetmeTip` sayıyla çalıştı. Gövdedeki `BordroNo` ve `SC_NO` yok sayıldı, numarayı sunucu verdi; yanıttaki numarayı kullanın.
+Müşteri çekini portföye alma gövdesi (canlı denemede çalıştı). `Tip` ve `CekSenEvrakKaydetmeTip` ad (`csMCEK`, `ektCekSenAlma`) ya da sayı (`0`, `0`) olabilir. `Plasiyer_Kodu` zorunludur (`Hata 203`). Gövdedeki `BordroNo` ve `SC_NO` yok sayılır, numarayı sunucu verir; yanıttaki numarayı kullanın. `SC_SONDUR` gövdede `P` verilse de tabloya `B` yazıldı. `SC_ABORCLU`, `SC_BANKNO`, `CEK_SUBE`, `C_NUMARA` tablo kolon adlarından türetildi (yazıldığı doğrulanmadı). Kayıt `TBLCAHAR`'a `HAREKET_TURU = 'G'` cari hareket de yazar ve REST ile silinemez.
 
 ## E-belge
 
@@ -3173,7 +3603,7 @@ Seri takipli mamullerde `Seri: [{ "Seri1": "...", "Seri2": "...", "Miktar": 1 }]
 
 Bu sayfa NetOpenX REST uçlarının bir test şirketinde (canlı şirketin yedekten geri yüklenmiş kopyası) denenmesiyle öğrenilenleri toplar. Denemeler 2026-11'de yapıldı. Sonuçlar bir kuruluma aittir; şirket parametreleri farklıysa davranış da farklı olabilir. Kendi test şirketinizde yeniden sınayın.
 
-Sürümler: denemelerin çoğu 9.0.71 ile yapıldı. `NetOpenX50.dll` güncellenince servis 9.0.72.5 oldu ve cari kartı ile sipariş yazma bu sürümde yeniden denendi. Aşağıda başka sürüm yazmayan satırlar 9.0.71 sonucudur.
+Sürümler: ilk tur 9.0.71 ile yapıldı. `NetOpenX50.dll` güncellenince servis 9.0.72.5 oldu; cari kartı ile sipariş yazma bu sürümde yeniden denendi, ardından ikinci turda ([aşağıda](#ikinci-tur-9-0-72-5)) kasa, cari hareket, cari ve stok kartı güncelleme ve çek girişi 9.0.72.5 ile sınandı. Başka sürüm yazmayan satırlar 9.0.71 sonucudur.
 
 ## Özet
 
@@ -3186,12 +3616,12 @@ Sürümler: denemelerin çoğu 9.0.71 ile yapıldı. `NetOpenX50.dll` güncellen
 | `SiparisToIrsFat`, `IrsToFat` | Onaylı siparişte çalışıyor | Hedef `FATIRS_NO` zorunlu |
 | Sipariş onayı | REST ile yapılamadı | Yeni sipariş `TIPI = 3` kalıyor |
 | Ambar fişleri, `ftLokalDepo` | Yazma ve silme çalışıyor | Ambarda `CariKod` çıkış yeridir |
-| Stok kartı | `POST`, `GET`, `PUT`, `DELETE` | `Payda_1`, `Payda2` zorunlu; kısmi `PUT` diğer alanları koruyor |
+| Stok kartı | `POST`, `GET`, `PUT`, `DELETE` | `Payda_1`, `Payda2` zorunlu; kısmi `PUT` diğer alanları koruyor, `Muh_DetayKodu` tabloya yazılıyor |
 | Stok hareketi | `POST`, `DELETE` | `SonKayitNoAl: true` ile kimlik döner |
-| Cari kartı (9.0.72.5) | `POST`, `GET`, `PUT`, `DELETE` | DLL veritabanıyla uyumlu olmalı |
-| Cari hareket | `POST`, `GET`, `DELETE` | `Hka` zorunlu |
-| Kasa | `POST`, `GET`, `DELETE` | Proje ve plasiyer kodu zorunluydu; bir kayıt üç tabloya işliyor |
-| Çek/senet | Yazılıyor, silinemedi | `DELETE` hata verdi |
+| Cari kartı (9.0.72.5) | `POST`, `GET`, `PUT`, `DELETE` | DLL veritabanıyla uyumlu olmalı; kısmi `PUT` diğer alanları koruyor |
+| Cari hareket | `POST`, `GET`, `DELETE` | `Hka` zorunlu; kimlik `Inc_Key_Number` |
+| Kasa | `POST`, `GET`, `DELETE` | Proje ve plasiyer kodu zorunlu; kimlik `Sira`; kayıt cari hareket de yazıyor, silme ikisini birden siliyor |
+| Çek/senet | Yazılıyor, silinemedi | `Plasiyer_Kodu` zorunlu; `DELETE` hata verdi; liste ucu kullanılamaz |
 | Hızlı tahsilat | Kaydedilemedi | `SozKodu` tanımı gerekli |
 | `Print/*` | Çalışmadı | Sunucuda varsayılan yazıcı yok |
 
@@ -3275,6 +3705,43 @@ Stok kartında muhasebe detay kodu yoksa kayıt muhasebeleştirmede düşer: `St
 - **Çek.** `Tip` ve `CekSenEvrakKaydetmeTip` sayıyla çalıştı. Gövdedeki `BordroNo` ve `SC_NO` yok sayıldı, numarayı sunucu verdi. `DELETE` ve `POST .../Delete` `Nesne başvurusu bir nesnenin örneğine ayarlanmadı` döndü, kayıt silinemedi. `?docType=` listesi `Data: [null]` döndü. Aynı hata 9.0.72.5'te de sürdü.
 - **Hızlı tahsilat.** `SozKodu` `TBLKRTSOZMAS`'taki bir tanıma bağlı görünüyor; tablo boş olduğu için kayıt yapılamadı.
 
+## İkinci tur (9.0.72.5)
+
+Kasa, cari hareket, kart güncelleme ve çek girişi bir uygulamanın yazma katmanıyla yeniden sınandı; kayıtlar aynı REST ile silindi (çek dışında). Desen: [Okuma SQL, yazma REST](/entegrasyon-deseni/).
+
+### Kimlikler
+
+- **Kasa.** `SafeDeposits` kaydının kimliği `TBLKASA.SIRA`'dır: `GET`/`DELETE SafeDeposits/{SIRA}`. Fiş numarasıyla (`SafeDeposits/{Fisno}`) istek SQL hatası verir. `POST` yanıtındaki `Sira` bu değerdir.
+- **Cari hareket.** `GET ARPTransactions/{Inc_Key_Number}` çalışır; yanıtta `SilmeIcinGerekliSahalar` `INC_KEY_NUMBER` döner.
+- **Cari kartı.** `GET ARPs/{CARI_KOD}` çalışır.
+- **Liste sorgusu.** `GET SafeDeposits?limit=50&sort=Tarih desc&q=KsMas_Kod='01'` çalışır; `q` içinde kolon adı olarak REST alan adı (`KsMas_Kod`) kullanıldı.
+
+### Kasa
+
+- `POST SafeDeposits` tahsilat (`IO: "G"`) ve ödeme (`IO: "C"`) için çalıştı. Gövde: `Tip: "C"`, `Cari_Muh: "C"`, `Kod` = cari kodu, `Plasiyer_Kodu` = carinin plasiyeri, `Proje_Kodu` dolu. [Örnek](/rest/json-ornekleri/#kasa).
+- Netsis aynı anda `TBLCAHAR`'a cari hareket yazar: `HAREKET_TURU = 'D'`, `ACIKLAMA` "NAKİT TAHSİLAT(00)", tahsilatta `ALACAK`, ödemede `BORC`. `DELETE SafeDeposits/{Sira}` kasa satırını ve bu cari hareketi birlikte siler.
+- Plasiyeri olmayan cari için kayıt `Hata 203` ile düşer; uygulama plasiyeri seçtirmeli.
+
+### Cari hareket ve kartlar
+
+- `POST ARPTransactions` (`Hka: "A"`, `SonKayitNoAl: true`, `Hareket_Turu: "D"`, `Borc` dolu) çalıştı; `DELETE ARPTransactions/{Inc_Key_Number}` sildi.
+- `POST ARPs` cari kartı açtı; `CARI_TIP`, `CARI_IL`, `Plasiyer_Kodu` tabloya yazıldı. **`PUT ARPs/{kod}` kısmi gövde kabul eder:** yalnız gönderilen alanlar değişti, gönderilmeyen `EMAIL` korundu. `DELETE ARPs/{kod}` sildi.
+- `POST Items` ve `PUT Items/{kod}` kısmi güncelleme çalıştı; `StokTemelBilgi.Muh_DetayKodu` `TBLSTSABIT.MUH_DETAYKODU` kolonuna yazıldı (faturada muhasebeleştirme için gerekir). `DELETE Items/{kod}` sildi.
+
+### Çek
+
+- `POST CheckAndPNotesMain` enum adlarıyla çalıştı: `Tip: "csMCEK"`, `CekSenEvrakKaydetmeTip: "ektCekSenAlma"` (ilk turda sayı kullanılmıştı). Gövde: [Çek / senet](/rest/json-ornekleri/#cek-senet).
+- `Plasiyer_Kodu` zorunlu: boşsa `Hata 203 Plasiyer Kodu boş geçilemez`. Üst düzeyde ve evrakta verildi.
+- Gövdedeki `SC_NO` yok sayıldı; Netsis kendi çek numarasını ve bordro numarasını verdi. `SC_SONDUR` gövdede `P` verilse de tabloya `B` yazıldı.
+- `TBLCAHAR`'a `HAREKET_TURU = 'G'`, `ALACAK` = tutar, `BELGE_NO` = çek numarası cari hareket yazıldı.
+- REST ile silme yine çalışmadı; deneme çeki test şirketinde kaldı. Bir uygulamada çek girişini "geri alınamaz" diye işaretleyin.
+- `GET CheckAndPNotesMain?docType=…` listesi `[null]` döner, `?limit=1` tek başına null-reference hatası verir. Çek/senet listesini tablodan okuyun: [Çek ve senet listesi](/veritabani/sql-ornekleri/#cek-ve-senet-listesi).
+
+### Şema uçları
+
+- `GET services/SafeDeposits` geçersiz JSON döndürdü (sondaki fazla virgül); şemayı okuyan kod buna dayanmalı.
+- `GET helpinfo?apiId=SafeDeposits` `API not found` döndü; alan listesi için `definitions/SafeDeposits` kullanıldı.
+
 ## Yanıt alanları
 
 `POST`, `GET` ve `Details` yanıtındaki `EPostaGonderilsin`, `RiskKontrol`, `KosulluHesapla` bayrakları gönderilen değeri yansıtmıyor, kernel varsayılanını gösteriyor. `TIPI` ve `ISLETME_KODU` da tablodan farklı dönebiliyor. Kayıttan sonra doğrulama tablodan yapılmalı.
@@ -3318,6 +3785,7 @@ Birçok kaynakta `{id}` tek bir kolon değil, `;` ile ayrılmış **bileşik ana
 | `BankRemittanceTransfer` | `<JTBankaHavaleEftTip>;<?>;;<belge no>` | `tbVirman;1;;000000000000032` |
 | `MixedReceiptsMain` | `<KasaKod>;<BelgeNo>;<CariKod>;<yyyy-MM-dd>` | `01;45454545;00001;2015-10-27` |
 | `ARPTransactions` | `INC_KEY_NUMBER` (tam sayı) | `178` |
+| `SafeDeposits` | `TBLKASA.SIRA` (tam sayı; `POST` yanıtındaki `Sira`). Fiş no kimlik değildir | `4120` |
 | `ARPs`, `Items`, `GLAccounts` | Kod | `120-01-001`, `STK001`, `120-01-013` |
 | `ForExs`, `ExRates` | Tam sayı (`NETSISSIRA` / sıra) | `1` |
 | `FinishedGoodsReceiptWChanges` | `UretSon_FisNo` | `000000000000428` |
@@ -3335,8 +3803,8 @@ C# istemcisinde `JT` önekli enum'lar kullanılır (COM'daki `T` önekli enum'la
 | `JTFaturaTip` | `ftSFat` satış faturası, `ftAFat` alış faturası, `ftSSip` satış siparişi, `ftASip` alış siparişi, `ftSIrs` satış irsaliyesi, `ftAIrs` alış irsaliyesi, `ftSatTalep` satış talebi, `ftSatTeklif` satış teklifi, `ftDepo` depolar arası, `ftAmbarG` ambar giriş, `ftAmbarC` ambar çıkış |
 | `JTFaturaTipi` | `ft_YurtIci`, `ft_YurtDisi`, `ft_Acik`, `ft_Ihracat`, `ft_Bos` (COM'daki `ft_Kapali`, `ft_Iade`… da beklenir) |
 | `JNVTTipi` | `vtMSSQL` |
-| `JTCekSenType` | `csMCEK` müşteri çeki, `csMSEN` müşteri senedi, `csBCEK` borç çeki, `csBSEN` borç senedi |
-| `JTCekSenetEvrakKaydetmeTipi` | `ektCekSenAlma` |
+| `JTCekSenType` | `csMCEK` müşteri çeki, `csMSEN` müşteri senedi, `csBCEK` borç çeki, `csBSEN` borç senedi. JSON'da ad olarak gönderilmesi canlı denemede çalıştı |
+| `JTCekSenetEvrakKaydetmeTipi` | `ektCekSenAlma` (ad olarak gönderilmesi çalıştı) |
 | `JTKasaBasimTipi` | `kbMSen` |
 | `JTBankaHavaleEftTip` | `tbBankaHvl` havale, `tbVirman` virman |
 | `JTEBelgeTip` | `ebtEFatura`, `ebtEIrs` |
@@ -3531,11 +3999,14 @@ Logo'nun örnek kodları çalışma garantisi vermez. Kopyalamadan önce derleyi
 3. `TokenRestSettings.Init`'in ikinci ve üçüncü parametreleri.
 4. Yazma çağrılarının transaction'a nasıl bağlandığı. Bir denemede `RollBackTransaction` hatalı `POST`'un yarım satırını geri almadı.
 5. HTTP hata kodlarının tam eşlemesi.
-6. `Hka`, `Hareket_Turu`, `AS_C`, `SC_YERI`, `SC_SONDUR`, `IO`, `Tip`, `Kdv_Dahil` alanlarının tam değer listeleri. `SonKayitNoAl: true` kayıt kimliğini döndürür.
+6. `Hka`, `Hareket_Turu`, `AS_C`, `SC_YERI`, `SC_SONDUR`, `IO`, `Tip`, `Kdv_Dahil` alanlarının tam değer listeleri. `SonKayitNoAl: true` kayıt kimliğini döndürür. Tabloda görülen değerler [Finans tabloları](/veritabani/finans-tablolari/) sayfasında; tam liste hâlâ yok.
 7. `BatchInvoicing.FaturaTip: 2` değerinin karşılığı. `TIPI: 2` için bkz. [Kimlikler ve enum'lar](/rest/kimlikler-ve-enumlar/#sayisal-enum-degerleri).
 8. `api/v2/public/CompanyList`'in hangi kurulumlarda çalıştığı (bazılarında `DBMONITOR..TBLSUBELER` hatası).
 9. Sipariş onayının (`TBLSIPAMAS.TIPI` 3 → 2) REST ile yapılıp yapılamayacağı. Denemede bir yol bulunamadı.
 10. Servisin [denemelerde kesilme](/rest/canli-denemeler/#servis-kesintisi) nedeni.
+11. `CheckAndPNotesMain` listesinin neden `[null]` döndüğü ve bordronun REST ile nasıl silineceği.
+12. `SafeDeposits` kaydında `Fisno` verilmezse numaranın nasıl üretildiği.
+13. `GET services/SafeDeposits` yanıtı geçersiz JSON (sondaki virgül) ve `helpinfo?apiId=SafeDeposits` `API not found` döner; başka kaynaklarda da olup olmadığı taranmadı.
 
 Bu soruların yanıtını biliyorsanız [GitHub'da](https://github.com/bahadirdogru/netsis-documentation-examples) katkıda bulunun.
 
@@ -4984,6 +5455,7 @@ Kaynak: [`PayMeansCodes.xml`](https://download.logo.com.tr/Windows/TOOLS/e-devle
 
 Yeniden üretmek için: `node tools/import-dys.js <döküm.json>` (döküm, sayfalar Vaadin ile yüklendiğinden tarayıcıda alınır).
 - **NetsisQuick** (Bahadır Doğru). NetOpenX COM ile Excel'den sipariş, irsaliye, fatura, depolar arası transfer, ambar fişi, e-belge oluşturan WinForms uygulaması (.NET 4.8). [NetOpenX](/netopenx/) bölümündeki kod örneklerinin çoğu bu projedeki üretim kodundan sadeleştirilmiştir.
+- **Canlı denemeler** (2026-11). Bir test şirketinde NetOpenX REST ile yapılan yazma denemeleri ve salt okunur SQL ile okuma ekranları kuran bir web uygulaması. [Canlı denemeler](/rest/canli-denemeler/), [Okuma SQL, yazma REST](/entegrasyon-deseni/) ve [Finans tabloları](/veritabani/finans-tablolari/) sayfaları buradan beslenir; şirket verisi ve sunucu bilgisi alınmamıştır.
 
 ## bahadirdogru.com yazıları
 

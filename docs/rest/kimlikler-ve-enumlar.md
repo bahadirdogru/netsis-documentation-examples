@@ -18,6 +18,7 @@ Birçok kaynakta `{id}` tek bir kolon değil, `;` ile ayrılmış **bileşik ana
 | `BankRemittanceTransfer` | `<JTBankaHavaleEftTip>;<?>;;<belge no>` | `tbVirman;1;;000000000000032` |
 | `MixedReceiptsMain` | `<KasaKod>;<BelgeNo>;<CariKod>;<yyyy-MM-dd>` | `01;45454545;00001;2015-10-27` |
 | `ARPTransactions` | `INC_KEY_NUMBER` (tam sayı) | `178` |
+| `SafeDeposits` | `TBLKASA.SIRA` (tam sayı; `POST` yanıtındaki `Sira`). Fiş no kimlik değildir | `4120` |
 | `ARPs`, `Items`, `GLAccounts` | Kod | `120-01-001`, `STK001`, `120-01-013` |
 | `ForExs`, `ExRates` | Tam sayı (`NETSISSIRA` / sıra) | `1` |
 | `FinishedGoodsReceiptWChanges` | `UretSon_FisNo` | `000000000000428` |
@@ -35,8 +36,8 @@ C# istemcisinde `JT` önekli enum'lar kullanılır (COM'daki `T` önekli enum'la
 | `JTFaturaTip` | `ftSFat` satış faturası, `ftAFat` alış faturası, `ftSSip` satış siparişi, `ftASip` alış siparişi, `ftSIrs` satış irsaliyesi, `ftAIrs` alış irsaliyesi, `ftSatTalep` satış talebi, `ftSatTeklif` satış teklifi, `ftDepo` depolar arası, `ftAmbarG` ambar giriş, `ftAmbarC` ambar çıkış |
 | `JTFaturaTipi` | `ft_YurtIci`, `ft_YurtDisi`, `ft_Acik`, `ft_Ihracat`, `ft_Bos` (COM'daki `ft_Kapali`, `ft_Iade`… da beklenir) |
 | `JNVTTipi` | `vtMSSQL` |
-| `JTCekSenType` | `csMCEK` müşteri çeki, `csMSEN` müşteri senedi, `csBCEK` borç çeki, `csBSEN` borç senedi |
-| `JTCekSenetEvrakKaydetmeTipi` | `ektCekSenAlma` |
+| `JTCekSenType` | `csMCEK` müşteri çeki, `csMSEN` müşteri senedi, `csBCEK` borç çeki, `csBSEN` borç senedi. JSON'da ad olarak gönderilmesi canlı denemede çalıştı |
+| `JTCekSenetEvrakKaydetmeTipi` | `ektCekSenAlma` (ad olarak gönderilmesi çalıştı) |
 | `JTKasaBasimTipi` | `kbMSen` |
 | `JTBankaHavaleEftTip` | `tbBankaHvl` havale, `tbVirman` virman |
 | `JTEBelgeTip` | `ebtEFatura`, `ebtEIrs` |

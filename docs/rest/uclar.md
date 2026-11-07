@@ -18,7 +18,7 @@ Tablolar: `TBLCASABIT`, `TBLCASABITEK`, `TBLCAHAR`.
 | GET | `api/v2/ARPs` | Cari listesi |
 | GET | `api/v2/ARPs/{id}` | Tek cari (`id` = `CARI_KOD`) |
 | POST | `api/v2/ARPs` | Yeni cari |
-| PUT | `api/v2/ARPs/{id}` | Cari güncelle |
+| PUT | `api/v2/ARPs/{id}` | Cari güncelle; kısmi gövde kabul eder, gönderilmeyen alanlar korunur (canlı deneme) |
 | DELETE | `api/v2/ARPs/{id}` | Cari sil |
 | GET | `api/v2/ARPs/PrimInfo` | Tüm cari temel bilgileri (`ARPsPrimInfo`) |
 | POST | `api/v2/ARPs/Risk` | Cari risk bilgisi (NetOpenX `RiskBul`) |
@@ -174,9 +174,9 @@ var r = new CheckAndPNotesMainManager(oAuth2).PostInternal(bordro);
 var bordroNo = r.Data.BordroNo;
 ```
 
-`AS_C` = `A` (alacak), `SC_YERI` = `P` (portföy) örneklerden alınmıştır; diğer değerler belgelenmemiştir.
+`AS_C` = `A` (asıl borçlu; tabloda `C` ciranta da görülür), `SC_YERI` = `P` (portföy) örneklerden alınmıştır; diğer değerler belgelenmemiştir. `Plasiyer_Kodu` zorunludur (`Hata 203 Plasiyer Kodu boş geçilemez`).
 
-> Denemede `Tip` ve `CekSenEvrakKaydetmeTip` sayıyla çalıştı, bordro silinemedi, `?docType=` listesi `Data: [null]` döndü ([Canlı denemeler](/rest/canli-denemeler/#kasa-cek-tahsilat)).
+> Denemede `Tip` ve `CekSenEvrakKaydetmeTip` hem sayıyla hem adla (`csMCEK`, `ektCekSenAlma`) çalıştı. Gövdedeki `SC_NO` ve `BordroNo` yok sayılıp numarayı sunucu verdi; `SC_SONDUR` tabloya `B` yazıldı; `TBLCAHAR`'a `HAREKET_TURU = 'G'` cari hareket oluştu. Bordro REST ile silinemedi; `?docType=` listesi `Data: [null]` döndü, listeyi tablodan okuyun ([Canlı denemeler](/rest/canli-denemeler/#cek)).
 
 ## Kasa (SafeDeposits)
 
@@ -184,15 +184,15 @@ Tablo: `TBLKASA`.
 
 | Yöntem | Yol | Açıklama |
 |--------|-----|----------|
-| GET | `api/v2/SafeDeposits` | Kasa hareketleri |
-| GET | `api/v2/SafeDeposits/{id}` | Tek kayıt |
-| POST | `api/v2/SafeDeposits` | Yeni kayıt |
-| DELETE | `api/v2/SafeDeposits/{id}` | Sil |
+| GET | `api/v2/SafeDeposits` | Kasa hareketleri; `?q=KsMas_Kod='01'&sort=Tarih desc` çalışır |
+| GET | `api/v2/SafeDeposits/{id}` | Tek kayıt (`id` = `TBLKASA.SIRA`; fiş no değil) |
+| POST | `api/v2/SafeDeposits` | Yeni kayıt; yanıttaki `Sira` kimliktir |
+| DELETE | `api/v2/SafeDeposits/{id}` | Sil (`id` = `SIRA`) |
 | GET | `api/v2/SafeDeposits/LastBalance?id={id}` | Kasa son bakiyesi (`KasaSonBakiye`) |
 
-Alan değerleri `TBLKASA` açıklamasından: `IO` = `G` gelir / `C` gider; `Tip` = `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhtelif, `S` senet, `T` transfer; `Cari_Muh` = `C` cari / `M` muhasebe / `B` banka. [Örnek](/rest/json-ornekleri/#kasa).
+Alan değerleri `TBLKASA` açıklamasından: `IO` = `G` gelir / `C` gider; `Tip` = `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhtelif, `S` senet, `T` transfer; `Cari_Muh` = `C` cari / `M` muhasebe / `B` banka. `Proje_Kodu` ve `Plasiyer_Kodu` zorunludur (`Hata 203`). [Örnek](/rest/json-ornekleri/#kasa).
 
-Bir kasa kaydı cari hareket ve muhasebe fişi de üretir, silmek üçünü geri alır. `LastBalance` bir denemede istenen kasanın değil başka bir kasanın toplamını döndürdü; bakiyeyi tablodan doğrulayın.
+Bir kasa kaydı `TBLCAHAR`'a cari hareket (`HAREKET_TURU = 'D'`) ve muhasebe fişi de üretir; `DELETE` üçünü geri alır. `LastBalance` bir denemede istenen kasanın değil başka bir kasanın toplamını döndürdü; bakiyeyi tablodan doğrulayın ([Kasa hareketleri](/veritabani/sql-ornekleri/#kasa-hareketleri)).
 
 ## Hızlı tahsilat (MixedReceiptsMain)
 

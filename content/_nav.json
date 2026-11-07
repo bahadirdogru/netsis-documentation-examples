@@ -4,6 +4,7 @@
     "items": [
       "/",
       "/genel-bakis/",
+      "/entegrasyon-deseni/",
       "/llm/"
     ]
   },
@@ -13,6 +14,7 @@
       "/veritabani/",
       "/veritabani/temel-tablolar/",
       "/veritabani/sql-ornekleri/",
+      "/veritabani/finans-tablolari/",
       "/veritabani/ortak-kolonlar/",
       "/veritabani/veri-tipleri/",
       "/veritabani/tum-tablolar/"

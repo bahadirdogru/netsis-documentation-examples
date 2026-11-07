@@ -32,10 +32,13 @@ Logo'nun örnek kodları çalışma garantisi vermez. Kopyalamadan önce derleyi
 3. `TokenRestSettings.Init`'in ikinci ve üçüncü parametreleri.
 4. Yazma çağrılarının transaction'a nasıl bağlandığı. Bir denemede `RollBackTransaction` hatalı `POST`'un yarım satırını geri almadı.
 5. HTTP hata kodlarının tam eşlemesi.
-6. `Hka`, `Hareket_Turu`, `AS_C`, `SC_YERI`, `SC_SONDUR`, `IO`, `Tip`, `Kdv_Dahil` alanlarının tam değer listeleri. `SonKayitNoAl: true` kayıt kimliğini döndürür.
+6. `Hka`, `Hareket_Turu`, `AS_C`, `SC_YERI`, `SC_SONDUR`, `IO`, `Tip`, `Kdv_Dahil` alanlarının tam değer listeleri. `SonKayitNoAl: true` kayıt kimliğini döndürür. Tabloda görülen değerler [Finans tabloları](/veritabani/finans-tablolari/) sayfasında; tam liste hâlâ yok.
 7. `BatchInvoicing.FaturaTip: 2` değerinin karşılığı. `TIPI: 2` için bkz. [Kimlikler ve enum'lar](/rest/kimlikler-ve-enumlar/#sayisal-enum-degerleri).
 8. `api/v2/public/CompanyList`'in hangi kurulumlarda çalıştığı (bazılarında `DBMONITOR..TBLSUBELER` hatası).
 9. Sipariş onayının (`TBLSIPAMAS.TIPI` 3 → 2) REST ile yapılıp yapılamayacağı. Denemede bir yol bulunamadı.
 10. Servisin [denemelerde kesilme](/rest/canli-denemeler/#servis-kesintisi) nedeni.
+11. `CheckAndPNotesMain` listesinin neden `[null]` döndüğü ve bordronun REST ile nasıl silineceği.
+12. `SafeDeposits` kaydında `Fisno` verilmezse numaranın nasıl üretildiği.
+13. `GET services/SafeDeposits` yanıtı geçersiz JSON (sondaki virgül) ve `helpinfo?apiId=SafeDeposits` `API not found` döner; başka kaynaklarda da olup olmadığı taranmadı.
 
 Bu soruların yanıtını biliyorsanız [GitHub'da](https://github.com/bahadirdogru/netsis-documentation-examples) katkıda bulunun.

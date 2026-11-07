@@ -24,6 +24,7 @@ url: https://netsis.bahadirdogru.com/kaynaklar/
 
 Yeniden üretmek için: `node tools/import-dys.js <döküm.json>` (döküm, sayfalar Vaadin ile yüklendiğinden tarayıcıda alınır).
 - **NetsisQuick** (Bahadır Doğru). NetOpenX COM ile Excel'den sipariş, irsaliye, fatura, depolar arası transfer, ambar fişi, e-belge oluşturan WinForms uygulaması (.NET 4.8). [NetOpenX](/netopenx/) bölümündeki kod örneklerinin çoğu bu projedeki üretim kodundan sadeleştirilmiştir.
+- **Canlı denemeler** (2026-11). Bir test şirketinde NetOpenX REST ile yapılan yazma denemeleri ve salt okunur SQL ile okuma ekranları kuran bir web uygulaması. [Canlı denemeler](/rest/canli-denemeler/), [Okuma SQL, yazma REST](/entegrasyon-deseni/) ve [Finans tabloları](/veritabani/finans-tablolari/) sayfaları buradan beslenir; şirket verisi ve sunucu bilgisi alınmamıştır.
 
 ## bahadirdogru.com yazıları
 

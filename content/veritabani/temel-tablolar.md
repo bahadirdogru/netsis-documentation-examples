@@ -96,12 +96,14 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH'a 
 
 | Tablo | İçerik |
 |-------|--------|
-| `TBLKASA` | Kasa hareketleri. `IO`: `G` gelir, `C` gider. `TIP`: `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhtelif, `S` senet, `T` transfer. `CARI_MUH`: `C`/`M`/`B` |
+| `TBLKASAMAS`, `TBLKASA` | Kasa tanımı (`KSMAS_KOD`) ve kasa hareketleri (anahtar `SIRA`). `IO`: `G` gelir, `C` gider. `TIP`: `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhtelif, `S` senet, `T` transfer. `CARI_MUH`: `C`/`M`/`B`. Ayrıntı: [Finans tabloları](/veritabani/finans-tablolari/) |
+| `TBLBNKSABIT`, `TBLBNKHESSABIT`, `TBLBNKHESTRA` | Banka, banka hesabı (`NETHESKODU`) ve hesap hareketleri (`NETHESKODU` + `INCKEYNO`) |
+| `TBLDEKOMAS`, `TBLDEKOTRA` | Dekont başlığı ve satırları; bağ `SERI_NO` + `DEKONT_NO` (`INCKEYNO` değil) |
 | `TBLMUPLAN` | Muhasebe hesap planı (`HESAP_KODU`) |
 | `TBLMUHFIS` | Yevmiye fiş satırları (`AY_KODU`, `FISNO`, `HES_KOD`, `BA`) |
 | `TBLMUHAGEC` | Muhasebe entegrasyonuna bekleyen kayıtlar |
-| `TBLMCEK`, `TBLMSEN` | Müşteri çekleri / senetleri (portföy) |
-| `TBLBCEK`, `TBLBSEN` | Borç çekleri / senetleri |
+| `TBLMCEK`, `TBLMSEN` | Müşteri çekleri / senetleri; cari `SC_VERENK` |
+| `TBLBCEK`, `TBLBSEN` | Borç çekleri / senetleri; cari `SC_VERILENK` |
 | `TBLPROJE` | Proje kodları |
 | `TBLMASRAF` | Masraf merkezleri (`MKOD`) |
 | `TBLISLETMELER`, `TBLSUBELER` | İşletme ve şube tanımları |

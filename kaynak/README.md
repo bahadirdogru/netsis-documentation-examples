@@ -15,7 +15,8 @@ Bir sayfayı güncellerken ya da bir bilginin doğruluğundan şüphelendiğiniz
 | K5 | **Logo DYS – Netsis Uyarlama Araçları** | 6 kök sayfa, aşağıda. Kopyası: [`logo-dys/`](logo-dys/README.md) (76 sayfa, 123 görsel, 28 ek) | 2026-11-03 | NetOpenX nesne örnekleri (C#/VB/Delphi), Kernel, NetOpenX Rest temel/başlangıç/kütüphane/örnek kodlar, NDI, eğitim örnekleri, DocProje |
 | K6 | **Logo indirme sunucusu** | [download.logo.com.tr/#/Windows/NETSISERP/](https://download.logo.com.tr/#/Windows/NETSISERP/). Kopyası: [`logo-indirme/`](logo-indirme/) (`files.json`, `agac.tsv`) | 2026-11-03 | 265 sürümün listesi, tarih, boyut, sürüm notu bağlantısı; açık klasörlerden tam set yapısı ve yama içerikleri |
 | K8 | **Logo indirme sunucusu – TOOLS** | [download.logo.com.tr/#/Windows/TOOLS/](https://download.logo.com.tr/#/Windows/TOOLS/). Kopyası: [`logo-indirme/tools-agac.tsv`](logo-indirme/tools-agac.tsv) ve [`logo-indirme/tools/`](logo-indirme/tools/) (kod XML'leri, şemalar, küçük PDF'ler; ikili araçlar indirilmedi) | 2026-11-04 | Tevkifat/istisna/ödeme şekli kod XML'leri, UBL-TR XSD ve schematron, e-belge dokümanları, alıcı firma e-fatura şablonları |
-| K9 | **Canlı REST denemeleri** | Bir test şirketinde (canlının yedekten kopyası) yapılan denemeler; ham kayıtlar `C:\Git\pyinfograticmain\API.NETSIS.REST.md` §18.4 | 2026-11-06 | Sınanmış gövdeler, hata metinleri, enum eşlemeleri. Şirket verisi, sunucu adresi ve seri kodları sayfalara alınmadı |
+| K9 | **Canlı REST denemeleri** | Bir test şirketinde (canlının yedekten kopyası) yapılan denemeler; ham kayıtlar `C:\Git\pyinfograticmain\API.NETSIS.REST.md` §18.4 (ilk tur 2026-11-06, ikinci tur 2026-11-07) | 2026-11-07 | Sınanmış gövdeler, hata metinleri, enum eşlemeleri, kayıt kimlikleri (`SIRA`, `Inc_Key_Number`), kısmi `PUT`, kasa ve çek kaydının `TBLCAHAR` yan etkisi. Şirket verisi, sunucu adresi ve seri kodları sayfalara alınmadı |
+| K10 | **Panel okuma kataloğu ve finans tabloları** | `C:\Git\pyinfograticmain` içinde `DATA.NETSIS.md` §5.9 ve §8, `platform/backend/app/erp/read/catalog/*.py` (19 okuma varlığının SQL'i), `docs/adr/0026-netsis-okuma-yazma-katmanlari.md` | 2026-11-07 | Finans tablolarının anahtarları ve değer listeleri (test şirketinin şemasından ve veri dağılımından; sayılar alınmadı), dekont anahtarı, salt okunur SQL + REST yazma deseni, SQL Server 2008 R2 uyumlu sorgular |
 | K7 | **Genel Netsis bilgisi** | Kaynak belirtilmeden yazılan, sahada yaygın bilinen bilgi | — | Sayfalarda "doğrulanmadı" diye işaretli olanlar bu gruptadır |
 
 ### K5: Logo DYS kök sayfaları
@@ -40,7 +41,9 @@ Kopyanın üst başlıkları: NetOpenX, NetOpenX Rest, Netsis Data Inspector (ND
 | `kaynaklar.md` | Hepsi | — | Sitede yayınlanan kısa kaynak listesi. Excel adı orada bilerek geçmez |
 | `veritabani/index.md`, tablo ve modül sayfaları, `ortak-kolonlar`, `veri-tipleri`, `tum-tablolar` | K1 | — | `tools/import-excel.js` ile `data/schema.json`'a dönüştürülür. Excel'deki hatalar (ör. `TBLFATUIRS.TBLTEKLIFMAS` → `FTIRSIP`) betikte düzeltilir. `TEMP`, `TEST`, `AA_`, `YEDEK`, `YDK` önekli yerel tablolar dışarıda bırakılır |
 | `veritabani/temel-tablolar.md` | K1 | K4 | Tablo ilişkileri (ör. `TBLSTHAR` ↔ `TBLFATUIRS` birleşimi, `FTIRSIP` belge tipleri) kolon adlarından ve NetsisQuick sorgularından çıkarıldı |
-| `veritabani/sql-ornekleri.md` | K1, K4 | K7 | `NETSIS..SIRKETLER30`, `dbo.TRK()` gibi bilgiler saha bilgisi |
+| `veritabani/sql-ornekleri.md` | K1, K4 | K7, K10 | `NETSIS..SIRKETLER30`, `dbo.TRK()` gibi bilgiler saha bilgisi. Yaşlandırma, depo bakiyesi, devir hızı, finans ve sayfalama sorguları K10'daki katalogdan sadeleştirildi; test şirketinde çalıştığı görüldü |
+| `veritabani/finans-tablolari.md` | K10 | K1, K9 | Değer listeleri test şirketinin dağılımından (yalnız görülen değerler, sayılar değil). `TBLBNKHESTRA` hareket türü kolonları doğrulanmadı |
+| `entegrasyon-deseni.md` | K10 | K9 | Bir uygulamada kurulan desen; uygulamanın adı ve adresi sayfada yok |
 | `netopenx/index.md` | K3 (temel bilgiler) | K5 (NetOpenX Temelleri/Başlangıç) | Kurulum, register, 32 bit uyarısı |
 | `netopenx/baglanti.md` | K4 (`cNetsis.cs`) | K5 (Kernel, Baglanti), K3 | `yeniSirket` parametreleri, `FreeNetsisLibrary`, `Marshal.ReleaseComObject` |
 | `netopenx/nesne-katalogu.md` | K5 (NetOpenX Örnekler, 50 nesne) | — | 40+ `kernel.yeni…` fabrika metodu |
@@ -59,7 +62,8 @@ Kopyanın üst başlıkları: NetOpenX, NetOpenX Rest, Netsis Data Inspector (ND
 | `rest/uclar.md` | K2 | K5 (Kütüphane) | Uç kataloğu |
 | `rest/istemci-kutuphanesi.md` | K2 | K5 (RestClient örnek kodlar, DocProje) | |
 | `rest/json-ornekleri.md` | K2 | K5 (Başlangıç 3 - POST, 4 - PUT; `NoxRestNativeFaturaOrnek.rar`) | `ItemSlips` gövdesi |
-| `rest/kimlikler-ve-enumlar.md`, `rest/transaction-ve-hatalar.md` | K2 | K5, K7 | `TResult` zarfı |
+| `rest/kimlikler-ve-enumlar.md`, `rest/transaction-ve-hatalar.md` | K2 | K5, K7, K9 | `TResult` zarfı; `SafeDeposits` kimliği K9 |
+| `rest/canli-denemeler.md`, `rest/uclar.md` ve `rest/json-ornekleri.md` kasa/çek/cari notları | K9 | K10 | İkinci tur bölümü 9.0.72.5 ile |
 | `rest/guvenlik.md` | K2 | K7 | |
 | `rest/bilinen-sorunlar.md` | K2 | K5, K7 | Logo örneklerindeki hatalar |
 | `surumler/index.md` | K6 | — | Elle yazıldı; klasör açıklamaları dosya adlarından çıkarıldı |

@@ -162,7 +162,9 @@ Alanlar `TBLCASABIT` ve `TBLCASABITEK` kolonlarına karşılık gelir.
 }
 ```
 
-`SilmeIcinGerekliSahalar` silmede kullanılacak anahtarı (`INC_KEY_NUMBER`) belirtir. Kaydın kimliğini almak için `SonKayitNoAl: true` gönderin; `false` ise `Inc_Key_Number` 0 döner. `Hka` zorunludur, denemede `A` çalıştı. `Hka` ve `Hareket_Turu` ayrı alanlardır; değer listeleri belgelenmemiştir (`TBLCAHAR.HKA` açıklamasına göre `K` "öncelikli kapatılmış").
+`SilmeIcinGerekliSahalar` silmede kullanılacak anahtarı (`INC_KEY_NUMBER`) belirtir. Kaydın kimliğini almak için `SonKayitNoAl: true` gönderin; `false` ise `Inc_Key_Number` 0 döner ve kaydı silemezsiniz. `Hka` zorunludur, denemede `A` çalıştı. `Hka` ve `Hareket_Turu` ayrı alanlardır; `Hareket_Turu` için `A` ve `D` denendi, tabloda `A`, `B`, `C`, `D`, `E`, `G`, `H`, `I`, `J`, `K` görülür (Netsis kasa kaydı için `D`, çek için `G` yazar). Tam liste belgelenmemiştir (`TBLCAHAR.HKA` açıklamasına göre `K` "öncelikli kapatılmış").
+
+Cari kartı güncellemede `PUT api/v2/ARPs/{CARI_KOD}` kısmi gövde kabul eder: yalnız gönderilen `CariTemelBilgi` alanları değişir.
 
 ## Stok kartı
 
@@ -213,13 +215,14 @@ Alanlar `TBLCASABIT` ve `TBLCASABITEK` kolonlarına karşılık gelir.
   "DovizTut": 0.0,
   "Kur": 0.0,
   "Sube_Kodu": 0,
+  "Plasiyer_Kodu": "01",
   "Proje_Kodu": "1",
   "OnayTipi": "A",
   "OnayNum": 0
 }
 ```
 
-`IO`: `G` gelir / `C` gider. `Tip`: `C` cari, `F` fatura, `M` muhtelif… `Cari_Muh`: `Kod` alanı cari mi (`C`) muhasebe mi (`M`). Denemede `Proje_Kodu` ve `Plasiyer_Kodu` zorunluydu (`Hata Kodu 203`).
+`IO`: `G` gelir (tahsilat) / `C` gider (ödeme). `Tip`: `C` cari, `F` fatura, `M` muhtelif… `Cari_Muh`: `Kod` alanı cari mi (`C`) muhasebe mi (`M`). `Proje_Kodu` ve `Plasiyer_Kodu` zorunludur (`Hata Kodu 203`); plasiyer için carinin `PLASIYER_KODU` değeri kullanılabilir. Yanıttaki `Sira` kaydın kimliğidir (`TBLKASA.SIRA`): `DELETE api/v2/SafeDeposits/{Sira}` kasa kaydını ve Netsis'in onunla birlikte yazdığı cari hareketi siler. Denemede `Fisno` gönderilmedi; numaranın nasıl üretildiği doğrulanmadı.
 
 ## Çek / senet
 
@@ -227,25 +230,27 @@ Alanlar `TBLCASABIT` ve `TBLCASABITEK` kolonlarına karşılık gelir.
 
 ```json
 {
-  "Tip": 0,
-  "CekSenEvrakKaydetmeTip": 0,
-  "BordroNo": "A00000000000001",
+  "Tip": "csMCEK",
+  "CekSenEvrakKaydetmeTip": "ektCekSenAlma",
+  "Plasiyer_Kodu": "01",
   "Evraklar": [{
     "Sube_Kodu": 0,
     "SC_NO": "CEK-0001",
     "SC_GIRTRH": "2024-06-01", "VADETRH": "2024-07-01", "SC_ODETRH": "2024-07-01",
     "SC_VERENK": "120-01-999",
-    "AS_C": "A", "SC_SONDUR": "B", "SC_YERI": "P",
+    "SC_ABORCLU": "Veren kişi", "SC_BANKNO": "0001", "CEK_SUBE": "Merkez", "C_NUMARA": "12345678",
+    "AS_C": "A", "SC_SONDUR": "P", "SC_YERI": "P",
     "Tutar": 456.0,
     "DOVTIP": 0, "DOVTUT": 0.0,
     "GIRILDIGIYER": 2,
+    "Plasiyer_Kodu": "01",
     "Proje_Kodu": "1",
     "OnayTipi": "A", "OnayNum": 0
   }]
 }
 ```
 
-Denemede `Tip` ve `CekSenEvrakKaydetmeTip` sayıyla çalıştı. Gövdedeki `BordroNo` ve `SC_NO` yok sayıldı, numarayı sunucu verdi; yanıttaki numarayı kullanın.
+Müşteri çekini portföye alma gövdesi (canlı denemede çalıştı). `Tip` ve `CekSenEvrakKaydetmeTip` ad (`csMCEK`, `ektCekSenAlma`) ya da sayı (`0`, `0`) olabilir. `Plasiyer_Kodu` zorunludur (`Hata 203`). Gövdedeki `BordroNo` ve `SC_NO` yok sayılır, numarayı sunucu verir; yanıttaki numarayı kullanın. `SC_SONDUR` gövdede `P` verilse de tabloya `B` yazıldı. `SC_ABORCLU`, `SC_BANKNO`, `CEK_SUBE`, `C_NUMARA` tablo kolon adlarından türetildi (yazıldığı doğrulanmadı). Kayıt `TBLCAHAR`'a `HAREKET_TURU = 'G'` cari hareket de yazar ve REST ile silinemez.
 
 ## E-belge
 

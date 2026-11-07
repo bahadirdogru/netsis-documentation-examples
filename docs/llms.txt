@@ -11,6 +11,7 @@
 
 - [Ana sayfa](https://netsis.bahadirdogru.com/index.md): Netsis ERP için veritabanı şeması, NetOpenX COM ve NetOpenX REST başvuru dokümantasyonu.
 - [Genel bakış](https://netsis.bahadirdogru.com/genel-bakis.md): Netsis mimarisi, şirket/şube/işletme kavramları ve entegrasyon yolları.
+- [Okuma SQL, yazma REST](https://netsis.bahadirdogru.com/entegrasyon-deseni.md): Netsis'e dışarıdan bağlanan bir uygulama için katmanlı desen; salt okunur SQL kullanıcısı, REST ile yazma, Netsis'in verdiği kimlikler ve yan etkiler.
 - [LLM'ler için](https://netsis.bahadirdogru.com/llm.md): Bu siteyi yapay zekâ asistanlarına ve ajanlara bağlam olarak vermenin yolları.
 
 ## Veritabanı
@@ -18,6 +19,7 @@
 - [Veritabanı](https://netsis.bahadirdogru.com/veritabani.md): Netsis SQL Server şeması; modüller, tablolar, kolonlar, anahtarlar ve indeksler.
 - [Temel tablolar](https://netsis.bahadirdogru.com/veritabani/temel-tablolar.md): Cari, stok, fatura, irsaliye, sipariş, kasa ve muhasebe tabloları ve aralarındaki bağlar.
 - [SQL örnekleri](https://netsis.bahadirdogru.com/veritabani/sql-ornekleri.md): Netsis veritabanı için sık kullanılan okuma sorguları.
+- [Finans tabloları](https://netsis.bahadirdogru.com/veritabani/finans-tablolari.md): Kasa, banka, çek/senet ve dekont tabloları; anahtarları, değer listeleri ve kasa ile çek kaydının cari hareket tablosuna yan etkisi.
 - [Ortak kolonlar](https://netsis.bahadirdogru.com/veritabani/ortak-kolonlar.md): Netsis tablolarında tekrar eden kolonlar
 - [Veri tipleri](https://netsis.bahadirdogru.com/veritabani/veri-tipleri.md): TDB önekli kullanıcı tanımlı tipler
 - [Tüm tablolar](https://netsis.bahadirdogru.com/veritabani/tum-tablolar.md): 714 tablonun alfabetik listesi

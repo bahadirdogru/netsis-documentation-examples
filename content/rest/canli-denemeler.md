@@ -7,7 +7,7 @@ description: REST uçlarının test şirketinde sınanması; hangi uç çalışt
 
 Bu sayfa NetOpenX REST uçlarının bir test şirketinde (canlı şirketin yedekten geri yüklenmiş kopyası) denenmesiyle öğrenilenleri toplar. Denemeler 2026-11'de yapıldı. Sonuçlar bir kuruluma aittir; şirket parametreleri farklıysa davranış da farklı olabilir. Kendi test şirketinizde yeniden sınayın.
 
-Sürümler: denemelerin çoğu 9.0.71 ile yapıldı. `NetOpenX50.dll` güncellenince servis 9.0.72.5 oldu ve cari kartı ile sipariş yazma bu sürümde yeniden denendi. Aşağıda başka sürüm yazmayan satırlar 9.0.71 sonucudur.
+Sürümler: ilk tur 9.0.71 ile yapıldı. `NetOpenX50.dll` güncellenince servis 9.0.72.5 oldu; cari kartı ile sipariş yazma bu sürümde yeniden denendi, ardından ikinci turda ([aşağıda](#ikinci-tur-9-0-72-5)) kasa, cari hareket, cari ve stok kartı güncelleme ve çek girişi 9.0.72.5 ile sınandı. Başka sürüm yazmayan satırlar 9.0.71 sonucudur.
 
 ## Özet
 
@@ -20,12 +20,12 @@ Sürümler: denemelerin çoğu 9.0.71 ile yapıldı. `NetOpenX50.dll` güncellen
 | `SiparisToIrsFat`, `IrsToFat` | Onaylı siparişte çalışıyor | Hedef `FATIRS_NO` zorunlu |
 | Sipariş onayı | REST ile yapılamadı | Yeni sipariş `TIPI = 3` kalıyor |
 | Ambar fişleri, `ftLokalDepo` | Yazma ve silme çalışıyor | Ambarda `CariKod` çıkış yeridir |
-| Stok kartı | `POST`, `GET`, `PUT`, `DELETE` | `Payda_1`, `Payda2` zorunlu; kısmi `PUT` diğer alanları koruyor |
+| Stok kartı | `POST`, `GET`, `PUT`, `DELETE` | `Payda_1`, `Payda2` zorunlu; kısmi `PUT` diğer alanları koruyor, `Muh_DetayKodu` tabloya yazılıyor |
 | Stok hareketi | `POST`, `DELETE` | `SonKayitNoAl: true` ile kimlik döner |
-| Cari kartı (9.0.72.5) | `POST`, `GET`, `PUT`, `DELETE` | DLL veritabanıyla uyumlu olmalı |
-| Cari hareket | `POST`, `GET`, `DELETE` | `Hka` zorunlu |
-| Kasa | `POST`, `GET`, `DELETE` | Proje ve plasiyer kodu zorunluydu; bir kayıt üç tabloya işliyor |
-| Çek/senet | Yazılıyor, silinemedi | `DELETE` hata verdi |
+| Cari kartı (9.0.72.5) | `POST`, `GET`, `PUT`, `DELETE` | DLL veritabanıyla uyumlu olmalı; kısmi `PUT` diğer alanları koruyor |
+| Cari hareket | `POST`, `GET`, `DELETE` | `Hka` zorunlu; kimlik `Inc_Key_Number` |
+| Kasa | `POST`, `GET`, `DELETE` | Proje ve plasiyer kodu zorunlu; kimlik `Sira`; kayıt cari hareket de yazıyor, silme ikisini birden siliyor |
+| Çek/senet | Yazılıyor, silinemedi | `Plasiyer_Kodu` zorunlu; `DELETE` hata verdi; liste ucu kullanılamaz |
 | Hızlı tahsilat | Kaydedilemedi | `SozKodu` tanımı gerekli |
 | `Print/*` | Çalışmadı | Sunucuda varsayılan yazıcı yok |
 
@@ -108,6 +108,43 @@ Stok kartında muhasebe detay kodu yoksa kayıt muhasebeleştirmede düşer: `St
 - **Kasa.** Bir `POST` kasa satırı, cari hareket ve iki satırlık muhasebe fişi üretti; `DELETE` üçünü de geri aldı. `Proje_Kodu` ve `Plasiyer_Kodu` bu şirkette zorunluydu. `SafeDeposits/LastBalance?id=` istenen kasanın değil başka bir kasanın toplamlarını döndürdü (tek örnek).
 - **Çek.** `Tip` ve `CekSenEvrakKaydetmeTip` sayıyla çalıştı. Gövdedeki `BordroNo` ve `SC_NO` yok sayıldı, numarayı sunucu verdi. `DELETE` ve `POST .../Delete` `Nesne başvurusu bir nesnenin örneğine ayarlanmadı` döndü, kayıt silinemedi. `?docType=` listesi `Data: [null]` döndü. Aynı hata 9.0.72.5'te de sürdü.
 - **Hızlı tahsilat.** `SozKodu` `TBLKRTSOZMAS`'taki bir tanıma bağlı görünüyor; tablo boş olduğu için kayıt yapılamadı.
+
+## İkinci tur (9.0.72.5)
+
+Kasa, cari hareket, kart güncelleme ve çek girişi bir uygulamanın yazma katmanıyla yeniden sınandı; kayıtlar aynı REST ile silindi (çek dışında). Desen: [Okuma SQL, yazma REST](/entegrasyon-deseni/).
+
+### Kimlikler
+
+- **Kasa.** `SafeDeposits` kaydının kimliği `TBLKASA.SIRA`'dır: `GET`/`DELETE SafeDeposits/{SIRA}`. Fiş numarasıyla (`SafeDeposits/{Fisno}`) istek SQL hatası verir. `POST` yanıtındaki `Sira` bu değerdir.
+- **Cari hareket.** `GET ARPTransactions/{Inc_Key_Number}` çalışır; yanıtta `SilmeIcinGerekliSahalar` `INC_KEY_NUMBER` döner.
+- **Cari kartı.** `GET ARPs/{CARI_KOD}` çalışır.
+- **Liste sorgusu.** `GET SafeDeposits?limit=50&sort=Tarih desc&q=KsMas_Kod='01'` çalışır; `q` içinde kolon adı olarak REST alan adı (`KsMas_Kod`) kullanıldı.
+
+### Kasa
+
+- `POST SafeDeposits` tahsilat (`IO: "G"`) ve ödeme (`IO: "C"`) için çalıştı. Gövde: `Tip: "C"`, `Cari_Muh: "C"`, `Kod` = cari kodu, `Plasiyer_Kodu` = carinin plasiyeri, `Proje_Kodu` dolu. [Örnek](/rest/json-ornekleri/#kasa).
+- Netsis aynı anda `TBLCAHAR`'a cari hareket yazar: `HAREKET_TURU = 'D'`, `ACIKLAMA` "NAKİT TAHSİLAT(00)", tahsilatta `ALACAK`, ödemede `BORC`. `DELETE SafeDeposits/{Sira}` kasa satırını ve bu cari hareketi birlikte siler.
+- Plasiyeri olmayan cari için kayıt `Hata 203` ile düşer; uygulama plasiyeri seçtirmeli.
+
+### Cari hareket ve kartlar
+
+- `POST ARPTransactions` (`Hka: "A"`, `SonKayitNoAl: true`, `Hareket_Turu: "D"`, `Borc` dolu) çalıştı; `DELETE ARPTransactions/{Inc_Key_Number}` sildi.
+- `POST ARPs` cari kartı açtı; `CARI_TIP`, `CARI_IL`, `Plasiyer_Kodu` tabloya yazıldı. **`PUT ARPs/{kod}` kısmi gövde kabul eder:** yalnız gönderilen alanlar değişti, gönderilmeyen `EMAIL` korundu. `DELETE ARPs/{kod}` sildi.
+- `POST Items` ve `PUT Items/{kod}` kısmi güncelleme çalıştı; `StokTemelBilgi.Muh_DetayKodu` `TBLSTSABIT.MUH_DETAYKODU` kolonuna yazıldı (faturada muhasebeleştirme için gerekir). `DELETE Items/{kod}` sildi.
+
+### Çek
+
+- `POST CheckAndPNotesMain` enum adlarıyla çalıştı: `Tip: "csMCEK"`, `CekSenEvrakKaydetmeTip: "ektCekSenAlma"` (ilk turda sayı kullanılmıştı). Gövde: [Çek / senet](/rest/json-ornekleri/#cek-senet).
+- `Plasiyer_Kodu` zorunlu: boşsa `Hata 203 Plasiyer Kodu boş geçilemez`. Üst düzeyde ve evrakta verildi.
+- Gövdedeki `SC_NO` yok sayıldı; Netsis kendi çek numarasını ve bordro numarasını verdi. `SC_SONDUR` gövdede `P` verilse de tabloya `B` yazıldı.
+- `TBLCAHAR`'a `HAREKET_TURU = 'G'`, `ALACAK` = tutar, `BELGE_NO` = çek numarası cari hareket yazıldı.
+- REST ile silme yine çalışmadı; deneme çeki test şirketinde kaldı. Bir uygulamada çek girişini "geri alınamaz" diye işaretleyin.
+- `GET CheckAndPNotesMain?docType=…` listesi `[null]` döner, `?limit=1` tek başına null-reference hatası verir. Çek/senet listesini tablodan okuyun: [Çek ve senet listesi](/veritabani/sql-ornekleri/#cek-ve-senet-listesi).
+
+### Şema uçları
+
+- `GET services/SafeDeposits` geçersiz JSON döndürdü (sondaki fazla virgül); şemayı okuyan kod buna dayanmalı.
+- `GET helpinfo?apiId=SafeDeposits` `API not found` döndü; alan listesi için `definitions/SafeDeposits` kullanıldı.
 
 ## Yanıt alanları
 
