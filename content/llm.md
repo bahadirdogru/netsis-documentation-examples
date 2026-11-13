@@ -39,6 +39,8 @@ Bir sistem istemine (system prompt) ya da proje talimatına (ör. `CLAUDE.md`, `
 - COM nesnelerini finally içinde bırak: Marshal.ReleaseComObject, sirket.LogOff(), kernel.FreeNetsisLibrary().
 - REST'te token: POST api/v2/token (form: grant_type=password, branchcode, username, password,
   dbname, dbuser, dbpassword, dbtype); sonra Authorization: Bearer.
+- Fiyat koşulunu SQL ile yeniden çözme; ItemSlips/Calculate (KosulluHesapla: true) kullan.
+  Cari risk hesabı için https://netsis.bahadirdogru.com/veritabani/cari-risk.md içindeki SQL'i kullan.
 - "doğrulanmadı" işaretli bilgileri kesin bilgi gibi sunma.
 ```
 
@@ -55,4 +57,5 @@ curl -s https://netsis.bahadirdogru.com/data/schema.json \
 
 - Şema, belirli bir 9.0.x sürümünün dokümanından üretilmiştir; sizin sürümünüzde fark olabilir.
 - REST ve COM bilgisi Logo dokümantasyonu, Logo örnek projeleri ve üretimde çalışan kodlardan derlenmiştir. Kaynak dokümanda olmayan ya da canlıda sınanmamış bilgiler "doğrulanmadı" diye işaretlidir.
+- Canlı deneme bulguları tek bir test şirketinde ve Netsis çekirdeği 9.0.72.5 üzerinde alınmıştır; kendi kurulumunuzda doğrulayın.
 - Sitede gerçek şirket verisi, sunucu adresi ya da kimlik bilgisi yoktur; örneklerdeki kodlar ve numaralar temsilidir.

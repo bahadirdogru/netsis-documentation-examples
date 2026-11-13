@@ -80,7 +80,7 @@ Tablolar: `TBLFATUIRS`, `TBLFATUEK`, `TBLSTHAR`, `TBLSIPAMAS`, `TBLSIPATRA`. COM
 | DELETE | `api/v2/ItemSlips/{id}` | Sil |
 | POST | `api/v2/ItemSlips/Details` | `ItemSlipsParam` ile tek belge oku |
 | POST | `api/v2/ItemSlips/Delete` | Parametreyle sil |
-| POST | `api/v2/ItemSlips/Calculate` | Kaydetmeden hesapla (`HesaplamalariYap`) |
+| POST | `api/v2/ItemSlips/Calculate` | Kaydetmeden hesapla (`HesaplamalariYap`); `STra_NF` 0 döner, risk kontrolü yapmaz ([ayrıntı](/rest/siparis-islemleri/#calculate)) |
 | POST | `api/v2/ItemSlips/Html` | Belge HTML'i (`GetFaturaHTML`) |
 | POST | `api/v2/ItemSlips/NewNumber` | Yeni belge numarası (`YeniNumara`) |
 | POST | `api/v2/ItemSlips/NewEItemSlipsNumber` | Yeni e-fatura numarası (`YeniEfaturaNumara`) |
@@ -99,7 +99,7 @@ Tablolar: `TBLFATUIRS`, `TBLFATUEK`, `TBLSTHAR`, `TBLSIPAMAS`, `TBLSIPATRA`. COM
 | POST | `api/v2/ItemSlips/DeleteItemSlipLinkedWaybill` | Faturaya bağlı irsaliyeyi sil |
 | GET | `api/v2/ItemSlips/ContractsOpenPrice?restRecord={restRecord}` | Belgelenmemiş |
 
-> **`ItemSlips` için `PUT` yoktur.** Belge değiştirmek için silip yeniden oluşturun ya da `ReadAndSave` / `ChangeNumber` gibi işlem uçlarını kullanın.
+> **`ItemSlips` için `PUT` yoktur.** Sipariş değiştirmek için silip tam gövdeyle yeniden yazın. `ChangeNumber` ve `ChangeCode` başlıkta `UPDATE` çalıştırır (şirkete özel tetikleyici varsa düşer), `OrderRevision` yeni sipariş oluşturur; düzenleme değildir. Ayrıntı ve gövdeler: [Sipariş hesaplama ve değiştirme](/rest/siparis-islemleri/#mevcut-siparisi-degistirme).
 
 > Sipariş, fatura ve dönüşümlerde gereken alanlar: [Canlı denemeler](/rest/canli-denemeler/). `KosulluHesapla` varsayılanı `true`, `RiskKontrol` varsayılanı açıktır; açıkça gönderin. `ReadAndSave` ve `FaturaTip: 4` denemede zaman aşımına düştü.
 

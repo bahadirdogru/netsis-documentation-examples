@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sipariş hesaplama ve değiştirme · Netsis Dokümantasyonu</title>
+<meta name="description" content="ItemSlips ile sipariş yazarken Calculate davranışı, risk reddi, koşul alanları, numara sayacı ve mevcut siparişi değiştirmenin yolu (canlı deneme bulguları).">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/rest/siparis-islemleri/">
+<link rel="alternate" type="text/markdown" href="/rest/siparis-islemleri.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Sipariş hesaplama ve değiştirme">
+<meta property="og:description" content="ItemSlips ile sipariş yazarken Calculate davranışı, risk reddi, koşul alanları, numara sayacı ve mevcut siparişi değiştirmenin yolu (canlı deneme bulguları).">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/rest/siparis-islemleri/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/entegrasyon-deseni/">Okuma SQL, yazma REST</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/finans-tablolari/">Finans tabloları</a></li><li><a href="/veritabani/cari-risk/">Cari risk</a></li><li><a href="/veritabani/fiyat-kosullari/">Fiyat koşulları</a></li><li><a href="/veritabani/kayit-kullanicisi/">Kayıt kullanıcısı</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/canli-denemeler/">Canlı denemeler</a></li><li><a href="/rest/siparis-islemleri/" aria-current="page">Sipariş hesaplama ve değiştirme</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Sürümler</summary><ul><li><a href="/surumler/">Sürümler ve indirme</a></li><li><a href="/surumler/tum-surumler/">Tüm sürümler</a></li><li><a href="/surumler/yama-icerikleri/">Yama içerikleri</a></li></ul></details><details class="nav-sec" open><summary>Logo araçları</summary><ul><li><a href="/logo-araclari/">Logo e-devlet araçları</a></li><li><a href="/logo-araclari/e-belge-kodlari/">E-belge kod listeleri</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/rest/">NetOpenX REST</a></nav>
+<article>
+<h1 id="siparis-hesaplama-ve-degistirme"><a class="anchor" href="#siparis-hesaplama-ve-degistirme" aria-hidden="true">#</a>Sipariş hesaplama ve değiştirme</h1>
+<p>Bu sayfa <code>ItemSlips</code> ile satış (<code>FaturaTip</code> 7, <code>ftSSip</code>) ve alış (<code>FaturaTip</code> 6, <code>ftASip</code>) siparişi yazarken gözlenenleri toplar. Bulgular tek bir test şirketinde, Netsis çekirdeği 9.0.72.5 ve NetOpenX REST v2 ile yapılan canlı denemelerden gelir; başka sürümde ya da başka şirket parametreleriyle davranış değişebilir. Genel deneme notları: <a href="/rest/canli-denemeler/">Canlı denemeler</a>. Fiyat koşulunun veritabanı tarafı: <a href="/veritabani/fiyat-kosullari/">Fiyat koşulları</a>. Risk hesabı: <a href="/veritabani/cari-risk/">Cari risk</a>.</p>
+<h2 id="calculate"><a class="anchor" href="#calculate" aria-hidden="true">#</a>Calculate</h2>
+<p><code>POST api/v2/ItemSlips/Calculate</code> belgeyi kaydetmeden fiyatlar.</p>
+<ul>
+<li><strong>Net fiyat yanıtta 0 gelir.</strong> Satırdaki <code>STra_NF</code> ve <code>STra_KDV</code> 0 döndü. Net birim fiyatı brüt fiyattan ve kademeli iskontolardan kendiniz hesaplayın: <code>net = STra_BF × Π (1 − iskonto / 100)</code>, iskontolar <code>STra_SatIsk</code>, <code>STra_SatIsk2</code> … <code>STra_SatIsk6</code>. (Önceki turda net fiyatın <code>YedekKalems</code> içinde geldiği not edilmişti; bu turda <code>Kalems</code> içindeki değerler 0 idi. Yanıtınızda hangisinin dolu olduğunu kendi sürümünüzde kontrol edin.)</li>
+<li><strong><code>KosulluHesapla: true</code>.</strong> Netsis fiyatı ve iskontoları carinin fiyat koşulundan doldurur; satır fiyatsız gönderilse bile <code>STra_BF</code>, <code>STra_SatIsk</code>, <code>Stra_KosulK</code> ve <code>STra_ODEGUN</code> (koşulun vade günü) döner. Yazılan <code>STra_SatIsk</code> koşuldakiyle <strong>ezilir</strong>; yazılan <code>STra_SatIsk2</code> ve <code>STra_SatIsk3</code> 0 olarak döner.</li>
+<li><strong><code>KosulluHesapla: false</code>.</strong> Yazılan iskontolar olduğu gibi kalır. <code>Stra_KosulK</code> ve <code>FatUst.KOSULKODU</code> yine de saklanır; <code>STra_ODEGUN</code> 0 döner, gerekiyorsa kendiniz verin.</li>
+<li><strong>Koşul seçimi.</strong> <code>FatUst.KOSULKODU</code> carinin koşulunu o belge için geçersiz kılar. Her satır kendi koşulunu <code>Stra_KosulK</code> ile alabilir (<code>tra</code> küçük harfle). İkisi de yanıtta geri yansır.</li>
+<li><code>DEPO_KODU</code> satırda olmadan ve <code>DEPO_KODU: 0</code> ile de çalışır.</li>
+<li><code>FatUst.FATIRS_NO</code> göndermeyin.</li>
+<li><strong>Risk kontrolü yapmaz.</strong> <code>Calculate</code>&#39;ten geçen belge <code>POST ItemSlips</code> sırasında risk nedeniyle reddedilebilir.</li>
+<li><strong>Cari kilidi.</strong> Aynı cari için iki <code>Calculate</code> üst üste binerse ikincisi şunu döndürdü: <code>Hata Kodu : 700 … Kodlu cari kilitli. Kilitli cari</code>. Gözlenen durumda kilit çağrılardan yaklaşık 20 saniye uzun yaşadı. Hesaplamaları cari başına sıraya alın.</li>
+</ul>
+<p>Koşulu kendiniz çözmeye çalışmayın; <code>Calculate</code>&#39;e sorun. Tablo yapısı bilgi içindir: <a href="/veritabani/fiyat-kosullari/">Fiyat koşulları</a>.</p>
+<h3 id="fiyatlama-anahtarlari"><a class="anchor" href="#fiyatlama-anahtarlari" aria-hidden="true">#</a>Fiyatlama anahtarları</h3>
+<p><code>KosulluHesapla</code>, <code>FiyatSistemineGoreHesapla</code> ve <code>StokKartinaGoreHesapla</code> açıkken Netsis, kaydedilen her siparişin satırlarını yeniden fiyatlar. Fiyatları tam olarak verildiği gibi yazmak için üçünü de <code>false</code> gönderin ve her satırı açıkça doldurun.</p>
+<h2 id="risk-reddi"><a class="anchor" href="#risk-reddi" aria-hidden="true">#</a>Risk reddi</h2>
+<p><code>RiskKontrol: true</code> iken carinin riskini aşan sipariş <code>POST ItemSlips</code> sırasında şu hatayla reddedildi (kod 700):</p>
+<pre><code class="language-text">Kayıt Yeni işleminde hata oluştu. Hata detayı: … (Acik)Dikkat ! MÜŞTERİ RİSKLİ Belge tutarı … Risk değeri …
+Toplam Riski … (Info)… (Ikaz)Dikkat ! MÜŞTERİ RİSKLİ …
+</code></pre>
+<p>Metin <code>(Info)</code> cümleleri ve <code>&lt;ErrorHeader&gt;</code> blokları taşır; kullanıcıya göstermek için okunur bir ileti ayıklamak gerekir. Aynı değerleri SQL ile önceden hesaplamak için: <a href="/veritabani/cari-risk/">Cari risk</a>.</p>
+<h2 id="onay"><a class="anchor" href="#onay" aria-hidden="true">#</a>Onay</h2>
+<p>Gövdedeki <code>TIPI</code> ve <code>OnayTipi</code> siparişi onaylamaz. REST ile yazılan sipariş <code>TBLSIPAMAS.TIPI = 3</code> (onaysız) kalırken yanıt 2 gösterir. Onay ucu yoktur; son çare olarak SQL kullanılır ve yalnızca onaysız kaydı hedefler:</p>
+<pre><code class="language-sql">UPDATE TBLSIPAMAS SET TIPI = 2
+WHERE FTIRSIP = &#39;6&#39; AND FATIRS_NO = @SiparisNo AND CARI_KODU = @CariKod AND TIPI = 3;
+-- etkilenen satır sayısı 1 değilse işlemi geri al
+</code></pre>
+<p>Ayrıntı: <a href="/veritabani/sql-ornekleri/#dikkatli-guncellemeler">Dikkatli güncellemeler</a>.</p>
+<h2 id="mevcut-siparisi-degistirme"><a class="anchor" href="#mevcut-siparisi-degistirme" aria-hidden="true">#</a>Mevcut siparişi değiştirme</h2>
+<p><code>ItemSlips</code> için <code>PUT</code> yoktur.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Yol</th>
+<th>Sonuç</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Aynı numarayla yeniden <code>POST</code></td>
+<td><code>Hata 402 … Nolu Evrak Daha önceden kaydedilmiş</code></td>
+</tr>
+<tr>
+<td><code>POST ItemSlips/ChangeNumber</code></td>
+<td>Var, ama sipariş başlığına <code>UPDATE</code> çalıştırır. <a class="tbl" href="/veritabani/tablolar/tblsipamas/"><code>TBLSIPAMAS</code></a> üzerinde şirkete özel tetikleyici hata verirse çağrı da <code>700</code> ile ve tetikleyicinin SQL hata metniyle düşer</td>
+</tr>
+<tr>
+<td><code>POST ItemSlips/ChangeCode</code></td>
+<td>Aynı: başlıkta <code>UPDATE</code>, aynı tetikleyici engeli</td>
+</tr>
+<tr>
+<td><code>POST ItemSlips/OrderRevision</code></td>
+<td>Düzenlemez, <strong>yeni</strong> sipariş oluşturur (kaynak numara başlıkta <code>S_YEDEK1</code>)</td>
+</tr>
+<tr>
+<td>Sil, sonra tam gövdeyle yeniden <code>POST</code></td>
+<td>Çalıştı</td>
+</tr>
+</tbody></table></div>
+<p>Gövdeler:</p>
+<pre><code class="language-json">// ChangeNumber
+{ &quot;DocumentType&quot;: &quot;ftSSip&quot;, &quot;CustomerCode&quot;: &quot;CARI001&quot;, &quot;DocumentNumber&quot;: &quot;000000000000001&quot;,
+  &quot;NewDocumentNumber&quot;: &quot;000000000000002&quot;, &quot;NewCustomerCode&quot;: &quot;CARI001&quot;, &quot;NotChangeDeliveryCode&quot;: false }
+
+// ChangeCode
+{ &quot;DocumentType&quot;: &quot;ftSSip&quot;, &quot;CustomerCode&quot;: &quot;CARI001&quot;, &quot;DocumentNumber&quot;: &quot;000000000000001&quot;,
+  &quot;NewCustomerCode&quot;: &quot;CARI002&quot;, &quot;DependentCustomerCode&quot;: &quot;&quot;, &quot;ChangeDependentCustomerCode&quot;: false,
+  &quot;NotChangeDeliveryCode&quot;: false, &quot;ChangeAdditionalField&quot;: false }
+
+// OrderRevision
+{ &quot;ItemSlip&quot;: { }, &quot;RevisionOrderNumber&quot;: &quot;000000000000001&quot;, &quot;DeliverStartingDate&quot;: &quot;2026-01-01&quot; }
+</code></pre>
+<p>Düzenleme olarak çalışan yol: <code>DELETE ItemSlips/{ftSSip|ftASip};{no};{cari}</code>, ardından eski numarayla tam gövdeli <code>POST ItemSlips</code>:</p>
+<ul>
+<li><code>FatUst.FATIRS_NO</code> tam 15 karakter olmalı; yoksa <code>Hata 204 … 15 karakter</code>.</li>
+<li><code>KayitliNumaraOtomatikGuncellensin: false</code> ve <code>SonNumaraYazilsin: false</code>.</li>
+<li><code>Seri</code> numaranın ilk harfi.</li>
+<li>İşlem atomik değildir: silme başarılı, yeniden yazma başarısız olabilir. Önce gövdeyi saklayın.</li>
+<li>Yeni kayıt yeni bir <code>KAYITTARIHI</code> alır.</li>
+</ul>
+<p><code>GET ItemSlips/{tip};{no};{cari}</code> gövdesini yazma isteğine olduğu gibi kopyalamayın: <code>&quot;YEDEK&quot;: &quot;\u0000&quot;</code> gibi değerler ve <code>EPostaGonderilsin: true</code> gibi bayraklar taşır. Gövdeyi yeniden kurun.</p>
+<h2 id="numara-sayaci-tblfatuno"><a class="anchor" href="#numara-sayaci-tblfatuno" aria-hidden="true">#</a>Numara sayacı (<a class="tbl" href="/veritabani/tablolar/tblfatuno/"><code>TBLFATUNO</code></a>)</h2>
+<p><a class="tbl" href="/veritabani/tablolar/tblfatuno/"><code>TBLFATUNO</code></a> belge tipi ve seri (numaranın ilk harfi) başına bir satır tutar.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>İşlem</th>
+<th>Sayaç</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Otomatik numaralı <code>POST</code></td>
+<td>İlerler</td>
+</tr>
+<tr>
+<td><code>NewNumber</code></td>
+<td>Okur, ilerletmez</td>
+</tr>
+<tr>
+<td>Açık numaralı <code>POST</code>, <code>SonNumaraYazilsin: false</code> olmadan</td>
+<td>Sayaç yazılan numaraya çekilir, numara daha küçük olsa bile</td>
+</tr>
+<tr>
+<td>Açık numaralı <code>POST</code>, <code>SonNumaraYazilsin: false</code> ile</td>
+<td>Sayaç kıpırdamaz</td>
+</tr>
+<tr>
+<td>Açık numara, daha önce kullanılmamış bir ilk harfle</td>
+<td>Yeni bir sayaç satırı doğar; REST ile silinemez</td>
+</tr>
+</tbody></table></div>
+<h2 id="ust-duzey-ve-alan-adlari"><a class="anchor" href="#ust-duzey-ve-alan-adlari" aria-hidden="true">#</a>Üst düzey ve alan adları</h2>
+<p><code>GET</code> ile görülen üst düzey özellikler: <code>KosulluHesapla</code>, <code>FiyatSistemineGoreHesapla</code>, <code>StokKartinaGoreHesapla</code>, <code>RiskKontrol</code>, <code>EPostaGonderilsin</code>, <code>KayitliNumaraOtomatikGuncellensin</code>, <code>SonNumaraYazilsin</code>, <code>OtoIskontoGetir</code>, <code>OtoVadeGunGetir</code>, <code>ProjeKodKontrol</code>, <code>BaglantiKontrol</code>, <code>Seri</code>, <code>FaturaTip</code>, <code>Kalems</code>, <code>FatUst</code>.</p>
+<p>Satır: <code>StokKodu</code>, <code>DEPO_KODU</code>, <code>STra_GCMIK</code>, <code>STra_BF</code>, <code>STra_NF</code>, <code>STra_SatIsk</code> … <code>STra_SatIsk6</code>, <code>STra_KDV</code>, <code>STra_ODEGUN</code>, <code>Stra_KosulK</code>, <code>Stra_KosTar</code>, <code>Stra_FiyatTar</code>, <code>ProjeKodu</code>, <code>Plasiyer_Kodu</code>, <code>Ekalan</code>, <code>Ekalanneden</code>, <code>SatirBaziAciks</code> (10 metin), <code>Fiyatlar1</code> … <code>Fiyatlar7</code>, <code>MALADI</code>, <code>OBR1</code>, <code>OBR2</code>, <code>Sira</code>, <code>Vadetar</code>, <code>STra_testar</code>.</p>
+<p>Başlık: <code>CariKod</code>, <code>CARI_KOD2</code> (teslim cari), <code>Tarih</code>, <code>FiiliTarih</code>, <code>ENTEGRE_TRH</code>, <code>FIYATTARIHI</code>, <code>KOSULTARIHI</code>, <code>KOSULKODU</code>, <code>KOSVADEGUNU</code>, <code>SIPARIS_TEST</code>, <code>DovBazTarihi</code>, <code>KDV_DAHILMI</code>, <code>KOD1</code>, <code>KOD2</code>, <code>PLA_KODU</code>, <code>Proje_Kodu</code>, <code>TIPI</code>, <code>EKACK1</code> … <code>EKACK16</code>, <code>BRUTTUTAR</code>, <code>SAT_ISKT</code>, <code>KDV</code>, <code>GENELTOPLAM</code>.</p>
+<h2 id="kayit-kullanicisi"><a class="anchor" href="#kayit-kullanicisi" aria-hidden="true">#</a>Kayıt kullanıcısı</h2>
+<p><code>ItemSlips</code> gövdesinde <code>KAYITYAPANKUL</code> ya da <code>DUZELTMEYAPANKUL</code> için özellik yoktur; REST ile yazılan her siparişte <code>KAYITYAPANKUL</code> servis kullanıcısıdır (<code>NETOPENX</code>). Ayrıntı ve SQL ile düzeltme: <a href="/veritabani/kayit-kullanicisi/">Kayıt kullanıcısı</a>.</p>
+<h2 id="sirkete-ozel-tetikleyiciler"><a class="anchor" href="#sirkete-ozel-tetikleyiciler" aria-hidden="true">#</a>Şirkete özel tetikleyiciler</h2>
+<p>Netsis tablolarındaki şirkete özel tetikleyiciler REST yazmalarında da çalışır (REST&#39;in kendi <code>UPDATE</code> ifadeleri de dahil). Hata veren bir tetikleyici REST çağrısını <code>700</code> ve tetikleyicinin SQL hata metniyle düşürür. Yazmadan önce <code>sys.triggers</code> ve <code>sys.sql_modules</code> ile tabloyu izleyen tetikleyicileri listeleyin.</p>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/rest/siparis-islemleri.md">GitHub'da düzenle</a> · <a href="/rest/siparis-islemleri.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#calculate">Calculate</a></li><li class="l3"><a href="#fiyatlama-anahtarlari">Fiyatlama anahtarları</a></li><li class="l2"><a href="#risk-reddi">Risk reddi</a></li><li class="l2"><a href="#onay">Onay</a></li><li class="l2"><a href="#mevcut-siparisi-degistirme">Mevcut siparişi değiştirme</a></li><li class="l2"><a href="#numara-sayaci-tblfatuno">Numara sayacı (TBLFATUNO)</a></li><li class="l2"><a href="#ust-duzey-ve-alan-adlari">Üst düzey ve alan adları</a></li><li class="l2"><a href="#kayit-kullanicisi">Kayıt kullanıcısı</a></li><li class="l2"><a href="#sirkete-ozel-tetikleyiciler">Şirkete özel tetikleyiciler</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

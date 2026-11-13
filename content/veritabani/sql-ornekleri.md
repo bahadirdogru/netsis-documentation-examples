@@ -277,7 +277,7 @@ FROM (
 ORDER BY VADETRH DESC;
 ```
 
-Tür etiketleri bilerek ASCII yazıldı; bağlantının kod sayfasına bağlı kalmaz. `SC_SONDUR`: `P` portföy, `B` banka, `O` ödendi, `I` iade (gözlem).
+Tür etiketleri bilerek ASCII yazıldı; bağlantının kod sayfasına bağlı kalmaz. `SC_SONDUR`: `B` bekliyor (gözlem; risk hesabı yalnız bunu sayar). `P` değerinin anlamı (ödendi / tahsil edildi) **doğrulanmadı**; yer bilgisi ayrı kolondadır: `SC_YERI` `P` portföy, `T` tahsilde, `C` ciro ([Finans tabloları](/veritabani/finans-tablolari/#cek-ve-senet)).
 
 ### Vadesi yaklaşan çek ve senetler
 
@@ -287,7 +287,7 @@ Aynı birleşim üzerinde; 30 gün içinde vadesi gelen, henüz ödenmemiş evra
 SELECT TUR, SC_NO, CARI_KOD, VADETRH, TUTAR, SC_SONDUR,
        DATEDIFF(day, GETDATE(), VADETRH) AS KALAN_GUN
 FROM ( /* üstteki UNION ALL */ ) u
-WHERE SC_SONDUR IN ('P', 'B')
+WHERE SC_SONDUR IN ('P', 'B')   -- 'P' anlamı doğrulanmadı; yalnız 'B' bekleyen evraktır
   AND VADETRH <= DATEADD(day, 30, GETDATE())
 ORDER BY VADETRH;
 ```
@@ -375,12 +375,14 @@ SELECT DISTINCT SIRKET, SIRKETYILI FROM NETSIS.dbo.SIRKETLER30;
 Netsis'in kendisinin de yalnızca tek alan değiştirdiği bilinen birkaç işlem SQL ile yapılabilir. Yine de **test şirketinde deneyin**, işlemi bir transaction içinde yapın ve etkilenen satır sayısını kontrol edin.
 
 ```sql
--- Müşteri siparişini onayla (TIPI=2) ya da onayı geri al (TIPI=3)
+-- Onaysız (TIPI=3) müşteri siparişini onayla (TIPI=2)
 BEGIN TRAN;
 UPDATE TBLSIPAMAS SET TIPI = 2
-WHERE FTIRSIP = '6' AND FATIRS_NO = @SiparisNo AND CARI_KODU = @CariKod;
+WHERE FTIRSIP = '6' AND FATIRS_NO = @SiparisNo AND CARI_KODU = @CariKod AND TIPI = 3;
 -- @@ROWCOUNT = 1 değilse ROLLBACK
 COMMIT;
 ```
+
+REST ile yazılan sipariş `TIPI = 3` kalır; gövdedeki `TIPI` / `OnayTipi` onaylamaz ([Onay](/rest/siparis-islemleri/#onay)). Aynı mantıkla kayıt kullanıcısı da SQL ile düzeltilebilir: [Kayıt kullanıcısı](/veritabani/kayit-kullanicisi/#gercek-kullaniciyi-yazmak).
 
 Belge, kart ve hareket **oluşturma, silme ve tutar değiştirme** işleri için [NetOpenX](/netopenx/) kullanın.

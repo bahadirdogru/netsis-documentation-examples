@@ -68,9 +68,9 @@ Ortak kolonlar: `SC_NO` (evrak no), `SC_GIRTRH` (giriş), `VADETRH` (vade), `SC_
 
 | Kolon | Değerler (gözlem) |
 |-------|-------------------|
-| `SC_SONDUR` (son durum) | `P` portföyde, `B` bankada/tahsilde, `O` ödendi, `I` iade. REST ile girilen müşteri çeki doğrudan `B` yazıldı |
+| `SC_SONDUR` (son durum) | `B` bekliyor: Netsis'in risk hesabı yalnız bu değeri sayar ([Cari risk](/veritabani/cari-risk/)). `P` için ödendi / tahsil edildi anlamı **doğrulanmadı**. REST ile girilen müşteri çeki doğrudan `B` yazıldı |
 | `AS_C` | `A` asıl borçlu, `C` ciranta |
-| `SC_YERI` | `P` portföy (örneklerden); diğer değerler belgelenmemiş |
+| `SC_YERI` | `P` portföy, `T` tahsilde, `C` ciro; `I` iade / iptal (**doğrulanmadı**). Risk hesabı `I` olanları dışarıda bırakır, `C` olanları ödeme tarihinden iki gün sonrasına kadar sayar |
 
 Dört tabloyu tek listede göstermek için `UNION ALL` ile birleştirip tür sütunu ekleyin: [Çek ve senet listesi](/veritabani/sql-ornekleri/#cek-ve-senet-listesi). Birleşik listenin anahtarı tür + `SC_NO`'dur.
 

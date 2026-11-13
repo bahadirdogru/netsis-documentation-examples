@@ -29,7 +29,9 @@ Sürümler: ilk tur 9.0.71 ile yapıldı. `NetOpenX50.dll` güncellenince servis
 | Hızlı tahsilat | Kaydedilemedi | `SozKodu` tanımı gerekli |
 | `Print/*` | Çalışmadı | Sunucuda varsayılan yazıcı yok |
 
-Denenmedi: `CopyItemSlip`, `OrderRevision`, `ChangeNumber`, `ChangeCode`, `GLSlips` yazma, `StatementsHeader`, üretim uçları ve e-belge uçları. `ReadAndSave` denendi ama zaman aşımına düştü; [Servis kesintisi](#servis-kesintisi).
+Üçüncü turda (9.0.72.5) sipariş ve cari kartı ayrıntılı sınandı: [Sipariş hesaplama ve değiştirme](/rest/siparis-islemleri/) (`Calculate`, risk reddi, koşul alanları, numara sayacı, `ChangeNumber`, `ChangeCode`, `OrderRevision`) ve [Cari kartı özellikleri](#cari-karti-ozellikleri). Bu turun bulguları da tek test şirketine ve Netsis çekirdeği 9.0.72.5'e aittir.
+
+Denenmedi: `CopyItemSlip`, `GLSlips` yazma, `StatementsHeader`, üretim uçları ve e-belge uçları. `ReadAndSave` denendi ama zaman aşımına düştü; [Servis kesintisi](#servis-kesintisi).
 
 ## Sipariş
 
@@ -51,12 +53,12 @@ Denenmedi: `CopyItemSlip`, `OrderRevision`, `ChangeNumber`, `ChangeCode`, `GLSli
 - **Toplam 0 yazılması.** `KosulluHesapla` verilmezse varsayılanı `true`. Fiyatı olmayan stok kartında `STra_BF` sıfırlandı, satır ve başlık 0 yazıldı. `false` ile gövdedeki fiyat kullanıldı. Fiyatlı kartta davranış doğrulanmadı.
 - **Fiyat.** Yalnız `STra_NF` vermek yetmedi; `STra_BF` gerekli. Net fiyat sunucuda brüt ve iskontodan hesaplanıyor.
 - **KDV.** `STra_KDV` verilmezse stok kartındaki oran kullanılıyor; oran 0 olan kartta KDV 0 geldi.
-- **`Calculate` ile kayıt** aynı toplamı verdi. `Calculate` yanıtında hesaplanmış net fiyat `Kalems` içinde değil, `YedekKalems` içinde.
+- **`Calculate` ile kayıt** aynı toplamı verdi. `Calculate` yanıtında satırdaki `STra_NF` ve `STra_KDV` 0 döndü; ilk turda net fiyat `YedekKalems` içinde görülmüştü. Net fiyatı `STra_BF` ve iskontolardan hesaplamak güvenlidir: [Calculate](/rest/siparis-islemleri/#calculate).
 - **`Calculate` yanıtındaki `FATIRS_NO`** kullanılmamalı. Boş serili bir `TBLFATUNO` satırından üretilen, belgeyle ilgisiz bir değer döndü.
 
 ### Sipariş onayı
 
-Yeni sipariş `TBLSIPAMAS.TIPI = 3` (onaysız) kaydedildi. Gövdede `TIPI` için `2`, `1` ve `ft_YurtIci`, ayrıca `OnayTipi: "A"` denendi, sonuç değişmedi. `POST` yanıtı, `GET` ve `Details` yine `2` gösterdi; onay durumu tablodan okunmalı. REST'te onay ucu bulunamadı. COM tarafında da ayrı metot gözlenmedi; bkz. [Sipariş onayı](/netopenx/belge-donusumleri/#siparis-onayi).
+Yeni sipariş `TBLSIPAMAS.TIPI = 3` (onaysız) kaydedildi. Üçüncü turda da aynı çıktı; onay ucu yok, çözüm SQL'dir ([Onay](/rest/siparis-islemleri/#onay)). Gövdede `TIPI` için `2`, `1` ve `ft_YurtIci`, ayrıca `OnayTipi: "A"` denendi, sonuç değişmedi. `POST` yanıtı, `GET` ve `Details` yine `2` gösterdi; onay durumu tablodan okunmalı. REST'te onay ucu bulunamadı. COM tarafında da ayrı metot gözlenmedi; bkz. [Sipariş onayı](/netopenx/belge-donusumleri/#siparis-onayi).
 
 ## Fatura
 
@@ -85,7 +87,8 @@ Stok kartında muhasebe detay kodu yoksa kayıt muhasebeleştirmede düşer: `St
 - `KayitliNumaraOtomatikGuncellensin: true` iken kayıtlı numara verilirse sonraki boş numaraya geçer. `false` iken `Hata Kodu : 402 … Daha önceden kaydedilmiş` döner.
 - `NewNumber` sayacı artırmıyor, `TBLFATUNO + 1` döndürüyor.
 - Risk hatasıyla düşen `POST` numara yaktı. Silinen belgeler sayaçları geri almıyor.
-- `RiskKontrol` gönderilmezse risk kontrolü açık sayılıyor. `RISK_SINIRI` 0 olan caride `MÜŞTERİ RİSKLİ` hatası verir.
+- `RiskKontrol` gönderilmezse risk kontrolü açık sayılıyor. Limit `TBLCARISK.RISKLIMITI` içindedir (`TBLCASABIT.RISK_SINIRI` test şirketinde hep 0 idi); limiti aşan belge `MÜŞTERİ RİSKLİ` hatasıyla reddedilir. Hesap: [Cari risk](/veritabani/cari-risk/).
+- Bir `POST`'u yeniden kurup göndermeden önce [numara sayacının](/rest/siparis-islemleri/#numara-sayaci-tblfatuno) hangi durumda ilerlediğine bakın.
 
 ## Stok ve ambar
 
@@ -102,6 +105,21 @@ Stok kartında muhasebe detay kodu yoksa kayıt muhasebeleştirmede düşer: `St
 - `GET ARPs` listesi `fields` verilse de `CariEkBilgi`'yi döndürür; içinde `TcKimlikNo` olabilir. Liste için `ARPs/PrimInfo` kullanın.
 - `ARPTransactions` eklerken `SonKayitNoAl: true` verin; `false` ise `Inc_Key_Number` 0 döner ve kaydı silemezsiniz.
 - Cari hareket silmek `CM_BORCT` ve `CM_ALACT` özetini düşürdü, eklemek artırmadı. Bakiyeyi `TBLCAHAR` toplamından hesaplayın.
+
+### Cari kartı özellikleri
+
+9.0.72.5 ile `POST ARPs` gövdesinde yazan özellik adları:
+
+- `CariTemelBilgi`: `CARI_KOD`, `CARI_ISIM`, `CARI_TIP`, `Grup_Kodu`, `RAPOR_KODU1`, `Rapor_Kodu2`, `CARI_ADRES`, `CARI_IL`, `CARI_ILCE`, `POSTAKODU`, `CARI_TEL`, `FAX`, `EMAIL`, `VERGI_DAIRESI`, `VERGI_NUMARASI`, `M_KOD`, `KOSULKODU`, `FIYATGRUBU`, `Plasiyer_Kodu`, `VADE_GUNU`, `RISK_SINIRI`, `ULKE_KODU`, `TeslimCariBagliMi` (`E`), `BagliCariKod`, `DuzeltmeYapanKul`.
+- `CariEkBilgi`: `CARI_KOD`, `TcKimlikNo`, `CariRisk` (`E` / `H`).
+
+Davranışlar:
+
+- `KayitYapanKul` yok sayılır, Netsis `NetOpenX` yazar; `DuzeltmeYapanKul` verildiği gibi saklanır ([Kayıt kullanıcısı](/veritabani/kayit-kullanicisi/)).
+- Servis aşırı uzun değerleri (isim, adres, telefon, e-posta) **sessizce keser**.
+- Servis kodları ilgili tabloyla **denetlemez**: tanımsız `KOSULKODU`, `Grup_Kodu`, `RAPOR_KODU1`, `M_KOD`, `BagliCariKod` olduğu gibi saklandı. Göndermeden önce kendiniz doğrulayın.
+- Türkçe harfler doğru saklandı. 15 karakterlik kod çalıştı. `DELETE ARPs/{kod}` kartı siler; var olan kodla `POST ARPs` reddedilir.
+- `TBLCASABIT.ULKE_KODU` (`varchar(4)`) ISO alfa-2 kodu taşır; şirket veritabanında ülke tablosu yoktur.
 
 ## Kasa, çek, tahsilat
 
@@ -167,5 +185,6 @@ Nedeni doğrulanmadı. İlk kesintide birkaç istemci aynı anda çalışıyordu
 
 - Test şirketini yedekten geri yükleyin. Tablo kopyalama yöntemleri varsayılanları, yabancı anahtarları ve tetikleyicileri düşürebilir; böyle bir kopyada `Cannot insert the value NULL into column` hataları çıkar.
 - Kopya gerçek e-belge ve e-posta ayarlarını taşır. Denemede e-belge gönderme uçlarını çağırmayın, `EPostaGonderilsin: false` gönderin.
+- Şirkete özel tetikleyiciler REST yazmalarında da çalışır; hata veren biri çağrıyı `700` ve kendi SQL hata metniyle düşürür ([Şirkete özel tetikleyiciler](/rest/siparis-islemleri/#sirkete-ozel-tetikleyiciler)).
 - Kopyadaki tetikleyiciler başka veritabanlarına yazıyor olabilir. Yazmadan önce `sys.sql_modules` içinde canlı veritabanı adını arayın.
 - Her deneme kaydını tanınır bir etiketle işaretleyin (`EKACK1`), silin ve canlıda iz kalmadığını kontrol edin.

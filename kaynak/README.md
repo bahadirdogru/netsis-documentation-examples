@@ -17,6 +17,7 @@ Bir sayfayı güncellerken ya da bir bilginin doğruluğundan şüphelendiğiniz
 | K8 | **Logo indirme sunucusu – TOOLS** | [download.logo.com.tr/#/Windows/TOOLS/](https://download.logo.com.tr/#/Windows/TOOLS/). Kopyası: [`logo-indirme/tools-agac.tsv`](logo-indirme/tools-agac.tsv) ve [`logo-indirme/tools/`](logo-indirme/tools/) (kod XML'leri, şemalar, küçük PDF'ler; ikili araçlar indirilmedi) | 2026-11-04 | Tevkifat/istisna/ödeme şekli kod XML'leri, UBL-TR XSD ve schematron, e-belge dokümanları, alıcı firma e-fatura şablonları |
 | K9 | **Canlı REST denemeleri** | Bir test şirketinde (canlının yedekten kopyası) yapılan denemeler; ham kayıtlar `C:\Git\pyinfograticmain\API.NETSIS.REST.md` §18.4 (ilk tur 2026-11-06, ikinci tur 2026-11-07) | 2026-11-07 | Sınanmış gövdeler, hata metinleri, enum eşlemeleri, kayıt kimlikleri (`SIRA`, `Inc_Key_Number`), kısmi `PUT`, kasa ve çek kaydının `TBLCAHAR` yan etkisi. Şirket verisi, sunucu adresi ve seri kodları sayfalara alınmadı |
 | K10 | **Panel okuma kataloğu ve finans tabloları** | `C:\Git\pyinfograticmain` içinde `DATA.NETSIS.md` §5.9 ve §8, `platform/backend/app/erp/read/catalog/*.py` (19 okuma varlığının SQL'i), `docs/adr/0026-netsis-okuma-yazma-katmanlari.md` | 2026-11-07 | Finans tablolarının anahtarları ve değer listeleri (test şirketinin şemasından ve veri dağılımından; sayılar alınmadı), dekont anahtarı, salt okunur SQL + REST yazma deseni, SQL Server 2008 R2 uyumlu sorgular |
+| K11 | **Canlı denemeler, test şirketi (üçüncü tur)** | Bir test şirketinde yapılan REST ve salt okunur SQL denemeleri; Netsis çekirdeği 9.0.72.5, NetOpenX REST v2. Şirket adı, kodlar, sunucu adresi ve özel nesne adları alınmadı | 2026-11 | `ItemSlips/Calculate` davranışı, risk reddi metni, koşul alanları, sipariş değiştirme yolları, numara sayacı, `ARPs` özellikleri; fiyat koşulu tabloları; `TBLCARISK` ve risk formülü (düz SQL); kayıt damgaları; `SC_SONDUR` / `SC_YERI` değerleri |
 | K7 | **Genel Netsis bilgisi** | Kaynak belirtilmeden yazılan, sahada yaygın bilinen bilgi | — | Sayfalarda "doğrulanmadı" diye işaretli olanlar bu gruptadır |
 
 ### K5: Logo DYS kök sayfaları
@@ -64,6 +65,9 @@ Kopyanın üst başlıkları: NetOpenX, NetOpenX Rest, Netsis Data Inspector (ND
 | `rest/json-ornekleri.md` | K2 | K5 (Başlangıç 3 - POST, 4 - PUT; `NoxRestNativeFaturaOrnek.rar`) | `ItemSlips` gövdesi |
 | `rest/kimlikler-ve-enumlar.md`, `rest/transaction-ve-hatalar.md` | K2 | K5, K7, K9 | `TResult` zarfı; `SafeDeposits` kimliği K9 |
 | `rest/canli-denemeler.md`, `rest/uclar.md` ve `rest/json-ornekleri.md` kasa/çek/cari notları | K9 | K10 | İkinci tur bölümü 9.0.72.5 ile |
+| `rest/siparis-islemleri.md` | K11 | K9 | Bulguların tamamı tek test şirketi ve 9.0.72.5 |
+| `veritabani/cari-risk.md` | K11 | K10 | Düz SQL test şirketinin Netsis risk raporuyla karşılaştırıldı; banka teminatı terimi veriyle sınanmadı |
+| `veritabani/fiyat-kosullari.md`, `veritabani/kayit-kullanicisi.md` | K11 | K1 | Tablo ve kolon adları şema dökümüyle karşılaştırıldı (`TBLKOSDETAY` anahtarı `KOSUL_KOD`) |
 | `rest/guvenlik.md` | K2 | K7 | |
 | `rest/bilinen-sorunlar.md` | K2 | K5, K7 | Logo örneklerindeki hatalar |
 | `surumler/index.md` | K6 | — | Elle yazıldı; klasör açıklamaları dosya adlarından çıkarıldı |

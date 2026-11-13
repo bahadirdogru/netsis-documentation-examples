@@ -71,7 +71,7 @@ Ayrıntı: [Finans tabloları](/veritabani/finans-tablolari/).
 ### Akış
 
 1. **Doğrula.** Cari, stok, depo, kasa, plasiyer gibi referanslar okuma bağlantısından çekilir; satırdaki kod yoksa belge geçersiz işaretlenir. Netsis'in zorunlu tuttuğu ama belgelenmemiş alanlar burada yakalanır: plasiyersiz carinin kasa ve çek kaydı yazılamaz (`Hata 203 Plasiyer Kodu boş geçilemez`).
-2. **Önizle.** Kurulan REST gövdesi ve hesaplanan toplamlar kullanıcıya gösterilir; `ItemSlips/Calculate` kayıt yapmadan Netsis'in toplamını verir.
+2. **Önizle.** Kurulan REST gövdesi ve hesaplanan toplamlar kullanıcıya gösterilir; `ItemSlips/Calculate` kayıt yapmadan Netsis'in toplamını verir, ama risk kontrolü yapmaz ve net fiyatı 0 döndürür ([ayrıntı](/rest/siparis-islemleri/#calculate)). Risk uyarısı için [düz SQL ile hesap](/veritabani/cari-risk/) önizlemeye eklenebilir.
 3. **Onayla.** Geri alınamayan işlemler (çek bordrosu) ayrı uyarıyla onay ister.
 4. **Yaz.** Belgeler **sırayla** gönderilir, aynı anda değil ([servis kesintisi](/rest/canli-denemeler/#servis-kesintisi)). Her belgenin sonucu (`FATIRS_NO`, `Inc_Key_Number`, `Sira`) saklanır.
 5. **Doğrula.** Kayıt sonrası kontrol tablodan yapılır; REST yanıtındaki bazı bayraklar gönderileni yansıtmaz ([Yanıt alanları](/rest/canli-denemeler/#yanit-alanlari)).
@@ -90,6 +90,10 @@ Silme ve güncelleme, uygulamanın ürettiği değil Netsis'in verdiği kimlikle
 ### Yan etkileri bilin
 
 Bir REST çağrısı tek tabloya yazmaz. Kasa tahsilatı `TBLKASA` satırının yanında `TBLCAHAR`'a cari hareket (`HAREKET_TURU = 'D'`) ve muhasebe fişi yazar; müşteri çeki `TBLMCEK` yanında `TBLCAHAR`'a `HAREKET_TURU = 'G'` hareket yazar. Okuma ekranları bu satırları göstereceği için kullanıcı "ben cari hareket girmedim" diyebilir; ekranlarda hareket türünü gösterin. Ayrıntı: [Finans tabloları](/veritabani/finans-tablolari/#kasa-ve-cek-kaydinin-yan-etkileri).
+
+### Şirkete özel tetikleyiciler ve kayıt kullanıcısı
+
+Şirketin kendi tetikleyicileri REST yazmalarında da çalışır; hata veren bir tetikleyici çağrıyı `700` ve kendi SQL hata metniyle düşürür. REST'le yazılan kayıtta kullanıcı servis kullanıcısı (`NETOPENX`) olur; gerçek kullanıcıyı kayda geçirmek son çare bir SQL güncellemesidir ([Kayıt kullanıcısı](/veritabani/kayit-kullanicisi/)). Sipariş onayı da aynı sınıftadır ([Onay](/rest/siparis-islemleri/#onay)). Her iki SQL yazımı da adlandırılmış tek ifade, tam satır sayısı denetimi ve önce test şirketi kuralıyla yapılır.
 
 ### Kısmi güncelleme
 

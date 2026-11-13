@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cari risk · Netsis Dokümantasyonu</title>
+<meta name="description" content="Netsis'in cari risk hesabı; TBLCARISK kolonları, kalan kredi formülü ve standart tablolar üzerinde düz SQL ile yeniden kurulumu.">
+<link rel="canonical" href="https://netsis.bahadirdogru.com/veritabani/cari-risk/">
+<link rel="alternate" type="text/markdown" href="/veritabani/cari-risk.md" title="Markdown">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231f6feb%22%2F%3E%3Cpath%20d%3D%22M9%2023V9h3l7%209V9h3v14h-3l-7-9v9z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<meta property="og:title" content="Cari risk">
+<meta property="og:description" content="Netsis'in cari risk hesabı; TBLCARISK kolonları, kalan kredi formülü ve standart tablolar üzerinde düz SQL ile yeniden kurulumu.">
+<meta property="og:url" content="https://netsis.bahadirdogru.com/veritabani/cari-risk/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light)" id="hl-light">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hl-dark">
+</head>
+<body>
+<a class="skip" href="#main">İçeriğe geç</a>
+<header class="top">
+  <button class="menu-btn" aria-label="Menü" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <a class="brand" href="/"><svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 23V9h3l7 9V9h3v14h-3l-7-9v9z" fill="var(--bg)"/></svg><span>Netsis Dokümantasyonu</span></a>
+  <div class="search">
+    <input id="q" type="search" placeholder="Ara: tablo, kolon, uç, nesne…  ( / )" autocomplete="off" aria-label="Ara">
+    <ul id="results" role="listbox" hidden></ul>
+  </div>
+  <button class="theme-btn" aria-label="Tema değiştir" title="Tema değiştir">◐</button>
+</header>
+<div class="layout">
+<aside id="sidebar" class="sidebar"><details class="nav-sec" open><summary>Başlangıç</summary><ul><li><a href="/">Ana sayfa</a></li><li><a href="/genel-bakis/">Genel bakış</a></li><li><a href="/entegrasyon-deseni/">Okuma SQL, yazma REST</a></li><li><a href="/llm/">LLM'ler için</a></li></ul></details><details class="nav-sec" open><summary>Veritabanı</summary><ul><li><a href="/veritabani/">Veritabanı</a></li><li><a href="/veritabani/temel-tablolar/">Temel tablolar</a></li><li><a href="/veritabani/sql-ornekleri/">SQL örnekleri</a></li><li><a href="/veritabani/finans-tablolari/">Finans tabloları</a></li><li><a href="/veritabani/cari-risk/" aria-current="page">Cari risk</a></li><li><a href="/veritabani/fiyat-kosullari/">Fiyat koşulları</a></li><li><a href="/veritabani/kayit-kullanicisi/">Kayıt kullanıcısı</a></li><li><a href="/veritabani/ortak-kolonlar/">Ortak kolonlar</a></li><li><a href="/veritabani/veri-tipleri/">Veri tipleri</a></li><li><a href="/veritabani/tum-tablolar/">Tüm tablolar</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX (COM)</summary><ul><li><a href="/netopenx/">NetOpenX (COM)</a></li><li><a href="/netopenx/nesne-katalogu/">Nesne kataloğu</a></li><li><a href="/netopenx/baglanti/">Bağlantı ve kaynak yönetimi</a></li><li><a href="/netopenx/fatura-ve-irsaliye/">Fatura ve irsaliye</a></li><li><a href="/netopenx/belge-donusumleri/">Belge dönüşümleri</a></li><li><a href="/netopenx/depo-ve-ambar/">Depo ve ambar fişleri</a></li><li><a href="/netopenx/cari-ve-stok/">Cari ve stok</a></li><li><a href="/netopenx/e-belge/">E-belge</a></li><li><a href="/netopenx/netrs-ve-transaction/">NetRS ve transaction</a></li><li><a href="/netopenx/diger-islemler/">Diğer işlemler</a></li><li><a href="/netopenx/enumlar/">Enum'lar</a></li><li><a href="/netopenx/hatalar/">Hatalar ve sorun giderme</a></li></ul></details><details class="nav-sec" open><summary>NetOpenX REST</summary><ul><li><a href="/rest/">NetOpenX REST</a></li><li><a href="/rest/kurulum/">Kurulum</a></li><li><a href="/rest/kimlik-dogrulama/">Kimlik doğrulama</a></li><li><a href="/rest/sorgulama/">Sorgulama</a></li><li><a href="/rest/uclar/">Uçlar</a></li><li><a href="/rest/istemci-kutuphanesi/">İstemci kütüphanesi</a></li><li><a href="/rest/json-ornekleri/">JSON örnekleri</a></li><li><a href="/rest/canli-denemeler/">Canlı denemeler</a></li><li><a href="/rest/siparis-islemleri/">Sipariş hesaplama ve değiştirme</a></li><li><a href="/rest/kimlikler-ve-enumlar/">Kimlikler ve enum'lar</a></li><li><a href="/rest/transaction-ve-hatalar/">Transaction ve hatalar</a></li><li><a href="/rest/guvenlik/">Güvenlik</a></li><li><a href="/rest/bilinen-sorunlar/">Bilinen sorunlar ve açık sorular</a></li></ul></details><details class="nav-sec" open><summary>Sürümler</summary><ul><li><a href="/surumler/">Sürümler ve indirme</a></li><li><a href="/surumler/tum-surumler/">Tüm sürümler</a></li><li><a href="/surumler/yama-icerikleri/">Yama içerikleri</a></li></ul></details><details class="nav-sec" open><summary>Logo araçları</summary><ul><li><a href="/logo-araclari/">Logo e-devlet araçları</a></li><li><a href="/logo-araclari/e-belge-kodlari/">E-belge kod listeleri</a></li></ul></details><details class="nav-sec" open><summary>Ek</summary><ul><li><a href="/kaynaklar/">Kaynaklar</a></li></ul></details><details class="nav-sec"><summary>Veritabanı modülleri</summary><ul><li><a href="/veritabani/moduller/genel/">GENEL modülü</a></li><li><a href="/veritabani/moduller/cari/">CARİ modülü</a></li><li><a href="/veritabani/moduller/stok/">STOK modülü</a></li><li><a href="/veritabani/moduller/fatura/">FATURA modülü</a></li><li><a href="/veritabani/moduller/banka/">BANKA modülü</a></li><li><a href="/veritabani/moduller/kasa/">KASA modülü</a></li><li><a href="/veritabani/moduller/muhasebe/">MUHASEBE modülü</a></li><li><a href="/veritabani/moduller/senet-cek/">SENET-ÇEK modülü</a></li><li><a href="/veritabani/moduller/entegrasyon/">ENTEGRASYON modülü</a></li><li><a href="/veritabani/moduller/uretim/">ÜRETİM modülü</a></li><li><a href="/veritabani/moduller/talep-teklif/">TALEP-TEKLİF modülü</a></li><li><a href="/veritabani/moduller/dizayn/">DİZAYN modülü</a></li><li><a href="/veritabani/moduller/dekont/">DEKONT modülü</a></li><li><a href="/veritabani/moduller/rapor/">RAPOR modülü</a></li><li><a href="/veritabani/moduller/yardimci-programlar/">YARDIMCI PROGRAMLAR modülü</a></li><li><a href="/veritabani/moduller/pos/">POS modülü</a></li><li><a href="/veritabani/moduller/log/">LOG modülü</a></li><li><a href="/veritabani/moduller/kullanici-islemleri/">KULLANICI İŞLEMLERİ modülü</a></li><li><a href="/veritabani/moduller/crm/">CRM modülü</a></li><li><a href="/veritabani/moduller/mrp/">MRP modülü</a></li><li><a href="/veritabani/moduller/kalite-kontrol/">KALİTE KONTROL modülü</a></li><li><a href="/veritabani/moduller/mustahsil/">MÜSTAHSİL modülü</a></li><li><a href="/veritabani/moduller/kantar/">KANTAR modülü</a></li><li><a href="/veritabani/moduller/uretim-akis-kontrol/">ÜRETİM AKIŞ KONTROL modülü</a></li><li><a href="/veritabani/moduller/is-akis-yonetimi/">İŞ AKIŞ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dinamik-depo/">DİNAMİK DEPO modülü</a></li><li><a href="/veritabani/moduller/dagitim/">DAĞITIM modülü</a></li><li><a href="/veritabani/moduller/makina-bakim/">MAKİNA BAKIM modülü</a></li><li><a href="/veritabani/moduller/maliyet-muhasebesi/">MALİYET MUHASEBESİ modülü</a></li><li><a href="/veritabani/moduller/doviz/">DÖVİZ modülü</a></li><li><a href="/veritabani/moduller/netsis-surec-yonetimi/">NETSİS SÜREÇ YÖNETİMİ modülü</a></li><li><a href="/veritabani/moduller/dis-ticaret/">DIŞ TİCARET modülü</a></li></ul></details></aside>
+<main id="main" class="content">
+<nav class="crumbs" aria-label="Konum"><a href="/">Ana sayfa</a> <span>/</span> <a href="/veritabani/">Veritabanı</a></nav>
+<article>
+<h1 id="cari-risk"><a class="anchor" href="#cari-risk" aria-hidden="true">#</a>Cari risk</h1>
+<p>Netsis bir belgeyi kaydederken carinin riskini kontrol eder (<code>RiskKontrol</code>) ve aşılmışsa <code>MÜŞTERİ RİSKLİ</code> hatası verir (<a href="/rest/siparis-islemleri/#risk-reddi">Sipariş hesaplama ve değiştirme</a>). Aynı sayıyı önceden görmek için formül düz SQL ile yeniden kurulabilir. Bu sayfadaki bulgular tek bir test şirketinde, Netsis çekirdeği 9.0.72.5 ile yapılan canlı denemelerden gelir; sorgu o şirketin bütün carilerinde Netsis&#39;in kendi risk raporuyla aynı sonucu verdi. Kendi şirketinizde de karşılaştırıp doğrulayın. «doğrulanmadı» işaretli parçalar test verisiyle sınanamadı.</p>
+<h2 id="tablolar-ve-kolonlar"><a class="anchor" href="#tablolar-ve-kolonlar" aria-hidden="true">#</a>Tablolar ve kolonlar</h2>
+<p><a class="tbl" href="/veritabani/tablolar/tblcarisk/"><code>TBLCARISK</code></a> (anahtar <code>CARIKOD</code>):</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kolon grubu</th>
+<th>Kolonlar</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Limit</td>
+<td><code>RISKLIMITI</code>, <code>TEMINATI</code></td>
+</tr>
+<tr>
+<td>Saklanan tutarlar</td>
+<td><code>CARISK</code> (çek asıl), <code>CCRISK</code> (çek ciro), <code>SARISK</code> (senet asıl), <code>SCRISK</code> (senet ciro), <code>IRSRISK</code>, <code>SIPRISK</code>, <code>SEVKRISK</code>, <code>YUKRISK</code></td>
+</tr>
+<tr>
+<td>Yüzdeler</td>
+<td><code>RISKLIMITIO</code>, <code>TEMINATIO</code>, <code>BORCRISKO</code>, <code>CARISKO</code>, <code>CCRISKO</code>, <code>SARISKO</code>, <code>SCRISKO</code>, <code>IRSRISKO</code>, <code>SIPRISKO</code>, <code>SEVKRISKO</code>, <code>YUKRISKO</code></td>
+</tr>
+<tr>
+<td>Davranış</td>
+<td><code>SIPRISKDAVRAN</code>, <code>IRSRISKDAVRAN</code>, <code>FATRISKDAVRAN</code>, <code>SEVKRISKDAVRAN</code>, <code>YUKRISKDAVRAN</code>, <code>DEKRISKDAVRAN</code> (<code>0</code> işlem durdurulsun, <code>1</code> yapılmasın)</td>
+</tr>
+</tbody></table></div>
+<p>Gözlemler:</p>
+<ul>
+<li>Limit <code>TBLCARISK.RISKLIMITI</code> içindedir. <code>TBLCASABIT.RISK_SINIRI</code> test şirketinde her kartta 0 idi.</li>
+<li>Carinin risk anahtarı <code>TBLCASABITEK.CARIRISK</code> (<code>E</code> / <code>H</code>); REST&#39;te <code>CariEkBilgi.CariRisk</code>.</li>
+<li><a class="tbl" href="/veritabani/tablolar/tblcarisk/"><code>TBLCARISK</code></a> içindeki saklanan tutar kolonları test şirketinde 0 idi; canlı rakamlar hareket tablolarından hesaplanır.</li>
+<li><code>SEVKRISK</code>, <code>YUKRISK</code>, <code>*DAVRAN</code> ve bazı yüzde kolonları sitedeki şema dökümünde yoktur, test şirketinde vardı; <code>TBLCASABITEK.CARIRISK</code> ve aşağıdaki <code>KUMGENEL</code> için de aynısı geçerli. Kendi veritabanınızda kolonun varlığını <code>INFORMATION_SCHEMA.COLUMNS</code> ile kontrol edin.</li>
+</ul>
+<h2 id="formul"><a class="anchor" href="#formul" aria-hidden="true">#</a>Formül</h2>
+<pre><code class="language-text">Kalan kredi =
+    (− banka teminatları × TEMINATIO / 100)
+  +  RISKLIMITI
+  −  bakiye          × BORCRISKO / 100
+  −  senet asıl      × SARISKO   / 100
+  −  senet ciro      × SCRISKO   / 100
+  −  çek asıl        × CARISKO   / 100
+  −  çek ciro        × CCRISKO   / 100
+  −  açık siparişler × SIPRISKO  / 100
+  −  SEVKRISK        × SEVKRISKO / 100
+  −  YUKRISK         × YUKRISKO  / 100
+</code></pre>
+<p>Netsis&#39;in red metnindeki «Risk değeri» = <code>RISKLIMITI</code> − kalan kredi. Test şirketinin kendi raporunda irsaliye terimi (<code>IRSRISKO</code>) yoktu; o yüzden formüle alınmadı, sizin raporunuzda varsa ekleyin.</p>
+<p>Terimlerin kaynağı:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Terim</th>
+<th>Kaynak</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bakiye</td>
+<td><code>TBLCASABIT.CM_BORCT − CM_ALACT</code>. Bu özet kolonların hareketle uyumsuz kalabildiğine dair uyarı: <a href="/veritabani/sql-ornekleri/#cari-bakiyesi">Cari bakiyesi</a>. Netsis&#39;in risk hesabı bunları kullandığı için burada da kullanılır</td>
+</tr>
+<tr>
+<td>Çek / senet</td>
+<td><a class="tbl" href="/veritabani/tablolar/tblmcek/"><code>TBLMCEK</code></a> ve <a class="tbl" href="/veritabani/tablolar/tblmsen/"><code>TBLMSEN</code></a>; cari <code>SC_VERENK</code>, <code>AS_C = &#39;A&#39;</code> (asıl) ya da <code>&#39;C&#39;</code> (ciro), <code>SC_SONDUR = &#39;B&#39;</code>, <code>SC_YERI &lt;&gt; &#39;I&#39;</code>; <code>SC_YERI = &#39;C&#39;</code> olanlar yalnız bugün &lt; <code>SC_ODETRH</code> + 2 iken sayılır; <code>TUTAR</code> toplanır</td>
+</tr>
+<tr>
+<td>Banka teminatı</td>
+<td><a class="tbl" href="/veritabani/tablolar/tblbnktemsabit/"><code>TBLBNKTEMSABIT</code></a>: <code>CARIKODU</code>, <code>RISKEDAHIL = &#39;E&#39;</code>, <code>DURUM = 0</code>, <code>VADETARIH</code> bugün ya da sonrası ya da boş; <code>TUTAR</code>. Test şirketinde hiç satır yoktu: bu terim veriyle <strong>doğrulanmadı</strong>; işareti de formülden okundu</td>
+</tr>
+<tr>
+<td>Açık sipariş</td>
+<td><a class="tbl" href="/veritabani/tablolar/tblsipatra/"><code>TBLSIPATRA</code></a> ↔ <a class="tbl" href="/veritabani/tablolar/tblsipamas/"><code>TBLSIPAMAS</code></a> (<code>SUBE_KODU</code>, <code>STHAR_FTIRSIP = FTIRSIP</code>, <code>FISNO = FATIRS_NO</code>, <code>STHAR_ACIKLAMA = CARI_KODU</code>), <code>STHAR_GCKOD = &#39;C&#39;</code>, başlıkta <code>UPDATE_KODU</code> &#39;Y&#39; değil; açık miktar = <code>STHAR_GCMIK − FIRMA_DOVTUT − sevk edilen</code>; tutar = açık × <code>STHAR_NF</code> × (1 + <code>STHAR_KDV</code> / 100); yalnız açık &gt; 0 olanlar</td>
+</tr>
+<tr>
+<td>Sevk edilen</td>
+<td>Netsis&#39;te <code>NSF_SEVKKALMIKGETIR(FISNO + &#39;-&#39; + STRA_SIPKONT, 1)</code> skaler fonksiyonu; içi <code>KUMGENEL</code> tablosunda <code>FUNCTIONID = 1</code> ve <code>ANAHTAR = FISNO + &#39;-&#39; + STRA_SIPKONT</code> için <code>SUM(TOPLAM1)</code></td>
+</tr>
+</tbody></table></div>
+<p>Salt okunur bir SQL girişinde <code>NSF_*</code> fonksiyonlarında genellikle EXECUTE, tanımlarında VIEW DEFINITION yetkisi yoktur; bu yüzden fonksiyonu çağırmak yerine sorgusu satır içine alınır (aşağıda).</p>
+<h2 id="duz-sql"><a class="anchor" href="#duz-sql" aria-hidden="true">#</a>Düz SQL</h2>
+<p>SQL Server 2008 R2 ile uyumludur (<code>OFFSET</code>, <code>FORMAT</code>, pencere toplamı yok). <code>@CariKod</code> uygulamada parametre olarak verilir.</p>
+<pre><code class="language-sql">DECLARE @CariKod varchar(15);
+DECLARE @Bugun   datetime;
+SET @CariKod = &#39;CARI001&#39;;
+SET @Bugun   = DATEADD(day, DATEDIFF(day, 0, GETDATE()), 0);
+
+SELECT y.CARIKOD, y.RISKLIMITI,
+       y.KALAN_KREDI,
+       y.RISKLIMITI - y.KALAN_KREDI AS RISK_DEGERI
+FROM (
+  SELECT x.CARIKOD, x.RISKLIMITI,
+         - x.TEMINAT * x.TEMINATIO / 100.0
+         + x.RISKLIMITI
+         - x.BAKIYE      * x.BORCRISKO / 100.0
+         - x.SENET_ASIL  * x.SARISKO   / 100.0
+         - x.SENET_CIRO  * x.SCRISKO   / 100.0
+         - x.CEK_ASIL    * x.CARISKO   / 100.0
+         - x.CEK_CIRO    * x.CCRISKO   / 100.0
+         - x.ACIK_SIPARIS * x.SIPRISKO / 100.0
+         - x.SEVKRISK    * x.SEVKRISKO / 100.0
+         - x.YUKRISK     * x.YUKRISKO  / 100.0 AS KALAN_KREDI
+  FROM (
+    SELECT r.CARIKOD,
+           ISNULL(r.RISKLIMITI, 0) AS RISKLIMITI,
+           ISNULL(r.TEMINATIO, 0)  AS TEMINATIO,
+           ISNULL(r.BORCRISKO, 0)  AS BORCRISKO,
+           ISNULL(r.SARISKO, 0)    AS SARISKO,
+           ISNULL(r.SCRISKO, 0)    AS SCRISKO,
+           ISNULL(r.CARISKO, 0)    AS CARISKO,
+           ISNULL(r.CCRISKO, 0)    AS CCRISKO,
+           ISNULL(r.SIPRISKO, 0)   AS SIPRISKO,
+           ISNULL(r.SEVKRISK, 0)   AS SEVKRISK,
+           ISNULL(r.SEVKRISKO, 0)  AS SEVKRISKO,
+           ISNULL(r.YUKRISK, 0)    AS YUKRISK,
+           ISNULL(r.YUKRISKO, 0)   AS YUKRISKO,
+           b.BAKIYE, t.TEMINAT,
+           e.CEK_ASIL, e.CEK_CIRO, e.SENET_ASIL, e.SENET_CIRO,
+           s.ACIK_SIPARIS
+    FROM TBLCARISK r WITH (NOLOCK)
+
+    -- bakiye
+    CROSS JOIN (SELECT ISNULL(SUM(ISNULL(CM_BORCT, 0) - ISNULL(CM_ALACT, 0)), 0) AS BAKIYE
+                FROM TBLCASABIT WITH (NOLOCK)
+                WHERE CARI_KOD = @CariKod) b
+
+    -- banka teminatları (doğrulanmadı: test şirketinde satır yoktu)
+    CROSS JOIN (SELECT ISNULL(SUM(TUTAR), 0) AS TEMINAT
+                FROM TBLBNKTEMSABIT WITH (NOLOCK)
+                WHERE CARIKODU = @CariKod AND RISKEDAHIL = &#39;E&#39; AND DURUM = 0
+                  AND (VADETARIH IS NULL OR VADETARIH &gt;= @Bugun)) t
+
+    -- bekleyen çek ve senetler (müşteri evrakı)
+    CROSS JOIN (
+      SELECT
+        ISNULL(SUM(CASE WHEN u.TIP = &#39;CEK&#39;  AND u.AS_C = &#39;A&#39; THEN u.TUTAR END), 0) AS CEK_ASIL,
+        ISNULL(SUM(CASE WHEN u.TIP = &#39;CEK&#39;  AND u.AS_C = &#39;C&#39; THEN u.TUTAR END), 0) AS CEK_CIRO,
+        ISNULL(SUM(CASE WHEN u.TIP = &#39;SEN&#39;  AND u.AS_C = &#39;A&#39; THEN u.TUTAR END), 0) AS SENET_ASIL,
+        ISNULL(SUM(CASE WHEN u.TIP = &#39;SEN&#39;  AND u.AS_C = &#39;C&#39; THEN u.TUTAR END), 0) AS SENET_CIRO
+      FROM (
+        SELECT &#39;CEK&#39; AS TIP, AS_C, TUTAR, SC_SONDUR, SC_YERI, SC_ODETRH
+        FROM TBLMCEK WITH (NOLOCK) WHERE SC_VERENK = @CariKod
+        UNION ALL
+        SELECT &#39;SEN&#39;, AS_C, TUTAR, SC_SONDUR, SC_YERI, SC_ODETRH
+        FROM TBLMSEN WITH (NOLOCK) WHERE SC_VERENK = @CariKod
+      ) u
+      WHERE u.SC_SONDUR = &#39;B&#39;
+        AND u.SC_YERI &lt;&gt; &#39;I&#39;
+        AND (u.SC_YERI &lt;&gt; &#39;C&#39; OR @Bugun &lt; DATEADD(day, 2, u.SC_ODETRH))
+    ) e
+
+    -- açık siparişler (NSF_SEVKKALMIKGETIR satır içine alındı)
+    CROSS JOIN (
+      SELECT ISNULL(SUM(a.ACIK * a.STHAR_NF * (1 + a.STHAR_KDV / 100.0)), 0) AS ACIK_SIPARIS
+      FROM (
+        SELECT tr.STHAR_NF, tr.STHAR_KDV,
+               tr.STHAR_GCMIK - ISNULL(tr.FIRMA_DOVTUT, 0)
+               - ISNULL((SELECT SUM(k.TOPLAM1)
+                         FROM KUMGENEL k WITH (NOLOCK)
+                         WHERE k.FUNCTIONID = 1
+                           AND k.ANAHTAR = tr.FISNO + &#39;-&#39; + CONVERT(varchar(10), tr.STRA_SIPKONT)), 0) AS ACIK
+        FROM TBLSIPATRA tr WITH (NOLOCK)
+        JOIN TBLSIPAMAS m WITH (NOLOCK)
+          ON  m.SUBE_KODU = tr.SUBE_KODU
+          AND m.FTIRSIP   = tr.STHAR_FTIRSIP
+          AND m.FATIRS_NO = tr.FISNO
+          AND m.CARI_KODU = tr.STHAR_ACIKLAMA
+        WHERE tr.STHAR_ACIKLAMA = @CariKod
+          AND tr.STHAR_GCKOD = &#39;C&#39;
+          AND ISNULL(m.UPDATE_KODU, &#39;&#39;) &lt;&gt; &#39;Y&#39;
+      ) a
+      WHERE a.ACIK &gt; 0
+    ) s
+
+    WHERE r.CARIKOD = @CariKod
+  ) x
+) y;
+</code></pre>
+<p>Notlar:</p>
+<ul>
+<li><code>STRA_SIPKONT</code> sayısal kolondur; anahtar <code>FISNO + &#39;-&#39; + CAST(STRA_SIPKONT AS VARCHAR(10))</code> biçiminde kurulur. Bu biçimle kurulan sorgu, test şirketinin kendi risk raporuyla bütün carilerde aynı sonucu verdi.</li>
+<li><code>SC_YERI &lt;&gt; &#39;I&#39;</code> koşulu <code>SC_YERI</code> boş olan satırları dışarıda bırakır; Netsis&#39;in kendi hesabı da böyle davrandı. Boş değer görüyorsanız sonucu raporla karşılaştırın.</li>
+<li>Çok sayıda cari için döngü yerine her terimi <code>GROUP BY</code> ile bir kez hesaplayıp <code>CARIKOD</code> üzerinden birleştirin; yukarıdaki biçim tek cari içindir.</li>
+<li>Bu hesap yalnızca okur. <a class="tbl" href="/veritabani/tablolar/tblcarisk/"><code>TBLCARISK</code></a> kaydı yazmak için SQL kullanmayın (<a href="/genel-bakis/#yazma-kurali">Genel bakış</a>).</li>
+</ul>
+
+</article>
+<footer class="page-foot"><a href="https://github.com/bahadirdogru/netsis-documentation-examples/edit/main/content/veritabani/cari-risk.md">GitHub'da düzenle</a> · <a href="/veritabani/cari-risk.md">Markdown</a> · <a href="/llms.txt">llms.txt</a></footer>
+</main>
+<nav class="toc" aria-label="Bu sayfada"><div class="toc-title">Bu sayfada</div><ul><li class="l2"><a href="#tablolar-ve-kolonlar">Tablolar ve kolonlar</a></li><li class="l2"><a href="#formul">Formül</a></li><li class="l2"><a href="#duz-sql">Düz SQL</a></li></ul></nav>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js"></script>
+<script src="/assets/site.js"></script>
+</body>
+</html>

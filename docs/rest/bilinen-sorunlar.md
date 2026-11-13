@@ -27,6 +27,8 @@ Logo'nun örnek kodları çalışma garantisi vermez. Kopyalamadan önce derleyi
 
 ## Açık sorular (doğrulanmadı)
 
+`TBLCARISK` içindeki banka teminatı terimi veriyle sınanmadı; `SC_SONDUR = 'P'` ve `SC_YERI = 'I'` anlamları da doğrulanmadı ([Cari risk](/veritabani/cari-risk/), [Finans tabloları](/veritabani/finans-tablolari/#cek-ve-senet)).
+
 1. Token yanıtının tam alan listesi (`access_token`, `expires_in`, `token_type`…).
 2. `dbtype` için `0` MSSQL'de çalıştı; diğer değerler bilinmiyor.
 3. `TokenRestSettings.Init`'in ikinci ve üçüncü parametreleri.
@@ -35,7 +37,7 @@ Logo'nun örnek kodları çalışma garantisi vermez. Kopyalamadan önce derleyi
 6. `Hka`, `Hareket_Turu`, `AS_C`, `SC_YERI`, `SC_SONDUR`, `IO`, `Tip`, `Kdv_Dahil` alanlarının tam değer listeleri. `SonKayitNoAl: true` kayıt kimliğini döndürür. Tabloda görülen değerler [Finans tabloları](/veritabani/finans-tablolari/) sayfasında; tam liste hâlâ yok.
 7. `BatchInvoicing.FaturaTip: 2` değerinin karşılığı. `TIPI: 2` için bkz. [Kimlikler ve enum'lar](/rest/kimlikler-ve-enumlar/#sayisal-enum-degerleri).
 8. `api/v2/public/CompanyList`'in hangi kurulumlarda çalıştığı (bazılarında `DBMONITOR..TBLSUBELER` hatası).
-9. Sipariş onayının (`TBLSIPAMAS.TIPI` 3 → 2) REST ile yapılıp yapılamayacağı. Denemede bir yol bulunamadı.
+9. Sipariş onayının (`TBLSIPAMAS.TIPI` 3 → 2) REST ile yapılıp yapılamayacağı. İki denemede de (9.0.71 ve 9.0.72.5) bir yol bulunamadı; çözüm SQL'dir ([Onay](/rest/siparis-islemleri/#onay)).
 10. Servisin [denemelerde kesilme](/rest/canli-denemeler/#servis-kesintisi) nedeni.
 11. `CheckAndPNotesMain` listesinin neden `[null]` döndüğü ve bordronun REST ile nasıl silineceği.
 12. `SafeDeposits` kaydında `Fisno` verilmezse numaranın nasıl üretildiği.

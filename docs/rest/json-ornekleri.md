@@ -74,7 +74,7 @@ Tam ve sürümünüze uygun liste: `GET api/v2/definitions/ItemSlips`.
 
 ## Fatura hesaplama
 
-`POST api/v2/ItemSlips/Calculate`: gövde fatura ile aynıdır, kayıt yapmaz, toplamları döndürür. Hesaplanmış net fiyat `YedekKalems` içindedir; yanıttaki `FATIRS_NO` kullanılmamalıdır.
+`POST api/v2/ItemSlips/Calculate`: gövde fatura ile aynıdır, kayıt yapmaz, toplamları döndürür. Satırdaki `STra_NF` ve `STra_KDV` 0 döner; net fiyatı `STra_BF` ve iskontolardan hesaplayın (ilk turda net fiyat `YedekKalems` içinde görülmüştü). Yanıttaki `FATIRS_NO` kullanılmamalıdır. Koşul ve risk davranışı: [Sipariş hesaplama ve değiştirme](/rest/siparis-islemleri/#calculate).
 
 ## Siparişten fatura
 

@@ -45,6 +45,9 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH'a 
 
 - Cari bakiye `TBLCAHAR` üzerinden hesaplanır: `SUM(BORC) - SUM(ALACAK)`. Kart üzerindeki toplam alanlar (`CM_BORCT`, `CM_ALACT`) Netsis tarafından tutulur ama raporlama için hareketten hesaplamak daha güvenlidir.
 - REST'te cari hareketin kimliği `INC_KEY_NUMBER` değeridir (`api/v2/ARPTransactions/{id}`).
+- Risk limiti `TBLCASABIT.RISK_SINIRI` değil `TBLCARISK.RISKLIMITI` içindedir; kartın risk anahtarı `TBLCASABITEK.CARIRISK` (`E` / `H`). Hesap: [Cari risk](/veritabani/cari-risk/).
+- Carinin fiyat koşulu `TBLCASABIT.KOSULKODU`'dur: [Fiyat koşulları](/veritabani/fiyat-kosullari/).
+- `TBLCASABIT.ULKE_KODU` (`varchar(4)`) ISO alfa-2 kodu tutar; şirket veritabanında ülke tablosu yoktur.
 
 ## Stok
 
@@ -52,6 +55,7 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH'a 
 |-------|--------|---------|
 | `TBLSTSABIT` | Stok kartı: kod, ad, ölçü birimleri, KDV, fiyatlar, barkod 1-3, grup ve rapor kodları | `STOK_KODU` |
 | `TBLSTSABITEK` | Stok ek bilgi: İngilizce isim (`INGISIM`), kullanıcı tanımlı sahalar | `STOK_KODU` |
+| `TBLSTOKBAR` | Stokun ek barkodları (`TBLSTSABIT` üzerinde `BARKOD1`–`3` dışında) |
 | `TBLSTHAR` | Tüm stok hareketleri: fatura ve irsaliye kalemleri, depo transferleri, ambar fişleri, üretim | `INCKEYNO` |
 | `TBLSTOKDP` | Depo tanımları | `DEPO_KODU` |
 | `TBLSTOKPH` | Stok bakiye özeti (depo ve yapılandırma kodu bazında) | `STOK_KODU` |
@@ -77,9 +81,11 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH'a 
 | Tablo | İçerik |
 |-------|--------|
 | `TBLFATUIRS` | Fatura ve irsaliye başlıkları (`FTIRSIP` 1, 2, 3, 4, 8, 9, A, B…). Toplamlar (`BRUTTUTAR`, `KDV`, `GENELTOPLAM`), vade, plasiyer, proje, `GIB_FATIRS_NO`. |
-| `TBLFATUEK` | Fatura ek bilgileri: `ACIK1..16` ek açıklamalar (NetOpenX'te `EKACK1..16`), teslim bilgileri. Anahtar: `FKOD`, `FATIRSNO`, `CKOD`. |
+| `TBLFATUEK` | Fatura ek bilgileri: `ACIK1..16` ek açıklamalar (NetOpenX'te `EKACK1..16`), teslim bilgileri. Anahtar: `FKOD`, `FATIRSNO`, `CKOD`. Alanların ekrandaki adları şirkete göre verilir: satış belgelerinde `TBLSFATUPRM.ACIKLAR1..16`, alış belgelerinde `TBLAFATUPRM.ACIKLAR1..16`. |
 | `TBLSIPAMAS` | Sipariş başlıkları (`FTIRSIP` 6 müşteri, 7 satıcı). `TIPI`: `2` yurt içi, `6` yurt dışı, `1` kapalı, `3` onaylanmamış. |
 | `TBLSIPATRA` | Sipariş kalemleri. Yapısı `TBLSTHAR` ile aynıdır (`STHAR_` önekli kolonlar). |
+
+`KOD1` ve `KOD2` değerleri `TBLOZELKOD1` ve `TBLOZELKOD2` tablolarındadır (`OZELKOD`, `ACIKLAMA`). Ekrandaki etiketleri («Satış Kodu» gibi) ne şirket veritabanında ne de ortak `NETSIS` veritabanında saklanır. Sipariş başlığı ve kalemindeki koşul alanları: [Fiyat koşulları](/veritabani/fiyat-kosullari/). Numara sayacı `TBLFATUNO`: [Sipariş hesaplama ve değiştirme](/rest/siparis-islemleri/#numara-sayaci-tblfatuno). Kayıt damgaları: [Kayıt kullanıcısı](/veritabani/kayit-kullanicisi/).
 
 `TBLFATUIRS.TIPI` değerleri: `1` kapalı, `2` açık, `3` muhtelif, `4` iade, `5` zayi iade, `6` ithalat/ihracat. NetOpenX'teki `TFaturaTipi` enum'u (`ft_Kapali`, `ft_Acik`, `ft_Muhtelif`, `ft_Iade`, `ft_ZIade`, `ft_Ihracat`…) bu alana yazar.
 
@@ -103,8 +109,9 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH'a 
 | `TBLMUHFIS` | Yevmiye fiş satırları (`AY_KODU`, `FISNO`, `HES_KOD`, `BA`) |
 | `TBLMUHAGEC` | Muhasebe entegrasyonuna bekleyen kayıtlar |
 | `TBLMCEK`, `TBLMSEN` | Müşteri çekleri / senetleri; cari `SC_VERENK` |
+| `TBLCARISK`, `TBLBNKTEMSABIT` | Cari risk limiti ve yüzdeleri; banka teminatları. [Cari risk](/veritabani/cari-risk/) |
 | `TBLBCEK`, `TBLBSEN` | Borç çekleri / senetleri; cari `SC_VERILENK` |
-| `TBLPROJE` | Proje kodları |
+| `TBLPROJE` | Proje kodları (`PROJE_KODU`, `PROJE_ACIKLAMA`, `TUR`). `PROJE_KODU` sipariş ve fatura başlıklarında ve satırlarında, çek / senet tablolarında, cari hareketlerde, muhasebe satırlarında, stok hareketlerinde ve üretim tablolarında bulunur; banka teminat tablosunda adı `PROJEKODU`'dur |
 | `TBLMASRAF` | Masraf merkezleri (`MKOD`) |
 | `TBLISLETMELER`, `TBLSUBELER` | İşletme ve şube tanımları |
 
