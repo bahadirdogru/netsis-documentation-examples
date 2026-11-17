@@ -44,7 +44,7 @@
 TBLFATUIRS ──&lt; TBLSTHAR (fatura/irsaliye kalemleri)
    FTIRSIP = STHAR_FTIRSIP, FATIRS_NO = FISNO, CARI_KODU = STHAR_ACIKLAMA
 TBLFATUIRS ──1:1── TBLFATUEK (fatura ek bilgi)
-   FTIRSIP = FKOD, FATIRS_NO = FATIRSNO, CARI_KODU = CKOD
+   FTIRSIP = FKOD, FATIRS_NO = FATIRSNO, CARI_KODU = CKOD, SUBE_KODU = SUBE_KODU
 
 TBLSIPAMAS ──&lt; TBLSIPATRA (sipariş kalemleri)
    FTIRSIP = STHAR_FTIRSIP, FATIRS_NO = FISNO, CARI_KODU = STHAR_ACIKLAMA
@@ -53,7 +53,7 @@ TBLSTSABIT (stok kart) ──1:1── TBLSTSABITEK (stok ek bilgi)
    │ STOK_KODU
    ├──&lt; TBLSTHAR      STOK_KODU
    ├──&lt; TBLSIPATRA    STOK_KODU
-   └──&lt; TBLSTOKPH     STOK_KODU (depo bazında bakiye özeti)
+   └──&lt; TBLSTOKPH     STOK_KODU (depo bazında bakiye özeti; `DEPO_KODU = 0` satırı bütün depoların toplamı)
 
 TBLSTOKDP (depo tanımları)    DEPO_KODU ──&lt; TBLSTHAR.DEPO_KODU
 TBLMUPLAN (hesap planı)       HESAP_KODU ──&lt; TBLMUHFIS.HES_KOD, TBLCASABIT.M_KOD
@@ -85,7 +85,7 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH&#3
 </tr>
 </tbody></table></div>
 <ul>
-<li>Cari bakiye <a class="tbl" href="/veritabani/tablolar/tblcahar/"><code>TBLCAHAR</code></a> üzerinden hesaplanır: <code>SUM(BORC) - SUM(ALACAK)</code>. Kart üzerindeki toplam alanlar (<code>CM_BORCT</code>, <code>CM_ALACT</code>) Netsis tarafından tutulur ama raporlama için hareketten hesaplamak daha güvenlidir.</li>
+<li>Cari bakiye <a class="tbl" href="/veritabani/tablolar/tblcahar/"><code>TBLCAHAR</code></a> üzerinden hesaplanır: <code>SUM(BORC) - SUM(ALACAK)</code>. Kart üzerindeki toplam alanlar (<code>CM_BORCT</code>, <code>CM_ALACT</code>) Netsis tarafından tutulur ama raporlama için hareketten hesaplamak daha güvenlidir. Netsis&#39;in kendi cari listeleri (<code>CARIANA</code>, <code>CARISABITOTR</code>), risk hesabı (<code>BORCRISKO</code> 0, negatif ya da boşken) ve yaşlandırma (dövizsiz modda) bakiyeyi bu kart sütunlarından okur; bu yüzden Netsis ekranıyla aynı rakamı görmek için <code>CM_BORCT − CM_ALACT</code> kullanılır, hareketten bağımsız bir doğruluk kontrolü için <a class="tbl" href="/veritabani/tablolar/tblcahar/"><code>TBLCAHAR</code></a> toplamıyla karşılaştırılır.</li>
 <li>REST&#39;te cari hareketin kimliği <code>INC_KEY_NUMBER</code> değeridir (<code>api/v2/ARPTransactions/{id}</code>).</li>
 <li>Risk limiti <code>TBLCASABIT.RISK_SINIRI</code> değil <code>TBLCARISK.RISKLIMITI</code> içindedir; kartın risk anahtarı <code>TBLCASABITEK.CARIRISK</code> (<code>E</code> / <code>H</code>). Hesap: <a href="/veritabani/cari-risk/">Cari risk</a>.</li>
 <li>Carinin fiyat koşulu <code>TBLCASABIT.KOSULKODU</code>&#39;dur: <a href="/veritabani/fiyat-kosullari/">Fiyat koşulları</a>.</li>
@@ -127,7 +127,7 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH&#3
 </tr>
 <tr>
 <td><a class="tbl" href="/veritabani/tablolar/tblstokph/"><code>TBLSTOKPH</code></a></td>
-<td>Stok bakiye özeti (depo ve yapılandırma kodu bazında)</td>
+<td>Stok bakiye özeti (depo ve yapılandırma kodu bazında; <code>DEPO_KODU = 0</code> satırı bütün depoların toplamıdır)</td>
 <td><code>STOK_KODU</code></td>
 </tr>
 </tbody></table></div>
@@ -157,7 +157,7 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH&#3
 </tr>
 <tr>
 <td><code>STHAR_HTUR</code></td>
-<td>Hareket türü: <code>A</code> devir, <code>J</code> fatura, <code>H</code> irsaliye, <code>B</code> depolar arası, <code>N</code> faturalaşmış irsaliye, <code>L</code> iade, <code>C</code> üretim, <code>D</code> muhtelif, <code>I</code> kapalı fatura, <code>M</code> zayi iade …</td>
+<td>Hareket türü: <code>A</code> devir (belgesiz A satırları yıl açılışı ya da sayım düzeltme kaydı olabilir; tarihine bakın; ambar fişinde «Devir» hareket türü de A yazar), <code>J</code> fatura, <code>H</code> faturalanmamış irsaliye kalemi, <code>B</code> depolar arası, <code>N</code> faturalanmış irsaliye kalemi (bir kurulumda miktarı 0 görüldü, miktarı fatura kalemi taşıyordu), <code>L</code> iade, <code>C</code> üretim, <code>D</code> muhtelif, <code>I</code> kapalı fatura, <code>K</code> muhtelif müşteri faturası, <code>M</code> zayi iade …</td>
 </tr>
 <tr>
 <td><code>STHAR_BGTIP</code></td>
@@ -198,7 +198,7 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH&#3
 </tr>
 <tr>
 <td><a class="tbl" href="/veritabani/tablolar/tblfatuek/"><code>TBLFATUEK</code></a></td>
-<td>Fatura ek bilgileri: <code>ACIK1..16</code> ek açıklamalar (NetOpenX&#39;te <code>EKACK1..16</code>), teslim bilgileri. Anahtar: <code>FKOD</code>, <code>FATIRSNO</code>, <code>CKOD</code>. Alanların ekrandaki adları şirkete göre verilir: satış belgelerinde <code>TBLSFATUPRM.ACIKLAR1..16</code>, alış belgelerinde <code>TBLAFATUPRM.ACIKLAR1..16</code>.</td>
+<td>Fatura ek bilgileri: <code>ACIK1..16</code> ek açıklamalar (NetOpenX&#39;te <code>EKACK1..16</code>), teslim bilgileri. Anahtar: <code>FKOD</code>, <code>FATIRSNO</code>, <code>CKOD</code>, <code>SUBE_KODU</code>. Netsis&#39;in bir kısım görünümleri (<code>FATURAOTR</code>, <code>SIPHAROTR</code> …) dört sütunla bağlar; diğerleri oturum şubesine süzülen <code>FATUEK</code> görünümü üzerinden üç sütunla bağlar. Oturum dışı okumada <code>SUBE_KODU</code> eşitliği eklenmelidir; tek şubeli kurulumda sonucu değiştirmez. Alanların ekrandaki adları şirkete göre verilir: satış belgelerinde <code>TBLSFATUPRM.ACIKLAR1..16</code>, alış belgelerinde <code>TBLAFATUPRM.ACIKLAR1..16</code>.</td>
 </tr>
 <tr>
 <td><a class="tbl" href="/veritabani/tablolar/tblsipamas/"><code>TBLSIPAMAS</code></a></td>
@@ -221,21 +221,22 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH&#3
 </thead>
 <tbody><tr>
 <td><a class="tbl" href="/veritabani/tablolar/tblefatprm/"><code>TBLEFATPRM</code></a></td>
-<td>E-fatura parametreleri; <code>BIRIMKOD</code> e-fatura numara serisi (ör. <code>ABC</code>)</td>
+<td>E-fatura parametreleri; <code>BIRIMKOD</code> e-fatura numara serisi (ör. <code>ABC</code>). Sertifika ve entegratör ayarları da burada; entegrasyon yalnız <code>BIRIMKOD</code> seçmeli</td>
 </tr>
 <tr>
 <td><a class="tbl" href="/veritabani/tablolar/tblearsivprm/"><code>TBLEARSIVPRM</code></a></td>
-<td>E-arşiv parametreleri; <code>BIRIMKOD</code> e-arşiv serisi</td>
+<td>E-arşiv parametreleri; <code>BIRIMKOD</code> e-arşiv serisi. Sertifika ve entegratör ayarları da burada; yalnız <code>BIRIMKOD</code> seçilmeli</td>
 </tr>
 <tr>
 <td><a class="tbl" href="/veritabani/tablolar/tbleirsseri/"><code>TBLEIRSSERI</code></a></td>
-<td>E-irsaliye serileri (<code>SERI</code>)</td>
+<td>E-irsaliye serileri (<code>SERI</code>); <code>C_YEDEK1</code> NULL olanlar kullanılabilir</td>
 </tr>
 <tr>
 <td><a class="tbl" href="/veritabani/tablolar/tbldizaynsabit/"><code>TBLDIZAYNSABIT</code></a></td>
 <td>Belge dizaynları. <code>DIZAYNTIPI</code>: <code>99</code> e-fatura, <code>100</code> e-arşiv, <code>104</code> e-irsaliye (gözlenen değerler)</td>
 </tr>
 </tbody></table></div>
+<p>Üç seri tablosunda da seriler <code>SUBE_KODU</code> ile ayrılır. Hangi serinin kullanılacağı ve sorgular: <a href="/netopenx/e-belge/#seri-bilgileri">E-belge &gt; Seri bilgileri</a>.</p>
 <h2 id="kasa-muhasebe-diger"><a class="anchor" href="#kasa-muhasebe-diger" aria-hidden="true">#</a>Kasa, muhasebe, diğer</h2>
 <div class="table-wrap"><table>
 <thead>
@@ -246,7 +247,7 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH&#3
 </thead>
 <tbody><tr>
 <td><a class="tbl" href="/veritabani/tablolar/tblkasamas/"><code>TBLKASAMAS</code></a>, <a class="tbl" href="/veritabani/tablolar/tblkasa/"><code>TBLKASA</code></a></td>
-<td>Kasa tanımı (<code>KSMAS_KOD</code>) ve kasa hareketleri (anahtar <code>SIRA</code>). <code>IO</code>: <code>G</code> gelir, <code>C</code> gider. <code>TIP</code>: <code>B</code> banka, <code>C</code> cari, <code>E</code> çek, <code>F</code> fatura, <code>M</code> muhtelif, <code>S</code> senet, <code>T</code> transfer. <code>CARI_MUH</code>: <code>C</code>/<code>M</code>/<code>B</code>. Ayrıntı: <a href="/veritabani/finans-tablolari/">Finans tabloları</a></td>
+<td>Kasa tanımı (<code>KSMAS_KOD</code>) ve kasa hareketleri (anahtar <code>SIRA</code>). <code>IO</code>: <code>G</code> gelir, <code>C</code> gider. <code>TIP</code>: <code>B</code> banka, <code>C</code> cari, <code>E</code> çek, <code>F</code> fatura, <code>M</code> muhasebe, <code>S</code> senet, <code>T</code> transfer, <code>K</code> kredi kartı. <code>CARI_MUH</code> yalnız <code>TIP</code> = <code>F</code> ve <code>M</code> satırlarında karşı tarafı seçer: <code>C</code> ise cari, değilse muhasebe hesabı. Diğer türlerde karşı taraf <code>TIP</code>&#39;ten gelir. Ayrıntı: <a href="/veritabani/finans-tablolari/">Finans tabloları</a></td>
 </tr>
 <tr>
 <td><a class="tbl" href="/veritabani/tablolar/tblbnksabit/"><code>TBLBNKSABIT</code></a>, <a class="tbl" href="/veritabani/tablolar/tblbnkhessabit/"><code>TBLBNKHESSABIT</code></a>, <a class="tbl" href="/veritabani/tablolar/tblbnkhestra/"><code>TBLBNKHESTRA</code></a></td>

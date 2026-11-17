@@ -99,7 +99,7 @@ Tablolar: `TBLFATUIRS`, `TBLFATUEK`, `TBLSTHAR`, `TBLSIPAMAS`, `TBLSIPATRA`. COM
 | POST | `api/v2/ItemSlips/DeleteItemSlipLinkedWaybill` | Faturaya bağlı irsaliyeyi sil |
 | GET | `api/v2/ItemSlips/ContractsOpenPrice?restRecord={restRecord}` | Belgelenmemiş |
 
-> **`ItemSlips` için `PUT` yoktur.** Sipariş değiştirmek için silip tam gövdeyle yeniden yazın. `ChangeNumber` ve `ChangeCode` başlıkta `UPDATE` çalıştırır (şirkete özel tetikleyici varsa düşer), `OrderRevision` yeni sipariş oluşturur; düzenleme değildir. Ayrıntı ve gövdeler: [Sipariş hesaplama ve değiştirme](/rest/siparis-islemleri/#mevcut-siparisi-degistirme).
+> **`ItemSlips` için `PUT` yoktur.** Sipariş değiştirmek için silip tam gövdeyle yeniden yazın. `ChangeNumber` ve `ChangeCode` başlıkta `UPDATE` çalıştırır (şirkete özel tetikleyici varsa düşer), `OrderRevision` kalemleri kopyalanmış yeni bir sipariş oluşturur ve kaynağı kapatır; düzenleme değildir. Ayrıntı ve gövdeler: [Sipariş hesaplama ve değiştirme](/rest/siparis-islemleri/#mevcut-siparisi-degistirme).
 
 > Sipariş, fatura ve dönüşümlerde gereken alanlar: [Canlı denemeler](/rest/canli-denemeler/). `KosulluHesapla` varsayılanı `true`, `RiskKontrol` varsayılanı açıktır; açıkça gönderin. `ReadAndSave` ve `FaturaTip: 4` denemede zaman aşımına düştü.
 

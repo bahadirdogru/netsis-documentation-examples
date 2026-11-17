@@ -40,6 +40,8 @@ Bir sistem istemine (system prompt) ya da proje talimatına (ör. `CLAUDE.md`, `
 - REST'te token: POST api/v2/token (form: grant_type=password, branchcode, username, password,
   dbname, dbuser, dbpassword, dbtype); sonra Authorization: Bearer.
 - Fiyat koşulunu SQL ile yeniden çözme; ItemSlips/Calculate (KosulluHesapla: true) kullan.
+- Sipariş revizyonu (`ItemSlips/OrderRevision`) siparişi düzenlemez: kalemleri kopyalanmış yeni bir sipariş açar ve kaynağı kapatır (`STHAR_HTUR` H → K). Düzenleme için silip tam gövdeyle yeniden yazın.
+- E-fatura ve e-arşiv serisi: `TBLEFATPRM.BIRIMKOD` / `TBLEARSIVPRM.BIRIMKOD`, şube `SUBE_KODU` ile süzülür; hangisinin kullanılacağı `FatUst.EfaturaCarisiMi` ile seçilir.
   Cari risk hesabı için https://netsis.bahadirdogru.com/veritabani/cari-risk.md içindeki SQL'i kullan.
 - "doğrulanmadı" işaretli bilgileri kesin bilgi gibi sunma.
 ```

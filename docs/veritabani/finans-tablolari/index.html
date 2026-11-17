@@ -82,11 +82,11 @@ TBLDEKOMAS (dekont başlığı)    SERI_NO + DEKONT_NO ──&lt; TBLDEKOTRA (de
 </tr>
 <tr>
 <td><code>TIP</code></td>
-<td><code>C</code> cari, <code>F</code> fatura, <code>T</code> transfer, <code>M</code> muhasebe/muhtelif, <code>B</code> banka, <code>S</code> senet; şema <code>E</code> çek de sayar</td>
+<td><code>C</code> cari, <code>F</code> fatura, <code>T</code> transfer, <code>M</code> muhasebe, <code>B</code> banka, <code>S</code> senet; şema <code>E</code> çek ve <code>K</code> kredi kartı da sayar. Netsis&#39;in tahsilat ve ödeme listeleri <code>T</code> ve <code>B</code>&#39;yi dışarıda bırakır</td>
 </tr>
 <tr>
 <td><code>CARI_MUH</code></td>
-<td><code>KOD</code> alanının anlamı: <code>C</code> cari kodu, <code>M</code> muhasebe hesabı, <code>B</code> banka; <code>TIP = &#39;F&#39;</code> satırlarında boş</td>
+<td>Yalnız <code>TIP</code> = <code>F</code> ve <code>M</code> satırlarında <code>KOD</code>&#39;un anlamı: <code>C</code> cari kodu, değilse muhasebe hesabı. <code>C</code>, <code>E</code>, <code>S</code>, <code>K</code> türlerinde karşı taraf cari, <code>B</code> türünde banka hesabıdır (<code>CARI_MUH</code> değil <code>TIP</code> belirler); Netsis görünümleri <code>CARI_MUH</code>&#39;ta banka için ayrı değer sınamaz</td>
 </tr>
 <tr>
 <td><code>KOD</code></td>
@@ -123,7 +123,7 @@ TBLDEKOMAS (dekont başlığı)    SERI_NO + DEKONT_NO ──&lt; TBLDEKOTRA (de
 <td><code>NETHESKODU</code> + <code>INCKEYNO</code></td>
 </tr>
 </tbody></table></div>
-<p><a class="tbl" href="/veritabani/tablolar/tblbnkhestra/"><code>TBLBNKHESTRA</code></a>&#39;da <code>HAREKET_TURU</code> kolonu yoktur; hareket türü <code>HARTIPI</code> ve <code>HARTURU</code> tam sayı kolonlarındadır (değer listesi doğrulanmadı). Hesap toplamlarını <code>TBLBNKHESSABIT.HESBORCTOP</code> yerine hareketten hesaplamak daha güvenlidir (cari için aynı gözlem: <a href="/rest/canli-denemeler/#cari">Cari</a>).</p>
+<p><a class="tbl" href="/veritabani/tablolar/tblbnkhestra/"><code>TBLBNKHESTRA</code></a>&#39;da <code>HAREKET_TURU</code> kolonu yoktur; hareket türü <code>HARTIPI</code> ve <code>HARTURU</code> tam sayı kolonlarındadır. Netsis&#39;in tahsilat ve ödeme listeleri banka hareketinden <code>HARTURU</code> 0, 2, 4 satırlarını alır (tahsilat <code>BA</code> = <code>B</code>, ödeme <code>BA</code> = <code>A</code> ve <code>TUTAR</code> &gt; 0). Tahsilat listesi banka tarafında yalnız <code>HESAPTIPI</code> = 0 hesapları alır; ödeme listesinin ana banka kolu hesap tipini süzmez (yalnız kredi kartı kolu <code>HESAPTIPI</code> = 0 ister). <code>HARTURU</code> 2&#39;de karşı hesap cari kodu <code>TBLBNKLOGTRA.KARSIHESKOD</code>&#39;dadır. <code>HARTURU</code> 4 satırlarının bir kısmı kredi kartı hareketidir; ödeme listesi bunları <code>TBLBNKLOGTRA.ISLEMTIPI</code> ile ayırır (1 kart, 7 banka ödemesi), tahsilat listesi kredi kartı tahsilatını <code>HARTURU</code> ile değil <a class="tbl" href="/veritabani/tablolar/tbltahsilat/"><code>TBLTAHSILAT</code></a> ve <code>YEDEK6</code> zinciriyle bulur; 4&#39;ün tek anlamı doğrulanmadı. 5 ve 6 aynı <code>ENTEGREFKEY</code>&#39;li ana harekete eklenen ya da ondan düşülen ek satırlardır. Diğer değerlerin adı Netsis görünümlerinde yoktur. Hesap toplamlarını <code>TBLBNKHESSABIT.HESBORCTOP</code> yerine hareketten hesaplamak daha güvenlidir (cari için aynı gözlem: <a href="/rest/canli-denemeler/#cari">Cari</a>).</p>
 <h2 id="cek-ve-senet"><a class="anchor" href="#cek-ve-senet" aria-hidden="true">#</a>Çek ve senet</h2>
 <p>Dört tablo aynı kolon yapısına sahiptir; hangi tabloda olduğu evrakın türünü söyler:</p>
 <div class="table-wrap"><table>
@@ -194,7 +194,7 @@ TBLDEKOMAS (dekont başlığı)    SERI_NO + DEKONT_NO ──&lt; TBLDEKOTRA (de
 </tr>
 <tr>
 <td><a class="tbl" href="/veritabani/tablolar/tbldekotra/"><code>TBLDEKOTRA</code></a></td>
-<td>Dekont satırı: <code>SIRA_NO</code>, <code>TARIH</code>, <code>FISNO</code>, <code>C_M</code> (cari/muhasebe), <code>KOD</code>, <code>B_A</code> (<code>B</code>/<code>A</code>), <code>TUTAR</code>, <code>ACIKLAMA1..4</code>, <code>PLASIYER</code>, <code>PROJE_KODU</code></td>
+<td>Dekont satırı: <code>SIRA_NO</code>, <code>TARIH</code>, <code>FISNO</code>, <code>C_M</code> (<code>KOD</code>&#39;un türü: <code>C</code> cari <code>TBLCASABIT.CARI_KOD</code>, <code>M</code> muhasebe hesabı <code>TBLMUPLAN.HESAP_KODU</code>, <code>B</code> banka hesabı <code>TBLBNKHESSABIT.NETHESKODU</code>, <code>S</code> stok <code>TBLSTSABIT.STOK_KODU</code>), <code>KOD</code>, <code>B_A</code> (<code>B</code>/<code>A</code>), <code>TUTAR</code>, <code>ACIKLAMA1..4</code>, <code>PLASIYER</code>, <code>PROJE_KODU</code></td>
 <td><code>SERI_NO</code> + <code>DEKONT_NO</code> + <code>SIRA_NO</code></td>
 </tr>
 </tbody></table></div>
@@ -228,7 +228,7 @@ TBLDEKOMAS (dekont başlığı)    SERI_NO + DEKONT_NO ──&lt; TBLDEKOTRA (de
 </tr>
 </tbody></table></div>
 <p><code>DELETE SafeDeposits/{SIRA}</code> kasa satırıyla cari hareketi birlikte siler. Çek bordrosu REST ile silinemediği için cari hareketi de kalır.</p>
-<p><code>TBLCAHAR.HAREKET_TURU</code> için test şirketinde görülen değerler: <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>E</code>, <code>G</code>, <code>H</code>, <code>I</code>, <code>J</code>, <code>K</code>. Şema dokümanı listeyi vermez; gözlemle eşleşenler <code>D</code> kasa, <code>G</code> çek. Fatura ve dekont kaynaklı hareketlerin kodları doğrulanmadı.</p>
+<p><code>TBLCAHAR.HAREKET_TURU</code>: şema dokümanı listeyi vermez; standart görünümlerde yazılı olmayan kodlar doğrulanmadı. Gözlemle eşleşenler <code>D</code> kasa, <code>G</code> çek. Netsis&#39;in yaşlandırma fonksiyonları (<code>PRTFN_AGING_REPORT_BY_DEFAULT</code>, <code>_BY_CLOSURE</code>) döviz bazlı bakiye özetini <code>HAREKET_TURU BETWEEN &#39;A&#39; AND &#39;L&#39;</code> ile toplar; kod adları standart görünümlerde yazılı değildir. Fatura ve dekont kaynaklı hareketlerin kodları doğrulanmadı.</p>
 <h2 id="sube-ve-isletme-suzgeci"><a class="anchor" href="#sube-ve-isletme-suzgeci" aria-hidden="true">#</a>Şube ve işletme süzgeci</h2>
 <p>Finans tablolarında <code>SUBE_KODU</code> çoğunlukla <code>0</code>&#39;dır ama cari kartlarında <code>-1</code> de görülür. Raporlarda şube süzgeci koymadan okuyun, gerekirse sonra ayırın.</p>
 

@@ -58,7 +58,7 @@ Ayrıntı: [Dikkatli güncellemeler](/veritabani/sql-ornekleri/#dikkatli-guncell
 | Aynı numarayla yeniden `POST` | `Hata 402 … Nolu Evrak Daha önceden kaydedilmiş` |
 | `POST ItemSlips/ChangeNumber` | Var, ama sipariş başlığına `UPDATE` çalıştırır. `TBLSIPAMAS` üzerinde şirkete özel tetikleyici hata verirse çağrı da `700` ile ve tetikleyicinin SQL hata metniyle düşer |
 | `POST ItemSlips/ChangeCode` | Aynı: başlıkta `UPDATE`, aynı tetikleyici engeli |
-| `POST ItemSlips/OrderRevision` | Düzenlemez, **yeni** sipariş oluşturur (kaynak numara başlıkta `S_YEDEK1`) |
+| `POST ItemSlips/OrderRevision` | Düzenlemez: kaynağın bütün kalemleriyle **yeni** bir sipariş oluşturur, kaynağı kapatır (ayrıntı aşağıda) |
 | Sil, sonra tam gövdeyle yeniden `POST` | Çalıştı |
 
 Gövdeler:
@@ -74,8 +74,22 @@ Gövdeler:
   "NotChangeDeliveryCode": false, "ChangeAdditionalField": false }
 
 // OrderRevision
-{ "ItemSlip": { }, "RevisionOrderNumber": "000000000000001", "DeliverStartingDate": "2026-01-01" }
+{ "ItemSlip": { "FatUst": { "FATIRS_NO": "000000000000002", "CariKod": "CARI001", "Tarih": "2026-01-01", "TIPI": 2 },
+                "Kalems": [ { "StokKodu": "STK001", "DEPO_KODU": 1, "STra_GCMIK": 1, "STra_BF": 100, "STra_KDV": 20 } ] },
+  "RevisionOrderNumber": "000000000000001", "DeliverStartingDate": "2026-01-01" }
 ```
+
+### Sipariş revizyonu (`OrderRevision`)
+
+Canlı denemede (9.0.72.5, test şirketi) gözlenenler:
+
+- **Kalemsiz gövde reddedilir.** `ItemSlip` içinde en az bir kalem olmalı; yoksa `Hata Kodu : 204 … Sipariş Revizyon için nesne içinde kalem bilgisi bulunamadı`.
+- **Yeni sipariş oluşur.** Yeni siparişin numarası gövdedeki `FatUst.FATIRS_NO` değeridir. Yeni sipariş, kaynak siparişin **bütün kalemlerini** ve gövdedeki kalemleri birlikte taşır. Gövdedeki bir stok kaynakta zaten varsa, o stok ikinci bir satır olarak eklenir; mevcut satırın yerini almaz ve birleştirilmez.
+- **Kaynak numara.** Yeni başlığın `S_YEDEK1` alanı kaynak siparişin numarasını taşır.
+- **Kaynak kapanır, silinmez.** Kaynak siparişin satırlarındaki `TBLSIPATRA.STHAR_HTUR` değeri `H` iken `K` (kapalı) olur; başlık satırı yerinde kalır. Revizyona uğramış kaynak REST ile silinemez: `(Acik)Revizyona uğramış sipariş silinemez`. Revizyon siparişi silindikten sonra kaynak silinebilir.
+- **Numara sayacı.** `SonNumaraYazilsin: false` gövdede verilse de yok sayılır; `TBLFATUNO` sayacı revizyonun numarasına çekilir.
+
+Sonuç: `OrderRevision` siparişi düzenlemenin ya da numarasını değiştirmenin bir yolu değildir. Yalnızca kaynağın bir kopyasına satır ekler ve kaynağı kapatır. COM karşılığı `Fatura.SiparisRevizyon(eskiNo, tarih)`dir; bu metot COM üzerinden denenmedi.
 
 Düzenleme olarak çalışan yol: `DELETE ItemSlips/{ftSSip|ftASip};{no};{cari}`, ardından eski numarayla tam gövdeli `POST ItemSlips`:
 
@@ -84,6 +98,7 @@ Düzenleme olarak çalışan yol: `DELETE ItemSlips/{ftSSip|ftASip};{no};{cari}`
 - `Seri` numaranın ilk harfi.
 - İşlem atomik değildir: silme başarılı, yeniden yazma başarısız olabilir. Önce gövdeyi saklayın.
 - Yeni kayıt yeni bir `KAYITTARIHI` alır.
+- Revizyona uğramış (`STHAR_HTUR` `K` olmuş) bir sipariş silinemez; önce revizyon siparişi silinmeli, sonra kaynak silinebilir.
 
 `GET ItemSlips/{tip};{no};{cari}` gövdesini yazma isteğine olduğu gibi kopyalamayın: `"YEDEK": "\u0000"` gibi değerler ve `EPostaGonderilsin: true` gibi bayraklar taşır. Gövdeyi yeniden kurun.
 
@@ -98,6 +113,7 @@ Düzenleme olarak çalışan yol: `DELETE ItemSlips/{ftSSip|ftASip};{no};{cari}`
 | Açık numaralı `POST`, `SonNumaraYazilsin: false` olmadan | Sayaç yazılan numaraya çekilir, numara daha küçük olsa bile |
 | Açık numaralı `POST`, `SonNumaraYazilsin: false` ile | Sayaç kıpırdamaz |
 | Açık numara, daha önce kullanılmamış bir ilk harfle | Yeni bir sayaç satırı doğar; REST ile silinemez |
+| `OrderRevision` (`SonNumaraYazilsin: false` gövdede olsa da) | Sayaç revizyonun numarasına çekilir |
 
 ## Üst düzey ve alan adları
 

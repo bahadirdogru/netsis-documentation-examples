@@ -307,7 +307,7 @@ new ARPTransactionsManager(oAuth2).PostInternal(new ARPTransactions
 </tr>
 </tbody></table></div>
 <blockquote>
-<p><strong><code>ItemSlips</code> için <code>PUT</code> yoktur.</strong> Sipariş değiştirmek için silip tam gövdeyle yeniden yazın. <code>ChangeNumber</code> ve <code>ChangeCode</code> başlıkta <code>UPDATE</code> çalıştırır (şirkete özel tetikleyici varsa düşer), <code>OrderRevision</code> yeni sipariş oluşturur; düzenleme değildir. Ayrıntı ve gövdeler: <a href="/rest/siparis-islemleri/#mevcut-siparisi-degistirme">Sipariş hesaplama ve değiştirme</a>.</p>
+<p><strong><code>ItemSlips</code> için <code>PUT</code> yoktur.</strong> Sipariş değiştirmek için silip tam gövdeyle yeniden yazın. <code>ChangeNumber</code> ve <code>ChangeCode</code> başlıkta <code>UPDATE</code> çalıştırır (şirkete özel tetikleyici varsa düşer), <code>OrderRevision</code> kalemleri kopyalanmış yeni bir sipariş oluşturur ve kaynağı kapatır; düzenleme değildir. Ayrıntı ve gövdeler: <a href="/rest/siparis-islemleri/#mevcut-siparisi-degistirme">Sipariş hesaplama ve değiştirme</a>.</p>
 </blockquote>
 <blockquote>
 <p>Sipariş, fatura ve dönüşümlerde gereken alanlar: <a href="/rest/canli-denemeler/">Canlı denemeler</a>. <code>KosulluHesapla</code> varsayılanı <code>true</code>, <code>RiskKontrol</code> varsayılanı açıktır; açıkça gönderin. <code>ReadAndSave</code> ve <code>FaturaTip: 4</code> denemede zaman aşımına düştü.</p>

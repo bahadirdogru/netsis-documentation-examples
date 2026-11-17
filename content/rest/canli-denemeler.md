@@ -13,7 +13,7 @@ Sürümler: ilk tur 9.0.71 ile yapıldı. `NetOpenX50.dll` güncellenince servis
 
 | Kaynak | Sonuç | Bilinmesi gereken |
 |--------|-------|-------------------|
-| Sipariş (`ftSSip`, `ftASip`) | Yazma ve silme çalışıyor | `KosulluHesapla: false`, `STra_BF` ve `STra_KDV` açıkça verilmeli |
+| Sipariş (`ftSSip`, `ftASip`) | Yazma ve silme çalışıyor; revizyona uğramış kaynak silinemiyor | `KosulluHesapla: false`, `STra_BF` ve `STra_KDV` açıkça verilmeli; `OrderRevision` kaynağı kapatır ([Sipariş revizyonu](/rest/siparis-islemleri/#siparis-revizyonu-orderrevision)) |
 | Satış ve alış irsaliyesi | Yazma ve silme çalışıyor | `TBLFATUIRS`, `TBLSTHAR`, `TBLFATUEK` yazılıyor |
 | Satış faturası | Yazma ve silme çalışıyor | `Seri` e-belge birim kodu olmalı, stok kartında muhasebe detay kodu gerekli |
 | Alış faturası | Yazma ve silme çalışıyor | Elle `FATIRS_NO`, `GIB_FATIRS_NO` ve kalemde `MuhasebeKodu` |

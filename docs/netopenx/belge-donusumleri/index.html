@@ -81,10 +81,10 @@ siparis.OkuUst(siparisNo, cariKod);
 siparis.OkuKalem();
 FatUst sipUst = siparis.Ust();
 
-// e-fatura mükellefi ise e-fatura serisi, değilse e-arşiv serisi
+// e-fatura mükellefi ise e-fatura serisi, değilse e-arşiv serisi (şube süzgeciyle; ayrıntı: E-belge &gt; Seri bilgileri)
 string seri = sipUst.EfaturaCarisiMi
-    ? Sql(&quot;SELECT TOP 1 BIRIMKOD FROM TBLEFATPRM&quot;)
-    : Sql(&quot;SELECT TOP 1 BIRIMKOD FROM TBLEARSIVPRM&quot;);
+    ? Sql(&quot;SELECT BIRIMKOD FROM TBLEFATPRM WHERE SUBE_KODU = 0&quot;)
+    : Sql(&quot;SELECT BIRIMKOD FROM TBLEARSIVPRM WHERE SUBE_KODU = 0&quot;);
 
 Fatura fatura = kernel.yeniFatura(sirket, TFaturaTip.ftSFat);
 FatUst fatUst = fatura.Ust();

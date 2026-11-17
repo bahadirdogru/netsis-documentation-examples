@@ -91,4 +91,9 @@ SELECT BIRIMKOD FROM TBLEARSIVPRM WHERE SUBE_KODU = 0;   -- e-arşiv serisi
 SELECT SERI     FROM TBLEIRSSERI  WHERE C_YEDEK1 IS NULL AND SUBE_KODU = 0;   -- e-irsaliye serileri
 ```
 
+- **Kaynaklar.** E-fatura serisi `TBLEFATPRM.BIRIMKOD`, e-arşiv serisi `TBLEARSIVPRM.BIRIMKOD` kolonundadır. E-irsaliye serileri `TBLEIRSSERI.SERI` kolonundadır; `C_YEDEK1` NULL olan satırlar kullanılabilir olanlardır.
+- **Şube.** Üç sorgu da `SUBE_KODU` ile süzülür; `0` yalnızca örnek bir şube değeridir, kendi kurulumunuzdaki şube kodunu kullanın.
+- **Hangi seri.** Faturanın serisi carinin e-fatura mükellefi olup olmamasına göre seçilir. NetOpenX bu durumu `FatUst.EfaturaCarisiMi` olarak verir; değer kaynak belge okunduktan sonra dolar. Bu bayrak için güvenilir bir tablo kolonu yoktur, tabloda aramayın. `true` ise e-fatura serisi, değilse e-arşiv serisi kullanılır.
+- **Dikkat.** `TBLEFATPRM` ve `TBLEARSIVPRM` sertifika ve entegratör ayarlarını da tutar. Bir entegrasyon bu tablolardan yalnızca `BIRIMKOD` kolonunu seçmelidir.
+
 REST karşılıkları: `POST api/v2/EDocument` (taslak), `POST api/v2/EDocument/SendEDocument`, `POST api/v2/EDocument/ShowEDocument` ([JSON örnekleri](/rest/json-ornekleri/#e-belge)).
