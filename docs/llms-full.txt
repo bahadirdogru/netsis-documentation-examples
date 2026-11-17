@@ -294,6 +294,8 @@ Bir sistem istemine (system prompt) ya da proje talimatına (ör. `CLAUDE.md`, `
 - REST'te token: POST api/v2/token (form: grant_type=password, branchcode, username, password,
   dbname, dbuser, dbpassword, dbtype); sonra Authorization: Bearer.
 - Fiyat koşulunu SQL ile yeniden çözme; ItemSlips/Calculate (KosulluHesapla: true) kullan.
+- Sipariş revizyonu (`ItemSlips/OrderRevision`) siparişi düzenlemez: kalemleri kopyalanmış yeni bir sipariş açar ve kaynağı kapatır (`STHAR_HTUR` H → K). Düzenleme için silip tam gövdeyle yeniden yazın.
+- E-fatura ve e-arşiv serisi: `TBLEFATPRM.BIRIMKOD` / `TBLEARSIVPRM.BIRIMKOD`, şube `SUBE_KODU` ile süzülür; hangisinin kullanılacağı `FatUst.EfaturaCarisiMi` ile seçilir.
   Cari risk hesabı için https://netsis.bahadirdogru.com/veritabani/cari-risk.md içindeki SQL'i kullan.
 - "doğrulanmadı" işaretli bilgileri kesin bilgi gibi sunma.
 ```
@@ -401,7 +403,7 @@ TBLCASABIT (cari kart) ──1:1── TBLCASABITEK (cari ek bilgi)
 TBLFATUIRS ──< TBLSTHAR (fatura/irsaliye kalemleri)
    FTIRSIP = STHAR_FTIRSIP, FATIRS_NO = FISNO, CARI_KODU = STHAR_ACIKLAMA
 TBLFATUIRS ──1:1── TBLFATUEK (fatura ek bilgi)
-   FTIRSIP = FKOD, FATIRS_NO = FATIRSNO, CARI_KODU = CKOD
+   FTIRSIP = FKOD, FATIRS_NO = FATIRSNO, CARI_KODU = CKOD, SUBE_KODU = SUBE_KODU
 
 TBLSIPAMAS ──< TBLSIPATRA (sipariş kalemleri)
    FTIRSIP = STHAR_FTIRSIP, FATIRS_NO = FISNO, CARI_KODU = STHAR_ACIKLAMA
@@ -410,7 +412,7 @@ TBLSTSABIT (stok kart) ──1:1── TBLSTSABITEK (stok ek bilgi)
    │ STOK_KODU
    ├──< TBLSTHAR      STOK_KODU
    ├──< TBLSIPATRA    STOK_KODU
-   └──< TBLSTOKPH     STOK_KODU (depo bazında bakiye özeti)
+   └──< TBLSTOKPH     STOK_KODU (depo bazında bakiye özeti; `DEPO_KODU = 0` satırı bütün depoların toplamı)
 
 TBLSTOKDP (depo tanımları)    DEPO_KODU ──< TBLSTHAR.DEPO_KODU
 TBLMUPLAN (hesap planı)       HESAP_KODU ──< TBLMUHFIS.HES_KOD, TBLCASABIT.M_KOD
@@ -425,7 +427,7 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH'a 
 | `TBLCASABITEK` | Cari ek bilgiler: kullanıcı tanımlı sahalar `KULL1S..8S`, `KULL1N..8N`, TC kimlik vb. | `CARI_KOD` |
 | `TBLCAHAR` | Cari hareketleri: borç/alacak, belge no, vade | `INC_KEY_NUMBER` |
 
-- Cari bakiye `TBLCAHAR` üzerinden hesaplanır: `SUM(BORC) - SUM(ALACAK)`. Kart üzerindeki toplam alanlar (`CM_BORCT`, `CM_ALACT`) Netsis tarafından tutulur ama raporlama için hareketten hesaplamak daha güvenlidir.
+- Cari bakiye `TBLCAHAR` üzerinden hesaplanır: `SUM(BORC) - SUM(ALACAK)`. Kart üzerindeki toplam alanlar (`CM_BORCT`, `CM_ALACT`) Netsis tarafından tutulur ama raporlama için hareketten hesaplamak daha güvenlidir. Netsis'in kendi cari listeleri (`CARIANA`, `CARISABITOTR`), risk hesabı (`BORCRISKO` 0, negatif ya da boşken) ve yaşlandırma (dövizsiz modda) bakiyeyi bu kart sütunlarından okur; bu yüzden Netsis ekranıyla aynı rakamı görmek için `CM_BORCT − CM_ALACT` kullanılır, hareketten bağımsız bir doğruluk kontrolü için `TBLCAHAR` toplamıyla karşılaştırılır.
 - REST'te cari hareketin kimliği `INC_KEY_NUMBER` değeridir (`api/v2/ARPTransactions/{id}`).
 - Risk limiti `TBLCASABIT.RISK_SINIRI` değil `TBLCARISK.RISKLIMITI` içindedir; kartın risk anahtarı `TBLCASABITEK.CARIRISK` (`E` / `H`). Hesap: [Cari risk](/veritabani/cari-risk/).
 - Carinin fiyat koşulu `TBLCASABIT.KOSULKODU`'dur: [Fiyat koşulları](/veritabani/fiyat-kosullari/).
@@ -440,7 +442,7 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH'a 
 | `TBLSTOKBAR` | Stokun ek barkodları (`TBLSTSABIT` üzerinde `BARKOD1`–`3` dışında) |
 | `TBLSTHAR` | Tüm stok hareketleri: fatura ve irsaliye kalemleri, depo transferleri, ambar fişleri, üretim | `INCKEYNO` |
 | `TBLSTOKDP` | Depo tanımları | `DEPO_KODU` |
-| `TBLSTOKPH` | Stok bakiye özeti (depo ve yapılandırma kodu bazında) | `STOK_KODU` |
+| `TBLSTOKPH` | Stok bakiye özeti (depo ve yapılandırma kodu bazında; `DEPO_KODU = 0` satırı bütün depoların toplamıdır) | `STOK_KODU` |
 
 Önemli `TBLSTHAR` kolonları:
 
@@ -450,7 +452,7 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH'a 
 | `STHAR_GCMIK` | Miktar (ana birimde) |
 | `STHAR_NF` / `STHAR_BF` | Net / brüt birim fiyat |
 | `STHAR_FTIRSIP` | Belge tipi (bkz. [FTIRSIP](/genel-bakis/#belge-tipi-alani-ftirsip)) |
-| `STHAR_HTUR` | Hareket türü: `A` devir, `J` fatura, `H` irsaliye, `B` depolar arası, `N` faturalaşmış irsaliye, `L` iade, `C` üretim, `D` muhtelif, `I` kapalı fatura, `M` zayi iade … |
+| `STHAR_HTUR` | Hareket türü: `A` devir (belgesiz A satırları yıl açılışı ya da sayım düzeltme kaydı olabilir; tarihine bakın; ambar fişinde «Devir» hareket türü de A yazar), `J` fatura, `H` faturalanmamış irsaliye kalemi, `B` depolar arası, `N` faturalanmış irsaliye kalemi (bir kurulumda miktarı 0 görüldü, miktarı fatura kalemi taşıyordu), `L` iade, `C` üretim, `D` muhtelif, `I` kapalı fatura, `K` muhtelif müşteri faturası, `M` zayi iade … |
 | `STHAR_BGTIP` | Kaynak: `F` faturadan, `I` irsaliyeden, `U`/`V` üretim girişi/çıkışı |
 | `STHAR_ACIKLAMA` | **Fatura ve irsaliye kalemlerinde cari kodunu tutar.** Adı yanıltıcıdır. |
 | `FISNO` | Bağlı belge numarası (`TBLFATUIRS.FATIRS_NO`) |
@@ -463,7 +465,7 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH'a 
 | Tablo | İçerik |
 |-------|--------|
 | `TBLFATUIRS` | Fatura ve irsaliye başlıkları (`FTIRSIP` 1, 2, 3, 4, 8, 9, A, B…). Toplamlar (`BRUTTUTAR`, `KDV`, `GENELTOPLAM`), vade, plasiyer, proje, `GIB_FATIRS_NO`. |
-| `TBLFATUEK` | Fatura ek bilgileri: `ACIK1..16` ek açıklamalar (NetOpenX'te `EKACK1..16`), teslim bilgileri. Anahtar: `FKOD`, `FATIRSNO`, `CKOD`. Alanların ekrandaki adları şirkete göre verilir: satış belgelerinde `TBLSFATUPRM.ACIKLAR1..16`, alış belgelerinde `TBLAFATUPRM.ACIKLAR1..16`. |
+| `TBLFATUEK` | Fatura ek bilgileri: `ACIK1..16` ek açıklamalar (NetOpenX'te `EKACK1..16`), teslim bilgileri. Anahtar: `FKOD`, `FATIRSNO`, `CKOD`, `SUBE_KODU`. Netsis'in bir kısım görünümleri (`FATURAOTR`, `SIPHAROTR` …) dört sütunla bağlar; diğerleri oturum şubesine süzülen `FATUEK` görünümü üzerinden üç sütunla bağlar. Oturum dışı okumada `SUBE_KODU` eşitliği eklenmelidir; tek şubeli kurulumda sonucu değiştirmez. Alanların ekrandaki adları şirkete göre verilir: satış belgelerinde `TBLSFATUPRM.ACIKLAR1..16`, alış belgelerinde `TBLAFATUPRM.ACIKLAR1..16`. |
 | `TBLSIPAMAS` | Sipariş başlıkları (`FTIRSIP` 6 müşteri, 7 satıcı). `TIPI`: `2` yurt içi, `6` yurt dışı, `1` kapalı, `3` onaylanmamış. |
 | `TBLSIPATRA` | Sipariş kalemleri. Yapısı `TBLSTHAR` ile aynıdır (`STHAR_` önekli kolonlar). |
 
@@ -475,16 +477,18 @@ TBLKASA (kasa hareketleri)    KOD → cari kodu ya da muhasebe kodu (CARI_MUH'a 
 
 | Tablo | İçerik |
 |-------|--------|
-| `TBLEFATPRM` | E-fatura parametreleri; `BIRIMKOD` e-fatura numara serisi (ör. `ABC`) |
-| `TBLEARSIVPRM` | E-arşiv parametreleri; `BIRIMKOD` e-arşiv serisi |
-| `TBLEIRSSERI` | E-irsaliye serileri (`SERI`) |
+| `TBLEFATPRM` | E-fatura parametreleri; `BIRIMKOD` e-fatura numara serisi (ör. `ABC`). Sertifika ve entegratör ayarları da burada; entegrasyon yalnız `BIRIMKOD` seçmeli |
+| `TBLEARSIVPRM` | E-arşiv parametreleri; `BIRIMKOD` e-arşiv serisi. Sertifika ve entegratör ayarları da burada; yalnız `BIRIMKOD` seçilmeli |
+| `TBLEIRSSERI` | E-irsaliye serileri (`SERI`); `C_YEDEK1` NULL olanlar kullanılabilir |
 | `TBLDIZAYNSABIT` | Belge dizaynları. `DIZAYNTIPI`: `99` e-fatura, `100` e-arşiv, `104` e-irsaliye (gözlenen değerler) |
+
+Üç seri tablosunda da seriler `SUBE_KODU` ile ayrılır. Hangi serinin kullanılacağı ve sorgular: [E-belge > Seri bilgileri](/netopenx/e-belge/#seri-bilgileri).
 
 ## Kasa, muhasebe, diğer
 
 | Tablo | İçerik |
 |-------|--------|
-| `TBLKASAMAS`, `TBLKASA` | Kasa tanımı (`KSMAS_KOD`) ve kasa hareketleri (anahtar `SIRA`). `IO`: `G` gelir, `C` gider. `TIP`: `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhtelif, `S` senet, `T` transfer. `CARI_MUH`: `C`/`M`/`B`. Ayrıntı: [Finans tabloları](/veritabani/finans-tablolari/) |
+| `TBLKASAMAS`, `TBLKASA` | Kasa tanımı (`KSMAS_KOD`) ve kasa hareketleri (anahtar `SIRA`). `IO`: `G` gelir, `C` gider. `TIP`: `B` banka, `C` cari, `E` çek, `F` fatura, `M` muhasebe, `S` senet, `T` transfer, `K` kredi kartı. `CARI_MUH` yalnız `TIP` = `F` ve `M` satırlarında karşı tarafı seçer: `C` ise cari, değilse muhasebe hesabı. Diğer türlerde karşı taraf `TIP`'ten gelir. Ayrıntı: [Finans tabloları](/veritabani/finans-tablolari/) |
 | `TBLBNKSABIT`, `TBLBNKHESSABIT`, `TBLBNKHESTRA` | Banka, banka hesabı (`NETHESKODU`) ve hesap hareketleri (`NETHESKODU` + `INCKEYNO`) |
 | `TBLDEKOMAS`, `TBLDEKOTRA` | Dekont başlığı ve satırları; bağ `SERI_NO` + `DEKONT_NO` (`INCKEYNO` değil) |
 | `TBLMUPLAN` | Muhasebe hesap planı (`HESAP_KODU`) |
@@ -629,7 +633,7 @@ HAVING SUM(CASE WHEN h.STHAR_GCKOD = 'G' THEN h.STHAR_GCMIK ELSE -h.STHAR_GCMIK 
 
 ### Depo bazında bakiye (özet tablodan)
 
-`TBLSTOKPH` Netsis'in tetikleyiciyle güncellediği depo bazında toplamları tutar; büyük `TBLSTHAR` taramasından çok daha hızlıdır. Promosyon ve yapılandırma kodu satırları ayrı olduğu için stok + depo bazında toplanır.
+`TBLSTOKPH` Netsis'in tetikleyiciyle güncellediği depo bazında toplamları tutar; büyük `TBLSTHAR` taramasından çok daha hızlıdır. Promosyon ve yapılandırma kodu satırları ayrı olduğu için stok + depo bazında toplanır. `DEPO_KODU = 0` satırı stokun bütün depolar toplamıdır: Netsis'in stok bakiyesi görünümleri toplam bakiyeyi bu satırdan okur, depo bazlı listeler `DEPO_KODU <> 0` ile süzer. Bütün satırları `GROUP BY STOK_KODU` ile toplamak stoku iki kez sayar. Toplam için `WHERE DEPO_KODU = 0`, depo kırılımı için `WHERE DEPO_KODU <> 0` kullanılır.
 
 ```sql
 SELECT p.STOK_KODU, MAX(s.STOK_ADI) AS STOK_ADI, p.DEPO_KODU, MAX(d.DEPO_ISMI) AS DEPO_ISMI,
@@ -639,6 +643,7 @@ SELECT p.STOK_KODU, MAX(s.STOK_ADI) AS STOK_ADI, p.DEPO_KODU, MAX(d.DEPO_ISMI) A
 FROM TBLSTOKPH p WITH (NOLOCK)
 LEFT JOIN TBLSTSABIT s WITH (NOLOCK) ON s.STOK_KODU = p.STOK_KODU
 LEFT JOIN TBLSTOKDP  d WITH (NOLOCK) ON d.DEPO_KODU = p.DEPO_KODU
+WHERE p.DEPO_KODU <> 0
 GROUP BY p.STOK_KODU, p.DEPO_KODU
 ORDER BY p.STOK_KODU, p.DEPO_KODU;
 ```
@@ -647,18 +652,18 @@ Hareketten hesaplanan miktarla (üstteki sorgu) karşılaştırıp kendi veriniz
 
 ### Devir hızı (son 90 gün)
 
-Satış kaynaklı çıkışlar (`STHAR_HTUR` `J` fatura, `N` irsaliye, `H` ambar çıkışı) bakiyeye oranlanır.
+Satış kaynaklı çıkışlar bakiyeye oranlanır. `J` fatura kalemidir, `H` faturalanmamış irsaliye kalemidir, `N` faturalanmış irsaliye kalemidir. İrsaliye faturalanınca stok miktarını faturanın `J` kalemi taşır (irsaliye kalemine `IRSALIYE_NO` ve `STRA_IRSKONT` ile bağlıdır); irsaliye kalemi `N` olur; bir test kurulumunda bütün `N` kalemlerinin miktarı (`STHAR_GCMIK`) 0'dı (kurulum parametresine bağlı olabilir). Bu durumda miktar toplamında `J` ile `N` birlikte alınsa da mal iki kez sayılmaz; satır sayarken ise faturalanmış irsaliye iki kez görünür (bir `N`, bir `J` kalemi). Aşağıdaki sorgu `J` ve `H` kalemlerini alır, çünkü `N` miktara bir şey eklemez. Kendi verinizde `N` kalemlerinin miktarını bir kez kontrol edin (`SELECT SUM(STHAR_GCMIK) FROM TBLSTHAR WHERE STHAR_HTUR = 'N'`). Ambar çıkışı `STHAR_FTIRSIP` 8/9 ile ayrılır.
 
 ```sql
 SELECT t.STOK_KODU, s.STOK_ADI, t.CIKIS_90, ISNULL(b.BAKIYE, 0) AS BAKIYE,
        CASE WHEN ISNULL(b.BAKIYE, 0) > 0 THEN t.CIKIS_90 / b.BAKIYE END AS DEVIR_ORANI
 FROM (SELECT STOK_KODU, SUM(STHAR_GCMIK) AS CIKIS_90
       FROM TBLSTHAR WITH (NOLOCK)
-      WHERE STHAR_GCKOD = 'C' AND STHAR_HTUR IN ('J', 'N', 'H')
+      WHERE STHAR_GCKOD = 'C' AND STHAR_HTUR IN ('J', 'H')
         AND STHAR_TARIH >= DATEADD(day, -90, GETDATE())
       GROUP BY STOK_KODU) t
 LEFT JOIN (SELECT STOK_KODU, SUM(ISNULL(TOP_GIRIS_MIK, 0) - ISNULL(TOP_CIKIS_MIK, 0)) AS BAKIYE
-           FROM TBLSTOKPH WITH (NOLOCK) GROUP BY STOK_KODU) b ON b.STOK_KODU = t.STOK_KODU
+           FROM TBLSTOKPH WITH (NOLOCK) WHERE DEPO_KODU = 0 GROUP BY STOK_KODU) b ON b.STOK_KODU = t.STOK_KODU
 LEFT JOIN TBLSTSABIT s WITH (NOLOCK) ON s.STOK_KODU = t.STOK_KODU
 ORDER BY t.CIKIS_90 DESC;
 ```
@@ -693,7 +698,7 @@ WHERE f.FTIRSIP = '1'                       -- satış faturası
 ```sql
 SELECT f.FATIRS_NO, e.ACIK1, e.ACIK2, e.ACIK3
 FROM TBLFATUIRS f
-JOIN TBLFATUEK e ON e.FKOD = f.FTIRSIP AND e.FATIRSNO = f.FATIRS_NO AND e.CKOD = f.CARI_KODU
+JOIN TBLFATUEK e ON e.FKOD = f.FTIRSIP AND e.FATIRSNO = f.FATIRS_NO AND e.CKOD = f.CARI_KODU AND e.SUBE_KODU = f.SUBE_KODU
 WHERE f.FTIRSIP = '1' AND f.FATIRS_NO = 'ABC2024000000123';
 ```
 
@@ -931,8 +936,8 @@ TBLDEKOMAS (dekont başlığı)    SERI_NO + DEKONT_NO ──< TBLDEKOTRA (dekon
 | Kolon | Değerler (gözlem) |
 |-------|-------------------|
 | `IO` | `G` gelir (tahsilat), `C` gider (ödeme) |
-| `TIP` | `C` cari, `F` fatura, `T` transfer, `M` muhasebe/muhtelif, `B` banka, `S` senet; şema `E` çek de sayar |
-| `CARI_MUH` | `KOD` alanının anlamı: `C` cari kodu, `M` muhasebe hesabı, `B` banka; `TIP = 'F'` satırlarında boş |
+| `TIP` | `C` cari, `F` fatura, `T` transfer, `M` muhasebe, `B` banka, `S` senet; şema `E` çek ve `K` kredi kartı da sayar. Netsis'in tahsilat ve ödeme listeleri `T` ve `B`'yi dışarıda bırakır |
+| `CARI_MUH` | Yalnız `TIP` = `F` ve `M` satırlarında `KOD`'un anlamı: `C` cari kodu, değilse muhasebe hesabı. `C`, `E`, `S`, `K` türlerinde karşı taraf cari, `B` türünde banka hesabıdır (`CARI_MUH` değil `TIP` belirler); Netsis görünümleri `CARI_MUH`'ta banka için ayrı değer sınamaz |
 | `KOD` | `CARI_MUH`'a göre cari kodu ya da hesap kodu |
 | `PLASIYER_KODU`, `PROJE_KODU` | REST ile yazarken ikisi de zorunlu çıktı |
 
@@ -946,7 +951,7 @@ Kasa bakiyesi `TBLKASAMAS` üzerindeki devir alanlarından değil, `TBLKASA` top
 | `TBLBNKHESSABIT` | Banka hesabı: `ACIKLAMA`, `BANKAHESNO`, `IBANNO`, `DOVIZTIPI`, `NETMUHKODU`, toplam alanları `HESBORCTOP`/`HESALACTOP` | `NETHESKODU` |
 | `TBLBNKHESTRA` | Banka hesap hareketi: `TARIH`, `VADETARIH`, `BA` (`B` borç / `A` alacak), `TUTAR`, `BELGENO`, `ACIKLAMA`, `PROJEKODU`, `PLASIYERKODU` | `NETHESKODU` + `INCKEYNO` |
 
-`TBLBNKHESTRA`'da `HAREKET_TURU` kolonu yoktur; hareket türü `HARTIPI` ve `HARTURU` tam sayı kolonlarındadır (değer listesi doğrulanmadı). Hesap toplamlarını `TBLBNKHESSABIT.HESBORCTOP` yerine hareketten hesaplamak daha güvenlidir (cari için aynı gözlem: [Cari](/rest/canli-denemeler/#cari)).
+`TBLBNKHESTRA`'da `HAREKET_TURU` kolonu yoktur; hareket türü `HARTIPI` ve `HARTURU` tam sayı kolonlarındadır. Netsis'in tahsilat ve ödeme listeleri banka hareketinden `HARTURU` 0, 2, 4 satırlarını alır (tahsilat `BA` = `B`, ödeme `BA` = `A` ve `TUTAR` > 0). Tahsilat listesi banka tarafında yalnız `HESAPTIPI` = 0 hesapları alır; ödeme listesinin ana banka kolu hesap tipini süzmez (yalnız kredi kartı kolu `HESAPTIPI` = 0 ister). `HARTURU` 2'de karşı hesap cari kodu `TBLBNKLOGTRA.KARSIHESKOD`'dadır. `HARTURU` 4 satırlarının bir kısmı kredi kartı hareketidir; ödeme listesi bunları `TBLBNKLOGTRA.ISLEMTIPI` ile ayırır (1 kart, 7 banka ödemesi), tahsilat listesi kredi kartı tahsilatını `HARTURU` ile değil `TBLTAHSILAT` ve `YEDEK6` zinciriyle bulur; 4'ün tek anlamı doğrulanmadı. 5 ve 6 aynı `ENTEGREFKEY`'li ana harekete eklenen ya da ondan düşülen ek satırlardır. Diğer değerlerin adı Netsis görünümlerinde yoktur. Hesap toplamlarını `TBLBNKHESSABIT.HESBORCTOP` yerine hareketten hesaplamak daha güvenlidir (cari için aynı gözlem: [Cari](/rest/canli-denemeler/#cari)).
 
 ## Çek ve senet
 
@@ -976,7 +981,7 @@ Dört tabloyu tek listede göstermek için `UNION ALL` ile birleştirip tür sü
 | Tablo | İçerik | Anahtar |
 |-------|--------|---------|
 | `TBLDEKOMAS` | Dekont başlığı: `SERI_NO`, `DEKONT_NO`, `MUH` (muhasebeleşti mi), `DEGISTI` | `SERI_NO` + `DEKONT_NO` |
-| `TBLDEKOTRA` | Dekont satırı: `SIRA_NO`, `TARIH`, `FISNO`, `C_M` (cari/muhasebe), `KOD`, `B_A` (`B`/`A`), `TUTAR`, `ACIKLAMA1..4`, `PLASIYER`, `PROJE_KODU` | `SERI_NO` + `DEKONT_NO` + `SIRA_NO` |
+| `TBLDEKOTRA` | Dekont satırı: `SIRA_NO`, `TARIH`, `FISNO`, `C_M` (`KOD`'un türü: `C` cari `TBLCASABIT.CARI_KOD`, `M` muhasebe hesabı `TBLMUPLAN.HESAP_KODU`, `B` banka hesabı `TBLBNKHESSABIT.NETHESKODU`, `S` stok `TBLSTSABIT.STOK_KODU`), `KOD`, `B_A` (`B`/`A`), `TUTAR`, `ACIKLAMA1..4`, `PLASIYER`, `PROJE_KODU` | `SERI_NO` + `DEKONT_NO` + `SIRA_NO` |
 
 > **`INCKEYNO` bağ değildir.** İki tablonun da `INCKEYNO` kolonu vardır ama her tablo kendi sayacını kullanır; başlığı satırlara `INCKEYNO` ile bağlarsanız satır bulamazsınız. Bağ `SERI_NO + DEKONT_NO` çiftidir (gözlem: başlık sayısı kadar farklı çift). Sorgu: [Dekont başlığı ve satır toplamları](/veritabani/sql-ornekleri/#dekont-basligi-ve-satir-toplamlari).
 
@@ -992,7 +997,7 @@ Netsis finans belgelerini kaydederken cari hareketi de yazar. REST ile test şir
 
 `DELETE SafeDeposits/{SIRA}` kasa satırıyla cari hareketi birlikte siler. Çek bordrosu REST ile silinemediği için cari hareketi de kalır.
 
-`TBLCAHAR.HAREKET_TURU` için test şirketinde görülen değerler: `A`, `B`, `C`, `D`, `E`, `G`, `H`, `I`, `J`, `K`. Şema dokümanı listeyi vermez; gözlemle eşleşenler `D` kasa, `G` çek. Fatura ve dekont kaynaklı hareketlerin kodları doğrulanmadı.
+`TBLCAHAR.HAREKET_TURU`: şema dokümanı listeyi vermez; standart görünümlerde yazılı olmayan kodlar doğrulanmadı. Gözlemle eşleşenler `D` kasa, `G` çek. Netsis'in yaşlandırma fonksiyonları (`PRTFN_AGING_REPORT_BY_DEFAULT`, `_BY_CLOSURE`) döviz bazlı bakiye özetini `HAREKET_TURU BETWEEN 'A' AND 'L'` ile toplar; kod adları standart görünümlerde yazılı değildir. Fatura ve dekont kaynaklı hareketlerin kodları doğrulanmadı.
 
 ## Şube ve işletme süzgeci
 
@@ -1004,7 +1009,7 @@ Finans tablolarında `SUBE_KODU` çoğunlukla `0`'dır ama cari kartlarında `-1
 <!-- https://netsis.bahadirdogru.com/veritabani/cari-risk/ -->
 # Cari risk
 
-Netsis bir belgeyi kaydederken carinin riskini kontrol eder (`RiskKontrol`) ve aşılmışsa `MÜŞTERİ RİSKLİ` hatası verir ([Sipariş hesaplama ve değiştirme](/rest/siparis-islemleri/#risk-reddi)). Aynı sayıyı önceden görmek için formül düz SQL ile yeniden kurulabilir. Bu sayfadaki bulgular tek bir test şirketinde, Netsis çekirdeği 9.0.72.5 ile yapılan canlı denemelerden gelir; sorgu o şirketin bütün carilerinde Netsis'in kendi risk raporuyla aynı sonucu verdi. Kendi şirketinizde de karşılaştırıp doğrulayın. «doğrulanmadı» işaretli parçalar test verisiyle sınanamadı.
+Netsis bir belgeyi kaydederken carinin riskini kontrol eder (`RiskKontrol`) ve aşılmışsa `MÜŞTERİ RİSKLİ` hatası verir ([Sipariş hesaplama ve değiştirme](/rest/siparis-islemleri/#risk-reddi)). Aynı sayıyı önceden görmek için formül düz SQL ile yeniden kurulabilir. Bu sayfadaki bulgular tek bir test şirketinde, Netsis çekirdeği 9.0.72.5 ile yapılan canlı denemelerden gelir. Sorgunun önceki sürümü (bakiye kart özetinden, sevk ve yükleme `TBLCARISK`'teki saklanan sütunlardan, teminat limitten düşülerek) o şirketin bütün carilerinde Netsis'in kendi risk raporuyla aynı sonucu verdi. Bakiye dalı, teminat işareti ve `TEMINATI` terimi, sevk ve yükleme blokları sonradan Netsis'in risk fonksiyonunun metnine göre değiştirildi ve veriyle doğrulanmadı. Kendi şirketinizde de karşılaştırıp doğrulayın. «doğrulanmadı» işaretli parçalar test verisiyle sınanamadı.
 
 ## Tablolar ve kolonlar
 
@@ -1028,29 +1033,35 @@ Gözlemler:
 
 ```text
 Kalan kredi =
-    (− banka teminatları × TEMINATIO / 100)
-  +  RISKLIMITI
-  −  bakiye          × BORCRISKO / 100
+     RISKLIMITI
+  +  (banka teminatları + TEMINATI) × TEMINATIO / 100
+  −  bakiye          (BORCRISKO > 0 ise BORCRISKO / 100 × TBLCAHAR toplamı, değilse kart bakiyesinin tamamı)
   −  senet asıl      × SARISKO   / 100
   −  senet ciro      × SCRISKO   / 100
   −  çek asıl        × CARISKO   / 100
   −  çek ciro        × CCRISKO   / 100
   −  açık siparişler × SIPRISKO  / 100
-  −  SEVKRISK        × SEVKRISKO / 100
-  −  YUKRISK         × YUKRISKO  / 100
+  −  sevk riski toplamı     × SEVKRISKO / 100
+  −  yükleme riski toplamı  × YUKRISKO  / 100
 ```
 
-Netsis'in red metnindeki «Risk değeri» = `RISKLIMITI` − kalan kredi. Test şirketinin kendi raporunda irsaliye terimi (`IRSRISKO`) yoktu; o yüzden formüle alınmadı, sizin raporunuzda varsa ekleyin.
+Netsis'in red metnindeki «Risk değeri» = `RISKLIMITI` − kalan kredi.
+
+İrsaliye terimi formüle alınmadı. Netsis'in risk fonksiyonu faturalanmamış satış irsaliyelerini (`FTIRSIP` 3, başlıkta `UPDATE_KODU` 'Y' değil) `GENELTOPLAM × IRSRISKO / 100` olarak hesaplar, ama satış parametresi `IRS_CARI` = `'E'` iken bu terimi toplamdan geri çıkarır. Kendi şirketinizde parametreyi `TBLSFATUPRM.IRS_CARI`'den okuyun (`SUBE_KODU` ile şubenizin satırı). `SFATUPRM` görünümü şubeyi Netsis oturumundan aldığı için oturum dışında, örneğin salt okunur bir SQL girişinde, satır döndürmez. `IRS_CARI` `'E'` değilse irsaliye terimini ekleyin.
+
+Risk grubu: Netsis uygulaması risk fonksiyonuna (`CARISKBUL`, `INTERNALCARISKBUL`) grup desteğini (`@GRPDESTEK` = `'E'`) geçirirse ve carinin `TBLCARISK.RISKGRUP`'u doluysa, hesap grubun bütün carilerinin `TBLCARISK` satırları üzerinden yapılır; limitler ve riskler toplanır. Grup desteği bir tabloda tutulmaz, uygulamanın verdiği parametredir ve SQL'den okunamaz. Aşağıdaki sorgu tek cariyi hesaplar.
 
 Terimlerin kaynağı:
 
 | Terim | Kaynak |
 |-------|--------|
-| Bakiye | `TBLCASABIT.CM_BORCT − CM_ALACT`. Bu özet kolonların hareketle uyumsuz kalabildiğine dair uyarı: [Cari bakiyesi](/veritabani/sql-ornekleri/#cari-bakiyesi). Netsis'in risk hesabı bunları kullandığı için burada da kullanılır |
+| Bakiye | BORCRISKO 0, negatif ya da boşsa Netsis kartın `TBLCASABIT.CM_BORCT − CM_ALACT` değerini tam (yüzde uygulamadan) alır; BORCRISKO sıfırdan büyükse `BORCRISKO / 100 × SUM(TBLCAHAR.BORC − TBLCAHAR.ALACAK)` kullanır. Kart özet kolonları yalnız ilk dalda kullanılır; hareketle uyumsuz kalabildiklerine dair uyarı: [Cari bakiyesi](/veritabani/sql-ornekleri/#cari-bakiyesi). Aşağıdaki SQL iki dalı da kurar |
 | Çek / senet | `TBLMCEK` ve `TBLMSEN`; cari `SC_VERENK`, `AS_C = 'A'` (asıl) ya da `'C'` (ciro), `SC_SONDUR = 'B'`, `SC_YERI <> 'I'`; `SC_YERI = 'C'` olanlar yalnız bugün < `SC_ODETRH` + 2 iken sayılır; `TUTAR` toplanır |
-| Banka teminatı | `TBLBNKTEMSABIT`: `CARIKODU`, `RISKEDAHIL = 'E'`, `DURUM = 0`, `VADETARIH` bugün ya da sonrası ya da boş; `TUTAR`. Test şirketinde hiç satır yoktu: bu terim veriyle **doğrulanmadı**; işareti de formülden okundu |
-| Açık sipariş | `TBLSIPATRA` ↔ `TBLSIPAMAS` (`SUBE_KODU`, `STHAR_FTIRSIP = FTIRSIP`, `FISNO = FATIRS_NO`, `STHAR_ACIKLAMA = CARI_KODU`), `STHAR_GCKOD = 'C'`, başlıkta `UPDATE_KODU` 'Y' değil; açık miktar = `STHAR_GCMIK − FIRMA_DOVTUT − sevk edilen`; tutar = açık × `STHAR_NF` × (1 + `STHAR_KDV` / 100); yalnız açık > 0 olanlar |
-| Sevk edilen | Netsis'te `NSF_SEVKKALMIKGETIR(FISNO + '-' + STRA_SIPKONT, 1)` skaler fonksiyonu; içi `KUMGENEL` tablosunda `FUNCTIONID = 1` ve `ANAHTAR = FISNO + '-' + STRA_SIPKONT` için `SUM(TOPLAM1)` |
+| Banka teminatı | `TBLBNKTEMSABIT`: `CARIKODU`, `RISKEDAHIL = 'E'`, `DURUM = 0`, `VADETARIH` bugün ya da sonrası ya da boş; `TUTAR`. Netsis teminatı ek limit gibi sayar: bu toplamı ve `TBLCARISK.TEMINATI`'yı `TEMINATIO` / 100 ile kalan krediye ekler. Bu terim veriyle **doğrulanmadı**; işareti risk fonksiyonunun metninden okundu |
+| Açık sipariş | `TBLSIPATRA` ↔ `TBLSIPAMAS` (`SUBE_KODU`, `STHAR_FTIRSIP = FTIRSIP`, `FISNO = FATIRS_NO`, `STHAR_ACIKLAMA = CARI_KODU`), başlıkta `UPDATE_KODU` 'Y' değil (kalem süzgeci olarak `STHAR_GCKOD = 'C'` aşağıdaki SQL'de kullanılır; Netsis'in risk hesabı `GCKOD` süzmez); açık miktar = `STHAR_GCMIK − FIRMA_DOVTUT − sevk edilen`; Netsis açık siparişi yalnız satış siparişi (`FTIRSIP` 6) ve `STHAR_HTUR <> 'K'` kalemleri üzerinden sayar. Tutar Netsis'te açık × ((`STHAR_NF` + `REDMIK`) × (1 + `STHAR_KDV` / 100) − gümüş tevkifatı) olarak hesaplanır (`TBLSIPATRA.REDMIK` fonksiyonda `OTV` adıyla geçer; gümüş tevkifatı yalnız gümüş tevkifatı parametresi açık ve başlıkta `KDV_DAHILMI` = `'H'` iken uygulanır). Her açık kaleme başlığın `FAT_ALTM2` tutarı (negatifse ve satış parametresi `TEV_RISKEDAHILETME` açıksa) ve `FAT_ALTM1` × (1 + nakliye KDV oranı / 100) tutarı («ek maliyet 1 riske dahil» parametresi varsa) eklenir; başlık tutarları belge başına bir kez değil, açık kalem başına eklenir. Aşağıdaki sade SQL yalnız açık × `STHAR_NF` × (1 + `STHAR_KDV` / 100) toplar. Faturalanmamış satış irsaliyesi ayrı bir terimdir (formülün altındaki `IRS_CARI` notu). Yalnız açık > 0 olanlar |
+| Sevk edilen | Netsis açık sipariş riskinde `NSF_SEVKYUKKALMIKGETIR(FISNO, STRA_SIPKONT, 1)` fonksiyonunu kullanır. Fonksiyon `KUMGENEL`'de `FUNCTIONID = 1` ve `ANAHTAR = FISNO + '-' + STRA_SIPKONT` satırının `TOPLAM1` değerinden (sevk), bu siparişe bağlı sevk satırlarının `FUNCTIONID = 3` kayıtlarındaki `TOPLAM3` toplamını (yükleme) çıkarır. `NSF_SEVKKALMIKGETIR` ise verilen `FUNCTIONID` ve `ANAHTAR` için `TOPLAM1` toplamını döndüren genel okuyucudur ve sevk riskinde kullanılır. Aşağıdaki SQL yalnız `FUNCTIONID = 1` `TOPLAM1` değerini düşer (`NSF_SEVKKALMIKGETIR(…, 1)`); yükleme düşümü yoktur, bu yüzden yüklemesi olan siparişte açık miktar Netsis'inkinden küçük çıkabilir (**doğrulanmadı**) |
+| Sevk riski | `TBLSEVKTRA` (`TIP = 1`) satırlarında (`MIKTAR` − `KUMGENEL` `FUNCTIONID = 3` toplamı) × siparişin `STHAR_NF` × (1 + `STHAR_KDV` / 100) toplamı; `SEVKRISKO` ile çarpılır. `TBLCARISK.SEVKRISK` sütunu ham tutar olarak saklanır ama formülde yer almaz |
+| Yükleme riski | `TIP = 3` yükleme satırlarının `MIKTAR` × sipariş birim fiyatı × (1 + KDV / 100) toplamı, `IRSFLAG` 1 olmayanlar; `YUKRISKO` ile çarpılır. `TBLCARISK.YUKRISK` sütunu formülde yer almaz |
 
 Salt okunur bir SQL girişinde `NSF_*` fonksiyonlarında genellikle EXECUTE, tanımlarında VIEW DEFINITION yetkisi yoktur; bu yüzden fonksiyonu çağırmak yerine sorgusu satır içine alınır (aşağıda).
 
@@ -1069,41 +1080,47 @@ SELECT y.CARIKOD, y.RISKLIMITI,
        y.RISKLIMITI - y.KALAN_KREDI AS RISK_DEGERI
 FROM (
   SELECT x.CARIKOD, x.RISKLIMITI,
-         - x.TEMINAT * x.TEMINATIO / 100.0
-         + x.RISKLIMITI
-         - x.BAKIYE      * x.BORCRISKO / 100.0
+           x.RISKLIMITI
+         + (x.TEMINAT + x.TEMINATI) * x.TEMINATIO / 100.0
+         - x.BAKIYE_RISK
          - x.SENET_ASIL  * x.SARISKO   / 100.0
          - x.SENET_CIRO  * x.SCRISKO   / 100.0
          - x.CEK_ASIL    * x.CARISKO   / 100.0
          - x.CEK_CIRO    * x.CCRISKO   / 100.0
          - x.ACIK_SIPARIS * x.SIPRISKO / 100.0
-         - x.SEVKRISK    * x.SEVKRISKO / 100.0
-         - x.YUKRISK     * x.YUKRISKO  / 100.0 AS KALAN_KREDI
+         - x.SEVK_TOPLAM * x.SEVKRISKO / 100.0
+         - x.YUK_TOPLAM  * x.YUKRISKO  / 100.0 AS KALAN_KREDI
   FROM (
     SELECT r.CARIKOD,
            ISNULL(r.RISKLIMITI, 0) AS RISKLIMITI,
+           ISNULL(r.TEMINATI, 0)   AS TEMINATI,
            ISNULL(r.TEMINATIO, 0)  AS TEMINATIO,
-           ISNULL(r.BORCRISKO, 0)  AS BORCRISKO,
            ISNULL(r.SARISKO, 0)    AS SARISKO,
            ISNULL(r.SCRISKO, 0)    AS SCRISKO,
            ISNULL(r.CARISKO, 0)    AS CARISKO,
            ISNULL(r.CCRISKO, 0)    AS CCRISKO,
            ISNULL(r.SIPRISKO, 0)   AS SIPRISKO,
-           ISNULL(r.SEVKRISK, 0)   AS SEVKRISK,
            ISNULL(r.SEVKRISKO, 0)  AS SEVKRISKO,
-           ISNULL(r.YUKRISK, 0)    AS YUKRISK,
            ISNULL(r.YUKRISKO, 0)   AS YUKRISKO,
-           b.BAKIYE, t.TEMINAT,
+           CASE WHEN r.BORCRISKO > 0
+                THEN r.BORCRISKO / 100.0 * h.HAREKET_BAKIYE
+                ELSE b.BAKIYE END AS BAKIYE_RISK,
+           t.TEMINAT,
            e.CEK_ASIL, e.CEK_CIRO, e.SENET_ASIL, e.SENET_CIRO,
-           s.ACIK_SIPARIS
+           s.ACIK_SIPARIS, sv.SEVK_TOPLAM, yk.YUK_TOPLAM
     FROM TBLCARISK r WITH (NOLOCK)
 
-    -- bakiye
+    -- bakiye: kart özeti (BORCRISKO 0, negatif ya da boşken)
     CROSS JOIN (SELECT ISNULL(SUM(ISNULL(CM_BORCT, 0) - ISNULL(CM_ALACT, 0)), 0) AS BAKIYE
                 FROM TBLCASABIT WITH (NOLOCK)
                 WHERE CARI_KOD = @CariKod) b
 
-    -- banka teminatları (doğrulanmadı: test şirketinde satır yoktu)
+    -- bakiye: hareket toplamı (BORCRISKO > 0 iken)
+    CROSS JOIN (SELECT ISNULL(SUM(BORC - ALACAK), 0) AS HAREKET_BAKIYE
+                FROM TBLCAHAR WITH (NOLOCK)
+                WHERE CARI_KOD = @CariKod) h
+
+    -- banka teminatları (doğrulanmadı)
     CROSS JOIN (SELECT ISNULL(SUM(TUTAR), 0) AS TEMINAT
                 FROM TBLBNKTEMSABIT WITH (NOLOCK)
                 WHERE CARIKODU = @CariKod AND RISKEDAHIL = 'E' AND DURUM = 0
@@ -1128,7 +1145,7 @@ FROM (
         AND (u.SC_YERI <> 'C' OR @Bugun < DATEADD(day, 2, u.SC_ODETRH))
     ) e
 
-    -- açık siparişler (NSF_SEVKKALMIKGETIR satır içine alındı)
+    -- açık siparişler (NSF_SEVKKALMIKGETIR(..., 1) satır içine alındı; Netsis'in yükleme düşümü yok)
     CROSS JOIN (
       SELECT ISNULL(SUM(a.ACIK * a.STHAR_NF * (1 + a.STHAR_KDV / 100.0)), 0) AS ACIK_SIPARIS
       FROM (
@@ -1151,6 +1168,44 @@ FROM (
       WHERE a.ACIK > 0
     ) s
 
+    -- sevk riski toplamı (doğrulanmadı: TBLSEVKMAS bağı ve sipariş başlığı / STHAR_HTUR <> 'K' koşulu alınmadı)
+    CROSS JOIN (
+      SELECT ISNULL(SUM(q.ACIK_SEVK * q.STHAR_NF * (1 + q.STHAR_KDV / 100.0)), 0) AS SEVK_TOPLAM
+      FROM (
+        SELECT tr.STHAR_NF, tr.STHAR_KDV,
+               sv.MIKTAR - ISNULL((SELECT SUM(k.TOPLAM1)
+                                   FROM KUMGENEL k WITH (NOLOCK)
+                                   WHERE k.FUNCTIONID = 3
+                                     AND k.ANAHTAR = sv.BELGENO + '-' + CONVERT(varchar(10), sv.SIRA)), 0) AS ACIK_SEVK
+        FROM TBLSEVKTRA sv WITH (NOLOCK)
+        JOIN TBLSIPATRA tr WITH (NOLOCK)
+          ON  tr.SUBE_KODU = sv.SUBE_KODU
+          AND tr.STHAR_FTIRSIP = '6'
+          AND tr.FISNO = sv.SIPNO
+          AND tr.STRA_SIPKONT = sv.SIPKONT
+        WHERE sv.TIP = 1 AND tr.STHAR_ACIKLAMA = @CariKod
+      ) q
+      WHERE q.ACIK_SEVK > 0
+    ) sv
+
+    -- yükleme riski toplamı (doğrulanmadı)
+    CROSS JOIN (
+      SELECT ISNULL(SUM(y.MIKTAR * tr.STHAR_NF * (1 + tr.STHAR_KDV / 100.0)), 0) AS YUK_TOPLAM
+      FROM TBLSEVKTRA sv WITH (NOLOCK)
+      JOIN TBLSIPATRA tr WITH (NOLOCK)
+        ON  tr.SUBE_KODU = sv.SUBE_KODU
+        AND tr.STHAR_FTIRSIP = '6'
+        AND tr.FISNO = sv.SIPNO
+        AND tr.STRA_SIPKONT = sv.SIPKONT
+      JOIN TBLSEVKTRA y WITH (NOLOCK)
+        ON  y.SUBE_KODU = sv.SUBE_KODU
+        AND y.TIP = 3
+        AND y.SIPNO = sv.BELGENO
+        AND y.SIPKONT = sv.SIRA
+      WHERE sv.TIP = 1 AND tr.STHAR_ACIKLAMA = @CariKod
+        AND (y.IRSFLAG <> 1 OR y.IRSFLAG IS NULL)
+    ) yk
+
     WHERE r.CARIKOD = @CariKod
   ) x
 ) y;
@@ -1158,7 +1213,7 @@ FROM (
 
 Notlar:
 
-- `STRA_SIPKONT` sayısal kolondur; anahtar `FISNO + '-' + CAST(STRA_SIPKONT AS VARCHAR(10))` biçiminde kurulur. Bu biçimle kurulan sorgu, test şirketinin kendi risk raporuyla bütün carilerde aynı sonucu verdi.
+- `STRA_SIPKONT` sayısal kolondur; anahtar `FISNO + '-' + CAST(STRA_SIPKONT AS VARCHAR(10))` biçiminde kurulur. Bu biçimle kurulan sorgunun önceki sürümü (sevk ve yükleme saklanan sütunlardan) Netsis'in risk raporuyla bütün carilerde aynı sonucu verdi; sonradan değiştirilen terimler (bakiye dalı, teminat, sevk, yükleme) doğrulanmadı.
 - `SC_YERI <> 'I'` koşulu `SC_YERI` boş olan satırları dışarıda bırakır; Netsis'in kendi hesabı da böyle davrandı. Boş değer görüyorsanız sonucu raporla karşılaştırın.
 - Çok sayıda cari için döngü yerine her terimi `GROUP BY` ile bir kez hesaplayıp `CARIKOD` üzerinden birleştirin; yukarıdaki biçim tek cari içindir.
 - Bu hesap yalnızca okur. `TBLCARISK` kaydı yazmak için SQL kullanmayın ([Genel bakış](/genel-bakis/#yazma-kurali)).
@@ -1967,10 +2022,10 @@ siparis.OkuUst(siparisNo, cariKod);
 siparis.OkuKalem();
 FatUst sipUst = siparis.Ust();
 
-// e-fatura mükellefi ise e-fatura serisi, değilse e-arşiv serisi
+// e-fatura mükellefi ise e-fatura serisi, değilse e-arşiv serisi (şube süzgeciyle; ayrıntı: E-belge > Seri bilgileri)
 string seri = sipUst.EfaturaCarisiMi
-    ? Sql("SELECT TOP 1 BIRIMKOD FROM TBLEFATPRM")
-    : Sql("SELECT TOP 1 BIRIMKOD FROM TBLEARSIVPRM");
+    ? Sql("SELECT BIRIMKOD FROM TBLEFATPRM WHERE SUBE_KODU = 0")
+    : Sql("SELECT BIRIMKOD FROM TBLEARSIVPRM WHERE SUBE_KODU = 0");
 
 Fatura fatura = kernel.yeniFatura(sirket, TFaturaTip.ftSFat);
 FatUst fatUst = fatura.Ust();
@@ -2319,6 +2374,11 @@ SELECT BIRIMKOD FROM TBLEFATPRM   WHERE SUBE_KODU = 0;   -- e-fatura serisi
 SELECT BIRIMKOD FROM TBLEARSIVPRM WHERE SUBE_KODU = 0;   -- e-arşiv serisi
 SELECT SERI     FROM TBLEIRSSERI  WHERE C_YEDEK1 IS NULL AND SUBE_KODU = 0;   -- e-irsaliye serileri
 ```
+
+- **Kaynaklar.** E-fatura serisi `TBLEFATPRM.BIRIMKOD`, e-arşiv serisi `TBLEARSIVPRM.BIRIMKOD` kolonundadır. E-irsaliye serileri `TBLEIRSSERI.SERI` kolonundadır; `C_YEDEK1` NULL olan satırlar kullanılabilir olanlardır.
+- **Şube.** Üç sorgu da `SUBE_KODU` ile süzülür; `0` yalnızca örnek bir şube değeridir, kendi kurulumunuzdaki şube kodunu kullanın.
+- **Hangi seri.** Faturanın serisi carinin e-fatura mükellefi olup olmamasına göre seçilir. NetOpenX bu durumu `FatUst.EfaturaCarisiMi` olarak verir; değer kaynak belge okunduktan sonra dolar. Bu bayrak için güvenilir bir tablo kolonu yoktur, tabloda aramayın. `true` ise e-fatura serisi, değilse e-arşiv serisi kullanılır.
+- **Dikkat.** `TBLEFATPRM` ve `TBLEARSIVPRM` sertifika ve entegratör ayarlarını da tutar. Bir entegrasyon bu tablolardan yalnızca `BIRIMKOD` kolonunu seçmelidir.
 
 REST karşılıkları: `POST api/v2/EDocument` (taslak), `POST api/v2/EDocument/SendEDocument`, `POST api/v2/EDocument/ShowEDocument` ([JSON örnekleri](/rest/json-ornekleri/#e-belge)).
 
@@ -3117,7 +3177,7 @@ Tablolar: `TBLFATUIRS`, `TBLFATUEK`, `TBLSTHAR`, `TBLSIPAMAS`, `TBLSIPATRA`. COM
 | POST | `api/v2/ItemSlips/DeleteItemSlipLinkedWaybill` | Faturaya bağlı irsaliyeyi sil |
 | GET | `api/v2/ItemSlips/ContractsOpenPrice?restRecord={restRecord}` | Belgelenmemiş |
 
-> **`ItemSlips` için `PUT` yoktur.** Sipariş değiştirmek için silip tam gövdeyle yeniden yazın. `ChangeNumber` ve `ChangeCode` başlıkta `UPDATE` çalıştırır (şirkete özel tetikleyici varsa düşer), `OrderRevision` yeni sipariş oluşturur; düzenleme değildir. Ayrıntı ve gövdeler: [Sipariş hesaplama ve değiştirme](/rest/siparis-islemleri/#mevcut-siparisi-degistirme).
+> **`ItemSlips` için `PUT` yoktur.** Sipariş değiştirmek için silip tam gövdeyle yeniden yazın. `ChangeNumber` ve `ChangeCode` başlıkta `UPDATE` çalıştırır (şirkete özel tetikleyici varsa düşer), `OrderRevision` kalemleri kopyalanmış yeni bir sipariş oluşturur ve kaynağı kapatır; düzenleme değildir. Ayrıntı ve gövdeler: [Sipariş hesaplama ve değiştirme](/rest/siparis-islemleri/#mevcut-siparisi-degistirme).
 
 > Sipariş, fatura ve dönüşümlerde gereken alanlar: [Canlı denemeler](/rest/canli-denemeler/). `KosulluHesapla` varsayılanı `true`, `RiskKontrol` varsayılanı açıktır; açıkça gönderin. `ReadAndSave` ve `FaturaTip: 4` denemede zaman aşımına düştü.
 
@@ -3886,7 +3946,7 @@ Sürümler: ilk tur 9.0.71 ile yapıldı. `NetOpenX50.dll` güncellenince servis
 
 | Kaynak | Sonuç | Bilinmesi gereken |
 |--------|-------|-------------------|
-| Sipariş (`ftSSip`, `ftASip`) | Yazma ve silme çalışıyor | `KosulluHesapla: false`, `STra_BF` ve `STra_KDV` açıkça verilmeli |
+| Sipariş (`ftSSip`, `ftASip`) | Yazma ve silme çalışıyor; revizyona uğramış kaynak silinemiyor | `KosulluHesapla: false`, `STra_BF` ve `STra_KDV` açıkça verilmeli; `OrderRevision` kaynağı kapatır ([Sipariş revizyonu](/rest/siparis-islemleri/#siparis-revizyonu-orderrevision)) |
 | Satış ve alış irsaliyesi | Yazma ve silme çalışıyor | `TBLFATUIRS`, `TBLSTHAR`, `TBLFATUEK` yazılıyor |
 | Satış faturası | Yazma ve silme çalışıyor | `Seri` e-belge birim kodu olmalı, stok kartında muhasebe detay kodu gerekli |
 | Alış faturası | Yazma ve silme çalışıyor | Elle `FATIRS_NO`, `GIB_FATIRS_NO` ve kalemde `MuhasebeKodu` |
@@ -4121,7 +4181,7 @@ Ayrıntı: [Dikkatli güncellemeler](/veritabani/sql-ornekleri/#dikkatli-guncell
 | Aynı numarayla yeniden `POST` | `Hata 402 … Nolu Evrak Daha önceden kaydedilmiş` |
 | `POST ItemSlips/ChangeNumber` | Var, ama sipariş başlığına `UPDATE` çalıştırır. `TBLSIPAMAS` üzerinde şirkete özel tetikleyici hata verirse çağrı da `700` ile ve tetikleyicinin SQL hata metniyle düşer |
 | `POST ItemSlips/ChangeCode` | Aynı: başlıkta `UPDATE`, aynı tetikleyici engeli |
-| `POST ItemSlips/OrderRevision` | Düzenlemez, **yeni** sipariş oluşturur (kaynak numara başlıkta `S_YEDEK1`) |
+| `POST ItemSlips/OrderRevision` | Düzenlemez: kaynağın bütün kalemleriyle **yeni** bir sipariş oluşturur, kaynağı kapatır (ayrıntı aşağıda) |
 | Sil, sonra tam gövdeyle yeniden `POST` | Çalıştı |
 
 Gövdeler:
@@ -4137,8 +4197,22 @@ Gövdeler:
   "NotChangeDeliveryCode": false, "ChangeAdditionalField": false }
 
 // OrderRevision
-{ "ItemSlip": { }, "RevisionOrderNumber": "000000000000001", "DeliverStartingDate": "2026-01-01" }
+{ "ItemSlip": { "FatUst": { "FATIRS_NO": "000000000000002", "CariKod": "CARI001", "Tarih": "2026-01-01", "TIPI": 2 },
+                "Kalems": [ { "StokKodu": "STK001", "DEPO_KODU": 1, "STra_GCMIK": 1, "STra_BF": 100, "STra_KDV": 20 } ] },
+  "RevisionOrderNumber": "000000000000001", "DeliverStartingDate": "2026-01-01" }
 ```
+
+### Sipariş revizyonu (`OrderRevision`)
+
+Canlı denemede (9.0.72.5, test şirketi) gözlenenler:
+
+- **Kalemsiz gövde reddedilir.** `ItemSlip` içinde en az bir kalem olmalı; yoksa `Hata Kodu : 204 … Sipariş Revizyon için nesne içinde kalem bilgisi bulunamadı`.
+- **Yeni sipariş oluşur.** Yeni siparişin numarası gövdedeki `FatUst.FATIRS_NO` değeridir. Yeni sipariş, kaynak siparişin **bütün kalemlerini** ve gövdedeki kalemleri birlikte taşır. Gövdedeki bir stok kaynakta zaten varsa, o stok ikinci bir satır olarak eklenir; mevcut satırın yerini almaz ve birleştirilmez.
+- **Kaynak numara.** Yeni başlığın `S_YEDEK1` alanı kaynak siparişin numarasını taşır.
+- **Kaynak kapanır, silinmez.** Kaynak siparişin satırlarındaki `TBLSIPATRA.STHAR_HTUR` değeri `H` iken `K` (kapalı) olur; başlık satırı yerinde kalır. Revizyona uğramış kaynak REST ile silinemez: `(Acik)Revizyona uğramış sipariş silinemez`. Revizyon siparişi silindikten sonra kaynak silinebilir.
+- **Numara sayacı.** `SonNumaraYazilsin: false` gövdede verilse de yok sayılır; `TBLFATUNO` sayacı revizyonun numarasına çekilir.
+
+Sonuç: `OrderRevision` siparişi düzenlemenin ya da numarasını değiştirmenin bir yolu değildir. Yalnızca kaynağın bir kopyasına satır ekler ve kaynağı kapatır. COM karşılığı `Fatura.SiparisRevizyon(eskiNo, tarih)`dir; bu metot COM üzerinden denenmedi.
 
 Düzenleme olarak çalışan yol: `DELETE ItemSlips/{ftSSip|ftASip};{no};{cari}`, ardından eski numarayla tam gövdeli `POST ItemSlips`:
 
@@ -4147,6 +4221,7 @@ Düzenleme olarak çalışan yol: `DELETE ItemSlips/{ftSSip|ftASip};{no};{cari}`
 - `Seri` numaranın ilk harfi.
 - İşlem atomik değildir: silme başarılı, yeniden yazma başarısız olabilir. Önce gövdeyi saklayın.
 - Yeni kayıt yeni bir `KAYITTARIHI` alır.
+- Revizyona uğramış (`STHAR_HTUR` `K` olmuş) bir sipariş silinemez; önce revizyon siparişi silinmeli, sonra kaynak silinebilir.
 
 `GET ItemSlips/{tip};{no};{cari}` gövdesini yazma isteğine olduğu gibi kopyalamayın: `"YEDEK": "\u0000"` gibi değerler ve `EPostaGonderilsin: true` gibi bayraklar taşır. Gövdeyi yeniden kurun.
 
@@ -4161,6 +4236,7 @@ Düzenleme olarak çalışan yol: `DELETE ItemSlips/{ftSSip|ftASip};{no};{cari}`
 | Açık numaralı `POST`, `SonNumaraYazilsin: false` olmadan | Sayaç yazılan numaraya çekilir, numara daha küçük olsa bile |
 | Açık numaralı `POST`, `SonNumaraYazilsin: false` ile | Sayaç kıpırdamaz |
 | Açık numara, daha önce kullanılmamış bir ilk harfle | Yeni bir sayaç satırı doğar; REST ile silinemez |
+| `OrderRevision` (`SonNumaraYazilsin: false` gövdede olsa da) | Sayaç revizyonun numarasına çekilir |
 
 ## Üst düzey ve alan adları
 

@@ -36,8 +36,8 @@ TBLDEKOMAS (dekont başlığı)    SERI_NO + DEKONT_NO ──< TBLDEKOTRA (dekon
 | Kolon | Değerler (gözlem) |
 |-------|-------------------|
 | `IO` | `G` gelir (tahsilat), `C` gider (ödeme) |
-| `TIP` | `C` cari, `F` fatura, `T` transfer, `M` muhasebe/muhtelif, `B` banka, `S` senet; şema `E` çek de sayar |
-| `CARI_MUH` | `KOD` alanının anlamı: `C` cari kodu, `M` muhasebe hesabı, `B` banka; `TIP = 'F'` satırlarında boş |
+| `TIP` | `C` cari, `F` fatura, `T` transfer, `M` muhasebe, `B` banka, `S` senet; şema `E` çek ve `K` kredi kartı da sayar. Netsis'in tahsilat ve ödeme listeleri `T` ve `B`'yi dışarıda bırakır |
+| `CARI_MUH` | Yalnız `TIP` = `F` ve `M` satırlarında `KOD`'un anlamı: `C` cari kodu, değilse muhasebe hesabı. `C`, `E`, `S`, `K` türlerinde karşı taraf cari, `B` türünde banka hesabıdır (`CARI_MUH` değil `TIP` belirler); Netsis görünümleri `CARI_MUH`'ta banka için ayrı değer sınamaz |
 | `KOD` | `CARI_MUH`'a göre cari kodu ya da hesap kodu |
 | `PLASIYER_KODU`, `PROJE_KODU` | REST ile yazarken ikisi de zorunlu çıktı |
 
@@ -51,7 +51,7 @@ Kasa bakiyesi `TBLKASAMAS` üzerindeki devir alanlarından değil, `TBLKASA` top
 | `TBLBNKHESSABIT` | Banka hesabı: `ACIKLAMA`, `BANKAHESNO`, `IBANNO`, `DOVIZTIPI`, `NETMUHKODU`, toplam alanları `HESBORCTOP`/`HESALACTOP` | `NETHESKODU` |
 | `TBLBNKHESTRA` | Banka hesap hareketi: `TARIH`, `VADETARIH`, `BA` (`B` borç / `A` alacak), `TUTAR`, `BELGENO`, `ACIKLAMA`, `PROJEKODU`, `PLASIYERKODU` | `NETHESKODU` + `INCKEYNO` |
 
-`TBLBNKHESTRA`'da `HAREKET_TURU` kolonu yoktur; hareket türü `HARTIPI` ve `HARTURU` tam sayı kolonlarındadır (değer listesi doğrulanmadı). Hesap toplamlarını `TBLBNKHESSABIT.HESBORCTOP` yerine hareketten hesaplamak daha güvenlidir (cari için aynı gözlem: [Cari](/rest/canli-denemeler/#cari)).
+`TBLBNKHESTRA`'da `HAREKET_TURU` kolonu yoktur; hareket türü `HARTIPI` ve `HARTURU` tam sayı kolonlarındadır. Netsis'in tahsilat ve ödeme listeleri banka hareketinden `HARTURU` 0, 2, 4 satırlarını alır (tahsilat `BA` = `B`, ödeme `BA` = `A` ve `TUTAR` > 0). Tahsilat listesi banka tarafında yalnız `HESAPTIPI` = 0 hesapları alır; ödeme listesinin ana banka kolu hesap tipini süzmez (yalnız kredi kartı kolu `HESAPTIPI` = 0 ister). `HARTURU` 2'de karşı hesap cari kodu `TBLBNKLOGTRA.KARSIHESKOD`'dadır. `HARTURU` 4 satırlarının bir kısmı kredi kartı hareketidir; ödeme listesi bunları `TBLBNKLOGTRA.ISLEMTIPI` ile ayırır (1 kart, 7 banka ödemesi), tahsilat listesi kredi kartı tahsilatını `HARTURU` ile değil `TBLTAHSILAT` ve `YEDEK6` zinciriyle bulur; 4'ün tek anlamı doğrulanmadı. 5 ve 6 aynı `ENTEGREFKEY`'li ana harekete eklenen ya da ondan düşülen ek satırlardır. Diğer değerlerin adı Netsis görünümlerinde yoktur. Hesap toplamlarını `TBLBNKHESSABIT.HESBORCTOP` yerine hareketten hesaplamak daha güvenlidir (cari için aynı gözlem: [Cari](/rest/canli-denemeler/#cari)).
 
 ## Çek ve senet
 
@@ -81,7 +81,7 @@ Dört tabloyu tek listede göstermek için `UNION ALL` ile birleştirip tür sü
 | Tablo | İçerik | Anahtar |
 |-------|--------|---------|
 | `TBLDEKOMAS` | Dekont başlığı: `SERI_NO`, `DEKONT_NO`, `MUH` (muhasebeleşti mi), `DEGISTI` | `SERI_NO` + `DEKONT_NO` |
-| `TBLDEKOTRA` | Dekont satırı: `SIRA_NO`, `TARIH`, `FISNO`, `C_M` (cari/muhasebe), `KOD`, `B_A` (`B`/`A`), `TUTAR`, `ACIKLAMA1..4`, `PLASIYER`, `PROJE_KODU` | `SERI_NO` + `DEKONT_NO` + `SIRA_NO` |
+| `TBLDEKOTRA` | Dekont satırı: `SIRA_NO`, `TARIH`, `FISNO`, `C_M` (`KOD`'un türü: `C` cari `TBLCASABIT.CARI_KOD`, `M` muhasebe hesabı `TBLMUPLAN.HESAP_KODU`, `B` banka hesabı `TBLBNKHESSABIT.NETHESKODU`, `S` stok `TBLSTSABIT.STOK_KODU`), `KOD`, `B_A` (`B`/`A`), `TUTAR`, `ACIKLAMA1..4`, `PLASIYER`, `PROJE_KODU` | `SERI_NO` + `DEKONT_NO` + `SIRA_NO` |
 
 > **`INCKEYNO` bağ değildir.** İki tablonun da `INCKEYNO` kolonu vardır ama her tablo kendi sayacını kullanır; başlığı satırlara `INCKEYNO` ile bağlarsanız satır bulamazsınız. Bağ `SERI_NO + DEKONT_NO` çiftidir (gözlem: başlık sayısı kadar farklı çift). Sorgu: [Dekont başlığı ve satır toplamları](/veritabani/sql-ornekleri/#dekont-basligi-ve-satir-toplamlari).
 
@@ -97,7 +97,7 @@ Netsis finans belgelerini kaydederken cari hareketi de yazar. REST ile test şir
 
 `DELETE SafeDeposits/{SIRA}` kasa satırıyla cari hareketi birlikte siler. Çek bordrosu REST ile silinemediği için cari hareketi de kalır.
 
-`TBLCAHAR.HAREKET_TURU` için test şirketinde görülen değerler: `A`, `B`, `C`, `D`, `E`, `G`, `H`, `I`, `J`, `K`. Şema dokümanı listeyi vermez; gözlemle eşleşenler `D` kasa, `G` çek. Fatura ve dekont kaynaklı hareketlerin kodları doğrulanmadı.
+`TBLCAHAR.HAREKET_TURU`: şema dokümanı listeyi vermez; standart görünümlerde yazılı olmayan kodlar doğrulanmadı. Gözlemle eşleşenler `D` kasa, `G` çek. Netsis'in yaşlandırma fonksiyonları (`PRTFN_AGING_REPORT_BY_DEFAULT`, `_BY_CLOSURE`) döviz bazlı bakiye özetini `HAREKET_TURU BETWEEN 'A' AND 'L'` ile toplar; kod adları standart görünümlerde yazılı değildir. Fatura ve dekont kaynaklı hareketlerin kodları doğrulanmadı.
 
 ## Şube ve işletme süzgeci
 

@@ -115,6 +115,12 @@ string htmlYolu = eb.EBelgeGoruntuleme(
 SELECT BIRIMKOD FROM TBLEARSIVPRM WHERE SUBE_KODU = 0;   -- e-arşiv serisi
 SELECT SERI     FROM TBLEIRSSERI  WHERE C_YEDEK1 IS NULL AND SUBE_KODU = 0;   -- e-irsaliye serileri
 </code></pre>
+<ul>
+<li><strong>Kaynaklar.</strong> E-fatura serisi <code>TBLEFATPRM.BIRIMKOD</code>, e-arşiv serisi <code>TBLEARSIVPRM.BIRIMKOD</code> kolonundadır. E-irsaliye serileri <code>TBLEIRSSERI.SERI</code> kolonundadır; <code>C_YEDEK1</code> NULL olan satırlar kullanılabilir olanlardır.</li>
+<li><strong>Şube.</strong> Üç sorgu da <code>SUBE_KODU</code> ile süzülür; <code>0</code> yalnızca örnek bir şube değeridir, kendi kurulumunuzdaki şube kodunu kullanın.</li>
+<li><strong>Hangi seri.</strong> Faturanın serisi carinin e-fatura mükellefi olup olmamasına göre seçilir. NetOpenX bu durumu <code>FatUst.EfaturaCarisiMi</code> olarak verir; değer kaynak belge okunduktan sonra dolar. Bu bayrak için güvenilir bir tablo kolonu yoktur, tabloda aramayın. <code>true</code> ise e-fatura serisi, değilse e-arşiv serisi kullanılır.</li>
+<li><strong>Dikkat.</strong> <a class="tbl" href="/veritabani/tablolar/tblefatprm/"><code>TBLEFATPRM</code></a> ve <a class="tbl" href="/veritabani/tablolar/tblearsivprm/"><code>TBLEARSIVPRM</code></a> sertifika ve entegratör ayarlarını da tutar. Bir entegrasyon bu tablolardan yalnızca <code>BIRIMKOD</code> kolonunu seçmelidir.</li>
+</ul>
 <p>REST karşılıkları: <code>POST api/v2/EDocument</code> (taslak), <code>POST api/v2/EDocument/SendEDocument</code>, <code>POST api/v2/EDocument/ShowEDocument</code> (<a href="/rest/json-ornekleri/#e-belge">JSON örnekleri</a>).</p>
 
 </article>

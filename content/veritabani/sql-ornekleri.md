@@ -122,7 +122,7 @@ HAVING SUM(CASE WHEN h.STHAR_GCKOD = 'G' THEN h.STHAR_GCMIK ELSE -h.STHAR_GCMIK 
 
 ### Depo bazında bakiye (özet tablodan)
 
-`TBLSTOKPH` Netsis'in tetikleyiciyle güncellediği depo bazında toplamları tutar; büyük `TBLSTHAR` taramasından çok daha hızlıdır. Promosyon ve yapılandırma kodu satırları ayrı olduğu için stok + depo bazında toplanır.
+`TBLSTOKPH` Netsis'in tetikleyiciyle güncellediği depo bazında toplamları tutar; büyük `TBLSTHAR` taramasından çok daha hızlıdır. Promosyon ve yapılandırma kodu satırları ayrı olduğu için stok + depo bazında toplanır. `DEPO_KODU = 0` satırı stokun bütün depolar toplamıdır: Netsis'in stok bakiyesi görünümleri toplam bakiyeyi bu satırdan okur, depo bazlı listeler `DEPO_KODU <> 0` ile süzer. Bütün satırları `GROUP BY STOK_KODU` ile toplamak stoku iki kez sayar. Toplam için `WHERE DEPO_KODU = 0`, depo kırılımı için `WHERE DEPO_KODU <> 0` kullanılır.
 
 ```sql
 SELECT p.STOK_KODU, MAX(s.STOK_ADI) AS STOK_ADI, p.DEPO_KODU, MAX(d.DEPO_ISMI) AS DEPO_ISMI,
@@ -132,6 +132,7 @@ SELECT p.STOK_KODU, MAX(s.STOK_ADI) AS STOK_ADI, p.DEPO_KODU, MAX(d.DEPO_ISMI) A
 FROM TBLSTOKPH p WITH (NOLOCK)
 LEFT JOIN TBLSTSABIT s WITH (NOLOCK) ON s.STOK_KODU = p.STOK_KODU
 LEFT JOIN TBLSTOKDP  d WITH (NOLOCK) ON d.DEPO_KODU = p.DEPO_KODU
+WHERE p.DEPO_KODU <> 0
 GROUP BY p.STOK_KODU, p.DEPO_KODU
 ORDER BY p.STOK_KODU, p.DEPO_KODU;
 ```
@@ -140,18 +141,18 @@ Hareketten hesaplanan miktarla (üstteki sorgu) karşılaştırıp kendi veriniz
 
 ### Devir hızı (son 90 gün)
 
-Satış kaynaklı çıkışlar (`STHAR_HTUR` `J` fatura, `N` irsaliye, `H` ambar çıkışı) bakiyeye oranlanır.
+Satış kaynaklı çıkışlar bakiyeye oranlanır. `J` fatura kalemidir, `H` faturalanmamış irsaliye kalemidir, `N` faturalanmış irsaliye kalemidir. İrsaliye faturalanınca stok miktarını faturanın `J` kalemi taşır (irsaliye kalemine `IRSALIYE_NO` ve `STRA_IRSKONT` ile bağlıdır); irsaliye kalemi `N` olur; bir test kurulumunda bütün `N` kalemlerinin miktarı (`STHAR_GCMIK`) 0'dı (kurulum parametresine bağlı olabilir). Bu durumda miktar toplamında `J` ile `N` birlikte alınsa da mal iki kez sayılmaz; satır sayarken ise faturalanmış irsaliye iki kez görünür (bir `N`, bir `J` kalemi). Aşağıdaki sorgu `J` ve `H` kalemlerini alır, çünkü `N` miktara bir şey eklemez. Kendi verinizde `N` kalemlerinin miktarını bir kez kontrol edin (`SELECT SUM(STHAR_GCMIK) FROM TBLSTHAR WHERE STHAR_HTUR = 'N'`). Ambar çıkışı `STHAR_FTIRSIP` 8/9 ile ayrılır.
 
 ```sql
 SELECT t.STOK_KODU, s.STOK_ADI, t.CIKIS_90, ISNULL(b.BAKIYE, 0) AS BAKIYE,
        CASE WHEN ISNULL(b.BAKIYE, 0) > 0 THEN t.CIKIS_90 / b.BAKIYE END AS DEVIR_ORANI
 FROM (SELECT STOK_KODU, SUM(STHAR_GCMIK) AS CIKIS_90
       FROM TBLSTHAR WITH (NOLOCK)
-      WHERE STHAR_GCKOD = 'C' AND STHAR_HTUR IN ('J', 'N', 'H')
+      WHERE STHAR_GCKOD = 'C' AND STHAR_HTUR IN ('J', 'H')
         AND STHAR_TARIH >= DATEADD(day, -90, GETDATE())
       GROUP BY STOK_KODU) t
 LEFT JOIN (SELECT STOK_KODU, SUM(ISNULL(TOP_GIRIS_MIK, 0) - ISNULL(TOP_CIKIS_MIK, 0)) AS BAKIYE
-           FROM TBLSTOKPH WITH (NOLOCK) GROUP BY STOK_KODU) b ON b.STOK_KODU = t.STOK_KODU
+           FROM TBLSTOKPH WITH (NOLOCK) WHERE DEPO_KODU = 0 GROUP BY STOK_KODU) b ON b.STOK_KODU = t.STOK_KODU
 LEFT JOIN TBLSTSABIT s WITH (NOLOCK) ON s.STOK_KODU = t.STOK_KODU
 ORDER BY t.CIKIS_90 DESC;
 ```
@@ -186,7 +187,7 @@ WHERE f.FTIRSIP = '1'                       -- satış faturası
 ```sql
 SELECT f.FATIRS_NO, e.ACIK1, e.ACIK2, e.ACIK3
 FROM TBLFATUIRS f
-JOIN TBLFATUEK e ON e.FKOD = f.FTIRSIP AND e.FATIRSNO = f.FATIRS_NO AND e.CKOD = f.CARI_KODU
+JOIN TBLFATUEK e ON e.FKOD = f.FTIRSIP AND e.FATIRSNO = f.FATIRS_NO AND e.CKOD = f.CARI_KODU AND e.SUBE_KODU = f.SUBE_KODU
 WHERE f.FTIRSIP = '1' AND f.FATIRS_NO = 'ABC2024000000123';
 ```
 
