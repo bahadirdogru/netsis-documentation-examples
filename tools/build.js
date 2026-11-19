@@ -374,7 +374,7 @@ ${crumbs}
 <article>
 ${content}
 </article>
-<footer class="page-foot">${edit}${p.url === '/404/' ? '' : `<a href="${mdUrl}">Markdown</a> · `}<a href="/llms.txt">llms.txt</a></footer>
+<footer class="page-foot"><a href="https://bahadirdogru.com/">bahadirdogru.com</a> · ${edit}${p.url === '/404/' ? '' : `<a href="${mdUrl}">Markdown</a> · `}<a href="/llms.txt">llms.txt</a></footer>
 </main>
 ${toc(content)}
 </div>
